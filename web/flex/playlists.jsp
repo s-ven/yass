@@ -19,9 +19,9 @@
 %>
 
 
-<playlist name="<%=plst.name %>" type="user" id="<%=plst.id %>"/>
+<playlist name="<%=plst.getName() %>" type="user" id="<%=plst.getId() %>"/>
 <%
 	}%>
 	 <playlist name="&lt;New&gt;" type="user" id="-1"/>
 	</user>
-</playlists>
+</playlists> 

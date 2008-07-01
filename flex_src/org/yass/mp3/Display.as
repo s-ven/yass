@@ -53,8 +53,8 @@ package org.yass.mp3
 			vuMeters.setStyle("top", 0);
 			vuMeters.setStyle("bottom", 0);
 			vuMeters.addChild(spectrumAnalyzer);
-			addChild(songInfo);
 			addChild(vuMeters);
+			addChild(songInfo);
 			_instance = this;
 		}
 		
@@ -154,6 +154,7 @@ package org.yass.mp3
 				switchDisplay();
 			switch (currentDisplay){
 			case(0):
+				spectrumAnalyzer.styleName = "dimmed";
 				spectrumAnalyzer.visible = false;
 				songInfo.visible = true;
 				break;
