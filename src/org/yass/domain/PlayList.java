@@ -10,8 +10,22 @@ public class PlayList implements YassConstants {
 
 	protected final Map<String, MediaFile> mediaFiles = new LinkedHashMap<String, MediaFile>();
 	public String id;
-	public String name;
-	public String type;
+	protected String name;
+	protected String type;
+
+	/**
+	 * @return the id
+	 */
+	public final String getId() {
+		return id;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
+		return name;
+	}
 
 	public final MediaFile getMediaFile(final String uuid) {
 		return mediaFiles.get(uuid);

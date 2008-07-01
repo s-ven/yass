@@ -23,15 +23,18 @@ public class FilePlayList extends PlayList {
 			while ((line = br.readLine()) != null)
 				uids.add(line);
 		} catch (final FileNotFoundException e) {
+			e.printStackTrace();
 		} catch (final IOException e) {
+			e.printStackTrace();
 		}
 		if (uids.size() > 0)
 			try {
 				add(im.searchFromUIDS(uids));
-				id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
 				type = "user";
 			} catch (final IOException e) {
+				e.printStackTrace();
 			}
+		id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
 	}
 
 	public FilePlayList(final String name) {

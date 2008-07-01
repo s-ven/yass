@@ -279,8 +279,6 @@ public final class IndexManager implements Constants {
 		final StringIndex strIndex = FieldCache.DEFAULT.getStringIndex(indexSearcher.getIndexReader(), UUID);
 		int i = 0;
 		for (final String look : strIndex.lookup) {
-			if (!uidit.hasNext())
-				break;
 			i += 1;
 			if (look != null) {
 				if (uid.compareTo(look) > 0)
@@ -288,6 +286,8 @@ public final class IndexManager implements Constants {
 				if (look.equals(uid)) {
 					final Filter qf = new QueryFilter(new TermQuery(new Term(UUID, uid)));
 					pl.add(new MediaFile(indexSearcher.doc(qf.bits(indexSearcher.getIndexReader()).nextSetBit(0))));
+					if (!uidit.hasNext())
+						break;
 					uid = uidit.next();
 				}
 			}
