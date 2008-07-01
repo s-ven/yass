@@ -16,15 +16,12 @@
 			<mx:Canvas  width = "300">
 			<mp3:Controller height="100%" verticalAlign="middle" left="10" right="10" horizontalGap="0" />
 			</mx:Canvas>
-			
-			
-			
 			<!-- 
 					The Player Plate that show progress bar, title infos etc 
 			-->
 			<mx:Canvas width = "100%">
 				<mp3:Display id="displayPane" width="80%" minWidth="250" height="55" styleName="Display" dateFormatter="{dateFormatter}"/>
-</mx:Canvas>
+			</mx:Canvas>
 			<!-- 
 					The Search keywords fields 
 			-->
@@ -50,7 +47,7 @@
 			backgroundColor="#C8C8C8" alpha="1.0" horizontalGap="5">
 			<mx:Canvas top="0" bottom="0" left="0" width="150" height="100%" minWidth="150" maxWidth="600">
 				<mp3:LibraryPane id="playLists" left="10" right="0" top="0" bottom="10" itemRenderer="{new ClassFactory(PlaylistsTreeItemRenderer)}"
-                 textIndent="-10" paddingLeft="0"/>
+                 textIndent="-10" paddingLeft="0"  rollOverColor="#FFFFFF"  />
 			</mx:Canvas>
 			<mx:Canvas height="100%">
 				<mx:VDividedBox right="0" left="0" top="0" bottom="0" verticalGap="{FilterPane._verticalGap}" horizontalAlign="center" verticalAlign="middle">
