@@ -7,7 +7,6 @@ package org.yass.mp3
 	import mx.controls.Tree;
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
-	import mx.events.FlexEvent;
 	import mx.events.ListEvent;
 	import mx.managers.DragManager;
 	import mx.rpc.events.ResultEvent;
@@ -35,7 +34,7 @@ package org.yass.mp3
 			this.addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
 			this.addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
 			this.addEventListener(MouseEvent.CLICK, mouseClickHandler);
-			this.addEventListener(FlexEvent.CREATION_COMPLETE, expand);
+			httpService.addEventListener(ResultEvent.RESULT, expand);
 			this.addEventListener(ListEvent.ITEM_EDIT_END, editItem);
 			dropEnabled = true;
 	        setStyle("folderClosedIcon", null);
@@ -43,8 +42,10 @@ package org.yass.mp3
 		}
 		
 		private function expand(event:Event):void{
-			var treeData:XML = dataProvider[0];
-			openItems = treeData.elements();
+			if(dataProvider){
+				var treeData:XML = dataProvider[0];
+				openItems = treeData.elements();
+			}
 		}
 
 		private var previousSelection:Object;
@@ -52,12 +53,12 @@ package org.yass.mp3
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item = event.currentTarget.selectedItem
 			if(previousSelection != event.currentTarget.selectedItem){
+						this.editable = false;
 				if(item.@type == "void"){
 					selectedItem = previousSelection;
 					event.stopImmediatePropagation();
-					return;
+					return; 
 				}
-				this.editable = false;
 				trace("PlayListPane : click " + item.@type)
 				var type:String = item.@type;
 				if(type == "library" && previousSelection){
@@ -67,12 +68,14 @@ package org.yass.mp3
 				}else if(type == "smart"){
 					FilterPane.hideAll()
 				}else if(type == "user"){
-					this.editable = true;
 					if(item.@id != "-1"){
 						MP3.playList.httpService.url = "/yass/playlist_show.do?id="+item.@id;
 						MP3.playList.httpService.send();
 						FilterPane.hideAll();
-						this.editable = false;
+					}
+					else{
+					this.editable = true;
+					return;
 					}
 				}
 				previousSelection = item;
@@ -80,31 +83,21 @@ package org.yass.mp3
 		}
 		
 		private function hideFilterPanes():void{
-		
 		}
 		
 		private function serviceResultHandler(event:ResultEvent):void{
-				
 			this.dataProvider =  httpService.lastResult;
-			
-			
 			}
 		
 		override protected function dragEnterHandler(event:DragEvent):void{
             DragManager.acceptDragDrop(UIComponent(event.currentTarget)); 
-
 		}
 		
-		override protected  function dragExitHandler(event:DragEvent):void{
-			
+		override protected  function dragExitHandler(event:DragEvent):void{			
+		}		
+		
+		override protected  function dragCompleteHandler(event:DragEvent):void{	
 		}
-		
-		
-		override protected  function dragCompleteHandler(event:DragEvent):void{
-			
-		}
-		
-		
 		override protected  function dragOverHandler(event:DragEvent):void{
                 var dropTarget:Tree = Tree(event.currentTarget);
                 var r:int = dropTarget.calculateDropIndex(event);
@@ -122,6 +115,7 @@ package org.yass.mp3
 			var oldName : String=selectedItem.@name;
 			setTimeout(saveItem,250, selectedItem, oldName);
 			this.editable = false;
+			selectedItem = previousSelection;
 		}
 		private function saveItem(obj:Object, oldName:String):void	{	
 			trace("LibraryPane : Edited " + obj.@name + " " +  oldName);
@@ -131,15 +125,11 @@ package org.yass.mp3
 				var data:Object = new Object();
 				data.id = "NO_ID";
 				data.name=obj.@name;
+				svc.addEventListener(ResultEvent.RESULT, function(){
+					httpService.send();
+				});
 				svc.send(data);
-				if(obj.@id == -1){
-					trace("LibraryPane : new playlist " +obj.@name );
-					var treeData:XML = dataProvider[0];
-					var npl:Object  = new Object();
-					npl.name = "<New>";
-					npl.id = "-1";
-					treeData.user.appendChild("<playlist type='user' name='&lt;New&gt;' id='-1'/>");
-				}
+				selectedItem = previousSelection;
 			}
 		
 		}
@@ -160,6 +150,7 @@ package org.yass.mp3
 			data.UUIDs = uids
 			data.id= event.currentTarget.selectedItem.@id;
 			svc.send(data);
+			selectedItem = previousSelection;
 			
 		}
 	}
