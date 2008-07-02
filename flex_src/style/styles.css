@@ -102,12 +102,10 @@ Image.LeftVolSlider
 {
 	
 }
-SpectrumAnalyzer{
-	vuCount:16;
-	vuLevels:27;
-}
 SpectrumAnalyzer.dimmed
 {
+	vuCount:16;
+	vuLevels:27;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
 	colorActive:"0x222222";
@@ -119,6 +117,8 @@ SpectrumAnalyzer.dimmed
 }
 SpectrumAnalyzer.visible
 {
+	vuCount:16;
+	vuLevels:27;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
 	colorActive:"0x222222";

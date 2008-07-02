@@ -93,13 +93,16 @@ package org.yass.mp3
 			MP3.player.volume =volumeSlider.value/100;
 		}
 		private function nextTrack(evt:Event):void{
-			MP3.playList.getNextTrack()
+			Console.log("Controller : nextTrack");
+			MP3.player.loader.getNextTrack()
 		}
 		private function previousTrack(evt:Event):void{
-			MP3.playList.getPreviousTrack();
+			Console.log("Controller : previousTrack");
+			MP3.player.loader.getPreviousTrack();
 		}
 		private function tooglePlay(evt:Event):void{
-			MP3.playList.tooglePlay()
+			Console.log("Controller : tooglePlay");
+			MP3.player.loader.tooglePlay()
 		}
 	}
 }

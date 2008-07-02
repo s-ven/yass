@@ -5,6 +5,7 @@ package org.yass.mp3
 	import flash.utils.setTimeout;
 	
 	import mx.controls.Tree;
+	import mx.core.ClassFactory;
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
 	import mx.events.ListEvent;
@@ -19,6 +20,7 @@ package org.yass.mp3
 		[Embed(source="../../../assets/small-tree-light.png")] private var lightPlIcon:Class;  
 
 		private static var httpService:HTTPService = new HTTPService();
+		public var mainPane:MainPane;
 		
 		public function LibraryPane()		{
 			Console.log("PlaylistPane : init()");
@@ -33,12 +35,13 @@ package org.yass.mp3
 			this.addEventListener(DragEvent.DRAG_OVER, dragOverHandler);
 			this.addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
 			this.addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
-			this.addEventListener(MouseEvent.CLICK, mouseClickHandler);
+			this.addEventListener(ListEvent.ITEM_CLICK, mouseClickHandler);
 			httpService.addEventListener(ResultEvent.RESULT, expand);
 			this.addEventListener(ListEvent.ITEM_EDIT_END, editItem);
 			dropEnabled = true;
 	        setStyle("folderClosedIcon", null);
-	        setStyle("folderOpenIcon", null);
+	        setStyle("folderOpenIcon", null); 
+	        itemRenderer = new ClassFactory(PlaylistsTreeItemRenderer);
 		}
 		
 		private function expand(event:Event):void{
@@ -62,16 +65,25 @@ package org.yass.mp3
 				Console.log("PlayListPane : click " + item.@type)
 				var type:String = item.@type;
 				if(type == "library" && previousSelection){
-					MP3.playList.httpService.url = "/yass/library_playlist.do";
-					MP3.playList.httpService.send();
-					FilterPane.showAll();
-				}else if(type == "smart"){
-					FilterPane.hideAll()
+						mainPane.currentState = "libraryBrowser";
 				}else if(type == "user"){
 					if(item.@id != "-1"){
-						MP3.playList.httpService.url = "/yass/playlist_show.do?id="+item.@id;
-						MP3.playList.httpService.send();
-						FilterPane.hideAll();
+						mainPane.currentState = "playListBrowser";
+						var loader:PlayListLoader ;
+						if(MP3.player.loader && MP3.player.loader.playListId == item.@id){
+							Console.log("LibraryPane : Already playing PlayList" + MP3.player.loader.selectedIndex);
+							loader = MP3.player.loader;
+							loader.playList = mainPane.playListBrowser.playList;
+						}
+						else{
+							loader = new PlayListLoader();
+							loader.playListId = item.@id;
+							loader.playList = mainPane.playListBrowser.playList;
+							var obj:Object = new Object();
+							obj.id = item.@id;
+							loader.httpService.send(obj);
+						}
+						
 					}
 					else{
 					this.editable = true;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" currentState="libraryBrowser" xmlns:local="*">
+		<mx:states>
+		<mx:State name="libraryBrowser">
+			<mx:AddChild  position="lastChild">
+				<local:LibraryBrowser id="libraryBrowser"></local:LibraryBrowser>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="playListBrowser">
+			<mx:AddChild  position="lastChild">
+				<local:PlayListBrowser id="playListBrowser"></local:PlayListBrowser>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+</mx:Canvas>

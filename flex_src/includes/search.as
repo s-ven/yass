@@ -3,9 +3,9 @@ import mx.events.MenuEvent;
 
 private var keywordsSearchField:String = "ALL";
 public function doSearch():void {
-	genre.search(searchTextInput.text, keywordsSearchField);
+	mainPane.libraryBrowser.genre.search(searchTextInput.text, keywordsSearchField);
 }
-
+ 
 private function showSearchMenu(x:int, y:int):void {
 	var searchMenu:Menu = Menu.createMenu(null, searchMenuData, true);
 	searchMenu.addEventListener(MenuEvent.ITEM_CLICK, searchMenuClick);

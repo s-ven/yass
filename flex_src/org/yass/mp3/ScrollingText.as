@@ -171,9 +171,9 @@ package org.yass.mp3{
 		}
 		
 		private function setText(event:Event):void{
-			if(MP3.playList.currentTrack){
-				cache[0].text = MP3.playList.currentTrack.artist;
-				cache[1].text = MP3.playList.currentTrack.album;
+			if(MP3.player.loader && MP3.player.loader.currentTrack){
+				cache[0].text = MP3.player.loader.currentTrack.artist;
+				cache[1].text = MP3.player.loader.currentTrack.album;
 			}
 		}
 	}

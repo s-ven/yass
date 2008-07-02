@@ -17,8 +17,6 @@ package org.yass.mp3
 	[Style(name="alphaActive",type="Number")]
 	[Style(name="alphaInactive",type="Number")]
 	
-	
-	
 	public class SpectrumAnalyzer extends UIComponent{
 
 		public function SpectrumAnalyzer(){
@@ -62,6 +60,7 @@ package org.yass.mp3
 				catch(e:Error){
 					this.visible=false;
 					Console.log(e);
+					Console.log("SpectrumAnalyzer : ERROR");
 					return;
 				}
 				finally{}
@@ -69,8 +68,7 @@ package org.yass.mp3
 				this.graphics.beginFill(0,1)
 				for(var i:uint = 0; i < vuCount *2; i++){
 					ba.position = i * vuStep; 
-					var spectrum:Number =  ba.readFloat()*vuLevels;
-					this.drawVuMeter(i, spectrum);
+					this.drawVuMeter(i, ba.readFloat()*vuLevels);
 				}
 				clipMask.graphics.clear();
 				clipMask.graphics.beginFill(0);

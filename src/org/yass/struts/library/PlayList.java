@@ -11,6 +11,7 @@ public class PlayList extends YassAction {
 	private boolean refresh = false;
 
 	public void setRefresh(final boolean refresh) {
+		getSearchQuery().setAlbumsFilter(null);
 		this.refresh = refresh;
 	}
 

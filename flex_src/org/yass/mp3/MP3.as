@@ -1,20 +1,10 @@
-package org.yass.mp3
-{
-	import com.airlogger.AirLoggerDebug;
-		
+package org.yass.mp3{
 	public class MP3
 	{
-		public function MP3():void{
-			
+		public function MP3():void{			
 		}
 		public static var player:Player = Player.instance;
 
-		public static function info(o:Object):void{
-			AirLoggerDebug.info(o);
-		}
-		public static function get playList():PlayList{
-			return player.playList;
-		}
 		public static function get display():Display{
 			return Display.instance;
 		}
@@ -22,32 +12,33 @@ package org.yass.mp3
 			return Controller.instance ;
 		}
 		public static function get state():String{
-			var str:String = "[Playlist]";
-			if(playList){
+			// Playlist
+			var str:String = "[Player.loader]";
+			if(player.loader){
 				str += "\n";
-				str += " - length " + playList.length +"\n";
-				str += " - tracksLoaded : " + playList.tracksLoaded +"\n";
-				str += " - loop : " + playList.loop +"\n";
-				str += " - shuffle : " + playList.shuffle +"\n";
-				str += " - selectedIndex : " + playList.selectedIndex +"\n";
-				str += " - shuffledListPosition : " + playList.shuffledListPosition +"\n";
-	 			str += " - shuffledTracks.length : " + playList.shuffledTracks.length +"\n";
-	 			if( playList.currentTrack){
-					str += " - currentTrack.length : " + playList.currentTrack.length * 1000 +"\n";
-					str += " - currentTrack.UUID : " + playList.currentTrack.UUID +"\n";
+				str += " - length " + player.loader.length +"\n";
+				str += " - loop : " + player.loader.loop +"\n";
+				str += " - shuffle : " + player.loader.shuffle +"\n";
+				str += " - selectedIndex : " + player.loader.selectedIndex +"\n";
+				str += " - shuffledListPosition : " + player.loader.shuffledListPosition +"\n";
+	 			str += " - shuffledTracks.length : " + player.loader.shuffledTracks.length +"\n";
+	 			if( player.loader.currentTrack){
+					str += " - currentTrack.length : " + player.loader.currentTrack.length * 1000 +"\n";
+					str += " - currentTrack.UUID : " + player.loader.currentTrack.UUID +"\n";
 	 			}
 			}else
 				str += " : NaN\n";
-			str += "\n[MP3Player]";
+			// MP3 Player
+			str += "\n[Player]";
 			if(player){
 				str += "\n";
 				str += " - isPlaying : " + player.isPlaying +"\n";
 				str += " - isPaused : " + player.isPaused +"\n";
 				str += " - position : " + player.position +"\n";
-		//		str += " - pausedPosition : " + player.pausePosition +"\n";
 				str += " - loadedLength : " + player.loadedLengh +"\n";
 			}else
 				str += " : NaN\n";
+			// Display
 			str += "\n[Display]";
 			if(display){
 				str += "\n";
@@ -68,6 +59,11 @@ package org.yass.mp3
 			str += " - display.spectrumAnalyzer.colorInactive :" +display.spectrumAnalyzer.colorInactive +"\n";
 			str += " - display.spectrumAnalyzer.colorMax :" +display.spectrumAnalyzer.colorMax +"\n";
 			str += " - display.spectrumAnalyzer.colorTop :" +display.spectrumAnalyzer.colorTop +"\n";
+			str += " - display.spectrumAnalyzer.visible :" +display.spectrumAnalyzer.visible +"\n";
+			str += " - display.spectrumAnalyzer.vuCount :" +display.spectrumAnalyzer.vuCount +"\n";
+			str += " - display.spectrumAnalyzer.vuLevels :" +display.spectrumAnalyzer.vuLevels +"\n";
+			str += " - display.spectrumAnalyzer.vuStep :" +display.spectrumAnalyzer.vuStep +"\n";
+			
 			str += " - display.currentDisplay :" +display.currentDisplay +"\n";
 			
 		return str;

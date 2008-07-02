@@ -1,7 +1,5 @@
 package org.yass.mp3
 {
-	import com.airlogger.AirLoggerDebug;
-	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -138,8 +136,8 @@ package org.yass.mp3
 			setEventListeners();
 		}
 		private function handlerEnterFrame(e:Event):void {
-			if(MP3.playList && MP3.playList.currentTrack){
-				trackLabel.text = MP3.playList.currentTrack.title;
+			if(MP3.player.loader && MP3.player.loader.currentTrack){
+				trackLabel.text = MP3.player.loader.currentTrack.title;
 				elapsed.text = formatPos(MP3.player.position);
 				remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLengh - MP3.player.position):formatPos(MP3.player.loadedLengh);
 			}
@@ -172,7 +170,7 @@ package org.yass.mp3
 		private function loopClick(evt:Event):void{
 			evt.stopPropagation();
 			evt.preventDefault();
-			MP3.playList.loop = loop.selected;
+			MP3.player.loader.loop = loop.selected;
 			noDisplaySwitch=true;
 		}
 		private function remainingClick(evt:Event):void{
@@ -183,7 +181,7 @@ package org.yass.mp3
 		private function shuffleClick(evt:Event):void{
 			evt.stopPropagation();
 			noDisplaySwitch=true;
-			MP3.playList.shuffle = shuffle.selected;
+			MP3.player.loader.shuffle = shuffle.selected;
 		}
 		private function setEventListeners():void{			
 			loop.addEventListener(MouseEvent.CLICK , loopClick);

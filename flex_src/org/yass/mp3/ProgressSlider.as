@@ -10,8 +10,7 @@ package org.yass.mp3
 	public class ProgressSlider extends HSlider{
 				
 		
-		public function ProgressSlider()
-		{
+		public function ProgressSlider(){
 			Console.log("ProgressSlider : init");
 			super();
 			this.addEventListener(SliderEvent.CHANGE, sliderChange,false,1);
@@ -20,14 +19,15 @@ package org.yass.mp3
 		
 
 		private function sliderChange(event:SliderEvent):void{
+			if(event.triggerEvent.type == MouseEvent.CLICK)
 				MP3.player.skipTo(event.value);
 		}
 		
 		private 	function onEnterFrame(event:Event):void{
 			if(MP3.player.isPlaying){
 				value = MP3.player.position;
-				if(MP3.player.isPlaying && !MP3.player.isPaused)
-					maximum = Math.max(MP3.player.playList.currentTrack.length * 1000, MP3.player.loadedLengh);
+				if(!MP3.player.isPaused && MP3.player.loader.currentTrack)
+					maximum = Math.max(MP3.player.loader.currentTrack.length * 1000, MP3.player.loadedLengh);
 				else maximum = 0;
 				this.visible = true;
 			}
