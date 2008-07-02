@@ -5,6 +5,8 @@ package org.yass.mp3
 */
 
 {
+    import com.airlogger.AirLoggerDebug;
+    
     import flash.events.Event;
     import flash.events.IOErrorEvent;
     import flash.events.ProgressEvent;
@@ -36,7 +38,7 @@ package org.yass.mp3
             return _instance;
         }
         public function Player():void{
-			trace("Player : init");
+        	AirLoggerDebug.info("Player : init");
             this.soundInstance = new Sound();
             // this.setupListeners();
         }
@@ -66,7 +68,7 @@ package org.yass.mp3
         public var loadedLengh:Number;
                         
         public function play():void{
-            trace("MP3Player : Starting play...");
+            MP3.info("MP3Player : Starting play...");
             startHdlr();
 	        this.isPlaying = true;if(soundChannelInstance)
    			this.soundChannelInstance.stop();
@@ -76,7 +78,7 @@ package org.yass.mp3
 	    	transform.volume = this._volume;
 	    	this.soundChannelInstance.soundTransform = transform;
 	      //  this.pausePosition = 0;
-            trace("MP3Player : Playing...");
+            MP3.info("MP3Player : Playing...");
 	    }
         
         private function get  url():String{
@@ -84,7 +86,7 @@ package org.yass.mp3
         }
         
         public function playUrl():void{
-            trace("MP3Player : Playing URL " + url);
+            MP3.info("MP3Player : Playing URL " + url);
             this.soundInstance = new Sound();
             soundInstance.load(new URLRequest(url));
             position = 0;
@@ -105,7 +107,7 @@ package org.yass.mp3
         	if(soundChannelInstance)
 	            this.position = this.soundChannelInstance.position;
             this.stop();
-            trace("MP3Player : Paused ");
+            MP3.info("MP3Player : Paused ");
         }
         
         public function stop():void{
@@ -114,7 +116,7 @@ package org.yass.mp3
             	stopHdlr();
    				this.soundChannelInstance.stop();
    			}
-            trace("MP3Player : Stopped ");
+            MP3.info("MP3Player : Stopped ");
         }
         
         
@@ -128,13 +130,12 @@ package org.yass.mp3
         }
 
         public function soundCompleteHandler(event:Event):void {
-            trace("MP3Player : Track Finished ");
+            MP3.info("MP3Player : Track Finished ");
             playList.getNextTrack();
         }
         
         private function ioErrorHandler(event:IOErrorEvent):void {
-           this.dispatchEvent(event);
-           trace('in error');
+           MP3.info('MP3Player : in error');
         }
 
 
@@ -152,7 +153,7 @@ package org.yass.mp3
 			}
 		}
         public function skipTo(value:Number):void{
-			trace("ProgressSlider : Click " + isPaused + ", " + isPlaying + " value="+value);
+			MP3.info("ProgressSlider : Click " + isPaused + ", " + isPlaying + " value="+value);
 			if(loadedLengh >  value	&& value <= playList.currentTrack.length * 1000){
 				position = value;	
 				play();

@@ -14,10 +14,9 @@ package org.yass.mp3
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	[Bindable]
-	public class FilterPane extends DataGrid 
+	public class FilterPane extends HTTPDataGrid
 	{
 		public var headerName:String;
-		private var httpService:HTTPService;
 		public var childPane:String;
 		
 		public static var panes:Dictionary = new Dictionary(false);
@@ -67,28 +66,38 @@ package org.yass.mp3
 		private function get datas():ListCollectionView{
 			return (dataProvider as ListCollectionView);
 		}
+		
+		private function get child():HTTPDataGrid{
+			var child:HTTPDataGrid = panes[childPane] as FilterPane;
+			if(!child)
+				child = MP3.playList;
+			return child;
+		}
+		private function disableChilds():void{
+			var ch:FilterPane = panes[childPane] as FilterPane;
+			if(ch){
+				ch.enabled = false;
+				ch.disableChilds();
+			}
+			else
+				MP3.playList.enabled = false;
+		}
 		/**
 		 */
 		 private function filterChildPanes(event:Event):void{
 			this.removeEventListener(ListEvent.CHANGE, filterChildPanes);
-			this.selectable = false;
+			this.enabled = true;
 		 	if(event is ResultEvent){
 				BindingUtils.bindProperty(this, "dataProvider", httpService,  ["lastResult", id+"s", id]);
 				if(datas.length >1)
 					datas.addItemAt("All ("+datas.length + " " + headerName+"s)", 0);
-			}
-            trace("FilterPane-" + id + " : Loaded " + dataProvider.length);
-			MP3.playList.tracksLoaded = false;
-			var child:FilterPane = panes[childPane] as FilterPane;
-			var childService:HTTPService;
-			if(child){
-				child.selectable = false;
-				childService = child.httpService;
-			}
-			else
-				childService = MP3.playList.httpService;
+           		selectedIndex =0;
+			} 
+            MP3.info("FilterPane-" + id + " : Loaded " + dataProvider.length);
+			MP3.playList.tracksLoaded = false; 
+			var childService:HTTPService = child.httpService;
 			childService.cancel();
-			
+			disableChilds();			
 		 	if(selectedIndex ==0 && datas.length >1){
 			   	var toPost:Object=new Object();
 			   	toPost.refresh = true;
@@ -100,14 +109,13 @@ package org.yass.mp3
 			}
 		 	else
 		 		childService.send();
-            trace("FilterPane-" + id + " : ChildPane refreshed " + childService.url);
+            MP3.info("FilterPane-" + id + " : ChildPane refreshed " + childService.url);
 			this.addEventListener(ListEvent.CHANGE, filterChildPanes);
-			this.selectable = true;
 		 }
 		
 		public static function hideAll():void{
 			if(FilterPane._visible){
-				trace("FilterPane : hideAll");
+				MP3.info("FilterPane : hideAll");
 				FilterPane._oldminHeight = (panes["genre"] as FilterPane).height;
 				FilterPane._percentHeight = 0;
 				FilterPane._visible=false; 
@@ -131,7 +139,7 @@ package org.yass.mp3
 		public static var _verticalGap :Number= 5;
 		public static function showAll():void{
 			if(!FilterPane._visible){
-				trace("FilterPane : showAll");
+				MP3.info("FilterPane : showAll");
 				FilterPane._percentHeight = _oldminHeight;
 				FilterPane._visible=true; 
 				FilterPane._verticalGap = 5;
@@ -147,7 +155,9 @@ package org.yass.mp3
 		}
 		
 		public function refresh():void{
-			httpService.send();
+			var obj:Object = new Object();
+			obj.keywoords="";
+			httpService.send(); 
 		}
 
 	}

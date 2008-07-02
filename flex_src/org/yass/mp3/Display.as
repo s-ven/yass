@@ -1,5 +1,7 @@
 package org.yass.mp3
 {
+	import com.airlogger.AirLoggerDebug;
+	
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
@@ -39,7 +41,7 @@ package org.yass.mp3
 		}
 		public function Display()
 		{
-			trace("Display : init");
+			MP3.info("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
 			songInfo.percentWidth = 100;

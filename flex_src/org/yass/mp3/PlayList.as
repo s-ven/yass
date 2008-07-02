@@ -8,29 +8,21 @@ package org.yass.mp3
     import mx.collections.ListCollectionView;
     import mx.collections.Sort;
     import mx.collections.SortField;
-    import mx.controls.Button;
-    import mx.controls.DataGrid;
-    import mx.controls.dataGridClasses.DataGridColumn;
     import mx.core.IUIComponent;
     import mx.events.DataGridEvent;
-    import mx.events.FlexEvent;
     import mx.rpc.events.ResultEvent;
-    import mx.rpc.http.HTTPService;
     
     [Bindable]
-    public class PlayList extends DataGrid implements IUIComponent  {
+    public class PlayList extends HTTPDataGrid implements IUIComponent  {
     	
 		public var currentTrack:Object; 
 		public var shuffle:Boolean;
-		public var loop:Boolean;
         
-		public var tracksLoaded:Boolean = false;
+		public var loop:Boolean;
+		public var tracksLoaded:Boolean= true;;
         public var shuffledTracks:ArrayCollection;
         public var shuffledListPosition:int; 
-		public var length:int=0;
-		
-		public var httpService:HTTPService = new HTTPService();
-		
+				
 		private var sortA:Sort;
 		private var sortByTrackNr:SortField;
 		private var sortByArtist:SortField;
@@ -40,7 +32,7 @@ package org.yass.mp3
 		private var oldColumn:String;
 
  		public function PlayList(){
-			trace("PlayList : init");
+			MP3.info("PlayList : init");
  			
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
@@ -50,7 +42,6 @@ package org.yass.mp3
 			this.addEventListener(DataGridEvent.HEADER_RELEASE, headerRelease);
  			this.addEventListener(MouseEvent.CLICK, click,true);
  			this.addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick,true);
- 			addEventListener(FlexEvent.UPDATE_COMPLETE, tracksLoadedEvent);
  			shuffledTracks = new ArrayCollection();
  			httpService.url = "/yass/library_playlist.do";
  			httpService.addEventListener(ResultEvent.RESULT, resultEvent 	);		
@@ -65,7 +56,7 @@ package org.yass.mp3
  		
  		
 		private function headerRelease(event:DataGridEvent):void {
-			trace("PlayList : Sorting column " + event.dataField.toString());
+			MP3.info("PlayList : Sorting column " + event.dataField.toString());
 			if (event.dataField.toString()=="trackNr") {
 			    if(oldColumn == "trackNr")
 			    	sortByTrackNr.reverse();
@@ -94,8 +85,17 @@ package org.yass.mp3
 		}
 		private function resultEvent (event:Event):void{
 			BindingUtils.bindProperty(this, "dataProvider", httpService,  ["lastResult", "tracks", "track"]);
-
+			this.enabled = true;
+ 			tracksLoaded= true;
+ 			
+    	
 	 	}
+	 	
+	 	public function get length():Number{
+	 		if(providerCollection)
+    			return providerCollection.length;
+			return 0;
+		}
 
         private function getPreviousShuffledTrack():Number{
         	if(shuffledTracks.length > 1 && shuffledListPosition > 1)
@@ -189,45 +189,42 @@ package org.yass.mp3
         }
         
         public function doubleClick(event:Event):void{
-	        this.currentTrack = providerCollection.getItemAt(selectedIndex);
-        	this.play();
-        	if(shuffle){
-        		while(shuffledTracks.length> shuffledListPosition)
-        			shuffledTracks.removeItemAt(shuffledListPosition);
-        		shuffledListPosition +=1;
-        		shuffledTracks.addItem(selectedIndex);
+        	if(enabled){
+		        this.currentTrack = providerCollection.getItemAt(selectedIndex);
+	        	this.play();
+	        	if(shuffle){
+	        		while(shuffledTracks.length> shuffledListPosition)
+	        			shuffledTracks.removeItemAt(shuffledListPosition);
+	        		shuffledListPosition +=1;
+	        		shuffledTracks.addItem(selectedIndex);
+	        	}
         	}
             this.dispatchEvent(event);
         }
         public function click(event:Event):void{
-        	if(selectedIndex == -1)
-        		selectedIndex = 0;
-        	if(!isPlaying && !isPaused)
-	            this.currentTrack = providerCollection.getItemAt(selectedIndex);
-            this.dispatchEvent(event);
+        	if(enabled){
+	        	if(selectedIndex == -1)
+	        		selectedIndex = 0;
+	        	if(!isPlaying && !isPaused)
+		            this.currentTrack = providerCollection.getItemAt(selectedIndex);
+         	}
+	        this.dispatchEvent(event);
         }
 	   
 		public function autoPlay():void{
-			trace("PlayList:AutoPlay : requested");
+			MP3.info("PlayList:AutoPlay : requested");
 			addEventListener(Event.ENTER_FRAME, autoPlayDatagrid);			
 		}
 		private function autoPlayDatagrid(event:Event):void{
 			if(tracksLoaded == true){
-				trace("PlayList: AutoPlay : playing");
+				MP3.info("PlayList: AutoPlay : playing");
 				removeEventListener(Event.ENTER_FRAME, autoPlayDatagrid);
 				stop();
 				selectedIndex = -1;
 				getNextTrack(); 
 				play();
-				trace("PlayList: AutoPlay : OK");
+				MP3.info("PlayList: AutoPlay : OK");
 			}
-		}
-		private function tracksLoadedEvent(event:Event):void{
- 			tracksLoaded= true;
-    		if(providerCollection)
-    			this.length = providerCollection.length;
- 			else
-    			this.length = 0;
 		}
     }
 }

@@ -1,9 +1,17 @@
 package org.yass.mp3
-{	
-		[Bindable]
+{
+	import com.airlogger.AirLoggerDebug;
+		
 	public class MP3
 	{
+		public function MP3():void{
+			
+		}
 		public static var player:Player = Player.instance;
+
+		public static function info(o:Object):void{
+			AirLoggerDebug.info(o);
+		}
 		public static function get playList():PlayList{
 			return player.playList;
 		}
@@ -30,7 +38,7 @@ package org.yass.mp3
 	 			}
 			}else
 				str += " : NaN\n";
-			str += "\n[Mp3Player]";
+			str += "\n[MP3Player]";
 			if(player){
 				str += "\n";
 				str += " - isPlaying : " + player.isPlaying +"\n";

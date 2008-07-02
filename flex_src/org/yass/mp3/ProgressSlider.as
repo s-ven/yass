@@ -12,7 +12,7 @@ package org.yass.mp3
 		
 		public function ProgressSlider()
 		{
-			trace("ProgressSlider : init");
+			MP3.info("ProgressSlider : init");
 			super();
 			this.addEventListener(SliderEvent.CHANGE, sliderChange,false,1);
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);

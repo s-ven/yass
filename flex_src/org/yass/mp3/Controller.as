@@ -77,28 +77,6 @@ package org.yass.mp3
 			volumeUpBtn.styleName = "VolumeUpButton";
 			volumeUpBtn.addEventListener(MouseEvent.CLICK, volUp);
 			hb.addChild(volumeUpBtn);
-			
-			/*
-				<mx:HBox horizontalGap="0" height="100%" horizontalAlign="right" verticalAlign="middle" width="150">
-					<mx:Button autoRepeat="true"
-						buttonDown="volumeSlider.value = volumeSlider.value - 1; MP3.player.volume =volumeSlider.value"
-						 styleName="VolDownButton"/>
-					<mx:Canvas height="100%">
-						<mx:Image verticalCenter="0" source="@Embed('/assets/volume-track-left.png')" left="1" />
-						<mx:Image source="@Embed('/assets/volume-track-right.png')" verticalCenter="0"	horizontalCenter="50" />
-						<mx:HSlider value="100" change="MP3.player.volume = volumeSlider.value"
-							sliderThumbClass="VolumeThumbClass" 
-							height="100%"  width="100" maximum="100" snapInterval="1"
-							dataTipFormatFunction="formatVolume" id="volumeSlider" liveDragging="true"  styleName="VolumeSlider"/>
-					</mx:Canvas>
-					<mx:Button autoRepeat="true"
-						buttonDown="volumeSlider.value = volumeSlider.value + 1; MP3.player.volume =volumeSlider.value"
-						verticalCenter=""  styleName="VolumeUpButton"/>
-				</mx:HBox>*/
-			
-			
-			
-			
 		}
 		private function formatVolume(val:String):String {
 		    return "Volume : " + String(val)+"%";

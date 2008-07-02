@@ -21,7 +21,7 @@ package org.yass.mp3
 		private static var httpService:HTTPService = new HTTPService();
 		
 		public function LibraryPane()		{
-			trace("PlaylistPane : init()");
+			MP3.info("PlaylistPane : init()");
 			super();
 			httpService.url="/flex/playlists.jsp";
 			httpService.resultFormat="e4x";
@@ -59,7 +59,7 @@ package org.yass.mp3
 					event.stopImmediatePropagation();
 					return; 
 				}
-				trace("PlayListPane : click " + item.@type)
+				MP3.info("PlayListPane : click " + item.@type)
 				var type:String = item.@type;
 				if(type == "library" && previousSelection){
 					MP3.playList.httpService.url = "/yass/library_playlist.do";
@@ -118,7 +118,7 @@ package org.yass.mp3
 			selectedItem = previousSelection;
 		}
 		private function saveItem(obj:Object, oldName:String):void	{	
-			trace("LibraryPane : Edited " + obj.@name + " " +  oldName);
+			MP3.info("LibraryPane : Edited " + obj.@name + " " +  oldName);
 			if(obj.@name != oldName){
 				var svc:HTTPService = new HTTPService();
 				svc.url = "/yass/playlist_save.do";
@@ -140,10 +140,10 @@ package org.yass.mp3
 				var item = selected[i]
 				if(item){  
 					uids.push(item.UUID);
-					trace(item.UUID);
+					MP3.info(item.UUID);
 				}
 			}
-			trace("Dropped : " + uids);
+			MP3.info("Dropped : " + uids);
 			var svc:HTTPService = new HTTPService();
 			svc.url = "/yass/playlist_addto.do";
 			var data:Object=new Object();

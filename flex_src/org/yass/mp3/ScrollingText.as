@@ -62,7 +62,7 @@ package org.yass.mp3
 		 */
 		public function ScrollingText()		{
 			super();
-			trace("ScrollingText : init");
+			MP3.info("ScrollingText : init");
 			instance = this;
 			this.addEventListener(MouseEvent.CLICK, mouseClick);
 		}
