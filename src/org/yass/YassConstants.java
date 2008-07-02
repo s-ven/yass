@@ -10,4 +10,6 @@ public interface YassConstants {
 	public static final String USER_PLAYLISTS = "USER_PLAYLISTS";
 	public static final String SMART_PLAYLISTS = "SMART_PLAYLIST";
 	public static final File PLAYLIST_ROOT = new File("PLAYLISTS/user");
+	public static final String ALL_LIBRARY = "ALL_LIBRARY";
+	public static final String CURRENT_LIB_PLAYLIST = "CURRENT_LIB_PLAYLIST";
 }

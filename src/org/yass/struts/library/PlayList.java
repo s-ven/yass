@@ -17,7 +17,8 @@ public class PlayList extends YassAction {
 	@Override
 	public String execute() {
 		if (getSearchQuery().getAlbumsFilter() != null || refresh)
-			return refreshPlayList();
+			refreshPlayList(CURRENT_LIB_PLAYLIST);
+		setPlayList(CURRENT_PLAYLIST, getPlayList(CURRENT_LIB_PLAYLIST));
 		return SUCCESS;
 	}
 

@@ -13,12 +13,16 @@ public class Artists extends YassAction implements YassConstants {
 
 	public void setRefresh(final boolean refresh) {
 		this.refresh = refresh;
+		setGenres(null);
 	}
 
 	@Override
 	public String execute() {
-		if (getSearchQuery().getGenresFilter() != null || refresh)
-			return refreshPlayList();
+		if (getSearchQuery().getGenresFilter() != null || refresh) {
+			refreshPlayList(CURRENT_LIB_PLAYLIST);
+			setPlayList(CURRENT_PLAYLIST, getPlayList(CURRENT_LIB_PLAYLIST));
+			return SUCCESS;
+		}
 		return SUCCESS;
 	}
 

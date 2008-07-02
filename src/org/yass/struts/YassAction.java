@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.yass.YassConstants;
+import org.yass.domain.LibraryPlayList;
 import org.yass.domain.PlayList;
 import org.yass.lucene.IndexManager;
 import org.yass.lucene.SearchQuery;
@@ -28,21 +29,29 @@ public class YassAction extends ActionSupport implements YassConstants {
 		return msr;
 	}
 
-	protected PlayList getPlayList() {
-		return (PlayList) ActionContext.getContext().getSession().get(CURRENT_PLAYLIST);
+	protected PlayList getPlayList(final String plId) {
+		return (PlayList) ActionContext.getContext().getSession().get(plId);
+	}
+
+	protected LibraryPlayList getAllLibraryList() {
+		return (LibraryPlayList) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
 	}
 
 	protected IndexManager getIndexManager() {
 		return (IndexManager) ActionContext.getContext().getApplication().get(INDEX_MANAGER);
 	}
 
-	protected String refreshPlayList() {
+	protected String refreshPlayList(final String playListId) {
 		try {
-			ActionContext.getContext().getSession().put(CURRENT_PLAYLIST, getIndexManager().search(getSearchQuery()));
+			setPlayList(playListId, getIndexManager().search(getSearchQuery()));
 		} catch (final IOException e) {
 			return ERROR;
 		}
 		return SUCCESS;
+	}
+
+	protected void setPlayList(final String playListId, final PlayList search) {
+		ActionContext.getContext().getSession().put(playListId, search);
 	}
 
 	protected Map<String, PlayList> getPlayLists() {

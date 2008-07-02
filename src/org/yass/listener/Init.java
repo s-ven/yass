@@ -2,6 +2,7 @@ package org.yass.listener;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -13,6 +14,7 @@ import org.yass.YassConstants;
 import org.yass.domain.PlayList;
 import org.yass.lucene.FilePlayList;
 import org.yass.lucene.IndexManager;
+import org.yass.lucene.SearchQuery;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -63,6 +65,11 @@ public class Init implements ServletContextListener, YassConstants {
 					userPl.put(fpl.id, fpl);
 				}
 				servletContext.setAttribute(USER_PLAYLISTS, userPl);
+				try {
+					servletContext.setAttribute(ALL_LIBRARY, mib.search(new SearchQuery()));
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
 			}
 
 			private HashMap<String, PlayList> getUserPlayLists(final IndexManager mib) {

@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import org.apache.struts2.ServletActionContext;
 import org.yass.YassConstants;
 import org.yass.domain.MediaFile;
-import org.yass.domain.PlayList;
 
 public class Play extends YassAction implements YassConstants {
 
@@ -22,8 +21,7 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final PlayList msr = getPlayList();
-		final MediaFile mf = msr.getMediaFile(UUID);
+		final MediaFile mf = getAllLibraryList().getMediaFile(UUID);
 		final File toPlayr = new File(mf.getPath());
 		OutputStream out = null;
 		InputStream fis = null;
