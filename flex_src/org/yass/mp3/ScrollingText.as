@@ -1,38 +1,13 @@
-package org.yass.mp3
-
-{
-
+package org.yass.mp3{
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
 	import mx.controls.Text;
 	import mx.core.UIComponent;
 
-
-
-	/**
-	 * Sets the size of the characters.
-	 * @default 10
-	 */
 	[Style(name="fontSize",type="Number",inherit="yes")]
-
-	/**
-	 * Sets the weight (bold or normal) for the text.
-	 * @default normal
-	 */
 	[Style(name="fontWeight",type="String",inherit="yes",value="bold")]
-
-	/**
-	 * Sets the font family for the text.
-	 * @default system
-	 */
-
 	[Style(name="fontFamily",type="String",inherit="yes")]
-	/**
-	 * Sets the color for the text.
-	 * @default 0 (black)
-	 */
 	[Style(name="color",type="Number",format="Color",inherit="yes")]
 
 
@@ -50,7 +25,6 @@ package org.yass.mp3
 	 * <ScrollingText text="Hello World" direction="rightToLeft" speed="5" width="100%" />
 	 * </pre>
 	 */
-
 	public class ScrollingText extends UIComponent	{
 		private var cache:Array;
 		private var clipMask:Shape;
@@ -62,7 +36,7 @@ package org.yass.mp3
 		 */
 		public function ScrollingText()		{
 			super();
-			MP3.info("ScrollingText : init");
+			Console.log("ScrollingText : init");
 			instance = this;
 			this.addEventListener(MouseEvent.CLICK, mouseClick);
 		}
@@ -85,12 +59,6 @@ package org.yass.mp3
 			addChild(clipMask);
 			mask = clipMask;
 		}
-
-		/**
-		 * The text message to display in the marquee.
-		 */
-
-		[Bindable]
 		/**
 		 * If true, the text is flowing; false if the text is not flowing.
 		 */
@@ -118,7 +86,6 @@ package org.yass.mp3
 		 * invalidateProperties has been called). The Labels are given their text values and th
 		 * orientation is set, if necessary, to comply with the direction.
 		 */
-
 		override protected function commitProperties() : void		{
 			// calling validateNow will help with determining the actual size of the Labels in
 			// the measure method.
@@ -205,8 +172,9 @@ package org.yass.mp3
 		
 		private function setText(event:Event):void{
 			if(MP3.playList.currentTrack){
-			cache[0].text = MP3.playList.currentTrack.artist;
-			cache[1].text = MP3.playList.currentTrack.album;
-			}}
+				cache[0].text = MP3.playList.currentTrack.artist;
+				cache[1].text = MP3.playList.currentTrack.album;
+			}
+		}
 	}
 }

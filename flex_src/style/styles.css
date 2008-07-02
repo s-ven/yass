@@ -129,4 +129,11 @@ SpectrumAnalyzer.visible
 	alphaInactive:"0.2";
 }
 
-
+FilterPane.disabled
+{
+	color:"#DDDDDD";
+}
+FilterPane.enabled
+{
+	color:"#000000";
+}

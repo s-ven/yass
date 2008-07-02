@@ -61,7 +61,7 @@ package org.yass.mp3
 				}
 				catch(e:Error){
 					this.visible=false;
-					MP3.info(e);
+					Console.log(e);
 					return;
 				}
 				finally{}

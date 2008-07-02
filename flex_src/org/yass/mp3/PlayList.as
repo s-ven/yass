@@ -19,7 +19,7 @@ package org.yass.mp3
 		public var shuffle:Boolean;
         
 		public var loop:Boolean;
-		public var tracksLoaded:Boolean= true;;
+		public var tracksLoaded:Boolean= false;;
         public var shuffledTracks:ArrayCollection;
         public var shuffledListPosition:int; 
 				
@@ -32,7 +32,7 @@ package org.yass.mp3
 		private var oldColumn:String;
 
  		public function PlayList(){
-			MP3.info("PlayList : init");
+			Console.log("PlayList : init");
  			
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
@@ -56,7 +56,7 @@ package org.yass.mp3
  		
  		
 		private function headerRelease(event:DataGridEvent):void {
-			MP3.info("PlayList : Sorting column " + event.dataField.toString());
+			Console.log("PlayList : Sorting column " + event.dataField.toString());
 			if (event.dataField.toString()=="trackNr") {
 			    if(oldColumn == "trackNr")
 			    	sortByTrackNr.reverse();
@@ -136,6 +136,8 @@ package org.yass.mp3
         }
         
         public function getNextTrack():void{
+        	if(!tracksLoaded)
+        		return;
             if(shuffle)
 	           	selectedIndex = getNextShuffledTrack();
 	        else{
@@ -155,6 +157,8 @@ package org.yass.mp3
         }
         
         public function getPreviousTrack():void{
+        	if(!tracksLoaded)
+        		return;
         	if(shuffle)
         		selectedIndex = getPreviousShuffledTrack();
         	else
@@ -173,6 +177,8 @@ package org.yass.mp3
 		}
 		
         public function tooglePlay():void{
+        	if(!tracksLoaded)
+        		return;
         	if(selectedIndex == -1)
         		selectedIndex = 0;
             scrollToIndex(selectedIndex)
@@ -212,18 +218,18 @@ package org.yass.mp3
         }
 	   
 		public function autoPlay():void{
-			MP3.info("PlayList:AutoPlay : requested");
+			Console.log("PlayList:AutoPlay : requested");
 			addEventListener(Event.ENTER_FRAME, autoPlayDatagrid);			
 		}
 		private function autoPlayDatagrid(event:Event):void{
 			if(tracksLoaded == true){
-				MP3.info("PlayList: AutoPlay : playing");
+				Console.log("PlayList: AutoPlay : playing");
 				removeEventListener(Event.ENTER_FRAME, autoPlayDatagrid);
 				stop();
 				selectedIndex = -1;
 				getNextTrack(); 
 				play();
-				MP3.info("PlayList: AutoPlay : OK");
+				Console.log("PlayList: AutoPlay : OK");
 			}
 		}
     }

@@ -68,7 +68,7 @@ package org.yass.mp3
         public var loadedLengh:Number;
                         
         public function play():void{
-            MP3.info("MP3Player : Starting play...");
+            Console.log("MP3Player : Starting play...");
             startHdlr();
 	        this.isPlaying = true;if(soundChannelInstance)
    			this.soundChannelInstance.stop();
@@ -78,7 +78,7 @@ package org.yass.mp3
 	    	transform.volume = this._volume;
 	    	this.soundChannelInstance.soundTransform = transform;
 	      //  this.pausePosition = 0;
-            MP3.info("MP3Player : Playing...");
+            Console.log("MP3Player : Playing...");
 	    }
         
         private function get  url():String{
@@ -86,7 +86,7 @@ package org.yass.mp3
         }
         
         public function playUrl():void{
-            MP3.info("MP3Player : Playing URL " + url);
+            Console.log("MP3Player : Playing URL " + url);
             this.soundInstance = new Sound();
             soundInstance.load(new URLRequest(url));
             position = 0;
@@ -107,7 +107,7 @@ package org.yass.mp3
         	if(soundChannelInstance)
 	            this.position = this.soundChannelInstance.position;
             this.stop();
-            MP3.info("MP3Player : Paused ");
+            Console.log("MP3Player : Paused ");
         }
         
         public function stop():void{
@@ -116,7 +116,7 @@ package org.yass.mp3
             	stopHdlr();
    				this.soundChannelInstance.stop();
    			}
-            MP3.info("MP3Player : Stopped ");
+            Console.log("MP3Player : Stopped ");
         }
         
         
@@ -130,12 +130,12 @@ package org.yass.mp3
         }
 
         public function soundCompleteHandler(event:Event):void {
-            MP3.info("MP3Player : Track Finished ");
+            Console.log("MP3Player : Track Finished ");
             playList.getNextTrack();
         }
         
         private function ioErrorHandler(event:IOErrorEvent):void {
-           MP3.info('MP3Player : in error');
+           Console.log('MP3Player : in error');
         }
 
 
@@ -153,7 +153,7 @@ package org.yass.mp3
 			}
 		}
         public function skipTo(value:Number):void{
-			MP3.info("ProgressSlider : Click " + isPaused + ", " + isPlaying + " value="+value);
+			Console.log("ProgressSlider : Click " + isPaused + ", " + isPlaying + " value="+value);
 			if(loadedLengh >  value	&& value <= playList.currentTrack.length * 1000){
 				position = value;	
 				play();

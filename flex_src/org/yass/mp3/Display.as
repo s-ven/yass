@@ -41,7 +41,7 @@ package org.yass.mp3
 		}
 		public function Display()
 		{
-			MP3.info("Display : init");
+			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
 			songInfo.percentWidth = 100;
@@ -138,18 +138,13 @@ package org.yass.mp3
 			setEventListeners();
 		}
 		private function handlerEnterFrame(e:Event):void {
-			if(MP3.player.isPlaying)
-				if(MP3.playList)
-					if(MP3.playList.currentTrack)
-						trackLabel.text = MP3.playList.currentTrack.title;
-							elapsed.text = formatPos(MP3.player.position);
-							if(MP3.player.loadedLengh >0)
-								remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLengh - MP3.player.position)
-									:formatPos(MP3.player.loadedLengh);
-		
-		
-		
+			if(MP3.playList && MP3.playList.currentTrack){
+				trackLabel.text = MP3.playList.currentTrack.title;
+				elapsed.text = formatPos(MP3.player.position);
+				remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLengh - MP3.player.position):formatPos(MP3.player.loadedLengh);
+			}
 		}
+
 		private var  noDisplaySwitch:Boolean;
 		private function plateClick(evt:Event):void{
 			if(!noDisplaySwitch)

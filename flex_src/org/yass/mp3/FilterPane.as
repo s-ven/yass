@@ -29,9 +29,7 @@ package org.yass.mp3
 			this.styleName="FilterPane";
 			this.percentHeight=100;
 			this.percentWidth=100;
-			this.addEventListener(MouseEvent.DOUBLE_CLICK, function():void{
-				MP3.playList.autoPlay(); 
-			});
+			this.addEventListener(MouseEvent.DOUBLE_CLICK, function():void{MP3.playList.autoPlay();});
 			this.addEventListener(ListEvent.CHANGE, filterChildPanes);
 		}
 		
@@ -51,10 +49,9 @@ package org.yass.mp3
 			dgc.draggable=false;
 			dgc.sortable=false;
 			columns = [dgc];
-			httpService = new HTTPService();
 			httpService.url = "/yass/library_" + id + "s.do";
 			httpService.method = URLRequestMethod.POST;
-			this.httpService.addEventListener(ResultEvent.RESULT, filterChildPanes);
+			httpService.addEventListener(ResultEvent.RESULT, filterChildPanes);
 			panes[id] = this;
             super.commitProperties();
 		}
@@ -92,8 +89,8 @@ package org.yass.mp3
 				if(datas.length >1)
 					datas.addItemAt("All ("+datas.length + " " + headerName+"s)", 0);
            		selectedIndex =0;
+          		Console.log("FilterPane-" + id + " : Loaded " + dataProvider.length);
 			} 
-            MP3.info("FilterPane-" + id + " : Loaded " + dataProvider.length);
 			MP3.playList.tracksLoaded = false; 
 			var childService:HTTPService = child.httpService;
 			childService.cancel();
@@ -109,13 +106,13 @@ package org.yass.mp3
 			}
 		 	else
 		 		childService.send();
-            MP3.info("FilterPane-" + id + " : ChildPane refreshed " + childService.url);
+            Console.log("FilterPane-" + id + " : ChildPane refreshed " + childService.url);
 			this.addEventListener(ListEvent.CHANGE, filterChildPanes);
 		 }
 		
 		public static function hideAll():void{
 			if(FilterPane._visible){
-				MP3.info("FilterPane : hideAll");
+				Console.log("FilterPane : hideAll");
 				FilterPane._oldminHeight = (panes["genre"] as FilterPane).height;
 				FilterPane._percentHeight = 0;
 				FilterPane._visible=false; 
@@ -139,7 +136,7 @@ package org.yass.mp3
 		public static var _verticalGap :Number= 5;
 		public static function showAll():void{
 			if(!FilterPane._visible){
-				MP3.info("FilterPane : showAll");
+				Console.log("FilterPane : showAll");
 				FilterPane._percentHeight = _oldminHeight;
 				FilterPane._visible=true; 
 				FilterPane._verticalGap = 5;
