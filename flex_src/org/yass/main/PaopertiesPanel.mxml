@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel  title="Peoperties " xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="400" height="300">
+
+        <mx:Text width="100%" color="blue"
+            text="Moving from one form field to another triggers the validator."/>
+
+        <mx:Form width="100%" height="100%">
+            <mx:FormHeading label="Enter values into the form."/>
+
+            <mx:FormItem label="First name">
+                <mx:TextInput id="fname" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="Date of birth (mm/dd/yyyy)">
+                <mx:TextInput id="dob" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="E-mail address">
+                <mx:TextInput id="email" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="Age">
+                <mx:TextInput id="age" width="200" enabled="false"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="SSN">
+                <mx:TextInput id="ssn" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="Zip">
+                <mx:TextInput id="zip" width="200"/>
+            </mx:FormItem>
+
+            <mx:FormItem label="Phone">
+                <mx:TextInput id="phone" width="200"/>
+            </mx:FormItem>
+        </mx:Form>
+	
+</mx:Panel>
