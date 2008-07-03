@@ -4,12 +4,12 @@
 	minWidth="800"
 	backgroundGradientColors="[#323232, #656565]" borderColor="#656565"
 	xmlns:local="*"
-	xmlns:mp3="org.yass.mp3.*" 
-	currentState="MainWindow">
+	xmlns:mp3="org.yass.visualization.*" 
+	currentState="MainWindow" xmlns:main="org.yass.main.*">
 	<mx:states>
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
-				<local:MainWindow id="mainWindow"></local:MainWindow>
+				<main:MainWindow id="mainWindow"></main:MainWindow>
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>
