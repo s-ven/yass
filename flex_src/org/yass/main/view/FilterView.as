@@ -1,3 +1,24 @@
+/* 
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), 
+ to deal in the Software without restriction, including without limitation 
+ the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished 
+ to do so, subject to the following conditions: The above copyright notice 
+ and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", 
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 package org.yass.main.view
 {
 	import flash.net.URLRequestMethod;
@@ -9,6 +30,7 @@ package org.yass.main.view
 	import mx.controls.dataGridClasses.DataGridColumn;
 	import mx.events.FlexEvent;
 	import mx.events.ListEvent;
+	import mx.formatters.DateFormatter;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
@@ -25,8 +47,7 @@ package org.yass.main.view
 	 * The last pane (album) will not have a child associated in the mxml file.
 	 * That will cause it to refresh the playlist
 	 */
-	public class FilterView extends DataGrid
-	{
+	public class FilterView extends DataGrid{
 		private var httpService:HTTPService = new HTTPService();
 		// The Header Text
 		public var headerName:String;
@@ -74,7 +95,7 @@ package org.yass.main.view
 			httpService.method = URLRequestMethod.POST;
 			httpService.addEventListener(ResultEvent.RESULT, filterChildPanes);
 			if(autoRefresh)
-				addEventListener(FlexEvent.CREATION_COMPLETE, function(){
+				addEventListener(FlexEvent.CREATION_COMPLETE, function():void{
 					var obj:Object = new Object();
 					obj.keywords="";
 					obj.refresh=true;
@@ -122,7 +143,7 @@ package org.yass.main.view
 			// If multiple items, will add a 'All of' on first row
 			if(datas.length >1)
 				datas.addItemAt("All ("+datas.length + " " + headerName+"s)", 0);
-      		Console.log("FilterView-" + id + " : Loaded " + dataProvider.length);
+      		Console.log("view.FilterView.filterChildPanes :: " + id + " : Loaded " + dataProvider.length);
 			// Now starts filtering child panes
 			clickPane(event);
            	selectedIndex = 0;
@@ -137,12 +158,20 @@ package org.yass.main.view
 			else{
 				// Refreshing the playlist pane with a new playlistController object
 				var model:PlayListModel = new PlayListModel();
+				model.bindDataProvider(child);
+				childService = model.httpService;
+				(child as Object).model = model; 
+				
+/* 				var df:DateFormatter = new DateFormatter();
+				df.formatString="HH:NN:SS";
+				var model:PlayListModel = new PlayListModel();
+				var df:DateFormatter = new DateFormatter();
+				df.formatString="HH:NN:SS";
+				model.playListId = df.format(new Date());
+				Console.log(df.format(new Date()));
 				childService = model.httpService;
 				model.bindDataProvider(child);
-				(child as Object).model = model;
-				// Will reload the Player with the playlist content only if a user playing is not loaded
-/////////////////				if(MP3.player.loader && (!MP3.player.loader.playListId || MP3.player.loader.playListId==""))
-				////////////////	MP3.player.loader = loader;
+				(child as Object).model = model; */
 			}
 			// Cancel the eventualy previouus request
 			childService.cancel();
@@ -161,7 +190,7 @@ package org.yass.main.view
 			}
 		 	else
 		 		childService.send();
-            Console.log("FilterView-" + id + " : ChildPane refreshed " + childService.url);
+            Console.log("view.FilterView.clickPane :: " + id + " : ChildPane refreshed " + childService.url);
    		}
 
 		/*

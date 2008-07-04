@@ -1,10 +1,25 @@
-package org.yass.main.model
-/*
-    Player version 0.1
-
+/* 
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), 
+ to deal in the Software without restriction, including without limitation 
+ the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished 
+ to do so, subject to the following conditions: The above copyright notice 
+ and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", 
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
-{
+package org.yass.main.model{
     
     import flash.events.Event;
     import flash.events.IOErrorEvent;
@@ -24,7 +39,7 @@ package org.yass.main.model
     
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{
-        public var _loadedPlaylist:IPlayListModel
+        public var loadedPlayList:IPlayListModel
         public var _loadedTrack;
         public var position:Number = 0;
 
@@ -83,7 +98,7 @@ package org.yass.main.model
 	        this.soundChannelInstance = this.soundInstance.play(this.position); 
 	    	this.setupListeners();
 	    	var transform:SoundTransform = soundChannelInstance.soundTransform;
-	    	transform.volume = 0;//////////////////////////////////
+	    	transform.volume = this.volume;
 	    	this.soundChannelInstance.soundTransform = transform;
             this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
 	    }
@@ -104,10 +119,6 @@ package org.yass.main.model
         public function get loadedTrack():Object{
         	return _loadedTrack;
         }
-
-        public function setLoadedPlayList(val:Object):void{
-        	
-        }
         
         public function pause():void{
         	if(soundChannelInstance)
@@ -125,12 +136,6 @@ package org.yass.main.model
             Console.log("model.PlayerModel.stop");
         }
         
-        public function get loadedPlayList():IPlayListModel{
-        	return _loadedPlaylist;
-        }
-        public function set loadedPlayList(val:IPlayListModel):void{
-        	 _loadedPlaylist = val;
-        }
         public function skipTo(value:Number):void{
 			Console.log("model.PlayerModel.skipTo value="+value);
 			if(loadedTrack && loadedLengh >  value	&& value <= loadedTrack.length * 1000){
@@ -140,15 +145,15 @@ package org.yass.main.model
 		}
 		public function next():void{
 			Console.log("model.PlayerModel.next");
-       		_loadedPlaylist.getNextTrack(shuffle, loop);
-       		loadedTrack = _loadedPlaylist.selectedTrack;
+       		loadedPlayList.getNextTrack(shuffle, loop);
+       		loadedTrack = loadedPlayList.selectedTrack;
         	if(isPlaying)
         		play();
 		}   
 		public function previous():void{
 			Console.log("model.PlayerModel.previous");
-       		_loadedPlaylist.getPreviousTrack(shuffle, loop);
-       		loadedTrack = _loadedPlaylist.selectedTrack;
+       		loadedPlayList.getPreviousTrack(shuffle, loop);
+       		loadedTrack = loadedPlayList.selectedTrack;
         	if(isPlaying)
         		play();
 		}   
@@ -158,8 +163,8 @@ package org.yass.main.model
 				this.pause();
 			else if(!isPaused){
 				if(!loadedTrack){
-        			_loadedPlaylist.getNextTrack(shuffle, loop);
-        			loadedTrack = _loadedPlaylist.selectedTrack;
+        			loadedPlayList.getNextTrack(shuffle, loop);
+        			loadedTrack = loadedPlayList.selectedTrack;
         		}
         		play();				
 			}

@@ -1,3 +1,24 @@
+/* 
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), 
+ to deal in the Software without restriction, including without limitation 
+ the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished 
+ to do so, subject to the following conditions: The above copyright notice 
+ and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", 
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 package org.yass.main.view
 {
 	import flash.events.MouseEvent;
@@ -33,7 +54,7 @@ package org.yass.main.view
 		public var mainPane:MainPane;
 		public function NavigationView()		{
 			controller = new NavigationController(this, model);
-			Console.log("PlayListsView : init()");
+			Console.log("view.NavigationView :: Init");
 			super();
 			labelField="@name";
 			showRoot=false;
@@ -82,7 +103,7 @@ package org.yass.main.view
 				if(item)
 					uids.push(item.UUID);
 			}
-			Console.log("Dropped : " + uids);
+			Console.log("view.NavigationView.gragDropHandler :: " + uids);
 			var svc:HTTPService = new HTTPService();
 			svc.url = "/yass/playlist_addto.do";
 			var data:Object=new Object();
@@ -97,14 +118,19 @@ package org.yass.main.view
 		}
 		private function saveItem(obj:Object, oldName:String):void	{	
 			if(obj.@name != oldName){			
-			Console.log("view.Navigation.saveItem name=" + obj.@name + ",oldName=" +  oldName);
+				Console.log("view.Navigation.saveItem name=" + obj.@name + ",oldName=" +  oldName);
 				this.dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_EDITED, obj.@id, obj.@name, obj.@type));		
 			}
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
 			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
-			dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
+			if(item.@id == -1)
+				this.editable = true;
+			else		{
+				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
+				this.editable = false;
+			}
 		}		
 		
 		public function refreshNavigation(_dataProvider:Object):void{			

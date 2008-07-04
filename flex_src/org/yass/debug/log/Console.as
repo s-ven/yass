@@ -73,7 +73,7 @@ package org.yass.debug.log {
 		 * to take you to its source in the Script tab, and click each argument value
 		 * to inspect it in the DOM or HTML tabs.
 		 * */
-		public static function trace():void{
+		public static function printStack():void{
 		  send("trace");
 		}
 		/**

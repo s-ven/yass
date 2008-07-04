@@ -1,16 +1,29 @@
+/* 
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), 
+ to deal in the Software without restriction, including without limitation 
+ the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished 
+ to do so, subject to the following conditions: The above copyright notice 
+ and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", 
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
 import mx.formatters.DateFormatter;
-    import mx.controls.dataGridClasses.DataGridColumn;
+import mx.controls.dataGridClasses.DataGridColumn;
 private function formatVolume(val:String):String {
     return "Volume : " + String(val)+"%";
-}
-private var timeFormatter:DateFormatter = new DateFormatter();
-private function formatSeconds(duration:int):String{
-	return dateFormatter.format(new Date(duration * 1000));
 }
 private function formatDurationColumn(item:Object, column:DataGridColumn):String {
 	return dateFormatter.format(new Date(0, 0, 0, 0, 0, item[column.dataField], 0));  
 }  
-[Bindable]
-private function formatPos(pos:Number):String {
-	return dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, pos));
-}            

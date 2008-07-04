@@ -1,4 +1,26 @@
-package org.yass.main.view
+/* 
+
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), 
+ to deal in the Software without restriction, including without limitation 
+ the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is furnished 
+ to do so, subject to the following conditions: The above copyright notice 
+ and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", 
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+ TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+ package org.yass.main.view
 {
     import flash.events.Event;
     
@@ -29,27 +51,17 @@ package org.yass.main.view
 		private var oldColumn:String;
 		public var _model:IPlayListModel;
 		
-		public function set model(value:IPlayListModel):void{
-			this._model = value;
-			Console.log("view.PlayListView.setLoader : " + model);
-			model.bindDataProvider(this);
-			playListId = model.playListId;
-			this.controller = new PlayListController(this, value);
-		}
-		public function get model():IPlayListModel{
-			return _model;
-		}
-		
 		private var controller:PlayListController;
 
  		public function PlayListView(){	
+ 			Console.log("view.PlayListView :: Init");
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
 			this.dragEnabled=true;
-			
-			this.addEventListener(DataGridEvent.HEADER_RELEASE, headerRelease);
+			this.addEventListener(DataGridEvent.HEADER_RELEASE, onHeaderClick);
  			this.addEventListener(ListEvent.ITEM_CLICK, onClick);
  			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, onDoubleClick);
+ 			// TODO :: Move this to the Model
  			sortA = new Sort();
 			sortByAlbum = new SortField("album", true);
 			sortByArtist = new SortField("artist", true);
@@ -58,8 +70,37 @@ package org.yass.main.view
 			sortByLength = new SortField("length", true, false, true);
  		}
  		
- 		
-		private function headerRelease(event:DataGridEvent):void {
+ 		/*
+ 		* The playList model associated with this view.
+ 		* called when a playlist have been returned from the Model after a server call
+ 		*/
+		public function set model(value:IPlayListModel):void{
+			this._model = value;
+			Console.log("view.PlayListView.setLoader : " + model);
+			model.bindDataProvider(this);
+			playListId = model.playListId;
+			// Remove the eventLoaders for a potentially previous controller
+			if(controller)
+				controller.destroy();
+			this.controller = new PlayListController(this, value);
+			// if the playlistModel is currently played, selecti the playing track
+			if(MP3.player.isPlaying && MP3.player.loadedPlayList.playListId == playListId){
+				this.selectedIndex = MP3.player.loadedPlayList.trackIndex;
+				this.selectedIndex = MP3.player.loadedPlayList.datas.getItemIndex(MP3.player.loadedTrack);
+			}
+		}
+		public function get model():IPlayListModel{ 
+			return _model;
+		}		
+ 		/**
+ 		 * Called when a sort has occured, 
+ 		 * The sort logic :
+ 		 *  - sorted by artist, group the results by albums, then track number
+ 		 *  - sorted by albums, group the results by artists then track number
+ 		 *  - sorted by track number, group the results by artists then album
+ 		 *  TODO :: Move this to the Model
+ 		 */
+		private function onHeaderClick(event:DataGridEvent):void {
 			Console.log("view.PlayList.headerRelease column=" + event.dataField.toString());
 			if (event.dataField.toString()=="trackNr") {
 			    if(oldColumn == "trackNr")
@@ -68,7 +109,7 @@ package org.yass.main.view
 			} else if (event.dataField.toString()=="album") {
 			    if(oldColumn == "album")
 			    	sortByAlbum.reverse();
-			 sortA.fields=[sortByAlbum, sortByTrackNr, sortByArtist];
+			 sortA.fields=[sortByAlbum, sortByArtist, sortByTrackNr];
 			} else if (event.dataField.toString()=="artist") {
 			    if(oldColumn == "artist")
 			    	sortByArtist.reverse();
@@ -83,57 +124,57 @@ package org.yass.main.view
 			   sortA.fields=[sortByLength, sortByTitle, sortByArtist, sortByAlbum];
 			} 
 			oldColumn = event.dataField.toString();
-			providerCollection.sort=sortA; 
-			providerCollection.refresh();
+			// TODO :: Move this to the model
+			this.model.datas.sort=sortA; 
+			this.model.datas.refresh();
 			event.preventDefault();
 		}
 
 	 	
-	 	public function get length():Number{
-	 		if(providerCollection)
-    			return providerCollection.length;
-			return 0;
-		}
 
-        private function get providerCollection():ListCollectionView{
-        	if(dataProvider)
-        	   	return (dataProvider as ListCollectionView);
-        	else return null;
-        }
-        
+        /*
+        * Called when a click has occured on the playlist, 
+        * will dispatch a TrackEvent.TRACK_PLAY event to the MVC Controller 
+        */
         public function onDoubleClick(event:Event):void{
 			Console.log("view.PlayList.onDoubleClick");
-			Console.log("eeeeeeeeeeeeeeeeee");
 		  	if(enabled)
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_PLAY, selectedIndex, _model));
-			Console.log("fsdfsd");
         }
+        /*
+        * Called when a click has occured on the playlist, 
+        * will dispatch a TrackEvent.TRACK_CLICK event to the MVC Controller 
+        */
         public function onClick(event:Event):void{
 			Console.log("view.PlayList.onClick");
         	if(enabled)
         		dispatchEvent(new TrackEvent(TrackEvent.TRACK_CLICK, selectedIndex, _model));
         }
+        // TODO : Move this to the model
 		public function autoPlay():void{
 			Console.log("view.PlayList.autoPlay :: requested");
-			addEventListener(Event.ENTER_FRAME, autoPlayDatagrid);			
+			addEventListener(Event.ENTER_FRAME, function autoPlayAfterRefresh():void{
+				if(enabled){
+					MP3.player.loadedPlayList = _model;
+					Console.log("view.PlayList.autoPlayDatagrid");
+					removeEventListener(Event.ENTER_FRAME, autoPlayAfterRefresh);
+					MP3.player.stop();
+					MP3.player.loadedPlayList = model;
+					MP3.player.play();
+					Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
+				}
+			});			
 		}
-		private function autoPlayDatagrid(event:Event):void{
-			if(enabled){
-				MP3.player.loadedPlayList = _model;
-				Console.log("view.PlayList.autoPlayDatagrid");
-				removeEventListener(Event.ENTER_FRAME, autoPlayDatagrid);
-				MP3.player.stop();
-				MP3.player.loadedPlayList = model;
-				MP3.player.play();
-				Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
-			}
-		}
-		public function selectTrack(trackIndex:Number, loader:IPlayListModel):void{
+		/**
+		 * Called when an event occured from the Model (eg end of track, previous track
+		 * Will cause the previously selected track to be displayed 
+		 */
+		public function selectTrack(trackIndex:Number, playlist:IPlayListModel):void{
 			Console.log("view.PlayList.selectTrack trackIndex=" +trackIndex);
-			if(loader.playListId == this.playListId){
+			if(playlist.playListId == this.playListId){
 				this.selectedIndex = trackIndex;
 				this.scrollToIndex(trackIndex);
 			}
-		}
+		}		
     }
 }
