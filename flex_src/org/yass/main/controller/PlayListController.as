@@ -20,35 +20,30 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.controller{
-	import org.yass.main.events.TrackEvent;
-	import org.yass.main.interfaces.model.IPlayListModel;
-	import org.yass.main.interfaces.view.IPlayListView;
+	import flash.events.IEventDispatcher;
+	
 	import org.yass.debug.log.Console;
+	import org.yass.main.events.TrackEvent;
+	import org.yass.main.model.interfaces.IPlayListModel;
 	
 	public class PlayListController{
-		private var view:IPlayListView;
+		private var view:IEventDispatcher;
 		private var model:IPlayListModel;
-		public function PlayListController(_view:IPlayListView, _model:IPlayListModel){
+		public function PlayListController(_view:IEventDispatcher, _model:IPlayListModel){
 			this.view = _view;
 			this.model = _model;
 			view.addEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
 			view.addEventListener(TrackEvent.TRACK_CLICK, onTrackClick);
-			model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 		}
 		public function destroy():void{
 			view.removeEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
 			view.removeEventListener(TrackEvent.TRACK_CLICK, onTrackClick);
-			model.removeEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			
-		}
-		private function onTrackSelected(evt:TrackEvent):void{
-			Console.log("controller.PlayListController.onTrackSelected trackIndex=" +evt.trackIndex);
-			view.selectTrack(evt.trackIndex, evt.playList);	
 		}
 		
 		private function onTrackPlay(evt:TrackEvent):void{
 			Console.log("controller.PlayListController.onTrackPlay trackIndex=" +evt.trackIndex);
-			evt.playList.playTrack(evt.trackIndex);			
+			model.playTrack(evt.trackIndex);			
 		}
 		private function onTrackClick(evt:TrackEvent):void{
 			Console.log("controller.PlayListController.onTrackCick trackIndex=" +evt.trackIndex);

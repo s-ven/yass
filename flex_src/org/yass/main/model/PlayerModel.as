@@ -31,11 +31,10 @@ package org.yass.main.model{
     
     import mx.core.UIComponent;
     
-    import org.yass.MP3;
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
-    import org.yass.main.interfaces.model.IPlayListModel;
-    import org.yass.main.interfaces.model.IPlayerModel;
+    import org.yass.main.model.interfaces.IPlayListModel;
+    import org.yass.main.model.interfaces.IPlayerModel;
     
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{

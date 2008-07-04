@@ -31,7 +31,7 @@ package org.yass.main.model
 	import org.yass.MP3;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.TrackEvent;
-	import org.yass.main.interfaces.model.IPlayListModel;
+	import org.yass.main.model.interfaces.IPlayListModel;
 	
 	public class PlayListModel extends EventDispatcher implements IPlayListModel{
         public var shuffledTracks:ArrayCollection= new ArrayCollection();
@@ -43,7 +43,7 @@ package org.yass.main.model
 		public function PlayListModel(){			
         	Console.info("model.PlayListModel :: Init");
         	
-        	// TODO :: Find another way !!!!!!!!!!!!!
+        	// TODO :: Find another way to generate time based GUI!!!!!!!!!!!!!
 			var df:DateFormatter	 = new DateFormatter();
 			df.formatString="HH:NN:SS";
 			_playListId = df.format(new Date());
@@ -126,26 +126,15 @@ package org.yass.main.model
         	return datas.length;
         }
         
-        
  		public function get trackIndex():Number{
  			return _trackIndex;
  		}
-   		   		
-   		private function setDatas():void{
-			datas = new ArrayCollection();
-			if(httpService.lastResult.tracks)
-				if(httpService.lastResult.tracks.track is ArrayCollection)
-					 for(var i:Object in httpService.lastResult.tracks.track)
-					 	datas.addItem(httpService.lastResult.tracks.track[i]);
-				else
-					datas.addItem(httpService.lastResult.tracks.track);
-   		}
    		
    		public var _datas:ArrayCollection;
    		public function get datas():ArrayCollection{
    			return _datas;
    		}
-   		public function set datas(val:ArrayCollection){
+   		public function set datas(val:ArrayCollection):void{
    			this._datas = val;
    		}
   		public function bindDataProvider(obj:Object):void{
@@ -153,7 +142,14 @@ package org.yass.main.model
 			obj.dataProvider = datas;
   			// add an event listener so that the dada object will be populated when the request is back
 			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
-  				setDatas();
+				// Fills the Model datas with the result of the httpService object
+				datas = new ArrayCollection();
+				if(httpService.lastResult.tracks)
+					if(httpService.lastResult.tracks.track is ArrayCollection)
+						 for(var i:Object in httpService.lastResult.tracks.track)
+						 	datas.addItem(httpService.lastResult.tracks.track[i]);
+					else
+						datas.addItem(httpService.lastResult.tracks.track);
   				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
 				obj.dataProvider = datas;
 				obj.enabled = true;

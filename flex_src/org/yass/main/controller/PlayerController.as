@@ -20,22 +20,21 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.controller{
+	import flash.events.IEventDispatcher;
+	
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayerEvent;
-	import org.yass.main.interfaces.model.IPlayerModel;
-	import org.yass.main.interfaces.view.IPlayerView;;
+	import org.yass.main.model.interfaces.IPlayerModel;;
 	
 	public class PlayerController{
 		private var model:IPlayerModel;
-		private var view:IPlayerView;
-		public function PlayerController(_view:IPlayerView, _model:IPlayerModel){
+		private var view:IEventDispatcher;
+		public function PlayerController(_view:IEventDispatcher, _model:IPlayerModel){
 			this.model = _model;
 			this.view = _view;
 			view.addEventListener(PlayerEvent.NEXT, onNext);
 			view.addEventListener(PlayerEvent.PREVIOUS, onPrevious);
 			view.addEventListener(PlayerEvent.TOOGLE, onToogle);
-			model.addEventListener(PlayerEvent.PLAYING, onPlaying);
-			model.addEventListener(PlayerEvent.STOPPED, onStopped);
 		}
 		
 		private function onNext(evt:PlayerEvent):void{
@@ -50,14 +49,6 @@ package org.yass.main.controller{
 		private function onToogle(evt:PlayerEvent):void{
 			Console.log("controller.PlayerController.onToogle");
 			model.toogle();			
-		}
-		private function onStopped(evt:PlayerEvent):void{
-			Console.log("controller.PlayerController.onStopped");
-			view.stopped();			
-		}
-		private function onPlaying(evt:PlayerEvent):void{
-			Console.log("controller.PlayerController.onPlaying");
-			view.playing();			
 		}
 	}
 }

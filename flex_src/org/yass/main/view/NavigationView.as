@@ -34,15 +34,14 @@ package org.yass.main.view
 	
 	import org.yass.debug.log.Console;
 	import org.yass.main.MainPane;
+	import org.yass.main.NavigationViewRenderer;
 	import org.yass.main.controller.NavigationController;
 	import org.yass.main.events.NavigationEvent;
-	import org.yass.main.interfaces.model.INavigationModel;
-	import org.yass.main.interfaces.view.INavigationView;
-	import org.yass.main.interfaces.view.IPlayListView;
+	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.NavigationModel;
-	import org.yass.main.NavigationViewRenderer;
+	import org.yass.main.model.interfaces.INavigationModel;
 	[Bindable]
-	public class NavigationView extends Tree implements INavigationView{	 
+	public class NavigationView extends Tree {	 
 		[Embed(source="../assets/small-tree-lib.png")] private var libIcon:Class;  
  		[Embed(source="../assets/small-tree-spl.png")] private var smartPlIcon:Class;  
 		[Embed(source="../assets/small-tree-upl.png")] private var userPlIcon:Class;  
@@ -54,6 +53,8 @@ package org.yass.main.view
 		public var mainPane:MainPane;
 		public function NavigationView()		{
 			controller = new NavigationController(this, model);
+			model.addEventListener(PlayListEvent.REFRESH_PANE, onRefreshPane);
+			model.addEventListener(PlayListEvent.PLAYLIST_LOADED, onLoadPlayList);
 			Console.log("view.NavigationView :: Init");
 			super();
 			labelField="@name";
@@ -133,24 +134,25 @@ package org.yass.main.view
 			}
 		}		
 		
-		public function refreshNavigation(_dataProvider:Object):void{			
+		public function onRefreshPane(evt:PlayListEvent):void{			
 			Console.log("view.Navigation.refreshNavigation");
-			this.dataProvider = _dataProvider;
+			this.dataProvider = evt.result;
 			if(dataProvider){
 				var treeData:XML = dataProvider[0];
 				openItems = treeData.elements();
 			}
 		}
-		public function getSelectedPlayListsView(type:String):IPlayListView{		
-			Console.log("view.Navigation.getSelectedPlayListsView type=" + type);
-			if(type == "library"){
+		public function onLoadPlayList(evt:PlayListEvent):void{		
+			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.type);
+			if(evt.type == "library")
 				mainPane.currentState = "libraryBrowser";
-				return mainPane.libraryBrowser.playList;
+			else {
+				mainPane.currentState = "playListBrowser";
+				mainPane.playListBrowser.playList.model = evt.playlist
 			}
-			mainPane.currentState = "playListBrowser";
-			return mainPane.playListBrowser.playList;
 		
 		}
+			
 		
 	}
 	

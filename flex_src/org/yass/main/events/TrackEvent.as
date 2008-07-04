@@ -21,8 +21,9 @@
 */
 package org.yass.main.events{
 	import flash.events.Event;
-	import org.yass.main.interfaces.model.IPlayListModel;
+	
 	import org.yass.debug.log.Console;
+	import org.yass.main.model.interfaces.IPlayListModel;
 
 	public class TrackEvent extends Event{
 		public static const TRACK_PLAY:String = "track_play";

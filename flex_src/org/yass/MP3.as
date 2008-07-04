@@ -1,6 +1,4 @@
 package org.yass{
-	import org.yass.main.interfaces.model.IPlayerModel;
-	import org.yass.main.model.PlayListModel;
 	import org.yass.main.model.PlayerModel;
 	import org.yass.visualization.Display;
 	public class MP3

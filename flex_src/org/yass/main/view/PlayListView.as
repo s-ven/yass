@@ -24,7 +24,6 @@
 {
     import flash.events.Event;
     
-    import mx.collections.ListCollectionView;
     import mx.collections.Sort;
     import mx.collections.SortField;
     import mx.controls.DataGrid;
@@ -35,11 +34,10 @@
     import org.yass.debug.log.Console;
     import org.yass.main.controller.PlayListController;
     import org.yass.main.events.TrackEvent;
-    import org.yass.main.interfaces.model.IPlayListModel;
-    import org.yass.main.interfaces.view.IPlayListView;
+    import org.yass.main.model.interfaces.IPlayListModel;
     
     [Bindable]
-    public class PlayListView  extends DataGrid implements IPlayListView  {
+    public class PlayListView  extends DataGrid   {
 				
 		public var playListId:String;
 		private var sortA:Sort;
@@ -76,6 +74,7 @@
  		*/
 		public function set model(value:IPlayListModel):void{
 			this._model = value;
+			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			Console.log("view.PlayListView.setLoader : " + model);
 			model.bindDataProvider(this);
 			playListId = model.playListId;
@@ -169,11 +168,11 @@
 		 * Called when an event occured from the Model (eg end of track, previous track
 		 * Will cause the previously selected track to be displayed 
 		 */
-		public function selectTrack(trackIndex:Number, playlist:IPlayListModel):void{
-			Console.log("view.PlayList.selectTrack trackIndex=" +trackIndex);
-			if(playlist.playListId == this.playListId){
-				this.selectedIndex = trackIndex;
-				this.scrollToIndex(trackIndex);
+		public function onTrackSelected(evt:TrackEvent):void{
+			Console.log("view.PlayList.selectTrack trackIndex=" + evt.trackIndex);
+			if(evt.playList.playListId == this.playListId){
+				this.selectedIndex = evt.trackIndex;
+				this.scrollToIndex(evt.trackIndex);
 			}
 		}		
     }

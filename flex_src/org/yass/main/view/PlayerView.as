@@ -35,10 +35,9 @@ package org.yass.main.view
 	import org.yass.debug.log.Console;
 	import org.yass.main.controller.PlayerController;
 	import org.yass.main.events.PlayerEvent;
-	import org.yass.main.interfaces.model.IPlayerModel;
-	import org.yass.main.interfaces.view.IPlayerView;
+	import org.yass.main.model.interfaces.IPlayerModel;
 
-	public class PlayerView extends HBox implements IPlayerView
+	public class PlayerView extends HBox
 	{
 		public var backButton:Button = new Button();
 		public var playButton:Button = new Button()
@@ -53,6 +52,8 @@ package org.yass.main.view
 		public function PlayerView(){
 			Console.log("view.PlayerView :: Init");
 			controller = new PlayerController(this, MP3.player as IPlayerModel);
+			MP3.player.addEventListener(PlayerEvent.PLAYING, onPlaying);
+			MP3.player.addEventListener(PlayerEvent.STOPPED, onStopped);
 			super();
 		}
 		
@@ -64,9 +65,9 @@ package org.yass.main.view
 			addChild(backButton);
 			addChild(playButton);
 			addChild(forwardButton);
-			backButton.addEventListener(MouseEvent.CLICK, previousTrack);
-			playButton.addEventListener(MouseEvent.CLICK, tooglePlay);
-			forwardButton.addEventListener(MouseEvent.CLICK, nextTrack);
+			backButton.addEventListener(MouseEvent.CLICK, onPreviousTrackClick);
+			playButton.addEventListener(MouseEvent.CLICK, onPlayPauseClick);
+			forwardButton.addEventListener(MouseEvent.CLICK, onNextTrackClick);
 			
 			// The Volume Slider
 			var hb: HBox= new HBox();
@@ -118,28 +119,55 @@ package org.yass.main.view
 			volumeSlider.value = volumeSlider.value -1; 
 			MP3.player.volume =volumeSlider.value/100;
 		}
+		/**
+		 * Called when the next track button has been clicked, 
+		 * Will cause the model to go to next track
+		 */ 
 		private function volUp(evt:Event):void{
 			volumeSlider.value = volumeSlider.value + 1; 
 			MP3.player.volume =volumeSlider.value/100;
 		}
-		private function nextTrack(evt:Event):void{
+		/**
+		 * Called when the next track button has been clicked, 
+		 * Will cause the model to go to next track
+		 */ 
+		private function onNextTrackClick(evt:Event):void{
 			Console.log("view.Player.nextTrack");
 			dispatchEvent(new PlayerEvent(PlayerEvent.NEXT));
 		}
-		private function previousTrack(evt:Event):void{
+		/**
+		 * Called when the previous track button has been clicked, 
+		 * Will cause the model to go to prévious track
+		 */ 
+		private function onPreviousTrackClick(evt:Event):void{
 			Console.log("view.Player.previousTrack");
 			dispatchEvent(new PlayerEvent(PlayerEvent.PREVIOUS));
 		}
-		private function tooglePlay(evt:Event):void{
+		/**
+		* Caled when the user has clicked on the play or pause button
+		* Will toogle the  state of the PlayerModel between play and pause
+		*/
+		private function onPlayPauseClick(evt:Event):void{
 			Console.log("view.Player.tooglePlay");
 			dispatchEvent(new PlayerEvent(PlayerEvent.TOOGLE));
 		}
-		public function playing():void{
+		/**
+		 * Called after an start event from the model 
+		 * Will cause the play button to be refreshed to pause
+		 * And the Artist/album scrolling text to start
+		 */
+		private function onPlaying(evt:PlayerEvent):void{
+			Console.log("controller.PlayerController.onPlaying");
 			playButton.styleName = "PlayButtonStarted";
 	        MP3.display.scrollText.start();
-			
 		}
-		public function stopped():void{
+		/**
+		 * Called after an start event from the model 
+		 * Will cause the play play to be refreshed to play
+		 * And the Artist/album scrolling text to stop
+		 */
+		private function onStopped(evt:PlayerEvent):void{
+			Console.log("controller.PlayerController.onStopped");
 			playButton.styleName = "PlayButtonStopped";
 			MP3.display.scrollText.stop();
 		}

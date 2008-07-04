@@ -21,13 +21,15 @@
 */
 package org.yass.main.model{
 	import flash.events.EventDispatcher;
+	
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
+	
 	import org.yass.MP3;
-	import org.yass.main.events.PlayListEvent;
-	import org.yass.main.interfaces.model.IPlayListModel;
-	import org.yass.main.interfaces.model.INavigationModel;
 	import org.yass.debug.log.Console;
+	import org.yass.main.events.PlayListEvent;
+	import org.yass.main.model.interfaces.INavigationModel;
+	import org.yass.main.model.interfaces.IPlayListModel;
 
 	public class NavigationModel extends EventDispatcher implements INavigationModel{
 		private var httpService:HTTPService = new HTTPService();

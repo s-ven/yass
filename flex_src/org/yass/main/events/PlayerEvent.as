@@ -21,7 +21,6 @@
 */
 package org.yass.main.events{
 	import flash.events.Event;
-	import org.yass.main.interfaces.model.IPlayListModel;
 	import org.yass.debug.log.Console;
 
 	public class PlayerEvent extends Event{
