@@ -19,11 +19,7 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-import mx.formatters.DateFormatter;
 import mx.controls.dataGridClasses.DataGridColumn;
-private function formatVolume(val:String):String {
-    return "Volume : " + String(val)+"%";
-}
 private function formatDurationColumn(item:Object, column:DataGridColumn):String {
 	return dateFormatter.format(new Date(0, 0, 0, 0, 0, item[column.dataField], 0));  
 }  

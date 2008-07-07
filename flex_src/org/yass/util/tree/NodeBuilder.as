@@ -19,21 +19,27 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package org.yass.main.model.interfaces{
-	import flash.events.IEventDispatcher;
-	import mx.collections.ArrayCollection;
-
-	public interface IPlayListModel extends IEventDispatcher	{
-		function bindDataProvider(obj:Object):void;
-		function getNextTrack(shuffle:Boolean, loop:Boolean):Object;
-		function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object;
-		function set trackIndex(value:Number):void;
-		function get trackIndex():Number;
-		function get selectedTrack():Object;
-		function get playListId():String;
-		function playTrack(trackIndex:Number):void;
-		function selectTrack(trackIndex:Number):void;
-		function get length():Number;
-		function get datas():ArrayCollection;
+package org.yass.util.tree
+{
+	import flash.utils.Dictionary;
+	
+	import org.yass.debug.log.Console;
+	import org.yass.util.Visitable;
+	import org.yass.util.Visitor;
+	
+	public class NodeBuilder implements Visitor	{
+		private var xml:XML;
+		public function NodeBuilder(xml:XML):void{
+			this.xml = xml;
+		}
+		
+		public function visit(visitable:Visitable):void{
+			var val:Value = visitable as Value;
+			for each(var node:Object in xml.node){
+				var child:Value =  new Value(node.@name, node.@type, node.@id);
+				val.addChild(child);
+				child.accept(new NodeBuilder(node as XML));
+			}
+		}
 	}
 }

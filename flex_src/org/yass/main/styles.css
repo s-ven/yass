@@ -12,15 +12,6 @@ Button.PlayButtonStarted
 	overSkin: Embed('assets/hover-pause.png');
 	upSkin: Embed('assets/normal-pause.png');
 }
-DataGrid.FilterPane
-{
-	paddingBottom: 0;
-	paddingTop: 0;
-	rowHeight:16; 
-	 width: '100%'; 
-	 height:'100%';
-	
-}
 ProgressSlider.ProgressSlider
 {
 	showTrackHighlight: true;

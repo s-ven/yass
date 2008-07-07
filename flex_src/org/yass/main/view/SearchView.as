@@ -19,21 +19,19 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package org.yass.main.model.interfaces{
-	import flash.events.IEventDispatcher;
-	import mx.collections.ArrayCollection;
+package org.yass.main.view
+{
+	import org.yass.main.controller.SearchController;
+	import org.yass.main.view.component.SearchField;
+	
+	public class SearchView{
+		private var component:SearchField;
+		private var controller:SearchController;
+		
+		public function SearchView(_component:SearchField):void{
+			this.component = _component;
+			this.controller = new SearchController(component);
 
-	public interface IPlayListModel extends IEventDispatcher	{
-		function bindDataProvider(obj:Object):void;
-		function getNextTrack(shuffle:Boolean, loop:Boolean):Object;
-		function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object;
-		function set trackIndex(value:Number):void;
-		function get trackIndex():Number;
-		function get selectedTrack():Object;
-		function get playListId():String;
-		function playTrack(trackIndex:Number):void;
-		function selectTrack(trackIndex:Number):void;
-		function get length():Number;
-		function get datas():ArrayCollection;
+		}
 	}
 }

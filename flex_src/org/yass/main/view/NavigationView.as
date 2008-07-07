@@ -42,10 +42,10 @@ package org.yass.main.view
 	import org.yass.main.model.interfaces.INavigationModel;
 	[Bindable]
 	public class NavigationView extends Tree {	 
-		[Embed(source="../assets/small-tree-lib.png")] private var libIcon:Class;  
- 		[Embed(source="../assets/small-tree-spl.png")] private var smartPlIcon:Class;  
-		[Embed(source="../assets/small-tree-upl.png")] private var userPlIcon:Class;  
-		[Embed(source="../assets/small-tree-light.png")] private var lightPlIcon:Class;  
+		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;  
+ 		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;  
+		[Embed(source="/assets/small-tree-upl.png")] private var userPlIcon:Class;  
+		[Embed(source="/assets/small-tree-light.png")] private var lightPlIcon:Class;  
 		 
 		private var model:INavigationModel = new NavigationModel();
 		private var controller:NavigationController;
@@ -143,17 +143,13 @@ package org.yass.main.view
 			}
 		}
 		public function onLoadPlayList(evt:PlayListEvent):void{		
-			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.type);
-			if(evt.type == "library")
+			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.playListType);
+			if(evt.playListType == "library")
 				mainPane.currentState = "libraryBrowser";
 			else {
 				mainPane.currentState = "playListBrowser";
 				mainPane.playListBrowser.playList.model = evt.playlist
 			}
-		
-		}
-			
-		
+		}	
 	}
-	
 }

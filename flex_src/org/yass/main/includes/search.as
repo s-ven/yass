@@ -23,7 +23,7 @@ import mx.controls.Menu;
 import mx.events.MenuEvent;
 
 private var keywordsSearchField:String = "ALL";
-public function doSearch():void {
+/* public function doSearch():void {
 	mainPane.libraryBrowser.genre.search(searchTextInput.text, keywordsSearchField);
 }
  
@@ -61,4 +61,4 @@ public var searchMenuData:Array = [
     {label: "Artist", type: "radio", groupName: "g1"}, 
     {label: "Album", type: "radio", groupName: "g1"}, 
     {label: "Title", type: "radio", groupName: "g1"} 
-    ];
+    ]; */

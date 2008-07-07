@@ -24,9 +24,12 @@ package org.yass.main.model
 	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
+	import mx.events.CollectionEvent;
+	import mx.events.CollectionEventKind;
 	import mx.formatters.DateFormatter;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
+	import mx.utils.ObjectProxy;
 	
 	import org.yass.MP3;
 	import org.yass.debug.log.Console;
@@ -36,13 +39,14 @@ package org.yass.main.model
 	public class PlayListModel extends EventDispatcher implements IPlayListModel{
         public var shuffledTracks:ArrayCollection= new ArrayCollection();
         public var shuffledListPosition:int; 
-		public var _playListId:String;
-		private var _trackIndex:Number = -1;
 		public var httpService : HTTPService = new HTTPService();
 		
+		private var _playListId:String;
+		private var _trackIndex:Number = -1;
+   		private var _datas:ArrayCollection;
+   		private var datasProxy:ObjectProxy;
 		public function PlayListModel(){			
-        	Console.info("model.PlayListModel :: Init");
-        	
+        	Console.log("model.PlayListModel :: Init");
         	// TODO :: Find another way to generate time based GUI!!!!!!!!!!!!!
 			var df:DateFormatter	 = new DateFormatter();
 			df.formatString="HH:NN:SS";
@@ -53,39 +57,43 @@ package org.yass.main.model
 				Console.log("model.PlayListModel.loadPlayList :: MP3 player seems to be blank, loading it");
 				MP3.player.loadedPlayList = this;
 			}
- 			httpService.url = "/yass/library_playlist.do";
+ 			httpService.method = "POST";
 		}
 		
+   		public function get datas():ArrayCollection{
+   			return _datas;
+   		}
+   		public function set datas(val:ArrayCollection):void{
+   			this._datas = val;
+   		}
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;
     	}
 		
 		public function set playListId(val:String):void{
-			this._playListId = val;
+			this._playListId = val; 
  			httpService.url = "/yass/playlist_show.do";
 		}
-		
 		public function get playListId():String{
 			return _playListId;
 		}
-		
+        public function get selectedTrack():Object{
+        	if(datas && trackIndex !=-1)
+	        	return datas[trackIndex];
+        	return null;
+        }
+        public function get length():Number{
+        	return datas.length;
+        }
+        
+ 		public function get trackIndex():Number{
+ 			return _trackIndex;
+ 		}
         private function getPreviousShuffledTrack():Number{
         	if(shuffledTracks.length > 1 && shuffledListPosition > 1)
         		return shuffledTracks.getItemAt((shuffledListPosition -= 1) -1) as Number;
-        	stop();
         	return trackIndex;
-    	}
- 		    	
-    	public function get isPaused():Boolean{
-    		return MP3.player.isPaused; 
-    	}
-    	public function get isPlaying():Boolean{
-    		return MP3.player.isPlaying; 
-    	}
-    	    	        
-        public function stop():void{
-        	MP3.player.stop();
-        }
+    	}     
         private function getNextShuffledTrack():Number{
         	if(!(shuffledTracks.length > 1 && shuffledListPosition < shuffledTracks.length))
         		shuffledTracks.addItem(Math.ceil( 
@@ -93,7 +101,7 @@ package org.yass.main.model
         	shuffledListPosition += 1;
         	return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
     	}
-        public function getNextTrack(shuffle:Boolean, loop:Boolean):void{
+        public function getNextTrack(shuffle:Boolean, loop:Boolean):Object{
         	Console.log("model.PlayList.getNextTrack");
             if(MP3.player.shuffle)
 	           	trackIndex = getNextShuffledTrack();
@@ -104,9 +112,10 @@ package org.yass.main.model
 	                	trackIndex = 0;      
 	        }
 			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
+			return selectedTrack;
         }
         
-        public function getPreviousTrack(shuffle:Boolean, loop:Boolean):void{
+        public function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object{
         	Console.log("model.PlayList.getPreviousTrack");
         	if(shuffle)
         		trackIndex = getPreviousShuffledTrack();
@@ -116,27 +125,9 @@ package org.yass.main.model
             	else if(loop)
                 	trackIndex = length -1;
 			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
+			return selectedTrack;
 		}        
-        public function get selectedTrack():Object{
-        	if(httpService.lastResult && trackIndex !=-1)
-	        	return httpService.lastResult.tracks.track[trackIndex];
-        	return null;
-        }
-        public function get length():Number{
-        	return datas.length;
-        }
-        
- 		public function get trackIndex():Number{
- 			return _trackIndex;
- 		}
    		
-   		public var _datas:ArrayCollection;
-   		public function get datas():ArrayCollection{
-   			return _datas;
-   		}
-   		public function set datas(val:ArrayCollection):void{
-   			this._datas = val;
-   		}
   		public function bindDataProvider(obj:Object):void{
   			Console.log("model.PlayList.bindDataProvider :: Binding dataProvider");
 			obj.dataProvider = datas;
@@ -144,6 +135,7 @@ package org.yass.main.model
 			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
 				// Fills the Model datas with the result of the httpService object
 				datas = new ArrayCollection();
+				datas.addEventListener(CollectionEvent.COLLECTION_CHANGE, sortDatasHandler);
 				if(httpService.lastResult.tracks)
 					if(httpService.lastResult.tracks.track is ArrayCollection)
 						 for(var i:Object in httpService.lastResult.tracks.track)
@@ -175,6 +167,15 @@ package org.yass.main.model
 	      		shuffledTracks.addItem(trackIndex);
 			} 
 		}	
+		private function sortDatasHandler(evt:CollectionEvent):void{
+			if(evt.kind == CollectionEventKind.REFRESH){
+				Console.log("model.PlayList.sortDataHandler");
+				Console.log(evt.items);
+				this.trackIndex = datas.getItemIndex(this.selectedTrack);
+			}
+		}
+  	
+  	
   		public function selectTrack(_trackIndex:Number):void{
   			Console.log("model.PlayList.selectTrack trackIndex="  +_trackIndex+ ", playListId="+ playListId);
   			this.trackIndex = _trackIndex;

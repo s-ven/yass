@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:mp3="org.yass.main.mp3.*" xmlns:view="org.yass.main.view.*">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:mp3="org.yass.main.mp3.*" xmlns:view="org.yass.main.view.*" creationComplete="init()">
 	<mx:DateFormatter id="dateFormatter" formatString="N:SS" /> 
 	<mx:Script source="includes/misc.as" />
+	<mx:Script> 
+		<![CDATA[
+			import org.yass.main.model.PlayListModel;
+			import org.yass.main.view.BrowserView;
+			import org.yass.main.model.BrowserModel;
+	    	[Bindable]
+			private var browserView:BrowserView;
+			private function  init():void{
+				this.playList.model = new PlayListModel();
+				browserView = new BrowserView(genres, artists, albums, this.playList);
+			}
+		]]>
+	</mx:Script>
 	<mx:VDividedBox right="0" left="0" top="0" bottom="0" verticalGap="5" horizontalAlign="center" verticalAlign="middle">
-		<mx:Canvas width="100%"  height="400" minHeight="250" >
-			<mx:HBox left="0" top="0" horizontalGap="0" height="100%" right="10">
-			 	<view:FilterView id="genre" childPane="artist" headerName="Genre"  playList="{playList}" autoRefresh="true"/>
-				<view:FilterView id="artist" childPane="album" headerName="Artist" playList="{playList}"/>								
-				<view:FilterView id="album" headerName="Album" playList="{playList}"/>
+		<mx:Canvas width="100%"  height="294" minHeight="200" >
+			<mx:HBox left="0" top="0" horizontalGap="0" height="100%" right="10" >
+				<mx:DataGrid id="genres" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
+					<mx:columns>
+						<mx:DataGridColumn  sortDescending="false" dataField="name" headerText="Genres" draggable="false" sortable="false" />
+					</mx:columns>
+				</mx:DataGrid>
+				<mx:DataGrid id="artists" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
+					<mx:columns>
+						<mx:DataGridColumn dataField="name" headerText="Artists" draggable="false" sortable="false" />
+					</mx:columns>
+				</mx:DataGrid>
+				<mx:DataGrid id="albums"  doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
+					<mx:columns>
+						<mx:DataGridColumn  dataField="name" headerText="Albums" draggable="false" sortable="false" />
+					</mx:columns>
+				</mx:DataGrid>
 			</mx:HBox>
 		</mx:Canvas>
-		<mx:Canvas x="10" y="0" width="100%" height="100%" minHeight="70">
-			<view:PlayListView  id="playList" right="10" left="0" top="0" bottom="10" alternatingItemColors="[#FFFFFF, #F2F2F2]" rowHeight="18" paddingBottom="0" paddingTop="0">
+		<mx:Canvas x="10" y="0" width="100%" height="100%" minHeight="200"> 
+			<view:PlayListView  id="playList" right="10" left="0" top="0" bottom="10" alternatingItemColors="[#FFFFFF, #F2F2F2]" rowHeight="16" paddingBottom="0" paddingTop="0">
   				<view:columns>
 					<mx:DataGridColumn headerText="Track" dataField="trackNr" width="40" resizable="false" draggable="false" textAlign="right" />
 					<mx:DataGridColumn headerText="Title" dataField="title" />

@@ -39,34 +39,29 @@ package org.yass.main.model{
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{
         public var loadedPlayList:IPlayListModel
-        public var _loadedTrack;
         public var position:Number = 0;
-
 		public var shuffle:Boolean;
 		public var loop:Boolean;
-
         public var isPlaying:Boolean = false;
-        private var _volume:Number                 = 1;
+        public var loadedLengh:Number;
+        
+        private var _loadedTrack:Object;
+        private var _volume:Number = 1;
         private var soundInstance:Sound;
         private var soundChannelInstance:SoundChannel;
         
-        public function  get isPaused():Boolean{
-        	return position != 0 && !isPlaying;
-        }
                 
-        private static var _instance:PlayerModel;
-        public static function get instance():PlayerModel{
-            if(_instance == null)
-                _instance = new PlayerModel();
-            return _instance;
-        }
+        public static var instance:PlayerModel = new PlayerModel();
         public function PlayerModel():void{
-        	Console.info("model.PlayerModel :: init");
-            this.soundInstance = new Sound();
+        	Console.log("model.PlayerModel :: init");
         }
         
         public function get volume():Number{
         	return _volume;
+        }
+        
+        public function  get isPaused():Boolean{
+        	return position != 0 && !isPlaying;
         }
         
         public function set volume(value:Number):void{
@@ -77,7 +72,6 @@ package org.yass.main.model{
             	this.soundChannelInstance.soundTransform = transform;
             }
         }
-        /******************************************CONTROLS***********************************************/
         private function setupListeners():void{
             this.soundInstance.addEventListener(Event.COMPLETE, completeHandler);
             this.soundInstance.addEventListener(Event.OPEN, openHandler);
@@ -85,10 +79,8 @@ package org.yass.main.model{
             this.soundInstance.addEventListener(ProgressEvent.PROGRESS, progressHandler);
             this.soundChannelInstance.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
             this.addEventListener( Event.ENTER_FRAME, enterFrame)
-        }  
-        
-        public var loadedLengh:Number;
-                        
+        }
+                       
         public function play():void{
             Console.log("model.PlayerModel.play");
 	        this.isPlaying = true;
@@ -108,11 +100,10 @@ package org.yass.main.model{
         
         public function set loadedTrack(track:Object):void{
         	this._loadedTrack = track;
-            Console.group("model.PlayerModel.loadTrack " + url);
+            Console.log("model.PlayerModel.loadTrack " + url);
            	this.soundInstance = new Sound();
            	soundInstance.load(new URLRequest(url));
            	position = 0;
-            Console.groupEnd();
             this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
         }
         public function get loadedTrack():Object{
@@ -128,11 +119,10 @@ package org.yass.main.model{
         
         public function stop():void{
             this.isPlaying = false;
-            if(soundChannelInstance){
-            	this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
+            if(soundChannelInstance)
    				this.soundChannelInstance.stop();
-   			}
             Console.log("model.PlayerModel.stop");
+            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
         }
         
         public function skipTo(value:Number):void{
@@ -144,15 +134,13 @@ package org.yass.main.model{
 		}
 		public function next():void{
 			Console.log("model.PlayerModel.next");
-       		loadedPlayList.getNextTrack(shuffle, loop);
-       		loadedTrack = loadedPlayList.selectedTrack;
+       		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         	if(isPlaying)
         		play();
 		}   
 		public function previous():void{
 			Console.log("model.PlayerModel.previous");
-       		loadedPlayList.getPreviousTrack(shuffle, loop);
-       		loadedTrack = loadedPlayList.selectedTrack;
+       		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
         	if(isPlaying)
         		play();
 		}   
@@ -160,11 +148,9 @@ package org.yass.main.model{
 			Console.log("model.PlayerModel.toogle");
 			if(isPlaying)
 				this.pause();
-			else if(!isPaused){
-				if(!loadedTrack){
-        			loadedPlayList.getNextTrack(shuffle, loop);
-        			loadedTrack = loadedPlayList.selectedTrack;
-        		}
+			else {
+				if(!loadedTrack)
+        			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         		play();				
 			}
 		}

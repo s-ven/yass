@@ -20,8 +20,7 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
- package org.yass.main.view
-{
+ package org.yass.main.view{
     import flash.events.Event;
     
     import mx.collections.Sort;
@@ -47,7 +46,7 @@
 		private var sortByTitle:SortField;
 		private var sortByLength:SortField;
 		private var oldColumn:String;
-		public var _model:IPlayListModel;
+		private var _model:IPlayListModel;
 		
 		private var controller:PlayListController;
 
@@ -75,7 +74,7 @@
 		public function set model(value:IPlayListModel):void{
 			this._model = value;
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
-			Console.log("view.PlayListView.setLoader : " + model);
+			Console.log("view.PlayListView.setLoader : " + _model);
 			model.bindDataProvider(this);
 			playListId = model.playListId;
 			// Remove the eventLoaders for a potentially previous controller
