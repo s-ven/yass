@@ -2,24 +2,10 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<package name="yass" namespace="/yass" extends="struts-default">
-		<action name="library_genres"
-			class="org.yass.struts.library.Genres">
-			<result>/flex/genres.jsp</result>
-		</action>
-		<action name="library_artists"
-			class="org.yass.struts.library.Artists">
-			<result>/flex/artists.jsp</result>
-		</action>
-		<action name="library_albums"
-			class="org.yass.struts.library.Albums">
-			<result>/flex/albums.jsp</result>
-		</action>
-		<action name="library_playlist"
-			class="org.yass.struts.library.PlayList">
+		<action name="library_browse" class="org.yass.struts.library.Browse">
 			<result>/flex/tracks.jsp</result>
 		</action>
-		<action name="playlist_show"
-			class="org.yass.struts.playlist.Show">
+		<action name="playlist_show" class="org.yass.struts.playlist.Show">
 			<result>/flex/tracks.jsp</result>
 		</action>
 		<action name="play" class="org.yass.struts.Play">
