@@ -78,8 +78,8 @@ package org.yass.main.model
 			return _playListId;
 		}
         public function get selectedTrack():Object{
-        	if(datas && trackIndex !=-1)
-	        	return datas[trackIndex];
+        	if(datas && trackIndex !=-1 && trackIndex < datas.length)
+	        	return (datas[trackIndex] as ObjectProxy).valueOf() as Track;
         	return null;
         }
         public function get length():Number{
@@ -139,7 +139,7 @@ package org.yass.main.model
 				if(httpService.lastResult.tracks)
 					if(httpService.lastResult.tracks.track is ArrayCollection)
 						 for(var i:Object in httpService.lastResult.tracks.track)
-						 	datas.addItem(httpService.lastResult.tracks.track[i]);
+						 	datas.addItem(new ObjectProxy(new Track(httpService.lastResult.tracks.track[i])));
 					else
 						datas.addItem(httpService.lastResult.tracks.track);
   				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
@@ -169,9 +169,9 @@ package org.yass.main.model
 		}	
 		private function sortDatasHandler(evt:CollectionEvent):void{
 			if(evt.kind == CollectionEventKind.REFRESH){
-				Console.log("model.PlayList.sortDataHandler");
-				Console.log(evt.items);
+				Console.time("model.PlayList.sortDataHandler");
 				this.trackIndex = datas.getItemIndex(this.selectedTrack);
+				Console.timeEnd("model.PlayList.sortDataHandler nd");
 			}
 		}
   	

@@ -8,7 +8,7 @@ import org.yass.YassConstants;
 
 public class PlayList implements YassConstants {
 
-	protected final Map<String, MediaFile> mediaFiles = new LinkedHashMap<String, MediaFile>();
+	protected final Map<String, Track> tracks = new LinkedHashMap<String, Track>();
 	public String id;
 	protected String name;
 	protected String type;
@@ -21,37 +21,37 @@ public class PlayList implements YassConstants {
 	}
 
 	/**
-	 * @return the name
+	 * @return the value
 	 */
 	public final String getName() {
 		return name;
 	}
 
-	public final MediaFile getMediaFile(final String uuid) {
-		return mediaFiles.get(uuid);
+	public final Track getMediaFile(final String uuid) {
+		return tracks.get(uuid);
 	}
 
 	/**
-	 * @param mediaFiles
-	 *          the mediaFiles to set
+	 * @param tracks
+	 *          the tracks to set
 	 */
-	public final void add(final MediaFile mediaFile) {
-		mediaFiles.put(mediaFile.getUuid(), mediaFile);
+	public final void add(final Track track) {
+		tracks.put(track.getUuid(), track);
 	}
 
 	public final void clean() {
-		mediaFiles.clear();
+		tracks.clear();
 	}
 
 	/**
-	 * @return the mediaFiles
+	 * @return the tracks
 	 */
-	public final Collection<MediaFile> getMediaFiles() {
-		return mediaFiles.values();
+	public final Collection<Track> getMediaFiles() {
+		return tracks.values();
 	}
 
 	public void add(final PlayList pl) {
-		for (final MediaFile mf : pl.mediaFiles.values())
+		for (final Track mf : pl.tracks.values())
 			this.add(mf);
 	}
 }

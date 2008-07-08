@@ -38,31 +38,19 @@ package org.yass.util.tree
 
 		public function visit(visitable:Visitable):void{
 			var val:Value = (visitable as Value);
-			var ex = dict["id_"+val.id]
+			var ex:Value = dict["id_"+val.id]
 			if(val.type == type && ex == null){
 				dict["id_"+val.id] = val;
 				extraction.addItem(val);
 			}
 			else if (val.type == type && ex != null){
-				if(ex is Value){
+				if(!(ex is ValueMultiple)){
 					extraction.removeItemAt(extraction.getItemIndex(ex));
-					var ob = new Object();
-					ob.values = new Array();
-					ob.values.push(ex);
-					ob.name = val.name;
-					ob.id = val.id;
-					ob.type = val.type;
-					ob.hasParent = 	function(parent:Value):Boolean{
-										for each(var subbVal:Value in ob.values)
-											if (subbVal.hasParent(parent))
-												return true;
-										return false;
-									};
-					dict["id_"+val.id] = ob;
-					ex = ob;
+					ex = new ValueMultiple(ex);
+					dict["id_"+val.id] = ex;
 					extraction.addItem(ex);
 				}
-				ex.values.push(val);
+				(ex as ValueMultiple).values.push(val);
 			}
 			else
 				for each(var child:Value in val.childs)

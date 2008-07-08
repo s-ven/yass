@@ -26,7 +26,10 @@
     import mx.collections.Sort;
     import mx.collections.SortField;
     import mx.controls.DataGrid;
+    import mx.events.CollectionEvent;
+    import mx.events.CollectionEventKind;
     import mx.events.DataGridEvent;
+    import mx.events.FlexEvent;
     import mx.events.ListEvent;
     
     import org.yass.MP3;
@@ -51,6 +54,7 @@
 		private var controller:PlayListController;
 
  		public function PlayListView(){	
+ 			super();
  			Console.log("view.PlayListView :: Init");
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
@@ -65,6 +69,10 @@
 			sortByTitle = new SortField("title", true);
 			sortByTrackNr = new SortField("trackNr", true, false, true);
 			sortByLength = new SortField("length", true, false, true);
+ 		}
+ 		
+ 		override protected function commitProperties():void{
+ 			super.commitProperties();
  		}
  		
  		/*
@@ -125,6 +133,7 @@
 			// TODO :: Move this to the model
 			this.model.datas.sort=sortA; 
 			this.model.datas.refresh();
+			this.model.datas.sort=null;
 			event.preventDefault();
 		}
 
@@ -136,8 +145,10 @@
         */
         public function onDoubleClick(event:Event):void{
 			Console.log("view.PlayList.onDoubleClick");
-		  	if(enabled)
+		  	if(enabled){
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_PLAY, selectedIndex, _model));
+				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
+		  	}
         }
         /*
         * Called when a click has occured on the playlist, 
@@ -159,6 +170,7 @@
 					MP3.player.stop();
 					MP3.player.loadedPlayList = model;
 					MP3.player.play();
+					this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 					Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
 				}
 			});			
@@ -170,9 +182,10 @@
 		public function onTrackSelected(evt:TrackEvent):void{
 			Console.log("view.PlayList.selectTrack trackIndex=" + evt.trackIndex);
 			if(evt.playList.playListId == this.playListId){
-				this.selectedIndex = evt.trackIndex;
+				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 				this.scrollToIndex(evt.trackIndex);
-			}
+			}	
+		
 		}		
     }
 }

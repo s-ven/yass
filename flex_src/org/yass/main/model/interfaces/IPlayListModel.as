@@ -21,7 +21,10 @@
 */
 package org.yass.main.model.interfaces{
 	import flash.events.IEventDispatcher;
+	
 	import mx.collections.ArrayCollection;
+	
+	import org.yass.main.model.Track;
 
 	public interface IPlayListModel extends IEventDispatcher	{
 		function bindDataProvider(obj:Object):void;

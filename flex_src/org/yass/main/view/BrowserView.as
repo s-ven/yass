@@ -30,26 +30,26 @@ package org.yass.main.view
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
 	import org.yass.main.model.BrowserModel;
+	import org.yass.util.tree.Value;
 
     [Bindable]
-	public class BrowserView extends EventDispatcher
-	{
-		private var genres:DataGrid;
-		private var artists:DataGrid;
-		private var albums:DataGrid; 
+	public class BrowserView extends EventDispatcher{
+		private var genre:DataGrid;
+		private var artist:DataGrid;
+		private var album:DataGrid; 
 		private var model:BrowserModel;
 		private var playlistView:PlayListView;
-		public function BrowserView(genres:DataGrid, artists:DataGrid, albums:DataGrid, playlistView:PlayListView){
+		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
-			this.genres = genres;
-			this.artists = artists;  
-			this.albums = albums; 
+			this.genre = genre;
+			this.artist = artist;  
+			this.album = album; 
 			model = new BrowserModel();
 			this.playlistView = playlistView; 
 			this.playlistView.model = model.playlistModel;
-			genres.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
-			artists.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
-			albums.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
+			genre.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
+			artist.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
+			album.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed);
 			model.addEventListener(BrowserEvent.REFRESHED_PLAYLIST, onRefreshedPlayList);
 		}
@@ -59,12 +59,12 @@ package org.yass.main.view
 		}
 		private function onRefreshed(evt:BrowserEvent):void{
 			Console.log("view.BrowserView.onRefreshed types:" + evt.types);
-			if(evt.containsType("genres"))
-				genres.dataProvider = createAllRow("genres", model.genres);
-			if(evt.containsType("artists"))
-				artists.dataProvider = createAllRow("artists", model.artists);
-			if(evt.containsType("albums"))
-				albums.dataProvider = createAllRow("albums", model.albums);
+			if(evt.containsType("genre"))
+				genre.dataProvider = createAllRow("genre", model.genreArray);
+			if(evt.containsType("artist"))
+				artist.dataProvider = createAllRow("artist", model.artistArray);
+			if(evt.containsType("album"))
+				album.dataProvider = createAllRow("album", model.albumArray);
 		}
 		private function onRefreshedPlayList(evt:BrowserEvent):void{
 			Console.log("view.BrowserView.onRefreshedPlayList types:" + evt.types);
@@ -74,7 +74,7 @@ package org.yass.main.view
 			var arr:Array = new Array();
 			if(arrCol.length > 1){
 				var allRow = new Object();
-				allRow.name = "All (" + arrCol.length + " " + label+")";
+				allRow.value = "All (" + arrCol.length + " " + label+"s)";
 				allRow.id = -1;
 				arr.push(allRow)
 			}
@@ -82,6 +82,14 @@ package org.yass.main.view
 			arr = arr.concat(arrCol.toArray());
 			return arr;
 		}
-		
+		public function onClickPlayList(type:String, val:Value){
+			Console.group("view.BrowserView.onClickArtist " + val);
+			model.browseBy(type, this.artist.selectedIndices, [val])	
+			
+			this[type].dataProvider = createAllRow("artist", model[type+"Array"]);
+			this[type].selectedItem = val;
+			this[type].scrollToIndex(this[type].selectedIndex)
+			Console.groupEnd()		
+		}
 	}
 } 	

@@ -49,7 +49,7 @@ public class FilePlayList extends PlayList {
 			final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 			bw.write(name);
 			bw.newLine();
-			for (final String id : mediaFiles.keySet()) {
+			for (final String id : tracks.keySet()) {
 				bw.write(id);
 				bw.newLine();
 			}

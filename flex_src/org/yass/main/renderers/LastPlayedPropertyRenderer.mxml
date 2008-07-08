@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Label xmlns:mx="http://www.adobe.com/2006/mxml"   text="{data.genre.value}" 
+	click="{click()}"  useHandCursor="true" buttonMode="true"  height="100%"  mouseChildren="false" 
+	mouseOut="out()"
+	mouseOver="over()">
+	<mx:Script>
+		<![CDATA[
+			import org.yass.main.LibraryBrowser;
+			import org.yass.main.view.BrowserView;
+			import org.yass.main.view.PlayListView;
+			import mx.controls.Alert;
+			private function click():void{
+				((parent.parent.parent.parent as LibraryBrowser).browserView as BrowserView).onClickGenre(data.genre)
+			}
+			protected function over() : void			{
+				this.setStyle("textDecoration", "underline");
+				this.setStyle("fontWeight", "bold");
+			}
+			protected function out() : void			{
+				this.setStyle("textDecoration", "none");
+				this.setStyle("fontWeight", "normal");
+			}
+		]]>
+	</mx:Script>
+</mx:Label>

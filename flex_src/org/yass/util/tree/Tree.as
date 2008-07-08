@@ -31,7 +31,6 @@ package org.yass.util.tree
 			super("root", "root", -1)
 			Console.group("util.Tree :: Init " + xml.node.node.length());
 			this.accept(new NodeBuilder(xml));
-			Console.log("" + this);
 			Console.groupEnd();
 		}
 		

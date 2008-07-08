@@ -2,9 +2,9 @@ package org.yass.lucene;
 
 public interface Constants {
 
-	public static final String FACET_ARTIST = "FACET_ARTIST";
-	public static final String FACET_ALBUM = "FACET_ALBUM";
-	public static final String FACET_GENRE = "FACET_GENRE";
+	public static final String ARTIST_ID = "ARTIST_ID";
+	public static final String ALBUM_ID = "ALBUM_ID";
+	public static final String GENRE_ID = "GENRE_ID";
 	public static final String ARTIST = "ARTIST";
 	public static final String ALBUM = "ALBUM";
 	public static final String TRACK = "TRACK";
@@ -16,5 +16,5 @@ public interface Constants {
 	public static final String UNKNOWN_GENRE = "<Unknown Genre>";
 	public static final String UNKNOWN_ARTIST = "<Unknown Artist>";
 	public static final String UNKNOWN_ALBUM = "<Unknown Album>";
-	public static final String UNKNOWN_TITLE = "<Unknown Track Title>";
+	public static final String UNKNOWN_TITLE = "<Unknown TrackProperty Title>";
 }

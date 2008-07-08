@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:mp3="org.yass.main.mp3.*" xmlns:view="org.yass.main.view.*" creationComplete="init()">
 	<mx:DateFormatter id="dateFormatter" formatString="N:SS" /> 
-	<mx:Script source="includes/misc.as" />
 	<mx:Script> 
 		<![CDATA[
 			import org.yass.main.model.PlayListModel;
 			import org.yass.main.view.BrowserView;
 			import org.yass.main.model.BrowserModel;
 	    	[Bindable]
-			private var browserView:BrowserView;
+			public var browserView:BrowserView;
 			private function  init():void{
 				this.playList.model = new PlayListModel();
-				browserView = new BrowserView(genres, artists, albums, this.playList);
+				browserView = new BrowserView(genre, artist, album, this.playList);
 			}
 		]]>
 	</mx:Script>
 	<mx:VDividedBox right="0" left="0" top="0" bottom="0" verticalGap="5" horizontalAlign="center" verticalAlign="middle">
-		<mx:Canvas width="100%"  height="294" minHeight="200" >
-			<mx:HBox left="0" top="0" horizontalGap="0" height="100%" right="10" >
-				<mx:DataGrid id="genres" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+			<mx:HBox left="0" top="0" horizontalGap="5" width="100%"  height="294" minHeight="200"  right="10" >
+				<mx:DataGrid id="genre" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
 						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
 					<mx:columns>
-						<mx:DataGridColumn  sortDescending="false" dataField="name" headerText="Genres" draggable="false" sortable="false" />
+						<mx:DataGridColumn  sortDescending="false" dataField="value" headerText="Genres" draggable="false" sortable="false" />
 					</mx:columns>
 				</mx:DataGrid>
-				<mx:DataGrid id="artists" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+				<mx:DataGrid id="artist" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
 						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
 					<mx:columns>
-						<mx:DataGridColumn dataField="name" headerText="Artists" draggable="false" sortable="false" />
+						<mx:DataGridColumn dataField="value" headerText="Artists" draggable="false" sortable="false" />
 					</mx:columns>
 				</mx:DataGrid>
-				<mx:DataGrid id="albums"  doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
+				<mx:DataGrid id="album"  doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%"
 						 rowHeight="16" paddingBottom="0" paddingTop="0" alternatingItemColors="[#FFFFFF, #F8F8F8]">
 					<mx:columns>
-						<mx:DataGridColumn  dataField="name" headerText="Albums" draggable="false" sortable="false" />
+						<mx:DataGridColumn  dataField="value" headerText="Albums" draggable="false" sortable="false" />
 					</mx:columns>
 				</mx:DataGrid>
 			</mx:HBox>
-		</mx:Canvas>
-		<mx:Canvas x="10" y="0" width="100%" height="100%" minHeight="200"> 
-			<view:PlayListView  id="playList" right="10" left="0" top="0" bottom="10" alternatingItemColors="[#FFFFFF, #F2F2F2]" rowHeight="16" paddingBottom="0" paddingTop="0">
+			<view:PlayListView id="playList" right="10" left="0" top="0" bottom="10" alternatingItemColors="[#FFFFFF, #F2F2F2]" rowHeight="16" paddingBottom="0" paddingTop="0" width="100%" height="100%">
   				<view:columns>
+					<mx:DataGridColumn width="16" minWidth="16" resizable="false" sortable="false" draggable="false" itemRenderer="org.yass.main.renderers.PlayingNowRenderer"/> 
 					<mx:DataGridColumn headerText="Track" dataField="trackNr" width="40" resizable="false" draggable="false" textAlign="right" />
-					<mx:DataGridColumn headerText="Title" dataField="title" />
-					<mx:DataGridColumn headerText="Duration" dataField="length" textAlign="right" width="60" labelFunction="formatDurationColumn" />
-					<mx:DataGridColumn headerText="Artist" dataField="artist" />
-					<mx:DataGridColumn headerText="Album" dataField="album" />
+					<mx:DataGridColumn headerText="Title" dataField="title" width="400"/>
+					<mx:DataGridColumn headerText="Duration" dataField="length" textAlign="right" minWidth="60" itemRenderer="org.yass.main.renderers.DurationPropertyRenderer"/>
+					<mx:DataGridColumn headerText="Artist" dataField="artist" minWidth="150" itemRenderer="org.yass.main.renderers.PropertyRenderer"/>
+					<mx:DataGridColumn headerText="Album" dataField="album" minWidth="150" itemRenderer="org.yass.main.renderers.AlbumPropertyRenderer" />
+					<mx:DataGridColumn headerText="Rating"  dataField="rating" minWidth="80" resizable="false" width="80" itemRenderer="org.yass.main.renderers.RatingRenderer" />
 				</view:columns>
 			</view:PlayListView>
-		</mx:Canvas>
 	</mx:VDividedBox>
 </mx:Canvas>

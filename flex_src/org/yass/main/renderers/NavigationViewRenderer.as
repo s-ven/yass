@@ -1,4 +1,4 @@
-package org.yass.main
+package org.yass.main.renderers
 {
 	import mx.collections.*;
 	import mx.controls.Tree;
@@ -38,6 +38,8 @@ package org.yass.main
 	                this.label.x = this.label.x  = 20;;
 	            }
 	            else{
+	            	this.useHandCursor = true;
+	            	this.buttonMode = true;
 					this.enabled=true;
 	                this.setStyle("color","#000000");
 	                this.setStyle("fontWeight","normal");

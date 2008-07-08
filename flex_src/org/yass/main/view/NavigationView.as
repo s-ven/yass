@@ -34,7 +34,7 @@ package org.yass.main.view
 	
 	import org.yass.debug.log.Console;
 	import org.yass.main.MainPane;
-	import org.yass.main.NavigationViewRenderer;
+	import org.yass.main.renderers.NavigationViewRenderer;
 	import org.yass.main.controller.NavigationController;
 	import org.yass.main.events.NavigationEvent;
 	import org.yass.main.events.PlayListEvent;

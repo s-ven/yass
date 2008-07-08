@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" text="{formatDurationColumn(data.length)}" >
+<mx:Script>
+	<![CDATA[
+		import org.yass.main.LibraryBrowser;
+		import mx.controls.dataGridClasses.DataGridColumn;
+		private function formatDurationColumn(item:Object):String {
+			return (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, item, 0));  
+		}  
+	]]>
+</mx:Script>
+</mx:Label>

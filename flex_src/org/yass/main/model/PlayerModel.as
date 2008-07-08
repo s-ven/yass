@@ -30,6 +30,8 @@ package org.yass.main.model{
     import flash.net.URLRequest;
     
     import mx.core.UIComponent;
+    import mx.events.FlexEvent;
+    import mx.utils.ObjectProxy;
     
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
@@ -83,6 +85,10 @@ package org.yass.main.model{
                        
         public function play():void{
             Console.log("model.PlayerModel.play");
+	        if (position == 0){
+	        	loadedTrack.playCount ++;
+	        	loadedTrack.lastPlayed = new Date();
+	        }
 	        this.isPlaying = true;
 	        if(soundChannelInstance)
    				this.soundChannelInstance.stop();
@@ -99,12 +105,14 @@ package org.yass.main.model{
         }
         
         public function set loadedTrack(track:Object):void{
-        	this._loadedTrack = track;
-            Console.log("model.PlayerModel.loadTrack " + url);
-           	this.soundInstance = new Sound();
-           	soundInstance.load(new URLRequest(url));
-           	position = 0;
-            this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
+        	if(track){
+				this._loadedTrack = track;
+				Console.log("model.PlayerModel.loadTrack " + url);
+				this.soundInstance = new Sound();
+				soundInstance.load(new URLRequest(url));
+				position = 0;
+				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
+			}
         }
         public function get loadedTrack():Object{
         	return _loadedTrack;

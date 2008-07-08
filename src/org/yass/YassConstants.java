@@ -11,5 +11,6 @@ public interface YassConstants {
 	public static final String SMART_PLAYLISTS = "SMART_PLAYLIST";
 	public static final File PLAYLIST_ROOT = new File("PLAYLISTS/user");
 	public static final String ALL_LIBRARY = "ALL_LIBRARY";
+	public static final String LIB_XML_TREE = "LIB_XML_TREE";
 	public static final String CURRENT_LIB_PLAYLIST = "CURRENT_LIB_PLAYLIST";
 }

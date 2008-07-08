@@ -96,7 +96,7 @@ public class SearchQuery implements Constants {
 	 *          the artistsFilter to set
 	 */
 	public final void setArtistsFilter(final String[] artistsFilter) {
-		this.artistsFilter = createFilterQuery(artistsFilter, FACET_ARTIST);
+		this.artistsFilter = createFilterQuery(artistsFilter, ARTIST_ID);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SearchQuery implements Constants {
 	 *          the albumsFilter to set
 	 */
 	public final void setAlbumsFilter(final String[] albumsFilter) {
-		this.albumsFilter = createFilterQuery(albumsFilter, FACET_ALBUM);
+		this.albumsFilter = createFilterQuery(albumsFilter, ALBUM_ID);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class SearchQuery implements Constants {
 	 *          the genresFilter to set
 	 */
 	public final void setGenresFilter(final String[] genresFilter) {
-		this.genresFilter = createFilterQuery(genresFilter, FACET_GENRE);
+		this.genresFilter = createFilterQuery(genresFilter, GENRE_ID);
 	}
 
 	private BooleanQuery createFilterQuery(final String[] facets, final String fieldName) {
