@@ -36,7 +36,7 @@ package org.yass.main.model{
 		private var previousSelection:Object;
 		public function NavigationModel():void{
         	Console.log("model.NavigationModel :: init");
-			httpService.url="/flex/playlists.jsp";
+			httpService.url="/jsp/playlists.jsp";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
 			httpService.send();
