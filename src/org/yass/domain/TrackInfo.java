@@ -6,15 +6,15 @@ import java.util.Map;
 import org.jaudiotagger.tag.id3.valuepair.GenreTypes;
 import org.yass.lucene.Constants;
 
-public class TrackProperty implements Constants {
+public class TrackInfo implements Constants {
 
 	public static int UID_COUNTER = 0;
 	public String value;
 	public int id;
 	public String type;
-	private final static Map<String, TrackProperty> instances = new LinkedHashMap<String, TrackProperty>();
+	private final static Map<String, TrackInfo> instances = new LinkedHashMap<String, TrackInfo>();
 
-	public TrackProperty(final int id, final String value, final String type) {
+	public TrackInfo(final int id, final String value, final String type) {
 		this.type = type;
 		this.value = value;
 		this.id = UID_COUNTER++;
@@ -29,10 +29,10 @@ public class TrackProperty implements Constants {
 			this.value = UNKNOWN_GENRE;
 	}
 
-	public static TrackProperty get(final String value, final String type) {
-		TrackProperty prop = instances.get(type + "_" + value);
+	public static TrackInfo get(final String value, final String type) {
+		TrackInfo prop = instances.get(type + "_" + value);
 		if (prop == null)
-			instances.put(type + "_" + value, prop = new TrackProperty(0, value, type));
+			instances.put(type + "_" + value, prop = new TrackInfo(0, value, type));
 		return prop;
 	}
 }

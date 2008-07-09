@@ -16,5 +16,5 @@ public interface Constants {
 	public static final String UNKNOWN_GENRE = "<Unknown Genre>";
 	public static final String UNKNOWN_ARTIST = "<Unknown Artist>";
 	public static final String UNKNOWN_ALBUM = "<Unknown Album>";
-	public static final String UNKNOWN_TITLE = "<Unknown TrackProperty Title>";
+	public static final String UNKNOWN_TITLE = "<Unknown Title>";
 }

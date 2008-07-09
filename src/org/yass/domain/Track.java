@@ -17,7 +17,7 @@ import org.yass.lucene.Constants;
 public final class Track implements Constants {
 
 	private final String uuid;
-	private final Map<String, TrackProperty> properties = new LinkedHashMap<String, TrackProperty>();
+	private final Map<String, TrackInfo> properties = new LinkedHashMap<String, TrackInfo>();
 	private String title;
 	private String track;
 	private final String path;
@@ -35,9 +35,9 @@ public final class Track implements Constants {
 		final AudioFile audioFile = new MP3FileReader().read(file);
 		final Tag mp3Tag = audioFile.getTag();
 		length = audioFile.getAudioHeader().getTrackLength();
-		properties.put(ARTIST, new TrackProperty(0, mp3Tag.getFirstArtist().trim(), ARTIST));
-		properties.put(GENRE, new TrackProperty(0, mp3Tag.getFirstGenre().trim(), GENRE));
-		properties.put(ALBUM, new TrackProperty(0, mp3Tag.getFirstAlbum().trim(), ALBUM));
+		properties.put(ARTIST, new TrackInfo(0, mp3Tag.getFirstArtist().trim(), ARTIST));
+		properties.put(GENRE, new TrackInfo(0, mp3Tag.getFirstGenre().trim(), GENRE));
+		properties.put(ALBUM, new TrackInfo(0, mp3Tag.getFirstAlbum().trim(), ALBUM));
 		title = mp3Tag.getFirstTitle().trim();
 		if ("".equals(title))
 			title = UNKNOWN_TITLE;
@@ -49,14 +49,14 @@ public final class Track implements Constants {
 		uuid = java.util.UUID.nameUUIDFromBytes(path.getBytes()).toString();
 	}
 
-	public TrackProperty getProperty(final String type) {
+	public TrackInfo getProperty(final String type) {
 		return properties.get(type);
 	}
 
 	public Track(final Document doc) {
-		properties.put(ARTIST, TrackProperty.get(doc.getFieldable(ARTIST).stringValue(), ARTIST));
-		properties.put(GENRE, TrackProperty.get(doc.getFieldable(GENRE).stringValue(), GENRE));
-		properties.put(ALBUM, TrackProperty.get(doc.getFieldable(ALBUM).stringValue(), ALBUM));
+		properties.put(ARTIST, TrackInfo.get(doc.getFieldable(ARTIST).stringValue(), ARTIST));
+		properties.put(GENRE, TrackInfo.get(doc.getFieldable(GENRE).stringValue(), GENRE));
+		properties.put(ALBUM, TrackInfo.get(doc.getFieldable(ALBUM).stringValue(), ALBUM));
 		title = doc.getFieldable(TITLE).stringValue();
 		track = doc.getFieldable(TRACK).stringValue();
 		path = doc.getFieldable(PATH).stringValue();

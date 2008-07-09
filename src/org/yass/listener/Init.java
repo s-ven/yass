@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
 import org.yass.domain.PlayList;
 import org.yass.domain.Track;
-import org.yass.domain.TrackProperty;
+import org.yass.domain.TrackInfo;
 import org.yass.lucene.Constants;
 import org.yass.lucene.FilePlayList;
 import org.yass.lucene.IndexManager;
@@ -100,9 +100,9 @@ public class Init implements ServletContextListener, YassConstants, Constants {
 			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 			doc = builder.newDocument();
 			final Element treeNode = doc.createElement("libTree");
-			TrackProperty artist;
-			TrackProperty album;
-			TrackProperty genre;
+			TrackInfo artist;
+			TrackInfo album;
+			TrackInfo genre;
 			for (final Track track : pl.getMediaFiles()) {
 				boolean exists = false;
 				final NodeList genreList = treeNode.getChildNodes();
@@ -167,7 +167,7 @@ public class Init implements ServletContextListener, YassConstants, Constants {
 		return doc;
 	}
 
-	private Element makeNodeFromProp(final Document doc, final TrackProperty album) {
+	private Element makeNodeFromProp(final Document doc, final TrackInfo album) {
 		Element albNode;
 		albNode = doc.createElement("node");
 		albNode.setAttribute("id", "" + album.id);
