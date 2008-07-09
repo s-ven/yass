@@ -13,14 +13,14 @@ package org.yass{
 		
 		public static function get state():String{
 			// Playlist
-			var str:String = "[Player.loader]";
+			var str:String = "[Player.loadedPlayList]";
 			if(player.loadedPlayList){
 				str += "\n";
 				str += " - length " + player.loadedPlayList.length +"\n";
 				str += " - selectedIndex : " + player.loadedPlayList.trackIndex +"\n";
 	 			if( player.loadedTrack){
-					str += " - currentTrack.length : " +player.loadedTrack.length * 1000 +"\n";
-					str += " - currentTrack.UUID : " + player.loadedTrack.UUID +"\n";
+					str += " - loadedTrack.length : " +player.loadedTrack.length * 1000 +"\n";
+					str += " - loadedTrack.UUID : " + player.loadedTrack.UUID +"\n";
 	 			}
 			}else
 				str += " : NaN\n";
@@ -45,23 +45,7 @@ package org.yass{
 				str += " - scrollText.running : " + display.scrollText.running + "\n";
 				str += " - scrollText.currentIndex : " + display.scrollText.currentIndex +"\n";
 			}else
-				str += " : NaN\n";
-			str += " - display.spectrumAnalyzer.width :" +display.spectrumAnalyzer.width +"\n";
-			str += " - display.spectrumAnalyzer.height :" +display.spectrumAnalyzer.height +"\n";
-			str += " - display.spectrumAnalyzer.width :" +display.spectrumAnalyzer.width +"\n";
-			str += " - display.spectrumAnalyzer.alphaActive :" +display.spectrumAnalyzer.alphaActive +"\n";
-			str += " - display.spectrumAnalyzer.alphaInactive :" +display.spectrumAnalyzer.alphaInactive +"\n";
-			str += " - display.spectrumAnalyzer.alphaMax :" +display.spectrumAnalyzer.alphaMax +"\n";
-			str += " - display.spectrumAnalyzer.alphaTop :" +display.spectrumAnalyzer.alphaTop +"\n";
-			str += " - display.spectrumAnalyzer.colorActive :" +display.spectrumAnalyzer.colorActive +"\n";
-			str += " - display.spectrumAnalyzer.colorInactive :" +display.spectrumAnalyzer.colorInactive +"\n";
-			str += " - display.spectrumAnalyzer.colorMax :" +display.spectrumAnalyzer.colorMax +"\n";
-			str += " - display.spectrumAnalyzer.colorTop :" +display.spectrumAnalyzer.colorTop +"\n";
-			str += " - display.spectrumAnalyzer.visible :" +display.spectrumAnalyzer.visible +"\n";
-			str += " - display.spectrumAnalyzer.vuCount :" +display.spectrumAnalyzer.vuCount +"\n";
-			str += " - display.spectrumAnalyzer.vuLevels :" +display.spectrumAnalyzer.vuLevels +"\n";
-			str += " - display.spectrumAnalyzer.vuStep :" +display.spectrumAnalyzer.vuStep +"\n";
-			
+				str += " : NaN\n";			
 			str += " - display.currentDisplay :" +display.currentDisplay +"\n";
 			
 		return str;

@@ -1,7 +1,5 @@
 package org.yass.main.renderers
 {
-	import flash.events.MouseEvent;
-	
 	import mx.controls.Image;
 	import mx.controls.dataGridClasses.DataGridListData;
 	import mx.controls.listClasses.BaseListData;
@@ -10,18 +8,23 @@ package org.yass.main.renderers
 	import mx.events.FlexEvent;
 	
 	import org.yass.MP3;
-	import org.yass.debug.log.Console;
 	
 	public class PlayingNowRenderer extends UIComponent implements IListItemRenderer{
-		private var img:Image = new Image();
+		private var imgPlay:Image = new Image();
+		private var imgLoaded:Image = new Image();
 		private var _data:Object;
 		private var _listData:BaseListData;
 		public function PlayingNowRenderer() {
 			super();
-			this.img.source = '/assets/playlst_play.png';
-			this.img.visible = false;
-			img.move(2, 2);
-			img.setActualSize(12,12);
+			this.imgPlay.source = '/assets/playlst_play.png';
+			this.imgLoaded.source = '/assets/arrow-up.png';
+			this.imgPlay.visible = false;
+			this.imgLoaded.visible = false;
+			imgPlay.move(2,2);
+			imgPlay.setActualSize(12,12);
+			
+			imgLoaded.move(5, 6);
+			imgLoaded.setActualSize(6,4);
 		}
 
 		public function get data():Object{
@@ -36,7 +39,8 @@ package org.yass.main.renderers
 	    }
 	    override protected function createChildren() : void		{
 			super.createChildren();
-			addChild(img);
+			addChild(imgLoaded);
+			addChild(imgPlay);
 		}
 		public function set listData(value:BaseListData):void{
 			this._listData = DataGridListData(value);
@@ -47,10 +51,8 @@ package org.yass.main.renderers
 		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
-			if(data && data.valueOf() == MP3.player.loadedTrack && MP3.player.isPlaying)
-				img.visible = true;
-			else
-				img.visible = false;		
+			imgLoaded.visible = data && data.isLoaded;		
+			imgPlay.visible = imgLoaded.visible && MP3.player.isPlaying;
 		}
 	}
 }

@@ -106,10 +106,13 @@ package org.yass.main.model
             if(MP3.player.shuffle)
 	           	trackIndex = getNextShuffledTrack();
 	        else{
-	            if(trackIndex < length - 1)
-	            	trackIndex += 1;
-	            else if(loop)
-	                	trackIndex = 0;      
+				if(trackIndex < length - 1)
+					trackIndex += 1;
+				else if(loop)
+					trackIndex = 0;
+				else
+					return null;
+	                	 
 	        }
 			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 			return selectedTrack;
@@ -124,6 +127,8 @@ package org.yass.main.model
                		trackIndex -= 1;
             	else if(loop)
                 	trackIndex = length -1;
+				else
+					return null;
 			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 			return selectedTrack;
 		}        
@@ -135,13 +140,12 @@ package org.yass.main.model
 			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
 				// Fills the Model datas with the result of the httpService object
 				datas = new ArrayCollection();
-				datas.addEventListener(CollectionEvent.COLLECTION_CHANGE, sortDatasHandler);
 				if(httpService.lastResult.tracks)
 					if(httpService.lastResult.tracks.track is ArrayCollection)
 						 for(var i:Object in httpService.lastResult.tracks.track)
 						 	datas.addItem(new ObjectProxy(new Track(httpService.lastResult.tracks.track[i])));
 					else
-						datas.addItem(httpService.lastResult.tracks.track);
+						datas.addItem(new ObjectProxy(httpService.lastResult.tracks.track));
   				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
 				obj.dataProvider = datas;
 				obj.enabled = true;

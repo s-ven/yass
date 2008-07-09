@@ -30,11 +30,10 @@ package org.yass.main.model{
     import flash.net.URLRequest;
     
     import mx.core.UIComponent;
-    import mx.events.FlexEvent;
-    import mx.utils.ObjectProxy;
     
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
+    import org.yass.main.events.TrackEvent;
     import org.yass.main.model.interfaces.IPlayListModel;
     import org.yass.main.model.interfaces.IPlayerModel;
     
@@ -86,6 +85,7 @@ package org.yass.main.model{
         public function play():void{
             Console.log("model.PlayerModel.play");
 	        if (position == 0){
+				soundInstance.load(new URLRequest(url));
 	        	loadedTrack.playCount ++;
 	        	loadedTrack.lastPlayed = new Date();
 	        }
@@ -109,9 +109,9 @@ package org.yass.main.model{
 				this._loadedTrack = track;
 				Console.log("model.PlayerModel.loadTrack " + url);
 				this.soundInstance = new Sound();
-				soundInstance.load(new URLRequest(url));
 				position = 0;
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
+				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 			}
         }
         public function get loadedTrack():Object{
@@ -143,12 +143,16 @@ package org.yass.main.model{
 		public function next():void{
 			Console.log("model.PlayerModel.next");
        		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
+        	if(!loadedTrack)
+        		stop();
         	if(isPlaying)
         		play();
 		}   
 		public function previous():void{
 			Console.log("model.PlayerModel.previous");
        		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
+        	if(!loadedTrack)
+        		stop();
         	if(isPlaying)
         		play();
 		}   

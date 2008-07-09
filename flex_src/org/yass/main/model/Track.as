@@ -1,5 +1,6 @@
 package org.yass.main.model
 {
+	import org.yass.MP3;
 	import org.yass.util.tree.Value;
 	public class Track{
 		public var UUID:String
@@ -27,5 +28,14 @@ package org.yass.main.model
 			this.genre = BrowserModel.dict["GENRE_" + obj.genre];
 			this.album = BrowserModel.dict["ALBUM_" + obj.album];
 		}
+		
+		public function get isLoaded():Boolean{
+			return MP3.player.loadedTrack == this
+		}
+		public function get isPlaying():Boolean{
+			return MP3.player.loadedTrack == this && MP3.player.isPlaying;
+		}
+		
+		
 	}
 }
