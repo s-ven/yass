@@ -165,6 +165,8 @@ package org.yass.main.model{
         			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         		play();				
 			}
+			if(loadedPlayList)
+				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 		}
         
         /**
