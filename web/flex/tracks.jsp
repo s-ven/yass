@@ -7,6 +7,8 @@
 <tracks><%
  	PlayList msr = (PlayList) session.getAttribute(YassConstants.CURRENT_PLAYLIST);
  	for (Track mf : msr.getMediaFiles()) {
+ 		
+ 		
 %>
  <track UUID="<%=mf.getUuid() %>" trackNr="<%=mf.getTrack() %>" title="<%=StringEscapeUtils.escapeXml(mf.getTitle())%>" artist="<%=mf.getProperty(Constants.ARTIST).id%>" album="<%=mf.getProperty(Constants.ALBUM).id%>" genre="<%=mf.getProperty(Constants.GENRE).id%>" length="<%=mf.getLength() %>"/> <%
  	}
