@@ -43,7 +43,7 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	protected String refreshPlayList(final String playListId) {
 		try {
-			setPlayList(playListId, getIndexManager().search(getSearchQuery()));
+			setPlayList(playListId, getIndexManager().search(getSearchQuery(), new PlayList()));
 		} catch (final IOException e) {
 			return ERROR;
 		}
@@ -54,7 +54,11 @@ public class YassAction extends ActionSupport implements YassConstants {
 		ActionContext.getContext().getSession().put(playListId, search);
 	}
 
-	protected Map<String, PlayList> getPlayLists() {
-		return (Map<String, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
+	protected Map<Integer, PlayList> getPlayLists() {
+		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
+	}
+
+	public PlayList getAllLibrary() {
+		return (PlayList) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
 	}
 }

@@ -36,10 +36,6 @@ import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.FieldCache.StringIndex;
 import org.apache.lucene.store.LockObtainFailedException;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.tag.TagException;
-import org.yass.domain.LibraryPlayList;
 import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.util.FileUtils;
@@ -97,25 +93,20 @@ public final class IndexManager implements Constants {
 					try {
 						final Track track = new Track(file);
 						// Add the fields for the search
-						doc.add(new Field(ARTIST, track.getProperty(ARTIST).value, Store.YES, Index.TOKENIZED));
-						doc.add(new Field(ALBUM, track.getProperty(ALBUM).value, Store.YES, Index.TOKENIZED));
-						doc.add(new Field(GENRE, track.getProperty(GENRE).value, Store.YES, Index.TOKENIZED));
+						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).value, Store.YES, Index.TOKENIZED));
+						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).value, Store.YES, Index.TOKENIZED));
+						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).value, Store.YES, Index.TOKENIZED));
 						doc.add(new Field(TITLE, track.getTitle(), Store.YES, Index.TOKENIZED));
-						doc.add(new Field(TRACK, track.getTrack(), Store.YES, Index.TOKENIZED));
+						doc.add(new Field(TRACK, track.getTrackNr() + "", Store.YES, Index.TOKENIZED));
 						doc.add(new Field(PATH, track.getPath(), Store.YES, Index.UN_TOKENIZED));
 						// TODO : Use a formatter
 						doc.add(new Field(LENGTH, "" + track.getLength(), Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(ARTIST, track.getProperty(ARTIST).id + "", Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(ALBUM, track.getProperty(ALBUM).id + "", Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(GENRE, track.getProperty(GENRE).id + "", Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(UUID, track.getUuid(), Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).id + "", Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).id + "", Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).id + "", Store.YES, Index.UN_TOKENIZED));
 						LOG.info("Indexing MP3 File : " + ++currentMediaFileIndex + "/" + mediaFilesCount);
 						iw.addDocument(doc);
-					} catch (final InvalidAudioFrameException e) {
-						LOG.warn("Error while parsing file " + file, e);
-					} catch (final ReadOnlyFileException e) {
-						LOG.warn("Error while rereshing metadata index", e);
-					} catch (final TagException e) {
+					} catch (final Exception e) {
 						LOG.warn("Error while refreshing metadata index", e);
 					}
 				}
@@ -139,7 +130,7 @@ public final class IndexManager implements Constants {
 	 * @return
 	 * @throws IOException
 	 */
-	public PlayList search(final SearchQuery searchQuery) throws IOException {
+	public PlayList search(final SearchQuery searchQuery, final PlayList plst) throws IOException {
 		final BitSet bitSet = new BitSet(indexSearcher.getIndexReader().numDocs());
 		final Query query = searchQuery.getQuery();
 		final QueryWrapperFilter filter = searchQuery.getFilter();
@@ -160,9 +151,8 @@ public final class IndexManager implements Constants {
 			bitSet.and(filter.bits(indexSearcher.getIndexReader()));
 		// Iterate through the bitset and create MediaFiles objects
 		int docIndex = -1;
-		final LibraryPlayList searchResults = new LibraryPlayList();
 		while ((docIndex = bitSet.nextSetBit(docIndex + 1)) > -1)
-			searchResults.add(new Track(indexSearcher.doc(docIndex, new FieldSelector() {
+			plst.add(new Track(indexSearcher.doc(docIndex, new FieldSelector() {
 
 				public FieldSelectorResult accept(final String fieldName) {
 					if (ALBUM_ID.equals(fieldName) || ARTIST_ID.equals(fieldName) || GENRE_ID.equals(fieldName)
@@ -173,7 +163,7 @@ public final class IndexManager implements Constants {
 					return FieldSelectorResult.NO_LOAD;
 				}
 			})));
-		return searchResults;
+		return plst;
 	}
 
 	/**

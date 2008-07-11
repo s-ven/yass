@@ -4,6 +4,7 @@ import java.io.File;
 
 public interface YassConstants {
 
+	public static final String YASS_HOME = "yass";
 	public static final String INDEX_MANAGER = "INDEX_MANAGER";
 	public static final String BROWSING_CONTEXT = "BROWSING_CONTEXT";
 	public static final String CURRENT_PLAYLIST = "CURRENT_PLAYLIST";

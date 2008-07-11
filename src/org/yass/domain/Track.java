@@ -2,66 +2,96 @@ package org.yass.domain;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.lucene.document.Document;
-import org.jaudiotagger.audio.AudioFile;
-import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
-import org.jaudiotagger.audio.mp3.MP3FileReader;
-import org.jaudiotagger.tag.Tag;
-import org.jaudiotagger.tag.TagException;
 import org.yass.lucene.Constants;
 
 public final class Track implements Constants {
 
-	private final String uuid;
-	private final Map<String, TrackInfo> properties = new LinkedHashMap<String, TrackInfo>();
+	private final Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
 	private String title;
-	private String track;
-	private final String path;
-	private final int length;
+	private int trackNr;
+	private String path;
+	private long length;
+	private int id;
+	private LibraryPlayList library;
+	private Date lastUpdate = new Date(0);
+	private int rating = 0;
+	private int playCount = 0;
+
+	public void setTrackInfo(final String type, final TrackInfo trackInfo) {
+		trackInfos.put(type, trackInfo);
+	}
+
+	/**
+	 * @param library
+	 *          the library to set
+	 */
+	public final void setLibrary(final LibraryPlayList library) {
+		this.library = library;
+	}
+
+	/**
+	 * @return the library
+	 */
+	public final LibraryPlayList getLibrary() {
+		return library;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *          the id to set
+	 */
+	public final void setId(final int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param title
+	 *          the title to set
+	 */
+	public final void setTitle(final String title) {
+		this.title = title;
+	}
 
 	/**
 	 * @return the length
 	 */
-	public final int getLength() {
+	public final long getLength() {
 		return length;
 	}
 
-	public Track(final File file) throws IOException, TagException, ReadOnlyFileException, InvalidAudioFrameException {
-		// TODO : Use regexp to parse tags
-		final AudioFile audioFile = new MP3FileReader().read(file);
-		final Tag mp3Tag = audioFile.getTag();
-		length = audioFile.getAudioHeader().getTrackLength();
-		properties.put(ARTIST, new TrackInfo(0, mp3Tag.getFirstArtist().trim(), ARTIST));
-		properties.put(GENRE, new TrackInfo(0, mp3Tag.getFirstGenre().trim(), GENRE));
-		properties.put(ALBUM, new TrackInfo(0, mp3Tag.getFirstAlbum().trim(), ALBUM));
-		title = mp3Tag.getFirstTitle().trim();
-		if ("".equals(title))
-			title = UNKNOWN_TITLE;
-		track = mp3Tag.getFirstTrack().trim();
-		int slashIndex;
-		if ((slashIndex = track.indexOf('/')) > 0)
-			track = track.substring(0, slashIndex);
-		path = file.getPath();
-		uuid = java.util.UUID.nameUUIDFromBytes(path.getBytes()).toString();
+	public Track(final File file) throws IOException {
 	}
 
-	public TrackInfo getProperty(final String type) {
-		return properties.get(type);
+	public TrackInfo getTrackInfo(final String type) {
+		return trackInfos.get(type);
 	}
 
 	public Track(final Document doc) {
-		properties.put(ARTIST, TrackInfo.get(doc.getFieldable(ARTIST).stringValue(), ARTIST));
-		properties.put(GENRE, TrackInfo.get(doc.getFieldable(GENRE).stringValue(), GENRE));
-		properties.put(ALBUM, TrackInfo.get(doc.getFieldable(ALBUM).stringValue(), ALBUM));
+		trackInfos.put(ARTIST, TrackInfo.getFromValue(doc.getFieldable(ARTIST).stringValue(), ARTIST));
+		trackInfos.put(GENRE, TrackInfo.getFromValue(doc.getFieldable(GENRE).stringValue(), GENRE));
+		trackInfos.put(ALBUM, TrackInfo.getFromValue(doc.getFieldable(ALBUM).stringValue(), ALBUM));
 		title = doc.getFieldable(TITLE).stringValue();
-		track = doc.getFieldable(TRACK).stringValue();
+		final String trackNr = doc.getFieldable(TRACK).stringValue();
+		if (!"".equals(trackNr))
+			this.trackNr = Integer.parseInt(trackNr);
+		else
+			this.trackNr = -1;
 		path = doc.getFieldable(PATH).stringValue();
 		length = Integer.parseInt(doc.getFieldable(LENGTH).stringValue());
-		uuid = java.util.UUID.nameUUIDFromBytes(path.getBytes()).toString();
+		lastUpdate = new Date();
 	}
 
 	/**
@@ -72,10 +102,17 @@ public final class Track implements Constants {
 	}
 
 	/**
-	 * @return the track
+	 * @return the trackNr
 	 */
-	public final String getTrack() {
-		return track;
+	public final int getTrackNr() {
+		return trackNr;
+	}
+
+	/**
+	 * @return the lastUpdate
+	 */
+	public final Date getLastUpdate() {
+		return lastUpdate;
 	}
 
 	/**
@@ -85,10 +122,97 @@ public final class Track implements Constants {
 		return path;
 	}
 
+	public Collection<TrackInfo> getTrackInfos() {
+		return trackInfos.values();
+	}
+
+	public void setTrackInfos(final Collection<TrackInfo> infos) {
+		for (final TrackInfo trackInfo : infos)
+			trackInfos.put(trackInfo.type, trackInfo);
+	}
+
 	/**
-	 * @return the uuid
+	 * @param id
+	 * @param path
+	 * @param title
+	 * @param trackNr
+	 * @param length
+	 * @param lastUpdate
 	 */
-	public final String getUuid() {
-		return uuid;
+	public Track(final int id, final String path, final String title, final int trackNr, final int length,
+			final Date lastUpdate, final int playCount, final int rating) {
+		this.id = id;
+		this.path = path;
+		this.title = title;
+		this.trackNr = trackNr;
+		this.length = length;
+		this.lastUpdate = lastUpdate;
+		this.playCount = playCount;
+		this.rating = rating;
+	}
+
+	public Track() {
+	}
+
+	/**
+	 * @return the rating
+	 */
+	public final int getRating() {
+		return rating;
+	}
+
+	/**
+	 * @param rating
+	 *          the rating to set
+	 */
+	public final void setRating(final int rating) {
+		this.rating = rating;
+	}
+
+	/**
+	 * @return the playCount
+	 */
+	public final int getPlayCount() {
+		return playCount;
+	}
+
+	/**
+	 * @param playCount
+	 *          the playCount to set
+	 */
+	public final void setPlayCount(final int playCount) {
+		this.playCount = playCount;
+	}
+
+	/**
+	 * @param trackNr
+	 *          the trackNr to set
+	 */
+	public final void setTrackNr(final int trackNr) {
+		this.trackNr = trackNr;
+	}
+
+	/**
+	 * @param path
+	 *          the path to set
+	 */
+	public final void setPath(final String path) {
+		this.path = path;
+	}
+
+	/**
+	 * @param length
+	 *          the length to set
+	 */
+	public final void setLength(final long length) {
+		this.length = length;
+	}
+
+	/**
+	 * @param lastUpdate
+	 *          the lastUpdate to set
+	 */
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 }

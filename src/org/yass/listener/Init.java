@@ -1,8 +1,6 @@
 package org.yass.listener;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -16,13 +14,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
+import org.yass.dao.DaoHelper;
+import org.yass.dao.LibraryDao;
+import org.yass.domain.LibraryPlayList;
+import org.yass.domain.MetadataReader;
 import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 import org.yass.lucene.Constants;
-import org.yass.lucene.FilePlayList;
 import org.yass.lucene.IndexManager;
-import org.yass.lucene.SearchQuery;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -49,41 +49,38 @@ public class Init implements ServletContextListener, YassConstants, Constants {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
+		final DaoHelper daoHelper = new DaoHelper();
 		final ServletContext servletContext = event.getServletContext();
 		initThread = new Thread(new Runnable() {
 
 			public void run() {
-				final IndexManager mib = new IndexManager(servletContext.getInitParameter("org.yass.mediaFilesRoot"),
-						servletContext.getInitParameter("org.yass.metadataIndexRoot"));
+				final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
+				final IndexManager mib = new IndexManager(trackroot, servletContext
+						.getInitParameter("org.yass.metadataIndexRoot"));
 				mib.setMediaFilesExtensions(servletContext.getInitParameter("org.yass.mediaFilesExtensions"));
 				servletContext.setAttribute(INDEX_MANAGER, mib);
 				mib.createIndex();
-				// Loads user playlists
-				final HashMap<String, PlayList> userPl = getUserPlayLists(mib);
-				final File plRoot = new File("PLAYLISTS/user");
-				if (!plRoot.exists())
-					plRoot.mkdirs();
-				for (final File plFile : plRoot.listFiles(new FileFilter() {
-
-					public boolean accept(final File pathname) {
-						return pathname.getName().endsWith(".txt");
-					}
-				})) {
-					final FilePlayList fpl = new FilePlayList(plFile, mib);
-					userPl.put(fpl.id, fpl);
-				}
-				servletContext.setAttribute(USER_PLAYLISTS, userPl);
 				try {
-					final PlayList plst = mib.search(new SearchQuery());
-					servletContext.setAttribute(ALL_LIBRARY, plst);
-					servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(plst));
-				} catch (final IOException e) {
+					final LibraryDao libDao = new LibraryDao();
+					// final LibraryPlayList lib = new LibraryPlayList(0, trackroot, new
+					// Date());
+					// libDao.saveLibrary(lib);
+					// mib.search(new SearchQuery(), lib);// libDao.getFromId(1);
+					LibraryPlayList lib = libDao.getFromId(1);
+					if (lib == null) {
+						lib = new LibraryPlayList(0, trackroot, new Date());
+						libDao.saveLibrary(lib);
+						new MetadataReader().scanLibrary(lib);
+					}
+					servletContext.setAttribute(ALL_LIBRARY, lib);
+					servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
+				} catch (final Exception e) {
 					e.printStackTrace();
 				}
 			}
 
-			private HashMap<String, PlayList> getUserPlayLists(final IndexManager mib) {
-				final HashMap<String, PlayList> userPl = new LinkedHashMap<String, PlayList>();
+			private HashMap<Integer, PlayList> getUserPlayLists(final IndexManager mib) {
+				final HashMap<Integer, PlayList> userPl = new LinkedHashMap<Integer, PlayList>();
 				return userPl;
 			}
 		});
@@ -103,18 +100,18 @@ public class Init implements ServletContextListener, YassConstants, Constants {
 			TrackInfo artist;
 			TrackInfo album;
 			TrackInfo genre;
-			for (final Track track : pl.getMediaFiles()) {
+			for (final Track track : pl.getTracks()) {
 				boolean exists = false;
 				final NodeList genreList = treeNode.getChildNodes();
 				Element albNode;
 				Element artistNode;
 				Element genreNode;
-				artist = track.getProperty(ARTIST);
-				album = track.getProperty(ALBUM);
-				genre = track.getProperty(GENRE);
+				artist = track.getTrackInfo(ARTIST);
+				album = track.getTrackInfo(ALBUM);
+				genre = track.getTrackInfo(GENRE);
 				for (int i = 0; i < genreList.getLength(); i++) {
 					genreNode = (Element) genreList.item(i);
-					if (genreNode.getAttribute("value").equals(genre.value)) {
+					if (genre != null && genreNode.getAttribute("value").equals(genre.value)) {
 						// If this genre already exists, will populate the corresponding
 						// node
 						// with
@@ -151,7 +148,7 @@ public class Init implements ServletContextListener, YassConstants, Constants {
 					if (exists)
 						break;
 				}
-				if (!exists) {
+				if (genre != null && !exists) {
 					artistNode = makeNodeFromProp(doc, artist);
 					albNode = makeNodeFromProp(doc, album);
 					genreNode = makeNodeFromProp(doc, genre);

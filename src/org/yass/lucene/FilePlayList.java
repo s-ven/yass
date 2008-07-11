@@ -34,7 +34,7 @@ public class FilePlayList extends PlayList {
 			} catch (final IOException e) {
 				e.printStackTrace();
 			}
-		id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
+		// id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
 	}
 
 	public FilePlayList(final String name) {
@@ -42,14 +42,14 @@ public class FilePlayList extends PlayList {
 	}
 
 	public void save() {
-		id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
+		// id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
 		final File file = new File(PLAYLIST_ROOT, id + ".txt");
 		try {
 			file.createNewFile();
 			final BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 			bw.write(name);
 			bw.newLine();
-			for (final String id : tracks.keySet()) {
+			for (final int id : tracks.keySet()) {
 				bw.write(id);
 				bw.newLine();
 			}

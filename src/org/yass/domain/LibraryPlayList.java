@@ -1,56 +1,33 @@
 package org.yass.domain;
 
-import java.util.Collection;
+import java.util.Date;
 
+import org.yass.dao.TrackDao;
 
 public class LibraryPlayList extends PlayList {
 
-	private Collection<String> genres;
-	private Collection<String> artists;
-	private Collection<String> albums;
+	public String path;
+	public Date lastUpdate = new Date();
+	private final TrackDao trackDao = new TrackDao();
 
 	/**
-	 * @param genres
-	 *          the genres to set
+	 * @param path
+	 * @param lastUpdate
 	 */
-	public final void setGenres(final Collection<String> genres) {
-		this.genres = genres;
+	public LibraryPlayList(final int id, final String path, final Date lastUpdate) {
+		super();
+		this.id = id;
+		this.path = path;
+		this.lastUpdate = lastUpdate;
 	}
 
 	/**
-	 * @param artists
-	 *          the artists to set
+	 * @param tracks
+	 *          the tracks to set
 	 */
-	public final void setArtists(final Collection<String> artists) {
-		this.artists = artists;
-	}
-
-	/**
-	 * @param albums
-	 *          the albums to set
-	 */
-	public final void setAlbums(final Collection<String> albums) {
-		this.albums = albums;
-	}
-
-	/**
-	 * @return the genres
-	 */
-	public final Collection<String> getGenres() {
-		return genres;
-	}
-
-	/**
-	 * @return the artists
-	 */
-	public final Collection<String> getArtists() {
-		return artists;
-	}
-
-	/**
-	 * @return the albums
-	 */
-	public final Collection<String> getAlbums() {
-		return albums;
+	@Override
+	public final void add(final Track track) {
+		track.setLibrary(this);
+		super.add(track);
 	}
 }

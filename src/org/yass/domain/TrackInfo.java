@@ -1,38 +1,28 @@
 package org.yass.domain;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.jaudiotagger.tag.id3.valuepair.GenreTypes;
+import org.yass.dao.TrackInfoDao;
 import org.yass.lucene.Constants;
 
 public class TrackInfo implements Constants {
 
+	public static final TrackInfoDao dao = new TrackInfoDao();
 	public static int UID_COUNTER = 0;
 	public String value;
 	public int id;
 	public String type;
-	private final static Map<String, TrackInfo> instances = new LinkedHashMap<String, TrackInfo>();
 
-	public TrackInfo(final int id, final String value, final String type) {
+	public TrackInfo(final int id, final String type, final String value) {
 		this.type = type;
 		this.value = value;
-		this.id = UID_COUNTER++;
-		if (ARTIST.equals(type) && "".equals(value))
-			this.value = UNKNOWN_ARTIST;
-		if (ALBUM.equals(type) && "".equals(value))
-			this.value = UNKNOWN_ALBUM;
-		if (GENRE.equals(type) && value.startsWith("("))
-			this.value = GenreTypes.getInstanceOf().getValueForId(Integer.parseInt(value.substring(1, value.indexOf(')'))))
-					.trim();
-		if (GENRE.equals(type) && "".equals(value))
-			this.value = UNKNOWN_GENRE;
+		this.id = id;
 	}
 
-	public static TrackInfo get(final String value, final String type) {
-		TrackInfo prop = instances.get(type + "_" + value);
-		if (prop == null)
-			instances.put(type + "_" + value, prop = new TrackInfo(0, value, type));
-		return prop;
+	public static TrackInfo getFromValue(final String value, final String type) {
+		return dao.getFromValue(value.trim(), type);
+	}
+
+	@Override
+	public final String toString() {
+		return "{id:" + id + ",type:\"" + type + "\",value:\"" + value + "\"}";
 	}
 }

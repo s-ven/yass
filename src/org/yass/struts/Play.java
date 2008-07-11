@@ -13,7 +13,7 @@ import org.yass.domain.Track;
 
 public class Play extends YassAction implements YassConstants {
 
-	private String UUID;
+	private int id;
 	/**
 	 * 
 	 */
@@ -21,7 +21,7 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final Track mf = getAllLibraryList().getMediaFile(UUID);
+		final Track mf = getAllLibraryList().getMediaFile(id);
 		final File toPlayr = new File(mf.getPath());
 		OutputStream out = null;
 		InputStream fis = null;
@@ -55,17 +55,10 @@ public class Play extends YassAction implements YassConstants {
 	}
 
 	/**
-	 * @return the keywords
-	 */
-	public final String getUUID() {
-		return UUID;
-	}
-
-	/**
 	 * @param keywords
 	 *          the keywords to set
 	 */
-	public final void setUUID(final String UUID) {
-		this.UUID = UUID;
+	public final void setId(final int id) {
+		this.id = id;
 	}
 }
