@@ -5,8 +5,8 @@
 		import org.yass.main.LibraryBrowser;
 		import mx.controls.dataGridClasses.DataGridColumn;
 		private function formatDurationColumn(item:Object):String {
-			return (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, item, 0));  
+			return  (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, item));  
 		}  
 	]]>
 </mx:Script>
-</mx:Label>
+</mx:Label>  

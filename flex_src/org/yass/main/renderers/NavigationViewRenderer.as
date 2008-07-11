@@ -13,28 +13,14 @@ package org.yass.main.renderers
         public function NavigationViewRenderer(){
              super();
         }
-        
-        override protected function createChildren():void{
-            super.createChildren();
-		}
-        
         override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void{
-            var treeListData:TreeListData=TreeListData(listData);
-            super.updateDisplayList(unscaledWidth,unscaledHeight);
-			//updateDisplay(treeListData.item)
 			var obj:Object = super.data; 
-
-        }
-        override public function set data(obj:Object):void   {
-        
-        	super.data = obj;
         	if(obj){
 				var __tree:Tree = Tree(this.parent.parent);
 	        	if(obj.@type == "void"){
 	               	if(icon)
 	                this.enabled=false;
 	                this.setStyle("fontWeight","bold");
-	               // this.disclosureIcon.x = this.disclosureIcon.x  = 5;;
 	                this.label.x = this.label.x  = 20;;
 	            }
 	            else{
@@ -52,6 +38,8 @@ package org.yass.main.renderers
 						__tree.setItemIcon(obj, userPlIcon, userPlIcon);
 		    	}
 	    	}
-		}
+            super.updateDisplayList(unscaledWidth,unscaledHeight);
+
+        }
 	}
 }

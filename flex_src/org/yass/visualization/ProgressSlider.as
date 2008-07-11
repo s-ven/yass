@@ -30,7 +30,7 @@ package org.yass.visualization
 			if(MP3.player.isPlaying){
 				value = MP3.player.position;
 				if(!MP3.player.isPaused && MP3.player.loadedTrack)
-					maximum = Math.max(MP3.player.loadedTrack.length * 1000, MP3.player.loadedLengh);
+					maximum = Math.max(MP3.player.loadedTrack.length, MP3.player.loadedLength);
 				else maximum = 0;
 				this.visible = true;
 			}

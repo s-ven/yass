@@ -102,13 +102,13 @@ package org.yass.main.view
 			for(var i:Object in selected){
 				var item = selected[i]
 				if(item)
-					uids.push(item.UUID);
+					uids.push(item.id);
 			}
 			Console.log("view.NavigationView.gragDropHandler :: " + uids);
 			var svc:HTTPService = new HTTPService();
 			svc.url = "/yass/playlist_addto.do";
 			var data:Object=new Object();
-			data.UUIDs = uids
+			data.ids = uids
 			data.id= event.currentTarget.selectedItem.@id;
 			svc.send(data);
 		}

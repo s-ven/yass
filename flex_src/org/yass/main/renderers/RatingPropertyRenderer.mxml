@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
-	<mx:Image source="/assets/rating_0.png"/>
-	<mx:Image source="/assets/rating_off.png"/>
-	<mx:Image source="/assets/rating_off.png"/>
-	<mx:Image source="/assets/rating_off.png"/>
-	<mx:Image source="/assets/rating_off.png"/>
-</mx:HBox>

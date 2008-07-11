@@ -3,7 +3,7 @@ package org.yass.main.model
 	import org.yass.MP3;
 	import org.yass.util.tree.Value;
 	public class Track{
-		public var UUID:String
+		public var id:String
 		public var trackNr:int
 		public var title:String
 		public var track:String
@@ -15,7 +15,7 @@ package org.yass.main.model
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
 		public function Track(obj:Object):void		{
-			this.UUID = obj.UUID;
+			this.id = obj.id;
 			this.trackNr = obj.trackNr;
 			this.title = obj.title;
 			this.track = obj.track;

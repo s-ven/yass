@@ -16,15 +16,14 @@ package org.yass.main.renderers
 		private var _listData:BaseListData;
 		public function PlayingNowRenderer() {
 			super();
-			this.imgPlay.source = '/assets/playlst_play.png';
-			this.imgLoaded.source = '/assets/arrow-up.png';
+			this.imgPlay.source = '/assets/playlist_play.png';
+			this.imgLoaded.source = '/assets/playlist_loaded.png';
 			this.imgPlay.visible = false;
 			this.imgLoaded.visible = false;
 			imgPlay.move(2,2);
 			imgPlay.setActualSize(12,12);
-			
-			imgLoaded.move(5, 6);
-			imgLoaded.setActualSize(6,4);
+			imgLoaded.move(2, 2); 	
+			imgLoaded.setActualSize(12,12);
 		}
 
 		public function get data():Object{
@@ -33,7 +32,6 @@ package org.yass.main.renderers
 		
 		public function set data(value:Object):void{
 	        _data = value;	    
-			if(data);
 	    	invalidateProperties();
 	        dispatchEvent(new FlexEvent(FlexEvent.DATA_CHANGE));
 	    }

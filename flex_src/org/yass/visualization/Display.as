@@ -142,7 +142,7 @@ package org.yass.visualization
 			if(MP3.player.loadedTrack){
 				trackLabel.text = MP3.player.loadedTrack.title;
 				elapsed.text = formatPos(MP3.player.position);
-				remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLengh - MP3.player.position):formatPos(MP3.player.loadedLengh);
+				remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLength - MP3.player.position):formatPos(MP3.player.loadedLength);
 			}
 		}
 

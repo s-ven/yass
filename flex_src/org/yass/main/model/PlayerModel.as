@@ -21,13 +21,7 @@
 */
 package org.yass.main.model{
     
-    import flash.events.Event;
-    import flash.events.IOErrorEvent;
-    import flash.events.ProgressEvent;
     import flash.media.Sound;
-    import flash.media.SoundChannel;
-    import flash.media.SoundTransform;
-    import flash.net.URLRequest;
     
     import mx.core.UIComponent;
     
@@ -40,16 +34,12 @@ package org.yass.main.model{
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{
         public var loadedPlayList:IPlayListModel
-        public var position:Number = 0;
 		public var shuffle:Boolean;
 		public var loop:Boolean;
-        public var isPlaying:Boolean = false;
-        public var loadedLengh:Number;
         
         private var _loadedTrack:Object;
         private var _volume:Number = 1;
-        private var soundInstance:Sound;
-        private var soundChannelInstance:SoundChannel;
+        private var soundHandler:SoundHandler;
         
                 
         public static var instance:PlayerModel = new PlayerModel();
@@ -60,144 +50,93 @@ package org.yass.main.model{
         public function get volume():Number{
         	return _volume;
         }
-        
+        public function get isPlaying():Boolean{
+        	return soundHandler && soundHandler.isPlaying;
+        }
+        public function get loadedLength():Number{
+        	if(soundHandler)
+	        	return soundHandler.loadedLengh;
+	        return 0;
+        }
+        public function get position():Number{
+        	if(soundHandler)
+	        	return soundHandler.position;
+	        return 0;
+        }
         public function  get isPaused():Boolean{
-        	return position != 0 && !isPlaying;
+        	return soundHandler && soundHandler.position != 0 && !soundHandler.isPlaying;
         }
         
         public function set volume(value:Number):void{
             this._volume = value;
-            if(this.soundChannelInstance != null){
-            	var transform:SoundTransform = soundChannelInstance.soundTransform;
-            	transform.volume = this._volume;
-            	this.soundChannelInstance.soundTransform = transform;
-            }
-        }
-        private function setupListeners():void{
-            this.soundInstance.addEventListener(Event.COMPLETE, completeHandler);
-            this.soundInstance.addEventListener(Event.OPEN, openHandler);
-            this.soundInstance.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
-            this.soundInstance.addEventListener(ProgressEvent.PROGRESS, progressHandler);
-            this.soundChannelInstance.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
-            this.addEventListener( Event.ENTER_FRAME, enterFrame)
-        }
-                       
-        public function play():void{
-            Console.log("model.PlayerModel.play");
-	        if (position == 0){
-				soundInstance.load(new URLRequest(url));
-	        	loadedTrack.playCount ++;
-	        	loadedTrack.lastPlayed = new Date();
-	        }
-	        this.isPlaying = true;
-	        if(soundChannelInstance)
-   				this.soundChannelInstance.stop();
-	        this.soundChannelInstance = this.soundInstance.play(this.position); 
-	    	this.setupListeners();
-	    	var transform:SoundTransform = soundChannelInstance.soundTransform;
-	    	transform.volume = this.volume;
-	    	this.soundChannelInstance.soundTransform = transform;
-            this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
-	    }
+            if(this.soundHandler != null)
+            	soundHandler.volume = value;
+            
+        }    
         
-        private function get  url():String{
-        	return "/yass/play.do?UUID=" + loadedTrack.UUID;
-        }
         
         public function set loadedTrack(track:Object):void{
         	if(track){
 				this._loadedTrack = track;
-				Console.log("model.PlayerModel.loadTrack " + url);
-				this.soundInstance = new Sound();
-				position = 0;
+				if(soundHandler && soundHandler.isPlaying)
+					soundHandler.fadeOut(5000);
+				this.soundHandler = new SoundHandler(track as Track, volume);
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
 				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 			}
         }
+        
         public function get loadedTrack():Object{
         	return _loadedTrack;
         }
-        
-        public function pause():void{
-        	if(soundChannelInstance)
-	            this.position = this.soundChannelInstance.position;
-            this.stop();
-            Console.log("model.PlayerModel.pause");
-        }
-        
-        public function stop():void{
-            this.isPlaying = false;
-            if(soundChannelInstance)
-   				this.soundChannelInstance.stop();
-            Console.log("model.PlayerModel.stop");
-            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
-        }
-        
         public function skipTo(value:Number):void{
-			Console.log("model.PlayerModel.skipTo value="+value);
-			if(loadedTrack && loadedLengh >  value	&& value <= loadedTrack.length * 1000){
-				position = value;	
-				play();
+			Console.group("model.PlayerModel.skipTo value="+value);
+			if(soundHandler){
+				soundHandler.skipTo(value);
 			}
+			Console.groupEnd();
 		}
 		public function next():void{
-			Console.log("model.PlayerModel.next");
+			Console.group("model.PlayerModel.next");
+			
        		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         	if(!loadedTrack)
-        		stop();
-        	if(isPlaying)
-        		play();
+        		soundHandler.stop();
+        	soundHandler.play();
+			Console.groupEnd();
 		}   
 		public function previous():void{
-			Console.log("model.PlayerModel.previous");
+			Console.group("model.PlayerModel.previous");
        		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
         	if(!loadedTrack)
-        		stop();
-        	if(isPlaying)
-        		play();
+        		soundHandler.stop();
+        	soundHandler.play();
+			Console.groupEnd();
 		}   
 		public function toogle():void{
 			Console.log("model.PlayerModel.toogle");
-			if(isPlaying)
-				this.pause();
+			if(soundHandler && soundHandler.isPlaying){
+				soundHandler.pause();
+	            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
+			}
 			else {
 				if(!loadedTrack)
         			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
-        		play();				
+        		soundHandler.play();				
 			}
 			if(loadedPlayList)
 				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 		}
-        
-        /**
-        * Event Handlers
-        */
-        private function completeHandler(event:Event):void {
-            this.dispatchEvent(event);
-        }        
-        private function openHandler(event:Event):void {
-            this.dispatchEvent(event);
-        }
-        public function soundCompleteHandler(event:Event):void {
-            Console.log("model.PlayerModel.soundCompleteHandler");
-            next();
-        }        
-        private function ioErrorHandler(event:IOErrorEvent):void {
-           Console.log("model.PlayerModel. : in error");
-        }
-        private function progressHandler(event:ProgressEvent):void {
-             this.dispatchEvent(event);
-        }        
-        private function enterFrame(event:Event):void {
-			if(soundChannelInstance != null){
-				if(isPlaying){
-					position = soundChannelInstance.position;
-					if(loadedTrack)
-						loadedLengh  = Math.max(soundInstance.length, loadedTrack.length *1000);
-				}
-				else if(loadedTrack)
-					loadedLengh = loadedTrack.length *1000;
-			}
+		public function play():void{
+			this.soundHandler.play();
+            this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
 		}
+		public function stop():void{
+			if(isPlaying)
+				this.soundHandler.fadeOut(1000);
+            Console.log("model.PlayerModel.stop");
+            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
+		}
+        
     }
 }

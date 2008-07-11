@@ -19,8 +19,8 @@ package org.yass{
 				str += " - length " + player.loadedPlayList.length +"\n";
 				str += " - selectedIndex : " + player.loadedPlayList.trackIndex +"\n";
 	 			if( player.loadedTrack){
-					str += " - loadedTrack.length : " +player.loadedTrack.length * 1000 +"\n";
-					str += " - loadedTrack.UUID : " + player.loadedTrack.UUID +"\n";
+					str += " - loadedTrack.length : " +player.loadedTrack.length +"\n";
+					str += " - loadedTrack.id : " + player.loadedTrack.id +"\n";
 	 			}
 			}else
 				str += " : NaN\n";
@@ -33,7 +33,7 @@ package org.yass{
 				str += " - isPlaying : " + player.isPlaying +"\n";
 				str += " - isPaused : " + player.isPaused +"\n";
 				str += " - position : " + player.position +"\n";
-				str += " - loadedLength : " + player.loadedLengh +"\n";
+				str += " - loadedLength : " + player.loadedLength +"\n";
 			}else
 				str += " : NaN\n";
 			// Display

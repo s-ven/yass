@@ -31,9 +31,6 @@ package org.yass.main.model
 			httpService.resultFormat = "e4x";
 			httpService.addEventListener(ResultEvent.RESULT, populateTree);
 			httpService.send();
-			this.playlistModel = playlistModel as PlayListModel;
-			this.playlistModel.httpService.url = "/yass/library_browse.do";
-			this.playlistModel.httpService.send();
 			sort.fields = [new SortField("value")];
 		}
 		private function populateTree(evt:Event):void{
@@ -46,6 +43,9 @@ package org.yass.main.model
 			albumArray = createArray("ALBUM");
 			Console.log("	albums.length:"+albumArray.length);
 			Console.groupEnd();
+			this.playlistModel = playlistModel as PlayListModel;
+			this.playlistModel.httpService.url = "/yass/library_browse.do";
+			this.playlistModel.httpService.send();
 			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED, ["genre","artist", "album"]));
 		}
 		private function createArray(type:String):ArrayCollection{
