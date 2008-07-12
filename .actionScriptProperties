@@ -9,6 +9,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
+<application path="TRACK.mxml"/>
 <application path="index.mxml"/>
 </applications>
 <modules/>

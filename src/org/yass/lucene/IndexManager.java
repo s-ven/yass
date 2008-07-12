@@ -154,6 +154,11 @@ public final class IndexManager implements org.yass.YassConstants {
 		while ((docIndex = bitSet.nextSetBit(docIndex + 1)) > -1)
 			plst.add(new Track(indexSearcher.doc(docIndex, new FieldSelector() {
 
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -85682246480645765L;
+
 				public FieldSelectorResult accept(final String fieldName) {
 					if (ALBUM_ID.equals(fieldName) || ARTIST_ID.equals(fieldName) || GENRE_ID.equals(fieldName)
 							|| ALBUM.equals(fieldName) || ARTIST.equals(fieldName) || GENRE.equals(fieldName)

@@ -1,6 +1,5 @@
 package org.yass;
 
-
 public interface YassConstants {
 
 	public static final String YASS_HOME = "yass";

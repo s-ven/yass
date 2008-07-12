@@ -15,10 +15,8 @@ public class Show extends YassAction implements YassConstants {
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
-	private boolean refresh = false;
 
 	public void setRefresh(final boolean refresh) {
-		this.refresh = refresh;
 	}
 
 	@Override

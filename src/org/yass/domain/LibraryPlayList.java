@@ -2,13 +2,10 @@ package org.yass.domain;
 
 import java.util.Date;
 
-import org.yass.dao.TrackDao;
-
 public class LibraryPlayList extends PlayList {
 
 	public String path;
 	public Date lastUpdate = new Date();
-	private final TrackDao trackDao = new TrackDao();
 
 	/**
 	 * @param path

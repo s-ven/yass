@@ -5,7 +5,6 @@ import org.yass.dao.TrackInfoDao;
 public class TrackInfo {
 
 	public static final TrackInfoDao dao = new TrackInfoDao();
-	public static int UID_COUNTER = 0;
 	public String value;
 	public int id;
 	public String type;

@@ -1,8 +1,6 @@
 package org.yass.listener;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -76,11 +74,6 @@ public class Init implements ServletContextListener, YassConstants {
 				} catch (final Exception e) {
 					e.printStackTrace();
 				}
-			}
-
-			private HashMap<Integer, PlayList> getUserPlayLists(final IndexManager mib) {
-				final HashMap<Integer, PlayList> userPl = new LinkedHashMap<Integer, PlayList>();
-				return userPl;
 			}
 		});
 		initThread.setDaemon(true);
