@@ -1,9 +1,8 @@
 package org.yass.domain;
 
 import org.yass.dao.TrackInfoDao;
-import org.yass.lucene.Constants;
 
-public class TrackInfo implements Constants {
+public class TrackInfo {
 
 	public static final TrackInfoDao dao = new TrackInfoDao();
 	public static int UID_COUNTER = 0;

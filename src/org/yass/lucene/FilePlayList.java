@@ -43,7 +43,7 @@ public class FilePlayList extends PlayList {
 
 	public void save() {
 		// id = java.util.UUID.nameUUIDFromBytes(name.getBytes()).toString();
-		final File file = new File(PLAYLIST_ROOT, id + ".txt");
+		final File file = new File(new File("PLAYLISTS/user"), id + ".txt");
 		try {
 			file.createNewFile();
 			final BufferedWriter bw = new BufferedWriter(new FileWriter(file));

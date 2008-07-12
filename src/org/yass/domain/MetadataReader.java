@@ -13,10 +13,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
 import org.yass.dao.TrackDao;
-import org.yass.lucene.Constants;
 import org.yass.util.FileUtils;
 
-public class MetadataReader implements Constants {
+public class MetadataReader implements org.yass.YassConstants {
 
 	private final static Log LOG = LogFactory.getLog(MetadataReader.class);
 	private final String ext = "mp3";

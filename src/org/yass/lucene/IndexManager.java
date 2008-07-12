@@ -44,7 +44,7 @@ import org.yass.util.FileUtils;
  * @author svenduzont
  * 
  */
-public final class IndexManager implements Constants {
+public final class IndexManager implements org.yass.YassConstants {
 
 	private final String mediaFilesRoot;
 	private final String indexRoot;

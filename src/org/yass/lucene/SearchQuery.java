@@ -12,8 +12,9 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.yass.YassConstants;
 
-public class SearchQuery implements Constants {
+public class SearchQuery implements YassConstants {
 
 	private BooleanQuery artistsFilter;
 	private BooleanQuery albumsFilter;

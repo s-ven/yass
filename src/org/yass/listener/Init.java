@@ -21,14 +21,13 @@ import org.yass.domain.MetadataReader;
 import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
-import org.yass.lucene.Constants;
 import org.yass.lucene.IndexManager;
 
 /**
  * Servlet implementation class for Servlet: Init
  * 
  */
-public class Init implements ServletContextListener, YassConstants, Constants {
+public class Init implements ServletContextListener, YassConstants {
 
 	static final long serialVersionUID = 1L;
 	private Thread initThread;

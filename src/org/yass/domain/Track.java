@@ -8,9 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.lucene.document.Document;
-import org.yass.lucene.Constants;
+import org.yass.YassConstants;
 
-public final class Track implements Constants {
+public final class Track implements YassConstants {
 
 	private final Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
 	private String title;
