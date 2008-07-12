@@ -55,7 +55,7 @@ package org.yass.main.model{
         }
         public function get loadedLength():Number{
         	if(soundHandler)
-	        	return soundHandler.loadedLengh;
+	        	return soundHandler.loadedLength;
 	        return 0;
         }
         public function get position():Number{
@@ -73,17 +73,16 @@ package org.yass.main.model{
             	soundHandler.volume = value;
             
         }    
-        
-        
         public function set loadedTrack(track:Object):void{
+			if(isPlaying)
+				soundHandler.fadeOut(5000);
+			this._loadedTrack = track;
         	if(track){
-				this._loadedTrack = track;
-				if(soundHandler && soundHandler.isPlaying)
-					soundHandler.fadeOut(5000);
 				this.soundHandler = new SoundHandler(track as Track, volume);
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
 				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 			}
+			
         }
         
         public function get loadedTrack():Object{
@@ -91,26 +90,29 @@ package org.yass.main.model{
         }
         public function skipTo(value:Number):void{
 			Console.group("model.PlayerModel.skipTo value="+value);
-			if(soundHandler){
+			if(soundHandler)
 				soundHandler.skipTo(value);
-			}
+            this.dispatchEvent(new PlayerEvent(isPlaying?PlayerEvent.PLAYING:PlayerEvent.STOPPED));
 			Console.groupEnd();
 		}
 		public function next():void{
 			Console.group("model.PlayerModel.next");
-			
+			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
-        	if(!loadedTrack)
-        		soundHandler.stop();
-        	soundHandler.play();
+       		if(wasPlaying && loadedTrack)
+        		play();
+        	else
+        		stop();
 			Console.groupEnd();
 		}   
 		public function previous():void{
 			Console.group("model.PlayerModel.previous");
+			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
-        	if(!loadedTrack)
-        		soundHandler.stop();
-        	soundHandler.play();
+       		if(wasPlaying && loadedTrack)
+        		play();
+        	else
+        		stop();
 			Console.groupEnd();
 		}   
 		public function toogle():void{
@@ -123,6 +125,7 @@ package org.yass.main.model{
 				if(!loadedTrack)
         			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         		soundHandler.play();				
+         	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
 			}
 			if(loadedPlayList)
 				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));

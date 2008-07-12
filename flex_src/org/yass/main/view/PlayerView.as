@@ -157,7 +157,7 @@ package org.yass.main.view
 		 * And the Artist/album scrolling text to start
 		 */
 		private function onPlaying(evt:PlayerEvent):void{
-			Console.log("controller.PlayerController.onPlaying");
+			Console.log("view.Player.onPlaying");
 			playButton.styleName = "PlayButtonStarted";
 	        MP3.display.scrollText.start();
 		}
@@ -167,7 +167,7 @@ package org.yass.main.view
 		 * And the Artist/album scrolling text to stop
 		 */
 		private function onStopped(evt:PlayerEvent):void{
-			Console.log("controller.PlayerController.onStopped");
+			Console.log("view.Player.onStopped");
 			playButton.styleName = "PlayButtonStopped";
 			MP3.display.scrollText.stop();
 		}

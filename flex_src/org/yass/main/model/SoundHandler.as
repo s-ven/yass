@@ -14,7 +14,7 @@ package org.yass.main.model
 	import org.yass.debug.log.Console;
 	public class SoundHandler extends UIComponent	{
         public var position:Number = 0;
-        public var loadedLengh:Number;
+        public var loadedLength:Number;
         public var isPlaying:Boolean = false;
         
         private var soundInstance:Sound = new Sound();
@@ -60,9 +60,10 @@ package org.yass.main.model
         	isPlaying = true;
             Console.log("model.SoundHandler.play");
 	        if (position == 0){
-				soundInstance.load(new URLRequest("/yass/play.do?id=" + loadedTrack.id));
+				soundInstance.load(new URLRequest("/yass/track_play.do?id=" + loadedTrack.id));
 	        	loadedTrack.playCount ++;
 	        	loadedTrack.lastPlayed = new Date();
+	        	loadedTrack.save();
 	        }
 	        this.soundChannelInstance = this.soundInstance.play(this.position);
             this.soundChannelInstance.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
@@ -70,10 +71,12 @@ package org.yass.main.model
 	    }
         public function skipTo(value:Number):void{
 			Console.log("model.SoundHandler.skipTo value="+value);
-			if(loadedLengh >  value	&& value <= loadedTrack.length){
+			if(loadedLength >  value	&& value <= loadedTrack.length){
+				var wasPlaying:Boolean = isPlaying;
 				stop();
-				position = value;	
-				play();
+				position = value;
+				if(wasPlaying)		
+					play();
 			}
 		}
 		
@@ -97,7 +100,7 @@ package org.yass.main.model
              this.dispatchEvent(event);
         }        
         private function get fadeout():Boolean{
-        	return fadeoutDuration != 0 && position > loadedLengh - fadeoutDuration;
+        	return fadeoutDuration != 0 && position > loadedLength - fadeoutDuration;
         }
         private function get fadeoutvolume():Number{
         	return Math.max(0, initialVolume * (fadeoutDuration - new Date().time + fadeoutStartTime) / fadeoutDuration)
@@ -107,19 +110,18 @@ package org.yass.main.model
 				if(isPlaying){
 					position = soundChannelInstance.position;
 					if(loadedTrack)
-						loadedLengh  = Math.max(soundInstance.length, loadedTrack.length);
+						loadedLength  = Math.max(soundInstance.length, loadedTrack.length);
 					if(fadeout){
 						fadeOut(fadeoutDuration);
 						MP3.player.next();
 					}
 				}
 				else if(loadedTrack)
-					loadedLengh = loadedTrack.length;					
+					loadedLength = loadedTrack.length;					
 			}
 		}
-		
 		public function fadeOut(duration:Number):void{
-			if(initialVolume ==0){
+			if(initialVolume == 0){
 				this.removeEventListener(Event.ENTER_FRAME, enterFrame);
 				fadeoutDuration = duration;
 				Console.log("model.SoundHandler.enterFrame: Fading Out " + duration);
@@ -134,7 +136,7 @@ package org.yass.main.model
 			if(Math.round(_volume * 100) ==0){
 				Console.log("model.SoundHandler.fadeOut over");
 				this.removeEventListener(Event.ENTER_FRAME, fadeOutHandler);
-				soundChannelInstance.stop();
+				stop();
 				soundChannelInstance = null;
 				soundInstance = null;
 			}

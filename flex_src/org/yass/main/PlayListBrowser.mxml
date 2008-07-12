@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:mp3="org.yass.main.mp3.*" xmlns:view="org.yass.main.view.*" xmlns:renderers="org.yass.main.renderers.*">
-	<renderers:PropertyRenderer type="genre" id="genreRenderer"/>
 	<mx:VDividedBox right="0" left="0" top="0" bottom="0" horizontalAlign="center" verticalAlign="middle">
 		<mx:Canvas x="10" y="0" width="100%" height="100%" minHeight="70" id="canvas1">
 			<view:PlayListView  id="playList" right="10" left="0" top="0" bottom="10" alternatingItemColors="[#FFFFFF, #F2F2F2]" rowHeight="16" paddingBottom="0" paddingTop="0">

@@ -13,7 +13,6 @@ package org.yass.main.renderers
 		private var imgPlay:Image = new Image();
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;
-		private var _listData:BaseListData;
 		public function PlayingNowRenderer() {
 			super();
 			this.imgPlay.source = '/assets/playlist_play.png';
@@ -39,14 +38,7 @@ package org.yass.main.renderers
 			super.createChildren();
 			addChild(imgLoaded);
 			addChild(imgPlay);
-		}
-		public function set listData(value:BaseListData):void{
-			this._listData = DataGridListData(value);
-		}
-		public function get listData():BaseListData{
-			return _listData
-		}
-		
+		}		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			imgLoaded.visible = data && data.isLoaded;		

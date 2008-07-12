@@ -125,13 +125,16 @@ package org.yass.main.view
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
-			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
-			if(item.@id == -1)
-				this.editable = true;
-			else		{
-				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
-				this.editable = false;
-			}
+			if(item.@type != "void"){
+				Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
+				if(item.@id == -1)
+					this.editable = true;
+				else		{
+					dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
+					this.editable = false;
+				}
+			}else
+				event.stopImmediatePropagation();
 		}		
 		
 		public function onRefreshPane(evt:PlayListEvent):void{			

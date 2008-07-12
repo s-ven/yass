@@ -1,6 +1,9 @@
 package org.yass.main.model
 {
+	import mx.rpc.http.HTTPService;
+	
 	import org.yass.MP3;
+	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
 	public class Track{
 		public var id:String
@@ -11,7 +14,7 @@ package org.yass.main.model
 		public var genre:Value;
 		public var album:Value;
 		public var length:int;
-		public var rating:int = 0;
+		public var _rating:int = 0;
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
 		public function Track(obj:Object):void		{
@@ -21,7 +24,7 @@ package org.yass.main.model
 			this.track = obj.track;
 			this.length = obj.length;
 			if(obj.rating)
-				this.rating = obj.rating;
+				this._rating = obj.rating;
 			this.lastPlayed = obj.lastPlayed;
 			this.playCount = obj.playCount;
 			this.artist = BrowserModel.dict["ARTIST_" + obj.artist];
@@ -34,6 +37,20 @@ package org.yass.main.model
 		}
 		public function get isPlaying():Boolean{
 			return MP3.player.loadedTrack == this && MP3.player.isPlaying;
+		}
+		public function set rating(value:Number):void{
+			Console.log("model.Track.rating:" + value);
+			_rating = value;
+			save();
+		}
+		public function save():void{
+			var service:HTTPService = new HTTPService();
+			service.url = "/yass/track_save.do";
+			service.send(this);
+		}
+		
+		public function get rating():Number{
+			return _rating;
 		}
 		
 		

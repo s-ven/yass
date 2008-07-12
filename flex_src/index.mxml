@@ -5,7 +5,7 @@
 	backgroundGradientColors="[#323232, #656565]" borderColor="#656565"
 	xmlns:local="*"
 	xmlns:mp3="org.yass.visualization.*" 
-	currentState="MainWindow" xmlns:main="org.yass.main.*">
+	currentState="MainWindow" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*">
 	<mx:states>
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
@@ -13,8 +13,5 @@
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>
-	<mx:ApplicationControlBar left="10" right="10" top="5" height="33">
-		<mx:CheckBox id="showDebug" label="Show Debug" color="#A1A1A1" click="mainWindow.debugPane.visible = showDebug.selected" fillAlphas="[1.0, 1.0, 1.0, 1.0]" textRollOverColor="#A1A1A1"/>
-	</mx:ApplicationControlBar>
 	<mx:Style source="org/yass/main/styles.css"/>
 </mx:Application>

@@ -17,7 +17,7 @@ package org.yass.main.renderers
 		private var _listData:BaseListData;
 		public function RatingRenderer() {
 			super();
-			this.addEventListener(MouseEvent.CLICK, click);
+			img.addEventListener(MouseEvent.CLICK, click);
 		}
 
 		public function get data():Object{
@@ -49,7 +49,7 @@ package org.yass.main.renderers
 		}
 		protected function click(evt:MouseEvent) : void{
 			var oldRating:int = data.rating;
-			this.data.rating = Math.round((evt.localX - 5) / (unscaledWidth-5) * 5) +1;
+			this.data.rating = Math.floor(evt.localX / 14) +1;
 			if(oldRating == this.data.rating && oldRating == 1)
 				this.data.rating = 0;
 			evt.stopPropagation();

@@ -22,12 +22,13 @@
 */
  package org.yass.main.view{
     import flash.events.Event;
+    import flash.utils.Dictionary;
     
     import mx.collections.Sort;
     import mx.collections.SortField;
     import mx.controls.DataGrid;
+    import mx.controls.dataGridClasses.DataGridColumn;
     import mx.events.CollectionEvent;
-    import mx.events.CollectionEventKind;
     import mx.events.DataGridEvent;
     import mx.events.FlexEvent;
     import mx.events.ListEvent;
@@ -48,9 +49,10 @@
 		private var sortByAlbum:SortField;
 		private var sortByTitle:SortField;
 		private var sortByLength:SortField;
+		private var sortByRating:SortField;
 		private var oldColumn:String;
 		private var _model:IPlayListModel;
-		
+		private var playListColumns:Dictionary = new Dictionary();
 		private var controller:PlayListController;
 
  		public function PlayListView(){	
@@ -62,6 +64,7 @@
 			this.addEventListener(DataGridEvent.HEADER_RELEASE, onHeaderClick);
  			this.addEventListener(ListEvent.ITEM_CLICK, onClick);
  			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, onDoubleClick);
+ 			this.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
  			// TODO :: Move this to the Model
  			sortA = new Sort();
 			sortByAlbum = new SortField("album", true);
@@ -69,6 +72,7 @@
 			sortByTitle = new SortField("title", true);
 			sortByTrackNr = new SortField("trackNr", true, false, true);
 			sortByLength = new SortField("length", true, false, true);
+			sortByRating = new SortField("rating", true, false, true);
  		}
  		
  		override protected function commitProperties():void{
@@ -128,6 +132,10 @@
 			    if(oldColumn == "length")
 			    	sortByLength.reverse();
 			   sortA.fields=[sortByLength, sortByTitle, sortByArtist, sortByAlbum];
+			} else if (event.dataField.toString()=="rating") {
+			    if(oldColumn == "rating")
+			    	sortByRating.reverse();
+			   sortA.fields=[sortByRating, sortByArtist, sortByAlbum, sortByTrackNr];
 			} 
 			oldColumn = event.dataField.toString();
 			// TODO :: Move this to the model
@@ -180,12 +188,27 @@
 		 * Will cause the previously selected track to be displayed 
 		 */
 		public function onTrackSelected(evt:TrackEvent):void{
-			Console.log("view.PlayList.selectTrack trackIndex=" + evt.trackIndex);
+			Console.log("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList.playListId == this.playListId){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 				this.scrollToIndex(evt.trackIndex);
 			}	
 		
-		}		
+		}
+		/**
+		 * 
+		 */
+		private function onCreationComplete(evt:FlexEvent):void{
+			Console.group("view.PlayList.onCreationComplete");
+			for each(var column:DataGridColumn in columns){
+				if(column.dataField){
+					Console.log(" Saving " +column.dataField);
+					playListColumns[column.dataField] = column
+				}
+			}
+			Console.groupEnd();
+			
+			
+		}
     }
 }

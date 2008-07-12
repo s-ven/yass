@@ -14,31 +14,30 @@ package org.yass.main.renderers
              super();
         }
         override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void{
-			var obj:Object = super.data; 
-        	if(obj){
-				var __tree:Tree = Tree(this.parent.parent);
-	        	if(obj.@type == "void"){
-	               	if(icon)
-	                this.enabled=false;
-	                this.setStyle("fontWeight","bold");
-	                this.label.x = this.label.x  = 20;;
+            super.updateDisplayList(unscaledWidth,unscaledHeight);
+        	if(data){
+				var tree:Tree = Tree(parent.parent);
+	        	if(data.@type == "void"){
+	                enabled=false;
+	                setStyle("fontWeight","bold");
+	                label.x = 20;;
 	            }
 	            else{
-	            	this.useHandCursor = true;
-	            	this.buttonMode = true;
-					this.enabled=true;
-	                this.setStyle("color","#000000");
-	                this.setStyle("fontWeight","normal");
-	                this.label.x = this.label.x  = 35;
-					if(obj.@type == "smart")
-						__tree.setItemIcon(obj, smartPlIcon, smartPlIcon);
-					else if(obj.@type == "library")
-						__tree.setItemIcon(obj, libIcon, libIcon);
-					else if(obj.@type == "user")
-						__tree.setItemIcon(obj, userPlIcon, userPlIcon);
+	            	useHandCursor = true;
+	            	buttonMode = true;
+					enabled = true;
+	                setStyle("color","#000000");
+	                setStyle("fontWeight","normal");
+	                label.x = 36;
+	                icon.x = 20
+					if(data.@type == "smart")
+						tree.setItemIcon(data, smartPlIcon, smartPlIcon);
+					else if(data.@type == "library")
+						tree.setItemIcon(data, libIcon, libIcon);
+					else if(data.@type == "user")
+						tree.setItemIcon(data, userPlIcon, userPlIcon);
 		    	}
 	    	}
-            super.updateDisplayList(unscaledWidth,unscaledHeight);
 
         }
 	}

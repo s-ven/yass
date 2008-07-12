@@ -3,9 +3,7 @@
 		<mx:states>
 		<mx:State name="libraryBrowser">
 			<mx:AddChild  position="lastChild">
-				<main:LibraryBrowser id="libraryBrowser">
-					
-				</main:LibraryBrowser>
+				<main:LibraryBrowser id="libraryBrowser"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="playListBrowser">
