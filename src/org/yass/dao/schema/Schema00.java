@@ -59,5 +59,10 @@ public class Schema00 extends Schema {
 					+ " foreign key(track_id) references track(id), " + " foreign key(track_info_id) references track_info(id))");
 			LOG.info(" table 'track_track_info' was created successfully.");
 		}
+		if (!tableExists(template, "IDX_track_track_info_01")) {
+			LOG.info(" index 01 on 'track_track_info' not found.  Creating it.");
+			template.execute("create unique index IDX_track_track_info_01 on track_track_info (track_id, track_info_id)");
+			LOG.info(" index 01 on 'track_track_info' was created successfully.");
+		}
 	}
 }

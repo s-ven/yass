@@ -47,7 +47,9 @@ public class TrackDao extends AbstractDao {
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(psc, kh);
 			track.setId(kh.getKey().intValue());
-		}
+		} else
+			getJdbcTempate().update("update track set rating = ? where id = ?",
+					new Object[] { track.getRating(), track.getId() });
 		getJdbcTempate().execute("delete from track_track_info where track_id = " + track.getId());
 		for (final TrackInfo trackInfo : track.getTrackInfos())
 			getJdbcTempate().update("insert into track_track_info (track_id, track_info_id) values(?, ?)",
@@ -56,8 +58,9 @@ public class TrackDao extends AbstractDao {
 
 	public final void fillLibrary(final LibraryPlayList lib) {
 		final Iterator<Track> it = getJdbcTempate().query(
-				"select id, path, title, track_nr, length, " + "last_update, play_count, rating from track where library_id = "
-						+ lib.id, rowMapper).iterator();
+				"select id, path, title, track_nr, length, "
+						+ "last_update, play_count, rating from track where library_id = ?", new Object[] { lib.id }, rowMapper)
+				.iterator();
 		while (it.hasNext()) {
 			final Track track = it.next();
 			lib.add(track);

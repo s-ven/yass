@@ -14,10 +14,10 @@
  	</smart> -->
  	<user name="USER PLAYLISTS" type="void">
  <%
- 	final Map<String, PlayList> plsts = (Map<String, PlayList>)application.getAttribute(YassConstants.USER_PLAYLISTS);
+ 	final Map<Integer, PlayList> plsts = (Map<Integer, PlayList>)application.getAttribute(YassConstants.USER_PLAYLISTS);
+ 	if(plsts != null)
  	for(PlayList plst : plsts.values()){
  %>
- 
  
  <playlist name="<%=plst.getName() %>" type="user" id="<%=plst.getId() %>"/>
  <%

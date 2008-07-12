@@ -23,4 +23,13 @@ public abstract class Schema {
 		}
 		return true;
 	}
+
+	protected boolean indexExists(final JdbcTemplate template, final String indexName) {
+		try {
+			return template.queryForInt("select count(*) from SYS.SYSCONGLOMERATES where 	CONGLOMERATENAME = ?",
+					new Object[] { indexName }) != 0;
+		} catch (final Exception e) {
+			return false;
+		}
+	}
 }

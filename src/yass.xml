@@ -10,7 +10,9 @@
 		<action name="playlist_show" class="org.yass.struts.playlist.Show">
 			<result>/jsp/tracks.jsp</result>
 		</action>
-		<action name="play" class="org.yass.struts.Play">
+		<action name="track_play" class="org.yass.struts.track.Play">
+		</action>
+		<action name="track_save" class="org.yass.struts.track.Save">
 		</action>
 		<action name="playlist_addto" class="org.yass.struts.playlist.AddTo">
 		</action>

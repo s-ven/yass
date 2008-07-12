@@ -1,4 +1,4 @@
-package org.yass.struts;
+package org.yass.struts.track;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import org.apache.struts2.ServletActionContext;
 import org.yass.YassConstants;
 import org.yass.domain.Track;
+import org.yass.struts.YassAction;
 
 public class Play extends YassAction implements YassConstants {
 
