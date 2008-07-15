@@ -3,9 +3,9 @@
 	width="100%" 
 	height="100%" xmlns:view="org.yass.main.view.*" xmlns:mp3="org.yass.visualization.*" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*">
 	<mx:states>
-		<mx:State name="preferencePane">
+		<mx:State name="preferencePane" >
 			<mx:AddChild position="lastChild">
-				<component:Preferences mainWindow="{this}"/>
+				<component:Preferences id="preferencesPanel" mainWindow="{this}"/>
 			</mx:AddChild>
 			<mx:SetProperty target="{applicationContent}" name="enabled" value="false"/>
 		</mx:State>
@@ -13,27 +13,31 @@
 	<mx:Script source="includes/search.as" />
 	<mx:Style source="styles.css" />
 	<mx:DateFormatter id="dateFormatter" formatString="N:SS" /> 
-<mx:Canvas  id="applicationContent" 	width="100%" height="100%" >
-	
-	<mx:VBox width="100%" height="100%" cornerRadius="19" backgroundAlpha="0.0" verticalGap="0">
-		<mx:HBox width="100%" height="65" verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
-			<mx:Canvas  width="300">
-			<view:PlayerView height="100%" verticalAlign="middle" left="10" right="10" horizontalGap="0" />
-			</mx:Canvas>
-			<!-- Player Plate -->
-			<mx:Canvas width = "100%" minWidth="350">
-				<mp3:Display id="displayPane" color="#333333" width="80%" minWidth="350" height="55" styleName="Display" dateFormatter="{dateFormatter}"/>
-			</mx:Canvas>
-			<!-- The Search keywords fields -->
-			<component:SearchField/>
-			<mx:Button styleName="PrefsButton" paddingLeft="0" paddingRight="10" click="currentState = 'preferencePane'"/>
-			<mx:Spacer width="10"/>
-		</mx:HBox>
-		<mx:HDividedBox right="0" left="10" top="0" bottom="0" width="100%" height="100%" backgroundAlpha="0.0" backgroundColor="#C8C8C8" alpha="1.0" horizontalGap="5">
-				<view:NavigationView mainPane="{mainPane}" id="playLists" width="150" height="100%" minWidth="150" maxWidth="600" left="10" right="0" top="0" bottom="10" textIndent="-10" paddingLeft="0"  rollOverColor="#FFFFFF" editorXOffset="20" />
-			<main:MainPane id="mainPane"/>
-		</mx:HDividedBox> 
-	</mx:VBox>
-</mx:Canvas>
+	<mx:Canvas  id="applicationContent" 	width="100%" height="100%" >
+		<mx:VBox width="100%" height="100%" cornerRadius="19" backgroundAlpha="0.0" verticalGap="0">
+			<mx:HBox width="100%" height="65" verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
+				<mx:Canvas  width="300">
+				<view:PlayerView height="100%" verticalAlign="middle" left="10" right="10" horizontalGap="0" />
+				</mx:Canvas>
+				<!-- Player Plate -->
+				<mx:Canvas width = "100%" minWidth="350">
+					<mp3:Display id="displayPane" color="#333333" width="80%" minWidth="350" height="55" styleName="Display" dateFormatter="{dateFormatter}"/>
+				</mx:Canvas>
+				<!-- The Search keywords fields --> 
+				<component:SearchField/>
+				<mx:Button styleName="PrefsButton" paddingLeft="0" paddingRight="10" click="currentState = 'preferencePane'"/>
+				<mx:Spacer width="10"/>
+			</mx:HBox>
+			<mx:HDividedBox right="0" left="10" top="0" bottom="0" width="100%" height="100%" backgroundAlpha="0.0" backgroundColor="#C8C8C8" alpha="1.0" horizontalGap="5">
+					<view:NavigationView mainPane="{mainPane}" id="playLists" width="150" height="100%" minWidth="150" maxWidth="600" left="10" right="0" top="0" bottom="10" textIndent="-10" paddingLeft="0"  rollOverColor="#FFFFFF" editorXOffset="20" />
+				<main:MainPane id="mainPane"/>
+			</mx:HDividedBox> 
+		</mx:VBox>
+	</mx:Canvas>
+	<mx:transitions>
+		<mx:Transition id="transA" fromState="*" toState="*">
+            <mx:Fade target="{preferencesPanel}"/>
+		</mx:Transition>
+	</mx:transitions>
 	<debug:DebugPane fontAntiAliasType="advanced" fontThickness="200"  width="50%" id="debugPane" visible="false" bottom="15" right="15" backgroundColor="#B7BCFF" borderStyle="outset" backgroundAlpha="1.0" alpha="0.65"/>
 </mx:Canvas>

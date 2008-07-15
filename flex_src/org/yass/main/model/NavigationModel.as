@@ -25,7 +25,7 @@ package org.yass.main.model{
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.interfaces.INavigationModel;
@@ -57,9 +57,9 @@ package org.yass.main.model{
 			var playlist:IPlayListModel;
 			try{
 				if(previousSelection != id && type == "user" && id != "-1"){
-					if(MP3.player.loadedPlayList && MP3.player.loadedPlayList.playListId == id){
-						Console.log("model.Navigation.loadPlayList :: Already playing PlayList" + MP3.player.loadedPlayList.trackIndex);
-						playlist = MP3.player.loadedPlayList;
+					if(Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId == id){
+						Console.log("model.Navigation.loadPlayList :: Already playing PlayList" + Yass.player.loadedPlayList.trackIndex);
+						playlist = Yass.player.loadedPlayList;
 					}
 					else{
 							Console.log("model.Navigation.loadPlayList :: Fetching playList from server");

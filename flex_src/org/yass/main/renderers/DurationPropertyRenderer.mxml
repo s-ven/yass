@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" text="{formatDurationColumn(data.length)}" >
-<mx:Script>
-	<![CDATA[
-		import mx.controls.listClasses.ListBase;
-		import org.yass.main.LibraryBrowser;
-		import mx.controls.dataGridClasses.DataGridColumn;
-		private var listBase:ListBase;
-		private function formatDurationColumn(item:Object):String {
-			return  (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, item));  
-		}  
-	    override protected function createChildren() : void		{
-			super.createChildren();
-			this.listBase = ListBase(owner);
-		}
-		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
-			super.updateDisplayList(unscaledWidth, unscaledHeight);
-			if(listBase.isItemSelected(data))
-				this.setStyle("color", listBase.getStyle("textSelectedColor"));
-			else
-				this.setStyle("color", listBase.getStyle("color"));
-			
-				
-		}
-	]]>
-</mx:Script>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.listClasses.ListBase;
+			import org.yass.main.LibraryBrowser;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			private var listBase:ListBase;
+			private function formatDurationColumn(item:Object):String {
+				return  (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, item));  
+			}  
+		    override protected function createChildren() : void		{
+				super.createChildren();
+				this.listBase = ListBase(owner);
+			}
+			override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				if(listBase.isItemHighlighted(data))
+					setStyle("color", listBase.getStyle("textRollOverColor"));
+				else if(listBase.isItemSelected(data))
+					setStyle("color", listBase.getStyle("textSelectedColor"));
+				else
+					setStyle("color", listBase.getStyle("color"));
+			}
+		]]>
+	</mx:Script>
 </mx:Label>  

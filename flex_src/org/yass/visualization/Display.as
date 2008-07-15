@@ -10,7 +10,7 @@ package org.yass.visualization
 	import mx.controls.Label;
 	import mx.formatters.DateFormatter;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 
 	public class Display extends Canvas
@@ -139,10 +139,10 @@ package org.yass.visualization
 			setEventListeners();
 		}
 		private function handlerEnterFrame(e:Event):void {
-			if(MP3.player.loadedTrack){
-				trackLabel.text = MP3.player.loadedTrack.title;
-				elapsed.text = formatPos(MP3.player.position);
-				remaining.text = showRemaining?"-" + formatPos(MP3.player.loadedLength - MP3.player.position):formatPos(MP3.player.loadedLength);
+			if(Yass.player.loadedTrack){
+				trackLabel.text = Yass.player.loadedTrack.title;
+				elapsed.text = formatPos(Yass.player.position);
+				remaining.text = showRemaining?"-" + formatPos(Yass.player.loadedLength - Yass.player.position):formatPos(Yass.player.loadedLength);
 			}
 		}
 
@@ -173,7 +173,7 @@ package org.yass.visualization
 		private function loopClick(evt:Event):void{
 			evt.stopPropagation();
 			evt.preventDefault();
-			MP3.player.loop = loop.selected;
+			Yass.player.loop = loop.selected;
 			noDisplaySwitch=true;
 		}
 		private function remainingClick(evt:Event):void{
@@ -184,7 +184,7 @@ package org.yass.visualization
 		private function shuffleClick(evt:Event):void{
 			evt.stopPropagation();
 			noDisplaySwitch=true;
-			MP3.player.shuffle = shuffle.selected;
+			Yass.player.shuffle = shuffle.selected;
 		}
 		private function setEventListeners():void{			
 			loop.addEventListener(MouseEvent.CLICK , loopClick);

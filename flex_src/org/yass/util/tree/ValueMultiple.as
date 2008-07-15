@@ -23,8 +23,5 @@ package org.yass.util.tree
 					return true;
 			return false;
 		}
-		override public function toString():String{
-			return "Multiple : " + super.toString();
-		}
 	}
 }

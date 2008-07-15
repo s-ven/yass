@@ -1,12 +1,14 @@
 package org.yass{
+	import org.yass.main.model.BrowserModel;
+	import org.yass.main.model.PlayListModel;
 	import org.yass.main.model.PlayerModel;
 	import org.yass.visualization.Display;
-	public class MP3
+	public class Yass
 	{
-		public function MP3():void{			
-		}
-		public static var player:PlayerModel = PlayerModel.instance;
-
+		public static var library:PlayListModel= new PlayListModel();
+		public static var player:PlayerModel = new PlayerModel();
+		public static var libTreeData:Object;
+		public static var browser:BrowserModel;
 		public static function get display():Display{
 			return Display.instance;
 		}

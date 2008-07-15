@@ -14,10 +14,10 @@ package org.yass.main.renderers
 	public class RatingRenderer extends UIComponent implements IListItemRenderer{
 		private var img:Image = new Image();
 		private var _data:Object;
-		private var _listData:BaseListData;
 		public function RatingRenderer() {
 			super();
 			img.addEventListener(MouseEvent.CLICK, click);
+			img.setActualSize(69,12);
 		}
 
 		public function get data():Object{
@@ -35,17 +35,10 @@ package org.yass.main.renderers
 			super.createChildren();
 			addChild(img);
 		}
-		public function set listData(value:BaseListData):void{
-			this._listData = DataGridListData(value);
-		}
-		public function get listData():BaseListData{
-			return _listData
-		}
 		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			img.move(unscaledWidth/2 -35, unscaledHeight/2-6);
-			img.setActualSize(69,12);
 		}
 		protected function click(evt:MouseEvent) : void{
 			var oldRating:int = data.rating;

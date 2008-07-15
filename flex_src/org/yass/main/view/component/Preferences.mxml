@@ -2,7 +2,7 @@
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" 
 	horizontalCenter="0" verticalCenter="0" title="Preferences" xmlns:component="org.yass.main.view.component.*" 
 	verticalScrollPolicy="off" horizontalScrollPolicy="off" currentState="Pane1"
-	creationComplete="onCreationComplete()" width="400">
+	creationComplete="onCreationComplete()" width="400" height="250">
 	<mx:Script>
 		<![CDATA[
 			import org.yass.main.MainWindow;
@@ -13,11 +13,11 @@
 			private function onItemClick():void{
 				currentState = configurationPane.selectedItem.@state
 				preferencepane2.dataProvider = mainWindow.mainPane.libraryBrowser.playList.columns.slice(1);
-			}
+			} 
 			private function onCreationComplete():void{
 				configurationPane.selectedIndex = 0
-			}
-		]]>
+			} 
+		]]> 
 	</mx:Script>
 	<mx:XMLList id="ConfigurationPanes">
 		<node state="Pane1" label="Player"/>
@@ -26,7 +26,7 @@
 	<mx:states>
 		<mx:State name="Pane1">
 			<mx:AddChild relativeTo="{prefPane}">
-					<component:PreferencePane1 id="preferencepane1" horizontalCenter="0" verticalCenter="0"/>
+					<component:PreferencePane1 id="preferencepane1" horizontalCenter="0" top="0"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Pane2">
@@ -36,7 +36,7 @@
 		</mx:State>
 	</mx:states>
 	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" width="100%" height="100%">
-		<mx:DataGrid  width="120" height="100%" id="configurationPane" dataProvider="{ConfigurationPanes}"  
+		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" width="120" height="100%" id="configurationPane" dataProvider="{ConfigurationPanes}"  
 			showHeaders="false"  itemClick="onItemClick()">
 			<mx:columns>
 				<mx:DataGridColumn dataField="@label" sortable="false" draggable="false" />
@@ -44,7 +44,7 @@
 		</mx:DataGrid>
 		<mx:VBox height="100%"  horizontalAlign="center" width="100%" paddingRight="5">
 			<mx:Canvas id="prefPane" height="100%" width="100%"/>
-			<mx:Button label="Submit" click="onSubmit()" width="60" cornerRadius="5"/>
+			<mx:Button label="Submit" click="onSubmit()" />
 		</mx:VBox>
 	</mx:HBox>
 </mx:Panel>

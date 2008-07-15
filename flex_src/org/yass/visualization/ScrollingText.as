@@ -6,7 +6,7 @@ package org.yass.visualization{
 	import mx.controls.Text;
 	import mx.core.UIComponent;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 
 	[Style(name="fontSize",type="Number",inherit="yes")]
@@ -175,9 +175,9 @@ package org.yass.visualization{
 		}
 		
 		private function setText(event:Event):void{
-			if(MP3.player.loadedTrack){
-				cache[0].text = MP3.player.loadedTrack.artist;
-				cache[1].text = MP3.player.loadedTrack.album;
+			if(Yass.player.loadedTrack){
+				cache[0].text = Yass.player.loadedTrack.artist;
+				cache[1].text = Yass.player.loadedTrack.album;
 			}
 		}
 	}

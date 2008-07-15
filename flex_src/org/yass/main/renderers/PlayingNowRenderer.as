@@ -1,13 +1,12 @@
 package org.yass.main.renderers
 {
 	import mx.controls.Image;
-	import mx.controls.dataGridClasses.DataGridListData;
-	import mx.controls.listClasses.BaseListData;
 	import mx.controls.listClasses.IListItemRenderer;
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
+	import org.yass.debug.log.Console;
 	
 	public class PlayingNowRenderer extends UIComponent implements IListItemRenderer{
 		private var imgPlay:Image = new Image();
@@ -42,7 +41,7 @@ package org.yass.main.renderers
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			imgLoaded.visible = data && data.isLoaded;		
-			imgPlay.visible = imgLoaded.visible && MP3.player.isPlaying;
+			imgPlay.visible = imgLoaded.visible && Yass.player.isPlaying;
 		}
 	}
 }

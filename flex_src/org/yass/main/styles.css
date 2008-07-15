@@ -1,5 +1,4 @@
 /* CSS file */
-
 Button.PlayButtonStopped
 {
 	downSkin: Embed('/assets/active-play.png');
@@ -28,12 +27,13 @@ ProgressSlider.ProgressSlider
 	trackSkin: Embed('/assets/progress.png');
 	verticalCenter:-4;
 	slide-easing-function: 0;
-	slide-duration:0;
+	slide-duration:0; 
 }
 CheckBox.LoopCheckBox
 {
 	downIcon: Embed('/assets/repeat-off.png');
 	icon: Embed('/assets/repeat-off.png');
+	overIcon: Embed('/assets/repeat-off.png');
 	selectedDownIcon: Embed('/assets/repeat-on.png');
 	selectedOverIcon: Embed('/assets/repeat-on.png');
 	selectedUpIcon: Embed('/assets/repeat-on.png');
@@ -45,6 +45,7 @@ CheckBox.ShuffleCheckBox
 {
 	downIcon: Embed('/assets/shuffle-off.png');
 	icon: Embed('/assets/shuffle-off.png');
+	overIcon: Embed('/assets/shuffle-off.png');
 	selectedDownIcon: Embed('/assets/shuffle-on.png');
 	selectedOverIcon: Embed('/assets/shuffle-on.png');
 	selectedUpIcon: Embed('/assets/shuffle-on.png');
@@ -76,17 +77,18 @@ HSlider.VolumeSlider
 	thumbOverSkin: Embed('/assets/volume-thumb-active.png');
 	thumbSkin: Embed('/assets/volume-thumb.png');
 	trackSkin: Embed('/assets/volume-track-bkgd.png');
-	horizontalCenter: 0;
 	slide-easing-function: 0;
 	slide-duration:0;
 	thumbOffset: 0;
+	dataTipPlacement: bottom;
+	verticalCenter: -5;
+	horizontalCenter: 0;
 }
 Display.Display
 {
 	 horizontal-center:0; 
 	 vertical-center:0 ;
 	 background-size:"100%";
-				
 	backgroundImage: Embed('/assets/faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='10', scaleGridRight='65');
 }
 Button.VolumeUpButton
@@ -94,10 +96,6 @@ Button.VolumeUpButton
 	downSkin: Embed('/assets/hover-vol-up.png');
 	overSkin: Embed('/assets/hover-vol-up.png');
 	upSkin: Embed('/assets/normal-vol-up.png');
-}
-Image.LeftVolSlider
-{
-	
 }
 SpectrumAnalyzer.dimmed
 {
@@ -126,31 +124,12 @@ SpectrumAnalyzer.visible
 	alphaInactive:"0.2";
 }
 
-FilterPane.disabled
-{
-	color:"#DDDDDD";
-}
-FilterPane.enabled
-{
-	color:"#000000";
-}
 TextInput.inputText
 {
 	corner-radius:8;
 	padding-top:4;
 	borderSkin: Embed('/assets/input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='260');
 }
-
-
-/*
-///////////////////////////////////////////////////////////////////////////////
-//
-//  Shadow CSS theme by Juan Sanchez.
-//  http://www.scalenine.com
-//
-///////////////////////////////////////////////////////////////////////////////
-*/
-
 global {
    fontFamily: Monaco;
 }
@@ -165,17 +144,24 @@ Application {
 }
 
 Button {
-   cornerRadius: 10;
-   paddingLeft: 0;
-   paddingRight: 0;
+   cornerRadius: 6;
+   paddingLeft: 10;
+   paddingRight: 10;
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
+   color: #DDDDDD;
+   textRollOverColor: #FFFFFF;
    borderColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+	leading: 0;
+	paddingTop: 5;
+	paddingBottom: 5;
+	horizontalGap: 0;
+	upSkin: Embed(source="/assets/button-up.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
+	overSkin: Embed(source="/assets/button-up.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
+	downSkin: Embed(source="/assets/button-down.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
+	textSelectedColor: #FFFFFF;
 }
 
 ButtonBar {
@@ -193,7 +179,6 @@ ButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
 }
 
 .mybuttonBarFirstButtonStyle {
@@ -228,7 +213,7 @@ LinkBar {
    textRollOverColor: #333333;
    textSelectedColor: #cccccc;
    disabledColor: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 
 LinkButton {
@@ -238,7 +223,7 @@ LinkButton {
    color: #ffffff;
    textRollOverColor: #ffffff;
    textSelectedColor: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 
 PopUpButton {
@@ -274,7 +259,7 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
 }
 
 .mytoggleButtonBarFirstButtonStyle {
@@ -287,7 +272,7 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
 }
 
 .mytoggleButtonBarLastButtonStyle {
@@ -300,14 +285,14 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
 }
 
 .mytoggleButtonBarSelectedButtonStyle {
    color: #ffffff;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #333333, #666666, #666666, #666666;
-   /*fontFamily: Monaco;*/
+
 }
 
 ApplicationControlBar {
@@ -341,7 +326,7 @@ Panel
 .mypanelTitle {
    color: #ffffff;
    textAlign: center;
-   /*fontFamily: Monaco;*/
+
 }
 
 CheckBox {
@@ -353,7 +338,20 @@ CheckBox {
    textSelectedColor: #cccccc;
    textRollOverColor: #cccccc;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+	paddingBottom: 0;
+	horizontalGap: 0;
+	textAlign: left;
+	paddingTop: 0;
+	leading: 0;
+	selectedUpIcon: Embed(source="/assets/checkbox-up-selected.png");
+	upIcon: Embed(source="/assets/checkbox-up.png");
+	selectedOverIcon: Embed(source="/assets/checkbox-over-selected.png");
+	overIcon: Embed(source="/assets/checkbox-over.png");
+	selectedDisabledIcon: Embed(source="/assets/checkbox-disabled-selected.png");
+	selectedDownIcon: Embed(source="/assets/checkbox-down-selected.png");
+	downIcon: Embed(source="/assets/checkbox-down.png");
+	disabledIcon: Embed(source="/assets/checkbox-disabled.png");;
+
 }
 
 ComboBox {
@@ -368,15 +366,18 @@ ComboBox {
    rollOverColor: #cccccc;
    textRollOverColor: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
    dropDownStyleName: "myComboBoxDropDowns";
+	dropdownStyleName: comboBoxDropdown;
+	leading: 0;
+	textAlign: left;
 }
 
 .myComboBoxDropDowns {
    cornerRadius: 0;
    borderColor: #333333;
    color: #000000;
-   /*fontFamily: Monaco;*/
+
 }
 
 DateChooser {
@@ -390,13 +391,13 @@ DateChooser {
    selectionColor: #333333;
    color: #333333;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
    headerStyleName: "mydateChooserHeaderStyle";   weekDayStyleName: "mydateChooserWeekDayStyle";   todayStyleName: "mydateChooserTodayStyle";
 }
 
 .mydateChooserHeaderStyle {
    color: #ffffff;
-   /*fontFamily: Monaco;*/
+
 
 }
 
@@ -407,7 +408,7 @@ DateChooser {
 
 .mydateChooserTodayStyle {
    color: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 
 RadioButton {
@@ -418,7 +419,7 @@ RadioButton {
    textSelectedColor: #cccccc;
    textRollOverColor: #cccccc;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
 }
 
 NumericStepper {
@@ -433,7 +434,7 @@ NumericStepper {
 }
 
 TextArea {
-   /*fontFamily: Monaco;*/
+
    color: #333333;
    paddingLeft: 6;
    paddingRight: 6;
@@ -451,14 +452,13 @@ TextInput {
    backgroundAlpha: .9;
 }
 List {
-   rollOverColor: #cccccc;
    textRollOverColor: #333333;
    borderStyle: inset;
    borderThickness: 1;
    selectionColor: #666666;
    color: #333333;
    textSelectedColor: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 Tree {
    rollOverColor: #cccccc;
@@ -466,7 +466,7 @@ Tree {
    selectionColor: #666666;
    color: #333333;
    textSelectedColor: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 Accordion {
    highlightAlphas: 0, 0;
@@ -482,7 +482,7 @@ Accordion {
 
 .myaccordionHeader {
    color: #ffffff;
-   /*fontFamily: Monaco;*/
+
 }
 TabNavigator {
    cornerRadius: 0;
@@ -505,14 +505,14 @@ TabNavigator {
    color: #cccccc;
    textRollOverColor: #cccccc;
    themeColor: #333333;
-   /*fontFamily: Monaco;*/
+
 
 }
 
 .mySelectedTabs {
    color: #ffffff;
    textRollOverColor: #cccccc;
-   /*fontFamily: Monaco;*/
+
 }
 HRule {
    strokeColor: #999999;
@@ -525,70 +525,54 @@ VRule {
 HScrollBar {
    cornerRadius: 0;
    highlightAlphas: 0, 0;
-   fillAlphas: 0.9, 0.61, 0.75, 0.65;
-   fillColors: #333333, #000000, #666666, #333333;
-   trackColors: #333333, #666666;
+   fillAlphas: 0.0, 1.0, 0.0, 0.68;
+   fillColors: #333333, #575757, #666666, #000000;
    themeColor: #333333;
    borderColor: #333333;
+	thumbOffset: 1;
 }
 VScrollBar {
    cornerRadius: 0;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.9, 0.61, 0.75, 0.65;
-   fillColors: #333333, #000000, #666666, #333333;
-   trackColors: #333333, #666666;
-   themeColor: #333333;
-   borderColor: #333333;
-}
-HSlider {
-   labelOffset: -4;
-   thumbOffset: 3;
-   dataTipOffset: 2;
-   tickOffset: 14;
-   tickColor: #999999;
-   showTrackHighlight: true;
-   borderColor: #333333;
-   trackColors: #333333, #666666;
-   themeColor: #333333;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #333333, #000000, #333333, #666666;
-   labelStyleName: "myhSliderLabelStyle";
-}
-
-.myhSliderLabelStyle {
-   color: #ffffff;
-   /*fontFamily: Monaco;*/
-}
-VSlider {
-   labelOffset: -4;
-   thumbOffset: 3;
-   dataTipOffset: 2;
-   tickOffset: 14;
-   tickColor: #999999;
-   showTrackHighlight: true;
-   borderColor: #333333;
-   trackColors: #333333, #666666;
-   themeColor: #333333;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #333333, #000000, #333333, #666666;
-   labelStyleName: "myhSliderLabelStyle";
+   highlightAlphas: 0,0;
+   fillAlphas: 0.16, 0.5, 0.16, 0.5;
+   fillColors: #627563, #212121, #8A9588, #212121;
+   themeColor: #000000;
+   borderColor: #070707; 
+	thumbOffset: 1;
+	trackColors: #4F4F4F, #C2C2C2;
 }
 DataGrid {
-   headerColors: #666666, #333333;
+   headerColors: #E8E8E8, #808080;
    verticalGridLines: true;
    verticalGridLineColor: #cccccc;
-   rollOverColor: #cccccc;
    textRollOverColor: #333333;
    borderColor: #333333;
-   selectionColor: #666666;
+   selectionColor: #718474;
    color: #333333;
    textSelectedColor: #ffffff;
-   /*fontFamily: Monaco;*/
+
    headerStyleName: "mydataGridHeaderStyle";
+	textAlign: left;
+	horizontalGridLines: true;
+	horizontalGridLineColor: #F8F8F8;
+	borderStyle: none;
+	borderThickness: 0;
+	alternatingItemColors: #FFFFFF, #f3fbf3;
+	backgroundAlpha: 1.0;
+	fontWeight: normal;
+	leading: 0;
+	rollOverColor: #AFC5AF;
+	paddingBottom: 0;
+	paddingTop: 0;
+	paddingLeft: 0;
 }
 
 .mydataGridHeaderStyle {
-   color: #ffffff;
+   color: #000000;
+	fontWeight: bold;
+	textDecoration: normal;
+	fontStyle: normal;
+	fontSize: 10;
    /*fontFamily: Monaco;*/
 }
 
@@ -606,20 +590,30 @@ MenuBar {
    textSelectedColor: #000000;
    disabledColor: #333333;
    themeColor: #000000;
-   /*fontFamily: Monaco;*/
 }
 ProgressBar {
-   borderColor: #333333;
-   barColor: #333333;
+   borderColor: #0B333C;
+   barColor: #FFFFFF;
    trackColors: #666666, #999999;
    color: #ffffff;
-   /*fontFamily: Monaco;*/
+	barSkin: Embed(source="/assets/progress-highlight.png");
+	verticalGap: 0;
+	trackHeight: 12;
+	textAlign: center;
 }
 ToolTip {
    backgroundAlpha: 0.92;
    cornerRadius: 10;
    backgroundColor: #333333;
    color: #ffffff;
-   /*fontFamily: Monaco;*/
+}
+.comboBoxDropdown
+{
+	verticalScrollBarStyleName: listBaseVerticalScrollBar;
+	paddingTop: 4;
+	paddingBottom: 4;
+}
+.listBaseVerticalScrollBar
+{
 }
 

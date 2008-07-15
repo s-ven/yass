@@ -10,32 +10,34 @@ package org.yass.main.model
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
 	import org.yass.util.tree.*;
+	[Bindable]
 	public class BrowserModel extends EventDispatcher{
 		public var genreArray:ArrayCollection; 
 		public var artistArray:ArrayCollection;
 		public var albumArray:ArrayCollection; 
 		public static var dict:Dictionary = new Dictionary();
-		public var playlistModel:PlayListModel = new PlayListModel();
 		public var selectedArtists: Array = new Array();
 		public var selectedGenres: Array = new Array();
 		public var selectedAlbums: Array = new Array();
 		private var tree:Tree;
-		private var httpService:HTTPService = new HTTPService();
+		//private var httpService:HTTPService = new HTTPService();
 		private var sort:Sort = new Sort();
 		public function BrowserModel():void{
 			Console.log("model.BrowserModel :: Init");
-			httpService.url = "/yass/library_get_tree.do";
+/* 			httpService.url = "/yass/library_get_tree.do";
 			httpService.resultFormat = "e4x";
 			httpService.addEventListener(ResultEvent.RESULT, populateTree);
-			httpService.send();
+			httpService.send(); */
+			populateTree();
 			sort.fields = [new SortField("value")];
 		}
-		private function populateTree(evt:Event):void{
+		private function populateTree():void{
 			Console.group("model.BrowserModel.populateTree");
-			tree = new Tree(httpService.lastResult as XML);
+			tree = new Tree(new XML(Yass.libTreeData));
 			genreArray = createArray("GENRE");
 			Console.log("	genres.length:"+genreArray.length);
 			artistArray = createArray("ARTIST");
@@ -43,17 +45,15 @@ package org.yass.main.model
 			albumArray = createArray("ALBUM");
 			Console.log("	albums.length:"+albumArray.length);
 			Console.groupEnd();
-			this.playlistModel = playlistModel as PlayListModel;
-			this.playlistModel.httpService.url = "/yass/library_browse.do";
-			this.playlistModel.httpService.send();
 			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED, ["genre","artist", "album"]));
 		}
 		private function createArray(type:String):ArrayCollection{
 			var array:ArrayCollection = tree.getArrayByType(type);
 			array.sort = sort;
 			array.refresh();
-			for(var i:Object in array)
+			for(var i:Object in array){
 				dict[array[i].type + "_" + array[i].id] = array[i]
+			}
 			return array;
 		}
 		private function filterChild(sub:ArrayCollection,selectedItems:Array):void{
@@ -122,8 +122,8 @@ package org.yass.main.model
 				} else if(type == "album")
 					selectedAlbums = selectedItems;
 			}
-			if(playlistModel.datas){
-				playlistModel.datas.filterFunction = function(row:Object):Boolean{
+			if(Yass.library.datas){
+				Yass.library.datas.filterFunction = function(row:Object):Boolean{
 							var ret : Boolean = true;
 							if (selectedGenres.length != 0)
 							 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
@@ -133,7 +133,7 @@ package org.yass.main.model
 							 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
 							return ret;
 				}
-				playlistModel.datas.refresh();
+				Yass.library.datas.refresh();
 				dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED_PLAYLIST));
 			}
 			Console.groupEnd();

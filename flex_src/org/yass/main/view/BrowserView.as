@@ -27,6 +27,7 @@ package org.yass.main.view
 	import mx.controls.DataGrid;
 	import mx.events.ListEvent;
 	
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
 	import org.yass.main.model.BrowserModel;
@@ -44,9 +45,12 @@ package org.yass.main.view
 			this.genre = genre;
 			this.artist = artist;  
 			this.album = album; 
-			model = new BrowserModel();
+			model = Yass.browser;
+			genre.dataProvider = createAllRow("genre", model.genreArray);
+			artist.dataProvider = createAllRow("artist", model.artistArray);
+			album.dataProvider = createAllRow("album", model.albumArray);
 			this.playlistView = playlistView; 
-			this.playlistView.model = model.playlistModel;
+			this.playlistView.model = Yass.library;
 			genre.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			artist.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			album.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
@@ -68,12 +72,12 @@ package org.yass.main.view
 		}
 		private function onRefreshedPlayList(evt:BrowserEvent):void{
 			Console.log("view.BrowserView.onRefreshedPlayList types:" + evt.types);
-			model.playlistModel.bindDataProvider(playlistView);
+			Yass.library.bindDataProvider(playlistView);
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
 			var arr:Array = new Array();
 			if(arrCol.length > 1){
-				var allRow = new Object();
+				var allRow:Object = new Object();
 				allRow.value = "All (" + arrCol.length + " " + label+"s)";
 				allRow.id = -1;
 				arr.push(allRow)
@@ -82,7 +86,7 @@ package org.yass.main.view
 			arr = arr.concat(arrCol.toArray());
 			return arr;
 		}
-		public function onClickPlayList(type:String, val:Value){
+		public function onClickPlayList(type:String, val:Value):void{
 			Console.group("view.BrowserView.onClickArtist " + val);
 			model.browseBy(type, this.artist.selectedIndices, [val])	
 			

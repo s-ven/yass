@@ -6,7 +6,7 @@ package org.yass.visualization
 	import mx.controls.HSlider;
 	import mx.events.SliderEvent;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 
 	[Bindable]
@@ -23,19 +23,19 @@ package org.yass.visualization
 
 		private function sliderChange(event:SliderEvent):void{
 			if(event.triggerEvent.type == MouseEvent.CLICK)
-				MP3.player.skipTo(event.value);
+				Yass.player.skipTo(event.value);
 		}
 		
 		private 	function onEnterFrame(event:Event):void{
-			if(MP3.player.isPlaying){
-				value = MP3.player.position;
-				if(!MP3.player.isPaused && MP3.player.loadedTrack)
-					maximum = Math.max(MP3.player.loadedTrack.length, MP3.player.loadedLength);
+			if(Yass.player.isPlaying){
+				value = Yass.player.position;
+				if(!Yass.player.isPaused && Yass.player.loadedTrack)
+					maximum = Math.max(Yass.player.loadedTrack.length, Yass.player.loadedLength);
 				else maximum = 0;
 				this.visible = true;
 			}
-			else if (!MP3.player.isPaused){
-				value = MP3.player.position;
+			else if (!Yass.player.isPaused){
+				value = Yass.player.position;
 				this.visible = false;
 			}
 		}

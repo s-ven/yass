@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actionScriptProperties mainApplicationPath="index.mxml" version="3">
-<compiler additionalCompilerArguments="-locale en_US -verbose-stacktraces" copyDependentFiles="true" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="true" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="true" outputFolderPath="web" rootURL="http://localhost:8080/" sourceFolderPath="flex_src" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<compiler additionalCompilerArguments="" copyDependentFiles="false" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="true" htmlGenerate="true" htmlHistoryManagement="false" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="false" outputFolderPath="web" rootURL="http://localhost:8080/" sourceFolderPath="flex_src" strict="true" useApolloConfig="false" verifyDigests="true" warn="false">
 <compilerSourcePath/>
 <libraryPath defaultLinkType="1">
 <libraryPathEntry kind="4" path=""/>
@@ -11,6 +11,7 @@
 <applications>
 <application path="TRACK.mxml"/>
 <application path="index.mxml"/>
+<application path="TestPreloader.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>

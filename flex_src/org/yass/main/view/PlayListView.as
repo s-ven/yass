@@ -33,7 +33,7 @@
     import mx.events.FlexEvent;
     import mx.events.ListEvent;
     
-    import org.yass.MP3;
+    import org.yass.Yass;
     import org.yass.debug.log.Console;
     import org.yass.main.controller.PlayListController;
     import org.yass.main.events.TrackEvent;
@@ -94,9 +94,9 @@
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
 			// if the playlistModel is currently played, selecti the playing track
-			if(MP3.player.isPlaying && MP3.player.loadedPlayList.playListId == playListId){
-				this.selectedIndex = MP3.player.loadedPlayList.trackIndex;
-				this.selectedIndex = MP3.player.loadedPlayList.datas.getItemIndex(MP3.player.loadedTrack);
+			if(Yass.player.isPlaying && Yass.player.loadedPlayList.playListId == playListId){
+				this.selectedIndex = Yass.player.loadedPlayList.trackIndex;
+				this.selectedIndex = Yass.player.loadedPlayList.datas.getItemIndex(Yass.player.loadedTrack);
 			}
 		}
 		public function get model():IPlayListModel{ 
@@ -172,12 +172,12 @@
 			Console.log("view.PlayList.autoPlay :: requested");
 			addEventListener(Event.ENTER_FRAME, function autoPlayAfterRefresh():void{
 				if(enabled){
-					MP3.player.loadedPlayList = _model;
+					Yass.player.loadedPlayList = _model;
 					Console.log("view.PlayList.autoPlayDatagrid");
 					removeEventListener(Event.ENTER_FRAME, autoPlayAfterRefresh);
-					MP3.player.stop();
-					MP3.player.loadedPlayList = model;
-					MP3.player.play();
+					Yass.player.stop();
+					Yass.player.loadedPlayList = model;
+					Yass.player.play();
 					this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 					Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
 				}

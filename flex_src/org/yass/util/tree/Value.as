@@ -4,7 +4,6 @@ package org.yass.util.tree
 	
 	import org.yass.util.Visitable;
 	import org.yass.util.Visitor;
-	[Bindable]
 	public class Value implements Visitable	{
 		public var childs:Array = new Array(); 
 		public var id:int;

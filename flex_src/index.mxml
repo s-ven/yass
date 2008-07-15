@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application 
-	xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" backgroundGradientAlphas="[1.0, 1.0]"
+	xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" backgroundGradientAlphas="[0.0, 0.0]"
 	minWidth="800"
-	backgroundGradientColors="[#323232, #656565]" borderColor="#656565"
+	backgroundGradientColors="[#323232, #656565]" borderColor="#000000"
 	xmlns:local="*"
 	xmlns:mp3="org.yass.visualization.*" 
-	currentState="MainWindow" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*">
+	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*" themeColor="#000000">
 	<mx:states>
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
-				<main:MainWindow id="mainWindow"></main:MainWindow>
-			</mx:AddChild>
+				<main:MainWindow id="mainWindow" addedEffect="fadein"/>
+			</mx:AddChild>   
 		</mx:State>
+		<mx:State name="ProgressLoader" >
+			<mx:AddChild  position="lastChild" >
+				<component:LoadingProgressBar id="progressLoaderBar" horizontalCenter="0" verticalCenter="0" uicomponent="{this}"  />
+			</mx:AddChild>   
+		</mx:State>  
 	</mx:states>
 	<mx:Style source="org/yass/main/styles.css"/>
-</mx:Application>
+</mx:Application> 

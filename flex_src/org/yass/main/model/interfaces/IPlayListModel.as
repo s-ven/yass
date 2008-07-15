@@ -24,7 +24,6 @@ package org.yass.main.model.interfaces{
 	
 	import mx.collections.ArrayCollection;
 	
-	import org.yass.main.model.Track;
 
 	public interface IPlayListModel extends IEventDispatcher	{
 		function bindDataProvider(obj:Object):void;
@@ -37,6 +36,6 @@ package org.yass.main.model.interfaces{
 		function playTrack(trackIndex:Number):void;
 		function selectTrack(trackIndex:Number):void;
 		function get length():Number;
-		function get datas():ArrayCollection;
+		function get datas():Object;
 	}
 }

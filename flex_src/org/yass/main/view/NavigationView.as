@@ -100,7 +100,7 @@ package org.yass.main.view
 			var uids:Array = new Array();
 			var selected:Object = (event.dragInitiator as PlayListView).selectedItems;
 			for(var i:Object in selected){
-				var item = selected[i]
+				var item:Object = selected[i]
 				if(item)
 					uids.push(item.id);
 			}

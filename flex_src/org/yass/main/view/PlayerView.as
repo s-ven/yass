@@ -31,7 +31,7 @@ package org.yass.main.view
 	import mx.controls.Image;
 	import mx.events.SliderEvent;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.controller.PlayerController;
 	import org.yass.main.events.PlayerEvent;
@@ -51,9 +51,9 @@ package org.yass.main.view
 		
 		public function PlayerView(){
 			Console.log("view.PlayerView :: Init");
-			controller = new PlayerController(this, MP3.player as IPlayerModel);
-			MP3.player.addEventListener(PlayerEvent.PLAYING, onPlaying);
-			MP3.player.addEventListener(PlayerEvent.STOPPED, onStopped);
+			controller = new PlayerController(this, Yass.player as IPlayerModel);
+			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlaying);
+			Yass.player.addEventListener(PlayerEvent.STOPPED, onStopped);
 			super();
 		}
 		
@@ -112,12 +112,12 @@ package org.yass.main.view
 		private function formatVolume(val:String):String {
 		    return "Volume : " + String(val)+"%";
 		}
-		private function volumeSlideChange(evt:Event){
-			MP3.player.volume = volumeSlider.value/100;
+		private function volumeSlideChange(evt:Event):void{
+			Yass.player.volume = volumeSlider.value/100;
 		}
 		private function volDown(evt:Event):void{
 			volumeSlider.value = volumeSlider.value -1; 
-			MP3.player.volume =volumeSlider.value/100;
+			Yass.player.volume =volumeSlider.value/100;
 		}
 		/**
 		 * Called when the next track button has been clicked, 
@@ -125,7 +125,7 @@ package org.yass.main.view
 		 */ 
 		private function volUp(evt:Event):void{
 			volumeSlider.value = volumeSlider.value + 1; 
-			MP3.player.volume =volumeSlider.value/100;
+			Yass.player.volume =volumeSlider.value/100;
 		}
 		/**
 		 * Called when the next track button has been clicked, 
@@ -159,7 +159,7 @@ package org.yass.main.view
 		private function onPlaying(evt:PlayerEvent):void{
 			Console.log("view.Player.onPlaying");
 			playButton.styleName = "PlayButtonStarted";
-	        MP3.display.scrollText.start();
+	        Yass.display.scrollText.start();
 		}
 		/**
 		 * Called after an start event from the model 
@@ -169,7 +169,7 @@ package org.yass.main.view
 		private function onStopped(evt:PlayerEvent):void{
 			Console.log("view.Player.onStopped");
 			playButton.styleName = "PlayButtonStopped";
-			MP3.display.scrollText.stop();
+			Yass.display.scrollText.stop();
 		}
 	}
 }

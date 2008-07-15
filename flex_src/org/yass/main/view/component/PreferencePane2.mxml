@@ -9,7 +9,7 @@
 	dragDrop="onDragDrop(event)"
 	dragStart="dragStart(event)"
 	dragOver="dragOver(event)" height="100%"
-	 rowHeight="16" paddingBottom="0" paddingTop="0" >
+	 rowHeight="16" resizableColumns="false" sortableColumns="false" variableRowHeight="false" includeInLayout="false" scaleX="1" scaleY="1">
 	<mx:Script>
 		<![CDATA[
 			import mx.events.DragEvent;

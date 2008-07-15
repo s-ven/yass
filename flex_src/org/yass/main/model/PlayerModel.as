@@ -21,8 +21,6 @@
 */
 package org.yass.main.model{
     
-    import flash.media.Sound;
-    
     import mx.core.UIComponent;
     
     import org.yass.debug.log.Console;
@@ -42,7 +40,6 @@ package org.yass.main.model{
         private var soundHandler:SoundHandler;
         
                 
-        public static var instance:PlayerModel = new PlayerModel();
         public function PlayerModel():void{
         	Console.log("model.PlayerModel :: init");
         }
@@ -74,26 +71,26 @@ package org.yass.main.model{
             
         }    
         public function set loadedTrack(track:Object):void{
+        	Console.log("model.Player.loadedTrack title:"+track.title);
 			if(isPlaying)
 				soundHandler.fadeOut(5000);
 			this._loadedTrack = track;
         	if(track){
-				this.soundHandler = new SoundHandler(track as Track, volume);
+				this.soundHandler = new SoundHandler(track as XMLTrack, volume);
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
-				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 			}
-			
         }
         
         public function get loadedTrack():Object{
         	return _loadedTrack;
         }
         public function skipTo(value:Number):void{
-			Console.group("model.PlayerModel.skipTo value="+value);
-			if(soundHandler)
+        	if(soundHandler && value != 0){
+				Console.group("model.PlayerModel.skipTo value:"+value);
 				soundHandler.skipTo(value);
+				Console.groupEnd();
+			}
             this.dispatchEvent(new PlayerEvent(isPlaying?PlayerEvent.PLAYING:PlayerEvent.STOPPED));
-			Console.groupEnd();
 		}
 		public function next():void{
 			Console.group("model.PlayerModel.next");
@@ -117,7 +114,7 @@ package org.yass.main.model{
 		}   
 		public function toogle():void{
 			Console.log("model.PlayerModel.toogle");
-			if(soundHandler && soundHandler.isPlaying){
+			if(isPlaying){
 				soundHandler.pause();
 	            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 			}
@@ -127,12 +124,12 @@ package org.yass.main.model{
         		soundHandler.play();				
          	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
 			}
-			if(loadedPlayList)
-				loadedPlayList.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, loadedPlayList.trackIndex, loadedPlayList));
 		}
 		public function play():void{
-			this.soundHandler.play();
-            this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
+			if(!isPlaying){
+				this.soundHandler.play();
+            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
+   			}
 		}
 		public function stop():void{
 			if(isPlaying)
@@ -140,6 +137,15 @@ package org.yass.main.model{
             Console.log("model.PlayerModel.stop");
             this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 		}
-        
+		
+		public function playTrack(track:Object):void{
+        	Console.log("model.Player.loadedTrack title:"+track.title);
+			if(loadedTrack != track || !this.isPlaying){
+				if(isPlaying)
+					soundHandler.fadeOut(1000)	
+				loadedTrack = track;
+				play();
+			}
+		}        
     }
 }

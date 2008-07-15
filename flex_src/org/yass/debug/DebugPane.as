@@ -1,7 +1,7 @@
 package org.yass.debug
 {
 	import flash.events.Event;
-	import org.yass.MP3;
+	import org.yass.Yass;
 	
 	import mx.containers.Canvas;
 	import mx.controls.Text;
@@ -23,7 +23,7 @@ package org.yass.debug
 		
 		private function enterFrame(event:Event):void{
 				if(this.visible) 
-				txt.text = MP3.state;
+				txt.text = Yass.state;
 			}
 		
 	

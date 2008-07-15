@@ -31,7 +31,7 @@ package org.yass.main.model
 	import mx.rpc.http.HTTPService;
 	import mx.utils.ObjectProxy;
 	
-	import org.yass.MP3;
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.TrackEvent;
 	import org.yass.main.model.interfaces.IPlayListModel;
@@ -51,20 +51,22 @@ package org.yass.main.model
 			var df:DateFormatter	 = new DateFormatter();
 			df.formatString="HH:NN:SS";
 			_playListId = df.format(new Date());
-        	// If the player is not yet currently plaiying, loading this playlist to it
-        	// Otherwise, the loaded playlist will keep on reading, being paused
-			if(!(MP3.player.isPlaying && !MP3.player.isPaused)){
-				Console.log("model.PlayListModel.loadPlayList :: MP3 player seems to be blank, loading it");
-				MP3.player.loadedPlayList = this;
-			}
  			httpService.method = "POST";
 		}
 		
-   		public function get datas():ArrayCollection{
+   		public function get datas():Object{
    			return _datas;
    		}
-   		public function set datas(val:ArrayCollection):void{
-   			this._datas = val;
+   		public function set datas(val:Object):void{
+   			_datas = new ArrayCollection();
+			if(val is XMLList)
+				for(var i:Object in val)
+					datas.addItem(new ObjectProxy(new XMLTrack(val[i])));
+			else if(val is ArrayCollection)
+				for(var i:Object in val)
+					datas.addItem(new ObjectProxy(new XMLTrack(val[i])));
+			else
+				datas.addItem(new ObjectProxy(new XMLTrack(val as XML)));
    		}
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;
@@ -79,7 +81,7 @@ package org.yass.main.model
 		}
         public function get selectedTrack():Object{
         	if(datas && trackIndex !=-1 && trackIndex < datas.length)
-	        	return (datas[trackIndex] as ObjectProxy).valueOf() as Track;
+	        	return (datas[trackIndex] as ObjectProxy).valueOf() as XMLTrack;
         	return null;
         }
         public function get length():Number{
@@ -103,7 +105,7 @@ package org.yass.main.model
     	}
         public function getNextTrack(shuffle:Boolean, loop:Boolean):Object{
         	Console.log("model.PlayList.getNextTrack");
-            if(MP3.player.shuffle)
+            if(Yass.player.shuffle)
 	           	trackIndex = getNextShuffledTrack();
 	        else{
 				if(trackIndex < length - 1)
@@ -139,13 +141,10 @@ package org.yass.main.model
   			// add an event listener so that the dada object will be populated when the request is back
 			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
 				// Fills the Model datas with the result of the httpService object
-				datas = new ArrayCollection();
-				if(httpService.lastResult.tracks)
-					if(httpService.lastResult.tracks.track is ArrayCollection)
-						 for(var i:Object in httpService.lastResult.tracks.track)
-						 	datas.addItem(new ObjectProxy(new Track(httpService.lastResult.tracks.track[i])));
-					else
-						datas.addItem(new ObjectProxy(httpService.lastResult.tracks.track));
+				datas = httpService.lastResult.tracks
+				
+				
+
   				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
 				obj.dataProvider = datas;
 				obj.enabled = true;
@@ -157,14 +156,13 @@ package org.yass.main.model
   		 */
   		public function playTrack(_trackIndex:Number):void{ 
 			this.trackIndex = _trackIndex;
-  			Console.log("model.PlayList.playTrack trackIndex="  +trackIndex+ ", playListId="+ playListId);
-			MP3.player.stop();
+  			Console.log("model.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
+			var wasPlaying = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
-			MP3.player.loadedPlayList = this;
-			MP3.player.loadedTrack = selectedTrack;
-			MP3.player.play();
+			Yass.player.loadedPlayList = this;
+			Yass.player.playTrack(selectedTrack)
 			// If the Player is shuffling, will add the selected track to the random list 
- 	       	if(MP3.player.shuffle){
+ 	       	if(Yass.player.shuffle){
 	       		while(shuffledTracks.length > shuffledListPosition)
 	       			shuffledTracks.removeItemAt(shuffledListPosition);
 	       		shuffledListPosition +=1;
@@ -178,14 +176,19 @@ package org.yass.main.model
 				Console.timeEnd("model.PlayList.sortDataHandler nd");
 			}
 		}
-  	
+  		
+  		private function addPlayerListeners(){
+  			
+  		}
   	
   		public function selectTrack(_trackIndex:Number):void{
-  			Console.log("model.PlayList.selectTrack trackIndex="  +_trackIndex+ ", playListId="+ playListId);
+  			Console.log("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
   			this.trackIndex = _trackIndex;
   			// If a track is selected and the current player is not playing, wll cause the display to be updated
-			if(MP3.player.loadedPlayList && MP3.player.loadedPlayList.playListId == playListId && !MP3.player.isPlaying && !MP3.player.isPaused)
-				MP3.player.loadedTrack = selectedTrack;
+  			if(!Yass.player.loadedPlayList)
+  				Yass.player.loadedPlayList = this;
+			if(Yass.player.loadedPlayList.playListId == playListId && !Yass.player.isPlaying && !Yass.player.isPaused)
+				Yass.player.loadedTrack = selectedTrack;
 		}	
 	}    
 }
