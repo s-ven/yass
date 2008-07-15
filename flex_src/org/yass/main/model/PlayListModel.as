@@ -118,7 +118,6 @@ package org.yass.main.model
 					return null;
 	                	 
 	        }
-			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 			return selectedTrack;
         }
         
@@ -133,23 +132,8 @@ package org.yass.main.model
                 	trackIndex = length -1;
 				else
 					return null;
-			dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 			return selectedTrack;
 		}        
-   		
-  		public function bindDataProvider(obj:Object):void{
-  			Console.log("model.PlayList.bindDataProvider :: Binding dataProvider");
-			obj.dataProvider = datas;
-  			// add an event listener so that the dada object will be populated when the request is back
-			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
-				// Fills the Model datas with the result of the httpService object
-				datas = httpService.lastResult.tracks
-  				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
-				obj.dataProvider = datas;
-				obj.enabled = true;
-				httpService.removeEventListener(ResultEvent.RESULT, bind);
-	 		});
-  		}
   		/**
   		 *  This will play the request track,
   		 */
@@ -168,12 +152,7 @@ package org.yass.main.model
 	      		shuffledTracks.addItem(trackIndex);
 			} 
 			Console.groupEnd();
-		}	
-		private function sortDatasHandler(evt:CollectionEvent):void{
-			if(evt.kind == CollectionEventKind.REFRESH)
-				this.trackIndex = datas.getItemIndex(this.selectedTrack);
-		}
-  		
+		}	  		
   		public function selectTrack(_trackIndex:Number):void{
   			Console.group("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
   			this.trackIndex = _trackIndex;

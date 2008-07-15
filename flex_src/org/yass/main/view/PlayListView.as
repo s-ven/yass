@@ -87,7 +87,7 @@
 			this._model = value;
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			Console.group("view.PlayListView.setLoader : " + _model);
-			model.bindDataProvider(this);
+			dataProvider = _model.datas; //model.bindDataProvider(this);
 			playListId = model.playListId;
 			// Remove the eventLoaders for a potentially previous controller
 			if(controller)

@@ -99,8 +99,6 @@ package org.yass.main.model{
        		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
        		if(wasPlaying && loadedTrack)
         		play();
-        	else
-        		stop();
 			Console.groupEnd();
 		}   
 		public function previous():void{

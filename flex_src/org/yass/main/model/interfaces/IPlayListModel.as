@@ -26,7 +26,6 @@ package org.yass.main.model.interfaces{
 	
 
 	public interface IPlayListModel extends IEventDispatcher	{
-		function bindDataProvider(obj:Object):void;
 		function getNextTrack(shuffle:Boolean, loop:Boolean):Object;
 		function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object;
 		function set trackIndex(value:Number):void;

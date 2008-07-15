@@ -114,15 +114,15 @@ package org.yass.main.model
 				Console.log("model.SoundHandler.fadeOut duration:" + duration +", title:" + loadedTrack.title);
 				initialVolume = _volume;
 				fadeoutStartTime = new Date().time;
-				this.addEventListener(Event.ENTER_FRAME, onFadeOut);
+				this.addEventListener(Event.ENTER_FRAME, fadeOutHandler);
 				soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 			}
 		}
-		private function onFadeOut(evt:Event):void{
+		private function fadeOutHandler(evt:Event):void{
 			volume = Math.max(0, initialVolume * (fadeoutDuration - new Date().time + fadeoutStartTime) / fadeoutDuration);
 			if(Math.round(_volume * 100) ==0){
 				Console.log("model.SoundHandler.fadeOut over title:" + loadedTrack.title);
-				this.removeEventListener(Event.ENTER_FRAME, onFadeOut);
+				this.removeEventListener(Event.ENTER_FRAME, fadeOutHandler);
 				stop();
 				soundChannel = null;
 				sound = null;

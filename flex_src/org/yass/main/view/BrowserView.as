@@ -72,7 +72,7 @@ package org.yass.main.view
 		}
 		private function onRefreshedPlayList(evt:BrowserEvent):void{
 			Console.group("view.BrowserView.onRefreshedPlayList types:" + evt.types);
-			Yass.library.bindDataProvider(playlistView);
+			playlistView.dataProvider = Yass.library.datas;
 			Console.groupEnd();
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
