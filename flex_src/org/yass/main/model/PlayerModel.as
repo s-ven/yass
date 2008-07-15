@@ -37,7 +37,7 @@ package org.yass.main.model{
         
         private var _loadedTrack:Object;
         private var _volume:Number = 1;
-        private var soundHandler:SoundHandler;
+        private var _soundHandler:SoundHandler;
         
                 
         public function PlayerModel():void{
@@ -48,46 +48,47 @@ package org.yass.main.model{
         	return _volume;
         }
         public function get isPlaying():Boolean{
-        	return soundHandler && soundHandler.isPlaying;
+        	return _soundHandler && _soundHandler.isPlaying;
         }
         public function get loadedLength():Number{
-        	if(soundHandler)
-	        	return soundHandler.loadedLength;
+        	if(_soundHandler)
+	        	return _soundHandler.loadedLength;
 	        return 0;
         }
         public function get position():Number{
-        	if(soundHandler)
-	        	return soundHandler.position;
+        	if(_soundHandler)
+	        	return _soundHandler.position;
 	        return 0;
         }
         public function  get isPaused():Boolean{
-        	return soundHandler && soundHandler.position != 0 && !soundHandler.isPlaying;
+        	return _soundHandler && _soundHandler.position != 0 && !_soundHandler.isPlaying;
         }
         
         public function set volume(value:Number):void{
             this._volume = value;
-            if(this.soundHandler != null)
-            	soundHandler.volume = value;
+            if(this._soundHandler != null)
+            	_soundHandler.volume = value;
             
         }    
         public function set loadedTrack(track:Object):void{
-        	Console.log("model.Player.loadedTrack title:"+track.title);
+        	Console.group("model.Player.loadedTrack title:"+track.title);
 			if(isPlaying)
-				soundHandler.fadeOut(5000);
+				_soundHandler.fadeOut(5000);
 			this._loadedTrack = track;
         	if(track){
-				this.soundHandler = new SoundHandler(track as XMLTrack, volume);
-				this.dispatchEvent(new PlayerEvent(PlayerEvent.LOADED));
+				this._soundHandler = new SoundHandler(track as XMLTrack, volume);
+				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED));
 			}
+			Console.groupEnd();
         }
         
         public function get loadedTrack():Object{
         	return _loadedTrack;
         }
         public function skipTo(value:Number):void{
-        	if(soundHandler && value != 0){
+        	if(_soundHandler && value != 0){
 				Console.group("model.PlayerModel.skipTo value:"+value);
-				soundHandler.skipTo(value);
+				_soundHandler.skipTo(value);
 				Console.groupEnd();
 			}
             this.dispatchEvent(new PlayerEvent(isPlaying?PlayerEvent.PLAYING:PlayerEvent.STOPPED));
@@ -113,39 +114,41 @@ package org.yass.main.model{
 			Console.groupEnd();
 		}   
 		public function toogle():void{
-			Console.log("model.PlayerModel.toogle");
+			Console.group("model.PlayerModel.toogle");
 			if(isPlaying){
-				soundHandler.pause();
+				_soundHandler.pause();
 	            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 			}
 			else {
 				if(!loadedTrack)
         			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
-        		soundHandler.play();				
+        		_soundHandler.play();				
          	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
 			}
+			Console.groupEnd();
 		}
 		public function play():void{
 			if(!isPlaying){
-				this.soundHandler.play();
+				this._soundHandler.play();
             	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
    			}
 		}
 		public function stop():void{
 			if(isPlaying)
-				this.soundHandler.fadeOut(1000);
+				this._soundHandler.fadeOut(1000);
             Console.log("model.PlayerModel.stop");
             this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 		}
 		
 		public function playTrack(track:Object):void{
-        	Console.log("model.Player.loadedTrack title:"+track.title);
+        	Console.group("model.Player.loadedTrack title:"+track.title);
 			if(loadedTrack != track || !this.isPlaying){
 				if(isPlaying)
-					soundHandler.fadeOut(1000)	
+					_soundHandler.fadeOut(1000)	
 				loadedTrack = track;
 				play();
 			}
+			Console.groupEnd();
 		}        
     }
 }

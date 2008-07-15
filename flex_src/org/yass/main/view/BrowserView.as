@@ -71,8 +71,9 @@ package org.yass.main.view
 				album.dataProvider = createAllRow("album", model.albumArray);
 		}
 		private function onRefreshedPlayList(evt:BrowserEvent):void{
-			Console.log("view.BrowserView.onRefreshedPlayList types:" + evt.types);
+			Console.group("view.BrowserView.onRefreshedPlayList types:" + evt.types);
 			Yass.library.bindDataProvider(playlistView);
+			Console.groupEnd();
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
 			var arr:Array = new Array();
@@ -82,14 +83,12 @@ package org.yass.main.view
 				allRow.id = -1;
 				arr.push(allRow)
 			}
-				
 			arr = arr.concat(arrCol.toArray());
 			return arr;
 		}
 		public function onClickPlayList(type:String, val:Value):void{
 			Console.group("view.BrowserView.onClickArtist " + val);
 			model.browseBy(type, this.artist.selectedIndices, [val])	
-			
 			this[type].dataProvider = createAllRow("artist", model[type+"Array"]);
 			this[type].selectedItem = val;
 			this[type].scrollToIndex(this[type].selectedIndex)

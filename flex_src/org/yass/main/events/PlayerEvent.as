@@ -29,7 +29,7 @@ package org.yass.main.events{
 		public static const TOOGLE:String = "toogle";
 		public static const STOPPED:String = "stopped";
 		public static const PLAYING:String = "playing";
-		public static const LOADED:String = "loaded";
+		public static const TRACK_LOADED:String = "loaded";
 
 		public function PlayerEvent(type:String):void{
 			super(type);

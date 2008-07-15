@@ -86,7 +86,7 @@
 		public function set model(value:IPlayListModel):void{
 			this._model = value;
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
-			Console.log("view.PlayListView.setLoader : " + _model);
+			Console.group("view.PlayListView.setLoader : " + _model);
 			model.bindDataProvider(this);
 			playListId = model.playListId;
 			// Remove the eventLoaders for a potentially previous controller
@@ -98,6 +98,7 @@
 				this.selectedIndex = Yass.player.loadedPlayList.trackIndex;
 				this.selectedIndex = Yass.player.loadedPlayList.datas.getItemIndex(Yass.player.loadedTrack);
 			}
+			Console.groupEnd();
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
@@ -111,7 +112,7 @@
  		 *  TODO :: Move this to the Model
  		 */
 		private function onHeaderClick(event:DataGridEvent):void {
-			Console.log("view.PlayList.headerRelease column=" + event.dataField.toString());
+			Console.group("view.PlayList.headerRelease column=" + event.dataField.toString());
 			if (event.dataField.toString()=="trackNr") {
 			    if(oldColumn == "trackNr")
 			    	sortByTrackNr.reverse();
@@ -143,6 +144,7 @@
 			this.model.datas.refresh();
 			this.model.datas.sort=null;
 			event.preventDefault();
+			Console.groupEnd();
 		}
 
 	 	
@@ -152,24 +154,26 @@
         * will dispatch a TrackEvent.TRACK_PLAY event to the MVC Controller 
         */
         public function onDoubleClick(event:Event):void{
-			Console.log("view.PlayList.onDoubleClick");
+			Console.group("view.PlayList.onDoubleClick");
 		  	if(enabled){
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_PLAY, selectedIndex, _model));
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 		  	}
+			Console.groupEnd();
         }
         /*
         * Called when a click has occured on the playlist, 
         * will dispatch a TrackEvent.TRACK_CLICK event to the MVC Controller 
         */
         public function onClick(event:Event):void{
-			Console.log("view.PlayList.onClick");
+			Console.group("view.PlayList.onClick");
         	if(enabled)
         		dispatchEvent(new TrackEvent(TrackEvent.TRACK_CLICK, selectedIndex, _model));
+			Console.groupEnd();
         }
         // TODO : Move this to the model
 		public function autoPlay():void{
-			Console.log("view.PlayList.autoPlay :: requested");
+			Console.group("view.PlayList.autoPlay :: requested");
 			addEventListener(Event.ENTER_FRAME, function autoPlayAfterRefresh():void{
 				if(enabled){
 					Yass.player.loadedPlayList = _model;
@@ -181,18 +185,20 @@
 					this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 					Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
 				}
-			});			
+			});		
+			Console.groupEnd();	
 		}
 		/**
 		 * Called when an event occured from the Model (eg end of track, previous track
 		 * Will cause the previously selected track to be displayed 
 		 */
 		public function onTrackSelected(evt:TrackEvent):void{
-			Console.log("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
+			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList.playListId == this.playListId){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 				this.scrollToIndex(evt.trackIndex);
 			}	
+			Console.groupEnd();
 		
 		}
 		/**

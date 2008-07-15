@@ -50,11 +50,12 @@ package org.yass.main.view
 		[Embed(source="/assets/volume-track-right.png")] private var rightImgCl:Class;
 		
 		public function PlayerView(){
-			Console.log("view.PlayerView :: Init");
+			Console.group("view.PlayerView :: Init");
 			controller = new PlayerController(this, Yass.player as IPlayerModel);
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlaying);
 			Yass.player.addEventListener(PlayerEvent.STOPPED, onStopped);
 			super();
+			Console.groupEnd();
 		}
 		
 		override protected function commitProperties():void{
@@ -132,24 +133,27 @@ package org.yass.main.view
 		 * Will cause the model to go to next track
 		 */ 
 		private function onNextTrackClick(evt:Event):void{
-			Console.log("view.Player.nextTrack");
+			Console.group("view.Player.nextTrack");
 			dispatchEvent(new PlayerEvent(PlayerEvent.NEXT));
+			Console.groupEnd();
 		}
 		/**
 		 * Called when the previous track button has been clicked, 
 		 * Will cause the model to go to prévious track
 		 */ 
 		private function onPreviousTrackClick(evt:Event):void{
-			Console.log("view.Player.previousTrack");
+			Console.group("view.Player.previousTrack");
 			dispatchEvent(new PlayerEvent(PlayerEvent.PREVIOUS));
+			Console.groupEnd();
 		}
 		/**
 		* Caled when the user has clicked on the play or pause button
 		* Will toogle the  state of the PlayerModel between play and pause
 		*/
 		private function onPlayPauseClick(evt:Event):void{
-			Console.log("view.Player.tooglePlay");
+			Console.group("view.Player.tooglePlay");
 			dispatchEvent(new PlayerEvent(PlayerEvent.TOOGLE));
+			Console.groupEnd();
 		}
 		/**
 		 * Called after an start event from the model 

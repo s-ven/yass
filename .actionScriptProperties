@@ -9,9 +9,7 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
-<application path="TRACK.mxml"/>
 <application path="index.mxml"/>
-<application path="TestPreloader.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>

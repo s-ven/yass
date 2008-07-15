@@ -30,8 +30,8 @@ package org.yass.main.model
 			this.loadedTrack = track;
 			this.volume = volume;
 			this.fadeoutDuration = fadeOutDuration;
-            this.sound.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
-            this.addEventListener( Event.ENTER_FRAME, enterFrame)
+            this.sound.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+            this.addEventListener( Event.ENTER_FRAME, onEnterFrame)
 		}
 
         public function set volume(value:Number):void{
@@ -53,7 +53,7 @@ package org.yass.main.model
         public function stop():void{
         	isPlaying = false;
         	if(soundChannel){
-        		this.soundChannel.removeEventListener(Event.SOUND_COMPLETE, soundCompleteHandler)
+        		this.soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete)
 				this.soundChannel.stop();
         	}
         }       
@@ -61,14 +61,13 @@ package org.yass.main.model
         	isPlaying = true;
             Console.log("model.SoundHandler.play title:" + loadedTrack.title);
 	        if (position == 0){
-	        	
 				sound.load(new URLRequest("/yass/track_play.do?id=" + loadedTrack.id), new SoundLoaderContext(15000, false));
 	        	loadedTrack.playCount ++;
 	        	loadedTrack.lastPlayed = new Date();
 	        	loadedTrack.save();
 	        }
 	        this.soundChannel = this.sound.play(this.position);
-            this.soundChannel.addEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
+            this.soundChannel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 	    	volume = _volume;
 	    }
         public function skipTo(value:Number):void{
@@ -82,8 +81,7 @@ package org.yass.main.model
 				Console.groupEnd();
 			}
 		}
-		
-        public function soundCompleteHandler(event:Event):void {
+        public function onSoundComplete(event:Event):void {
             Console.log("model.SoundHandler.soundCompleteHandler title:" + loadedTrack.title);
             if(soundChannel.position >= loadedLength)
 				Yass.player.next();
@@ -91,22 +89,16 @@ package org.yass.main.model
 				skipTo(soundChannel.position + 10)
 			
         }        
-        private function ioErrorHandler(event:IOErrorEvent):void {
+        private function onIoError(event:IOErrorEvent):void {
            Console.log("model.SoundHandler.ioErrorHandler event.text:" + event.text);
         }
-        private function get fadeout():Boolean{
-        	return fadeoutDuration != 0 && position > loadedLength - fadeoutDuration;
-        }
-        private function get fadeoutvolume():Number{
-        	return Math.max(0, initialVolume * (fadeoutDuration - new Date().time + fadeoutStartTime) / fadeoutDuration)
-        }
-        private function enterFrame(event:Event):void {
+        private function onEnterFrame(event:Event):void {
 			if(soundChannel != null){
 				if(isPlaying){
 					position = soundChannel.position;
 					if(loadedTrack)
 						loadedLength  = Math.max(sound.length, loadedTrack.length);
-					if(fadeout){
+					if(fadeoutDuration != 0 && position > loadedLength - fadeoutDuration){
 						fadeOut(fadeoutDuration);
 						Yass.player.next();
 					}
@@ -117,20 +109,20 @@ package org.yass.main.model
 		}
 		public function fadeOut(duration:Number):void{
 			if(initialVolume == 0){
-				this.removeEventListener(Event.ENTER_FRAME, enterFrame);
+				this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 				fadeoutDuration = duration;
 				Console.log("model.SoundHandler.fadeOut duration:" + duration +", title:" + loadedTrack.title);
 				initialVolume = _volume;
 				fadeoutStartTime = new Date().time;
-				this.addEventListener(Event.ENTER_FRAME, fadeOutHandler);
-				soundChannel.removeEventListener(Event.SOUND_COMPLETE, soundCompleteHandler);
+				this.addEventListener(Event.ENTER_FRAME, onFadeOut);
+				soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete);
 			}
 		}
-		private function fadeOutHandler(evt:Event):void{
-			volume = fadeoutvolume;
+		private function onFadeOut(evt:Event):void{
+			volume = Math.max(0, initialVolume * (fadeoutDuration - new Date().time + fadeoutStartTime) / fadeoutDuration);
 			if(Math.round(_volume * 100) ==0){
 				Console.log("model.SoundHandler.fadeOut over title:" + loadedTrack.title);
-				this.removeEventListener(Event.ENTER_FRAME, fadeOutHandler);
+				this.removeEventListener(Event.ENTER_FRAME, onFadeOut);
 				stop();
 				soundChannel = null;
 				sound = null;

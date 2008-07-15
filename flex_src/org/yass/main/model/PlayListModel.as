@@ -21,6 +21,7 @@
 */
 package org.yass.main.model
 {
+	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
@@ -33,6 +34,7 @@ package org.yass.main.model
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
+	import org.yass.main.events.PlayerEvent;
 	import org.yass.main.events.TrackEvent;
 	import org.yass.main.model.interfaces.IPlayListModel;
 	
@@ -44,7 +46,7 @@ package org.yass.main.model
 		private var _playListId:String;
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
-   		private var datasProxy:ObjectProxy;
+   		private var _datasProxy:ObjectProxy;
 		public function PlayListModel(){			
         	Console.log("model.PlayListModel :: Init");
         	// TODO :: Find another way to generate time based GUI!!!!!!!!!!!!!
@@ -142,9 +144,6 @@ package org.yass.main.model
 			httpService.addEventListener(ResultEvent.RESULT, function bind():void{
 				// Fills the Model datas with the result of the httpService object
 				datas = httpService.lastResult.tracks
-				
-				
-
   				Console.log("model.PlayList.bindDataProvider :: Loaded " + datas.length + " tracks");
 				obj.dataProvider = datas;
 				obj.enabled = true;
@@ -156,10 +155,10 @@ package org.yass.main.model
   		 */
   		public function playTrack(_trackIndex:Number):void{ 
 			this.trackIndex = _trackIndex;
-  			Console.log("model.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
+  			Console.group("group.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
 			var wasPlaying = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
-			Yass.player.loadedPlayList = this;
+			loadToPlayer()
 			Yass.player.playTrack(selectedTrack)
 			// If the Player is shuffling, will add the selected track to the random list 
  	       	if(Yass.player.shuffle){
@@ -168,27 +167,47 @@ package org.yass.main.model
 	       		shuffledListPosition +=1;
 	      		shuffledTracks.addItem(trackIndex);
 			} 
+			Console.groupEnd();
 		}	
 		private function sortDatasHandler(evt:CollectionEvent):void{
-			if(evt.kind == CollectionEventKind.REFRESH){
-				Console.time("model.PlayList.sortDataHandler");
+			if(evt.kind == CollectionEventKind.REFRESH)
 				this.trackIndex = datas.getItemIndex(this.selectedTrack);
-				Console.timeEnd("model.PlayList.sortDataHandler nd");
-			}
 		}
   		
-  		private function addPlayerListeners(){
-  			
-  		}
-  	
   		public function selectTrack(_trackIndex:Number):void{
-  			Console.log("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
+  			Console.group("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
   			this.trackIndex = _trackIndex;
   			// If a track is selected and the current player is not playing, wll cause the display to be updated
   			if(!Yass.player.loadedPlayList)
-  				Yass.player.loadedPlayList = this;
+  				loadToPlayer()
 			if(Yass.player.loadedPlayList.playListId == playListId && !Yass.player.isPlaying && !Yass.player.isPaused)
 				Yass.player.loadedTrack = selectedTrack;
-		}	
+			Console.groupEnd();
+		}
+		/**
+		 * Adds a listener to the player and set this to be the loader
+		 */
+		private function loadToPlayer():void{
+			Console.log("model.PlayList.loadToPlayer");
+			if(Yass.player.loadedPlayList)
+				(Yass.player.loadedPlayList as PlayListModel).unLoadFromPlayer();
+			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
+  			Yass.player.loadedPlayList = this;
+		} 
+		private function unLoadFromPlayer():void{
+			Console.log("model.PlayList.unLoadFromPlayer");
+			Yass.player.removeEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+			Yass.player.removeEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+			Yass.player.removeEventListener(PlayerEvent.STOPPED, onPlayerEvent);
+		}
+		/**
+		 * Will dispatch a TrackEvent in order to refresh the view (Plate, PlayList) 
+		 */
+		private function onPlayerEvent(evt:Event):void{
+			if(Yass.player.loadedPlayList == this)
+				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
+		}
 	}    
 }
