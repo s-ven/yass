@@ -1,14 +1,10 @@
 /* CSS file */
 
 @font-face{
-            src: url("/assets/monaco.ttf");
-	         font-family: Monaco;
-
-             fontAntiAliasType:"advanced";
-             font-size:8;
-
+	src: url("/assets/MONACO.TTF");
+	font-family:Monaco;   
 }
-Button.PlayButtonStopped
+Button.PlayButtonStopped 
 {
 	downSkin: Embed('/assets/active-play.png');
 	overSkin: Embed('/assets/hover-play.png');
