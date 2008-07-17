@@ -31,11 +31,13 @@ package org.yass.main.events{
 		public static const TRACK_CLICK:String = "track_click";
 		public var trackIndex:Number;
 		public var playList:IPlayListModel;
-		public function TrackEvent(type:String, _trackIndex:Number, _playList:IPlayListModel):void{
-			super(type);
+		public var scrollToTrack:Boolean = false;
+		public function TrackEvent(type:String, _trackIndex:Number, _playList:IPlayListModel, scrollToTrack:Boolean=false):void{
+			super(type,true);
 			Console.log("event.Track.type=" + type);
 			this.trackIndex = _trackIndex;
 			this.playList = _playList;
+			this.scrollToTrack = scrollToTrack;
 		}
 	}
 }

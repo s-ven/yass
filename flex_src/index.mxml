@@ -19,7 +19,7 @@
 		<![CDATA[
 			[Embed(source="/assets/MONACO.TTF", fontName="Monaco")]
 			private var _monacoFont:Class;
-		]]>
+		]]> 
 	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>
-</mx:Application> 
+</mx:Application>  

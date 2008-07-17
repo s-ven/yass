@@ -55,7 +55,6 @@ package org.yass.main.view
 			artist.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			album.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed);
-			model.addEventListener(BrowserEvent.REFRESHED_PLAYLIST, onRefreshedPlayList);
 		}
 		private function onItemClick(evt:ListEvent):void{
 			Console.log("view.BrowserView.onItemClick id:"+evt.currentTarget.id);
@@ -69,11 +68,6 @@ package org.yass.main.view
 				artist.dataProvider = createAllRow("artist", model.artistArray);
 			if(evt.containsType("album"))
 				album.dataProvider = createAllRow("album", model.albumArray);
-		}
-		private function onRefreshedPlayList(evt:BrowserEvent):void{
-			Console.group("view.BrowserView.onRefreshedPlayList types:" + evt.types);
-			playlistView.dataProvider = Yass.library.datas;
-			Console.groupEnd();
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
 			var arr:Array = new Array();

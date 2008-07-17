@@ -24,12 +24,9 @@
     import flash.events.Event;
     import flash.utils.Dictionary;
     
-    import mx.collections.Sort;
-    import mx.collections.SortField;
     import mx.controls.DataGrid;
     import mx.controls.dataGridClasses.DataGridColumn;
     import mx.events.CollectionEvent;
-    import mx.events.DataGridEvent;
     import mx.events.FlexEvent;
     import mx.events.ListEvent;
     
@@ -42,37 +39,19 @@
     [Bindable]
     public class PlayListView  extends DataGrid   {
 				
-		public var playListId:String;
-		private var sortA:Sort;
-		private var sortByTrackNr:SortField;
-		private var sortByArtist:SortField;
-		private var sortByAlbum:SortField;
-		private var sortByTitle:SortField;
-		private var sortByLength:SortField;
-		private var sortByRating:SortField;
-		private var oldColumn:String;
 		private var _model:IPlayListModel;
 		private var playListColumns:Dictionary = new Dictionary();
 		private var controller:PlayListController;
 
  		public function PlayListView(){	
  			super();
- 			Console.log("view.PlayListView :: Init");
+ 			Console.log("view.PlayList :: Init");
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
 			this.dragEnabled=true;
-			this.addEventListener(DataGridEvent.HEADER_RELEASE, onHeaderClick);
  			this.addEventListener(ListEvent.ITEM_CLICK, onClick);
  			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, onDoubleClick);
  			this.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
- 			// TODO :: Move this to the Model
- 			sortA = new Sort();
-			sortByAlbum = new SortField("album", true);
-			sortByArtist = new SortField("artist", true);
-			sortByTitle = new SortField("title", true);
-			sortByTrackNr = new SortField("trackNr", true, false, true);
-			sortByLength = new SortField("length", true, false, true);
-			sortByRating = new SortField("rating", true, false, true);
  		}
  		
  		override protected function commitProperties():void{
@@ -85,66 +64,29 @@
  		*/
 		public function set model(value:IPlayListModel):void{
 			this._model = value;
+			Console.group("view.PlayList.setLoader : ");
+			dataProvider = _model; 
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
-			Console.group("view.PlayListView.setLoader : " + _model);
-			dataProvider = _model.datas; //model.bindDataProvider(this);
-			playListId = model.playListId;
+			dataProvider.addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange, false, -3, true)
 			// Remove the eventLoaders for a potentially previous controller
 			if(controller)
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
 			// if the playlistModel is currently played, selecti the playing track
-			if(Yass.player.isPlaying && Yass.player.loadedPlayList.playListId == playListId){
+			if(Yass.player.isPlaying && Yass.player.loadedPlayList == model){
 				this.selectedIndex = Yass.player.loadedPlayList.trackIndex;
-				this.selectedIndex = Yass.player.loadedPlayList.datas.getItemIndex(Yass.player.loadedTrack);
+				this.selectedIndex = Yass.player.loadedPlayList.getItemIndex(Yass.player.loadedTrack);
 			}
 			Console.groupEnd();
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
 		}		
- 		/**
- 		 * Called when a sort has occured, 
- 		 * The sort logic :
- 		 *  - sorted by artist, group the results by albums, then track number
- 		 *  - sorted by albums, group the results by artists then track number
- 		 *  - sorted by track number, group the results by artists then album
- 		 *  TODO :: Move this to the Model
- 		 */
-		private function onHeaderClick(event:DataGridEvent):void {
-			Console.group("view.PlayList.headerRelease column=" + event.dataField.toString());
-			if (event.dataField.toString()=="trackNr") {
-			    if(oldColumn == "trackNr")
-			    	sortByTrackNr.reverse();
-			 sortA.fields=[sortByTrackNr, sortByArtist, sortByAlbum, ];
-			} else if (event.dataField.toString()=="album") {
-			    if(oldColumn == "album")
-			    	sortByAlbum.reverse();
-			 sortA.fields=[sortByAlbum, sortByArtist, sortByTrackNr];
-			} else if (event.dataField.toString()=="artist") {
-			    if(oldColumn == "artist")
-			    	sortByArtist.reverse();
-			 sortA.fields=[sortByArtist, sortByAlbum, sortByTrackNr];
-			   } else if (event.dataField.toString()=="title") {
-			    if(oldColumn == "title")
-			    	sortByTitle.reverse();
-			   sortA.fields=[sortByTitle, sortByArtist, sortByAlbum];
-			}else if (event.dataField.toString()=="length") {
-			    if(oldColumn == "length")
-			    	sortByLength.reverse();
-			   sortA.fields=[sortByLength, sortByTitle, sortByArtist, sortByAlbum];
-			} else if (event.dataField.toString()=="rating") {
-			    if(oldColumn == "rating")
-			    	sortByRating.reverse();
-			   sortA.fields=[sortByRating, sortByArtist, sortByAlbum, sortByTrackNr];
-			} 
-			oldColumn = event.dataField.toString();
-			// TODO :: Move this to the model
-			this.model.datas.sort=sortA; 
-			this.model.datas.refresh();
-			this.model.datas.sort=null;
-			event.preventDefault();
-			Console.groupEnd();
+		private function onCollectionChange(evt:CollectionEvent):void{
+			Console.log("view.PlayList.onCollectionChange " + model.trackIndex);
+        if (model.trackIndex != -1 &&(model.trackIndex >= verticalScrollPosition + listItems.length - offscreenExtraRowsBottom || model.trackIndex < verticalScrollPosition)){
+            verticalScrollPosition =  model.trackIndex //Math.min(evt.trackIndex, maxVerticalScrollPosition);
+        }
 		}
 
 	 	
@@ -194,9 +136,9 @@
 		 */
 		public function onTrackSelected(evt:TrackEvent):void{
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
-			if(evt.playList.playListId == this.playListId){
+			if(evt.playList == this.model){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
-				this.scrollToIndex(evt.trackIndex);
+				scrollToIndex(model.trackIndex);
 			}	
 			Console.groupEnd();
 		

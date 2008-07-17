@@ -22,6 +22,8 @@
 package org.yass.main.controller{
 	import flash.events.IEventDispatcher;
 	
+	import mx.events.DataGridEvent;
+	
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.TrackEvent;
 	import org.yass.main.model.interfaces.IPlayListModel;
@@ -34,6 +36,7 @@ package org.yass.main.controller{
 			this.model = _model;
 			view.addEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
 			view.addEventListener(TrackEvent.TRACK_CLICK, onTrackClick);
+			view.addEventListener(DataGridEvent.HEADER_RELEASE, onHeaderRelease);
 		}
 		public function destroy():void{
 			view.removeEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
@@ -42,12 +45,18 @@ package org.yass.main.controller{
 		}
 		
 		private function onTrackPlay(evt:TrackEvent):void{
-			Console.log("controller.PlayListController.onTrackPlay trackIndex=" +evt.trackIndex);
+			Console.log("controller.PlayList.onTrackPlay trackIndex=" +evt.trackIndex);
 			model.playTrack(evt.trackIndex);			
 		}
 		private function onTrackClick(evt:TrackEvent):void{
-			Console.log("controller.PlayListController.onTrackCick trackIndex=" +evt.trackIndex);
+			Console.log("controller.PlayList.onTrackCick trackIndex=" +evt.trackIndex);
 			model.selectTrack(evt.trackIndex);			
+		}
+		private function onHeaderRelease(event:DataGridEvent):void {
+			Console.log("controller.PlayList.headerRelease column=" + event.dataField.toString());
+			model.sortColumn(event.dataField.toString());
+			event.preventDefault();
+
 		}
 	}
 }

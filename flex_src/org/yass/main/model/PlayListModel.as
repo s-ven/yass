@@ -22,13 +22,13 @@
 package org.yass.main.model
 {
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	
 	import mx.collections.ArrayCollection;
+	import mx.collections.Sort;
+	import mx.collections.SortField;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
 	import mx.formatters.DateFormatter;
-	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	import mx.utils.ObjectProxy;
 	
@@ -38,7 +38,7 @@ package org.yass.main.model
 	import org.yass.main.events.TrackEvent;
 	import org.yass.main.model.interfaces.IPlayListModel;
 	
-	public class PlayListModel extends EventDispatcher implements IPlayListModel{
+	public class PlayListModel extends ArrayCollection implements IPlayListModel{
         public var shuffledTracks:ArrayCollection= new ArrayCollection();
         public var shuffledListPosition:int; 
 		public var httpService : HTTPService = new HTTPService();
@@ -47,6 +47,16 @@ package org.yass.main.model
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
    		private var _datasProxy:ObjectProxy;
+		private var _sortA:Sort = new Sort();
+		private var _sortByTrackNr:SortField = new SortField("trackNr", true, false, true);
+		private var _sortByArtist:SortField = new SortField("artist", true);
+		private var _sortByAlbum:SortField = new SortField("album", true);
+		private var _sortByTitle:SortField = new SortField("title", true);
+		private var _sortByLength:SortField = new SortField("length", true, false, true);
+		private var _sortByRating:SortField = new SortField("rating", true, false, true);
+		private var _oldColumn:String;
+		private var _selectedTrack:ObjectProxy;
+			
 		public function PlayListModel(){			
         	Console.log("model.PlayListModel :: Init");
         	// TODO :: Find another way to generate time based GUI!!!!!!!!!!!!!
@@ -54,22 +64,23 @@ package org.yass.main.model
 			df.formatString="HH:NN:SS";
 			_playListId = df.format(new Date());
  			httpService.method = "POST";
-		}
+			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange,false,-1);
+		} 
 		
-   		public function get datas():Object{
+/*    		public function get datas():Object{
    			return _datas;
-   		}
+   		}*/
    		public function set datas(value:Object):void{
-   			_datas = new ArrayCollection();
+        	Console.log("model.PlayListModel.set datas");
 			if(value is XMLList)
 				for(var i:Object in value)
-					datas.addItem(new ObjectProxy(new XMLTrack(value[i])));
+					addItem(new ObjectProxy(new XMLTrack(value[i])));
 			else if(value is ArrayCollection)
 				for(var i:Object in value)
-					datas.addItem(new ObjectProxy(new XMLTrack(value[i])));
+					addItem(new ObjectProxy(new XMLTrack(value[i])));
 			else
-				datas.addItem(new ObjectProxy(new XMLTrack(value as XML)));
-   		}
+				addItem(new ObjectProxy(new XMLTrack(value as XML)));
+   		} 
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;
     	}
@@ -82,12 +93,11 @@ package org.yass.main.model
 			return _playListId;
 		}
         public function get selectedTrack():Object{
-        	if(datas && trackIndex !=-1 && trackIndex < datas.length)
-	        	return (datas[trackIndex] as ObjectProxy).valueOf() as XMLTrack;
+        	if(trackIndex !=-1 && trackIndex < length){
+        		_selectedTrack = (getItemAt(trackIndex) as ObjectProxy)
+	        	return _selectedTrack.valueOf() as XMLTrack;
+	        }
         	return null;
-        }
-        public function get length():Number{
-        	return datas.length;
         }
         
  		public function get trackIndex():Number{
@@ -116,7 +126,6 @@ package org.yass.main.model
 					trackIndex = 0;
 				else
 					return null;
-	                	 
 	        }
 			return selectedTrack;
         }
@@ -188,5 +197,56 @@ package org.yass.main.model
 			if(Yass.player.loadedPlayList == this)
 				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 		}
+		private function onCollectionChange(evt:CollectionEvent):void{
+			if(evt.kind == CollectionEventKind.REFRESH){
+				Console.group("model.PlayList.onCollectionChange");
+				this.trackIndex = getItemIndex(_selectedTrack);
+				if(trackIndex != -1 && Yass.player.loadedPlayList == this)
+					this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this, true));
+				Console.groupEnd();
+			}
+		}
+ 		/**
+ 		 * Called when a sort has occured, 
+ 		 * The sort logic :
+ 		 *  - sorted by artist, group the results by albums, then track number
+ 		 *  - sorted by albums, group the results by artists then track number
+ 		 *  - sorted by track number, group the results by artists then album
+ 		 *  TODO :: Move this to the Model
+ 		 */
+		public function sortColumn(columnName:String):void{
+			
+			Console.group("model.PlayList.sortColumn name:"+columnName);
+			if (columnName=="trackNr") {
+			    if(_oldColumn == "trackNr")
+			    	_sortByTrackNr.reverse();
+			 _sortA.fields=[_sortByTrackNr, _sortByArtist, _sortByAlbum, ];
+			} else if (columnName=="album") {
+			    if(_oldColumn == "album")
+			    	_sortByAlbum.reverse();
+			 _sortA.fields=[_sortByAlbum, _sortByArtist, _sortByTrackNr];
+			} else if (columnName=="artist") {
+			    if(_oldColumn == "artist")
+			    	_sortByArtist.reverse();
+			 _sortA.fields=[_sortByArtist, _sortByAlbum, _sortByTrackNr];
+			   } else if (columnName=="title") {
+			    if(_oldColumn == "title")
+			    	_sortByTitle.reverse();
+			   _sortA.fields=[_sortByTitle, _sortByArtist, _sortByAlbum];
+			}else if (columnName=="length") {
+			    if(_oldColumn == "length")
+			    	_sortByLength.reverse();
+			   _sortA.fields=[_sortByLength, _sortByTitle, _sortByArtist, _sortByAlbum];
+			} else if (columnName=="rating") {
+			    if(_oldColumn == "rating")
+			    	_sortByRating.reverse();
+			   _sortA.fields=[_sortByRating, _sortByArtist, _sortByAlbum, _sortByTrackNr];
+			} 
+			_oldColumn = columnName;
+			sort = _sortA
+			refresh()
+			sort = null
+			Console.groupEnd();
+ 		}
 	}    
 }

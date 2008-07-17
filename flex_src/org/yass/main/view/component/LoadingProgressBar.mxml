@@ -39,13 +39,17 @@
 			} 
 			private function checkAllLoaded():void{
 				if(++itemLoaded ==2){
+					Console.group("Initializing data structures..."  );
 					loadingProgress.label="Initializing data structures...";
 					Yass.libTreeData = libTreeLoader.data;
+					Console.log("Lib Tree OK");
 					Yass.browser = new BrowserModel();
 					Yass.library.datas = new XML(libraryLoader.data).children()
+					Console.log("Library tracks OK");
 					loadingProgress.label="Data structures OK...";
 					Console.log("All items loaded, initializing application");
 					uicomponent.currentState = "MainWindow";
+					Console.groupEnd();
 				}
 			}
 		]]>

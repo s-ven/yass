@@ -22,10 +22,12 @@
 package org.yass.main.model.interfaces{
 	import flash.events.IEventDispatcher;
 	
-	import mx.collections.ArrayCollection;
+	import mx.collections.ICollectionView;
+	import mx.collections.IList;
+	import mx.core.IMXMLObject;
 	
 
-	public interface IPlayListModel extends IEventDispatcher	{
+	public interface IPlayListModel extends IEventDispatcher, ICollectionView, IList, IMXMLObject	{
 		function getNextTrack(shuffle:Boolean, loop:Boolean):Object;
 		function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object;
 		function set trackIndex(value:Number):void;
@@ -34,7 +36,6 @@ package org.yass.main.model.interfaces{
 		function get playListId():String;
 		function playTrack(trackIndex:Number):void;
 		function selectTrack(trackIndex:Number):void;
-		function get length():Number;
-		function get datas():Object;
+		function sortColumn(columnName:String):void;
 	}
 }

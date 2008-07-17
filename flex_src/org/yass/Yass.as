@@ -22,7 +22,6 @@ package org.yass{
 			var str:String = "[Player.loadedPlayList]";
 			if(player.loadedPlayList){
 				str += "\n";
-				str += " - length " + player.loadedPlayList.length +"\n";
 				str += " - selectedIndex : " + player.loadedPlayList.trackIndex +"\n";
 	 			if( player.loadedTrack){
 					str += " - loadedTrack.length : " +player.loadedTrack.length +"\n";

@@ -122,8 +122,8 @@ package org.yass.main.model
 				} else if(type == "album")
 					selectedAlbums = selectedItems;
 			}
-			if(Yass.library.datas){
-				Yass.library.datas.filterFunction = function(row:Object):Boolean{
+			if(Yass.library){
+				Yass.library.filterFunction = function(row:Object):Boolean{
 							var ret : Boolean = true;
 							if (selectedGenres.length != 0)
 							 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
@@ -133,7 +133,7 @@ package org.yass.main.model
 							 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
 							return ret;
 				}
-				Yass.library.datas.refresh();
+				Yass.library.refresh();
 				dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED_PLAYLIST));
 			}
 			Console.groupEnd();
