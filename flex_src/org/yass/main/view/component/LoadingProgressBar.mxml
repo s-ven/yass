@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas
 	 creationComplete="init()"
-	
-	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" dropShadowColor="#FFFFFF" dropShadowEnabled="false">
+	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" >
 	<mx:ProgressBar id = "loadingProgress" labelPlacement="top" indeterminate="false" enabled="true" horizontalCenter="0" verticalCenter="0" borderColor="#EEF8EC" 
 		barSkin="@Embed('/assets/progress-highlight.png')"
 			trackHeight="12" color="#0B333C" fontWeight="normal"

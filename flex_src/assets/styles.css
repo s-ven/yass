@@ -1,9 +1,5 @@
 /* CSS file */
 
-@font-face{
-	src: url("/assets/MONACO.TTF");
-	font-family:Monaco;   
-}
 Button.PlayButtonStopped 
 {
 	downSkin: Embed('/assets/active-play.png');
@@ -142,10 +138,14 @@ global {
 
 Application {
    backgroundColor: #333333;
-   backgroundGradientColors: #666666, #333333;
+   backgroundGradientColors: #333333, #333333;
    backgroundGradientAlphas: 1, 1;
    themeColor: #333333;
    color: #ffffff;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingTop: 0;
+	paddingBottom: 0;
 }
 
 Button {
@@ -620,5 +620,17 @@ ToolTip {
 }
 .listBaseVerticalScrollBar
 {
+}
+DataGrid.FilterPane
+{
+	alternatingItemColors: #FFFFFF, #F8F8F8;
+	paddingBottom: 0;
+	paddingTop: 0;
+	leading: 0;
+	verticalAlign: middle;
+}
+PlayListView
+{
+	alternatingItemColors: #FFFFFF, #e8ece8;
 }
 
