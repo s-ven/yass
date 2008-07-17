@@ -9,13 +9,17 @@ package org.yass.main.renderers
 	import org.yass.debug.log.Console;
 	
 	public class PlayingNowRenderer extends UIComponent implements IListItemRenderer{
+		[Embed(source="/assets/playlist_loaded.png")] 
+		private static var loadedSource:Class;
+		[Embed(source="/assets/playlist_play.png")] 
+		private static var playSource:Class;
 		private var imgPlay:Image = new Image();
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;
 		public function PlayingNowRenderer() {
 			super();
-			this.imgPlay.source = '/assets/playlist_play.png';
-			this.imgLoaded.source = '/assets/playlist_loaded.png';
+			this.imgPlay.source = playSource;
+			this.imgLoaded.source = loadedSource;
 			this.imgPlay.visible = false;
 			this.imgLoaded.visible = false;
 			imgPlay.move(2,2);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  height="100%" width="220" creationComplete="createView">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  height="100%" width="220"  right="10" creationComplete="createView">
 	<mx:Script>
 		<![CDATA[
 			import org.yass.main.view.SearchView;
@@ -9,7 +9,6 @@
 			}
 		]]>
 	</mx:Script>
-	<mx:Canvas right="10">
 		<mx:Canvas verticalCenter="0" backgroundSize="100%" height="26"
 			backgroundImage="@Embed(source='/assets/input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='65')" horizontalCenter="0">
 			<mx:TextInput id="searchInput" paddingTop="5" paddingLeft="21" height="26" 
@@ -18,5 +17,4 @@
 			<mx:Image id="dropDownMenu" source="@Embed(source='/assets/dropmarker-plus.gif')" verticalCenter="0" left="10"/>
 		</mx:Canvas>
 	<mx:Label id="labelKeywordsScope" text="Search" verticalCenter="23" horizontalCenter="0" color="#C1C1C1" fontSize="9"/>
-	</mx:Canvas>
 </mx:Canvas>

@@ -1,4 +1,6 @@
 package org.yass{
+	import mx.formatters.DateFormatter;
+	
 	import org.yass.main.model.BrowserModel;
 	import org.yass.main.model.PlayListModel;
 	import org.yass.main.model.PlayerModel;
@@ -9,6 +11,8 @@ package org.yass{
 		public static var player:PlayerModel = new PlayerModel();
 		public static var libTreeData:Object;
 		public static var browser:BrowserModel;
+		
+		private static var _dateFormatter:DateFormatter;
 		public static function get display():Display{
 			return Display.instance;
 		}
@@ -51,6 +55,14 @@ package org.yass{
 			str += " - display.currentDisplay :" +display.currentDisplay +"\n";
 			
 		return str;
+		}
+		
+		public static function get dateFormatter():DateFormatter{
+			if(!_dateFormatter){
+				_dateFormatter = new DateFormatter();
+				_dateFormatter.formatString = "N:SS";
+			}
+			return _dateFormatter;		
 		}
 	}
 } 

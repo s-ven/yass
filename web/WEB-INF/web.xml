@@ -19,16 +19,6 @@
 		<param-name>org.yass.mediaFilesExtensions</param-name>
 		<param-value>mp3</param-value>
 	</context-param>
-	<servlet>
-		<description></description>
-		<display-name>Streamsicle</display-name>
-		<servlet-name>Streamsicle</servlet-name>
-		<servlet-class>com.streamsicle.Streamsicle</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Streamsicle</servlet-name>
-		<url-pattern>/servlet/Streamsicle</url-pattern>
-	</servlet-mapping>
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>

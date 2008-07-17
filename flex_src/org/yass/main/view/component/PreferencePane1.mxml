@@ -1,4 +1,5 @@
 <mx:Grid xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Style source="/assets/styles.css"/>
 	<mx:GridRow verticalAlign="middle" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 		<mx:GridItem verticalAlign="top" paddingBottom="0" paddingLeft="0" paddingRight="0" horizontalAlign="right" width="50%">
 			<mx:Label text="Fade out :" paddingTop="2"/>

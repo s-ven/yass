@@ -18,5 +18,5 @@
 			</mx:AddChild>   
 		</mx:State>  
 	</mx:states>
-	<mx:Style source="org/yass/main/styles.css"/>
+	<mx:Style source="/assets/styles.css"/>
 </mx:Application> 

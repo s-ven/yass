@@ -8,7 +8,6 @@ package org.yass.visualization
 	import mx.containers.VBox;
 	import mx.controls.CheckBox;
 	import mx.controls.Label;
-	import mx.formatters.DateFormatter;
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
@@ -22,7 +21,6 @@ package org.yass.visualization
 		public var shuffle:CheckBox = new CheckBox();
 		public var elapsed:Label = new Label();
 		public var remaining:Label = new Label();
-		public var dateFormatter:DateFormatter = new DateFormatter();
 		public var spectrumAnalyzer:SpectrumAnalyzer = new SpectrumAnalyzer();
 		private var showRemaining:Boolean= true;
 		public var currentDisplay:int = 1;
@@ -62,7 +60,7 @@ package org.yass.visualization
 		}
 		
 		private function formatPos(pos:Number):String {
-			return dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, pos));
+			return Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, pos));
 		}         
 		override protected function commitProperties():void{
 			super.commitProperties();

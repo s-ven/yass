@@ -2,12 +2,13 @@
 <mx:Label xmlns:mx="http://www.adobe.com/2006/mxml" text="{formatDurationColumn(data.length)}" >
 	<mx:Script>
 		<![CDATA[
+			import org.yass.Yass;
 			import mx.controls.listClasses.ListBase;
 			import org.yass.main.LibraryBrowser;
 			import mx.controls.dataGridClasses.DataGridColumn;
 			private var listBase:ListBase;
 			private function formatDurationColumn(item:Object):String {
-				return  (parent.parent.parent.parent as LibraryBrowser).dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, item));  
+				return  Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, item));  
 			}  
 		    override protected function createChildren() : void		{
 				super.createChildren();
@@ -21,6 +22,10 @@
 					setStyle("color", listBase.getStyle("textSelectedColor"));
 				else
 					setStyle("color", listBase.getStyle("color"));
+				if(data.isLoaded)
+					setStyle("fontThickness", 200);
+				else
+					setStyle("fontThickness", 0);
 			}
 		]]>
 	</mx:Script>

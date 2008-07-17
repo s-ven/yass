@@ -59,16 +59,16 @@ package org.yass.main.model
    		public function get datas():Object{
    			return _datas;
    		}
-   		public function set datas(val:Object):void{
+   		public function set datas(value:Object):void{
    			_datas = new ArrayCollection();
-			if(val is XMLList)
-				for(var i:Object in val)
-					datas.addItem(new ObjectProxy(new XMLTrack(val[i])));
-			else if(val is ArrayCollection)
-				for(var i:Object in val)
-					datas.addItem(new ObjectProxy(new XMLTrack(val[i])));
+			if(value is XMLList)
+				for(var i:Object in value)
+					datas.addItem(new ObjectProxy(new XMLTrack(value[i])));
+			else if(value is ArrayCollection)
+				for(var i:Object in value)
+					datas.addItem(new ObjectProxy(new XMLTrack(value[i])));
 			else
-				datas.addItem(new ObjectProxy(new XMLTrack(val as XML)));
+				datas.addItem(new ObjectProxy(new XMLTrack(value as XML)));
    		}
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;

@@ -8,7 +8,7 @@ package org.yass.main.renderers
 	
 	import org.yass.main.LibraryBrowser;
 
-	public class TrackInfoRenderer  extends LabelDataGridRenderer implements IListItemRenderer{
+	public class TrackInfoRenderer  extends TrackRenderer{
 		
 		public function TrackInfoRenderer(){
 			super();
@@ -21,7 +21,7 @@ package org.yass.main.renderers
 		}
 		private function click(evt:Event):void{
 			var dataField:String = (owner as DataGrid).columns[listData.columnIndex].dataField;
-			(parent.parent.parent.parent as LibraryBrowser).browserView.onClickPlayList(dataField, data[dataField])
+			(parent.parent.parent as LibraryBrowser).browserView.onClickPlayList(dataField, data[dataField])
 		}
 		protected function over(evt:Event) : void			{
 			setStyle("textDecoration", "underline");
