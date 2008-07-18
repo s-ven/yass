@@ -140,22 +140,8 @@ package org.yass.main.model
 			createTextFilterFunction();
 			refresh()
 			Console.log("list : " + length)
-			checkSelected("album");
-			checkSelected("artist");
-			checkSelected("genre");
 			populateTree()
 			Console.groupEnd();
-		}
-		private function checkSelected(type:String):Boolean{
-			var filtered:Array= this["_"+type+"Filtered"];
-			if(this[type+"Selected"].length > 0 && this[type+"Selected"].every(
-						function(obj:Object, index:int, arr:Array):Boolean{
-							return filtered.indexOf(obj) != -1
-							}))	{
-				browseBy(type, this[type+"Selected"]);
-				return true;
-			}
-			return false;
 		}
 		public function set searchScope(scope:String):void{
 			_searchScope = scope;
@@ -166,6 +152,11 @@ package org.yass.main.model
 			return _searchScope;
 		}
 		private function createTextFilterFunction():void{
+			var selFilterFunction:Function = function(row:Object):Boolean{
+				return 	(genreSelected.length == 0 || genreSelected.indexOf(row.genre) !=-1) &&
+						(artistSelected.length == 0 || artistSelected.indexOf(row.artist) !=-1) &&
+						(albumSelected.length == 0 || albumSelected.indexOf(row.album) !=-1);
+				};
 			if(_filteredText != null && _filteredText.length > 0){
 				var ffunction:Function = getFilterFunction();
 				filterFunction = function(row:Object):Boolean{
@@ -176,7 +167,7 @@ package org.yass.main.model
 								_artistFiltered.push(row.artist)
 							if(_albumFiltered.indexOf(row.album) == -1)
 								_albumFiltered.push(row.album)
-							return true;
+							return selFilterFunction(row);
 						}
 					return false;
 				}
@@ -189,7 +180,7 @@ package org.yass.main.model
 						_artistFiltered.push(row.artist)
 					if(_albumFiltered.indexOf(row.album) == -1)
 						_albumFiltered.push(row.album)
-					return true
+					return selFilterFunction(row);
 				}; 
 		}
 		

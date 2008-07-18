@@ -22,6 +22,7 @@
 package org.yass.main.view
 {
 	import flash.events.EventDispatcher;
+	import flash.utils.setTimeout;
 	
 	import mx.collections.ArrayCollection;
 	import mx.controls.DataGrid;
@@ -79,7 +80,7 @@ package org.yass.main.view
 			this["_"+type].selectedItems = model[type +"Selected"]
 			if(this["_"+type].selectedIndex != -1){
 				Console.log("selected index : " + this["_"+type].selectedIndex);
-				this["_" + type].scrollToIndex(this["_"+type].selectedIndex)
+				setTimeout(function(zis:Object, type:String):void{zis["_" + type].scrollToIndex(zis["_"+type].selectedIndex)},200, this, type);
 			}
 			Console.groupEnd();
 		}

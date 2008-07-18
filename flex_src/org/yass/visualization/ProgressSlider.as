@@ -16,14 +16,13 @@ package org.yass.visualization
 		public function ProgressSlider(){
 			Console.log("ProgressSlider : init");
 			super();
-			this.addEventListener(SliderEvent.CHANGE, sliderChange,false,1);
+			this.addEventListener(MouseEvent.MOUSE_DOWN, sliderChange);
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}		
 		
 
-		private function sliderChange(event:SliderEvent):void{
-			if(event.triggerEvent.type == MouseEvent.CLICK)
-				Yass.player.skipTo(event.value);
+		private function sliderChange(event:Event):void{
+				Yass.player.skipTo(event.currentTarget.value);
 		}
 		
 		private 	function onEnterFrame(event:Event):void{

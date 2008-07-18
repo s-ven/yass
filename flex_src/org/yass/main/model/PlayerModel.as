@@ -71,7 +71,7 @@ package org.yass.main.model{
             
         }    
         public function set loadedTrack(track:Object):void{
-        	Console.group("model.Player.loadedTrack title:"+track.title);
+        	Console.group("model.Player.loadedTrack title:"+track);
 			if(isPlaying)
 				_soundHandler.fadeOut(5000);
 			this._loadedTrack = track;
