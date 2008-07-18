@@ -8,6 +8,7 @@ package org.yass.visualization
 	import mx.containers.VBox;
 	import mx.controls.CheckBox;
 	import mx.controls.Label;
+	import mx.core.ScrollPolicy;
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
@@ -44,8 +45,12 @@ package org.yass.visualization
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
 			this.setStyle("fontThickness", 150);
+			horizontalScrollPolicy = ScrollPolicy.OFF;
+			verticalScrollPolicy = ScrollPolicy.OFF;
 			songInfo.percentWidth = 100;
 			songInfo.percentHeight = 100;
+			songInfo.horizontalScrollPolicy = ScrollPolicy.OFF;
+			songInfo.verticalScrollPolicy = ScrollPolicy.OFF;
 			songInfo.setStyle("verticalAlign", "middle");
 			songInfo.setStyle("horizontalAlign", "center");
 			vuMeters.percentWidth = 100;
