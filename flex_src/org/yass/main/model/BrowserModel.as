@@ -1,14 +1,11 @@
 package org.yass.main.model
 {
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
-	import mx.rpc.events.ResultEvent;
-	import mx.rpc.http.HTTPService;
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
@@ -48,13 +45,19 @@ package org.yass.main.model
 			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED, ["genre","artist", "album"]));
 		}
 		private function createArray(type:String):ArrayCollection{
-			var array:ArrayCollection = tree.getArrayByType(type);
-			array.sort = sort;
-			array.refresh();
-			for(var i:Object in array){
-				dict[array[i].type + "_" + array[i].id] = array[i]
-			}
+			if(_filteredText == null){
+				var array:ArrayCollection = tree.getArrayByType(type);
+				array.sort = sort;
+				array.refresh();
+				for(var i:Object in array){
+					dict[array[i].type + "_" + array[i].id] = array[i]
+				}
 			return array;
+			}
+			var array:ArrayCollection = new ArrayCollection(this["_filtered" + type]);
+				array.sort = sort;
+				array.refresh();
+				return array;
 		}
 		private function filterChild(sub:ArrayCollection,selectedItems:Array):void{
 			Console.log("Filtering child with : " + selectedItems);
@@ -122,21 +125,67 @@ package org.yass.main.model
 				} else if(type == "album")
 					selectedAlbums = selectedItems;
 			}
-			if(Yass.library){
-				Yass.library.filterFunction = function(row:Object):Boolean{
-							var ret : Boolean = true;
-							if (selectedGenres.length != 0)
-							 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
-							if (selectedAlbums.length != 0)
-							 	ret = ret && selectedAlbums.lastIndexOf(row.album) != -1
-							if (selectedArtists.length != 0)
-							 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
-							return ret;
-				}
-				Yass.library.refresh();
-				dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED_PLAYLIST));
+			Yass.library.filterFunction = function(row:Object):Boolean{
+						var ret : Boolean = true;
+						if (selectedGenres.length != 0)
+						 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
+						if (selectedAlbums.length != 0)
+						 	ret = ret && selectedAlbums.lastIndexOf(row.album) != -1
+						if (selectedArtists.length != 0)
+						 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
+						if(ret && _filteredText && _filteredText.length > 0)
+							_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
+						return ret;
 			}
+			Yass.library.refresh();
+			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED_PLAYLIST));
 			Console.groupEnd();
+		}
+		private var _filteredText:Array;
+		private var _filteredGENRE:Array;
+		private var _filteredALBUM:Array;
+		private var _filteredARTIST:Array;
+		public function set filteredText(txt:String):void{
+			if(txt != null){
+				_filteredText = txt.toLowerCase().split(/\W/);;
+				Console.group("browser.set filteredText:" + _filteredText);
+				_filteredGENRE = new Array();
+				_filteredARTIST = new Array();
+				_filteredALBUM = new Array();
+				if(_filteredText.length > 0){
+					Console.log("Non empty text");
+					Yass.library.filterFunction = function(row:Object):Boolean{
+						var ret:Boolean= true
+						_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
+							if(ret){
+								if(_filteredGENRE.indexOf(row.genre) == -1)
+									_filteredGENRE.push(row.genre)
+								if(_filteredARTIST.indexOf(row.artist) == -1)
+									_filteredARTIST.push(row.artist)
+								if(_filteredALBUM.indexOf(row.album) == -1)
+									_filteredALBUM.push(row.album)
+							}
+						return ret
+					}
+				}
+				else {
+					Console.log("Empty text");
+					Yass.library.filterFunction = function(row:Object):Boolean{
+						if(_filteredGENRE.indexOf(row.genre) == -1)
+							_filteredGENRE.push(row.genre)
+						if(_filteredARTIST.indexOf(row.artist) == -1)
+							_filteredARTIST.push(row.artist)
+						if(_filteredALBUM.indexOf(row.album) == -1)
+							_filteredALBUM.push(row.album)
+						return true
+					};
+				}
+				Yass.library.refresh()
+				Console.log(" list : " + Yass.library.length)
+				Console.groupEnd();
+			}
+			populateTree()
+			
 		}
 	}
 }	

@@ -17,6 +17,7 @@ package org.yass.main.model
 		public var _rating:int = 0;
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
+		public var allFields:String;
 		public function XMLTrack(obj:XML):void		{
 				this.id = obj.@id;
 				this.trackNr = obj.@trackNr;
@@ -30,6 +31,7 @@ package org.yass.main.model
 				this.artist = BrowserModel.dict["ARTIST_" + obj.@artist];
 				this.genre = BrowserModel.dict["GENRE_" + obj.@genre];
 				this.album = BrowserModel.dict["ALBUM_" + obj.@album];
+				this.allFields = (artist.value + " " + album.value +" " + title).toLocaleLowerCase();
 		}
 		
 		public function get isLoaded():Boolean{

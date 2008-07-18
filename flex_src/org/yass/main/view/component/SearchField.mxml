@@ -2,10 +2,36 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  height="100%" width="220"  right="10" creationComplete="createView">
 	<mx:Script>
 		<![CDATA[
+			import flash.utils.setTimeout;
+			import org.yass.debug.log.Console;
+			import org.yass.main.MainWindow;
+			import org.yass.main.MainPane;
 			import org.yass.main.view.SearchView;
 			private var searchView:SearchView;
 			private function createView(){
 				this.searchView  = new SearchView(this);
+			}
+			private var filtering:Boolean=false;
+			private var buff:String;
+			private var timeOut:int=200
+			private function onChange(){
+				if(!filtering){
+					buff = searchInput.text
+					filtering = true
+					setTimeout(timeoutFunction , timeOut)
+						
+				}
+			}
+			private function timeoutFunction(){
+				if(searchInput.text != buff){
+					buff = searchInput.text
+					setTimeout(timeoutFunction , timeOut)
+				}
+				else{
+					Console.log("-----------------------" + searchInput.text);
+					(parent.parent.parent as MainWindow).mainPane.libraryBrowser.browserView.model.filteredText = searchInput.text;
+					filtering = false
+				}
 			}
 		]]>
 	</mx:Script>
@@ -13,7 +39,7 @@
 			backgroundImage="@Embed(source='/assets/input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='65')" horizontalCenter="0">
 			<mx:TextInput id="searchInput" paddingTop="5" paddingLeft="21" height="26" 
 					cornerRadius="8" borderStyle="none" width="190" backgroundAlpha="0.0" color="#C9C9C9"
-					verticalCenter="0" horizontalCenter="0"/>
+					verticalCenter="0" horizontalCenter="0"  textInput="" change="onChange()"/>
 			<mx:Image id="dropDownMenu" source="@Embed(source='/assets/dropmarker-plus.gif')" verticalCenter="0" left="10"/>
 		</mx:Canvas>
 	<mx:Label id="labelKeywordsScope" text="Search" verticalCenter="23" horizontalCenter="0" color="#C1C1C1" fontSize="9"/>

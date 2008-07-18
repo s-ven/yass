@@ -35,22 +35,22 @@ package org.yass.main.view
 
     [Bindable]
 	public class BrowserView extends EventDispatcher{
-		private var genre:DataGrid;
-		private var artist:DataGrid;
-		private var album:DataGrid; 
-		private var model:BrowserModel;
-		private var playlistView:PlayListView;
+		public var model:BrowserModel;
+		private var _genre:DataGrid;
+		private var _artist:DataGrid;
+		private var _album:DataGrid; 
+		private var _playlistView:PlayListView;
 		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
-			this.genre = genre;
-			this.artist = artist;  
-			this.album = album; 
+			this._genre = genre;
+			this._artist = artist;  
+			this._album = album; 
 			model = Yass.browser;
 			genre.dataProvider = createAllRow("genre", model.genreArray);
 			artist.dataProvider = createAllRow("artist", model.artistArray);
 			album.dataProvider = createAllRow("album", model.albumArray);
-			this.playlistView = playlistView; 
-			this.playlistView.model = Yass.library;
+			this._playlistView = playlistView; 
+			this._playlistView.model = Yass.library;
 			genre.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			artist.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 			album.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
@@ -63,11 +63,11 @@ package org.yass.main.view
 		private function onRefreshed(evt:BrowserEvent):void{
 			Console.log("view.BrowserView.onRefreshed types:" + evt.types);
 			if(evt.containsType("genre"))
-				genre.dataProvider = createAllRow("genre", model.genreArray);
+				_genre.dataProvider = createAllRow("genre", model.genreArray);
 			if(evt.containsType("artist"))
-				artist.dataProvider = createAllRow("artist", model.artistArray);
+				_artist.dataProvider = createAllRow("artist", model.artistArray);
 			if(evt.containsType("album"))
-				album.dataProvider = createAllRow("album", model.albumArray);
+				_album.dataProvider = createAllRow("album", model.albumArray);
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
 			var arr:Array = new Array();
@@ -81,11 +81,11 @@ package org.yass.main.view
 			return arr;
 		}
 		public function onClickPlayList(type:String, val:Value):void{
-			Console.group("view.BrowserView.onClickArtist " + val);
-			model.browseBy(type, this.artist.selectedIndices, [val])	
-			this[type].dataProvider = createAllRow("artist", model[type+"Array"]);
-			this[type].selectedItem = val;
-			this[type].scrollToIndex(this[type].selectedIndex)
+			Console.group("view.BrowserView.onClickPlayList type:"+type+  ", val:"+ val);
+			model.browseBy(type, this._artist.selectedIndices, [val])	
+			this["_" + type].dataProvider = createAllRow(type, model[type+"Array"]);
+			this["_" + type].selectedItem = val;
+			this["_" + type].scrollToIndex(this["_"+type].selectedIndex)
 			Console.groupEnd()		
 		}
 	}
