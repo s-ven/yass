@@ -133,6 +133,7 @@ TextInput.inputText
 }
 global {
    fontFamily: Monaco;
+   fontAntiAliasType:advanced;
 }
 
 
@@ -574,11 +575,10 @@ DataGrid {
 
 .mydataGridHeaderStyle {
    color: #000000;
-	fontWeight: bold;
+	fontThickness:200;
 	textDecoration: normal;
 	fontStyle: normal;
 	fontSize: 10;
-   /*fontFamily: Monaco;*/
 }
 
 MenuBar {
