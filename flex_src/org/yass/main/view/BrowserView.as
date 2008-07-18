@@ -30,19 +30,18 @@ package org.yass.main.view
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
-	import org.yass.main.model.BrowserModel;
+	import org.yass.main.model.LibraryModel;
 	import org.yass.util.tree.Value;
 
-    [Bindable]
 	public class BrowserView extends EventDispatcher{
-		public var model:BrowserModel;
+		public var model:LibraryModel;
 		private var _genre:DataGrid;
 		private var _artist:DataGrid;
 		private var _album:DataGrid; 
 		private var _playlistView:PlayListView;
 		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
-			model = Yass.browser;
+			model = Yass.library;
 			init("genre", genre)
 			init("artist", artist)
 			init("album", album)

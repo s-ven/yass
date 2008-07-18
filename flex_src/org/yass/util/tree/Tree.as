@@ -29,9 +29,7 @@ package org.yass.util.tree
 
 		public function Tree(xml:XML):void{
 			super("root", "root", -1)
-			Console.group("util.Tree :: Init " + xml.node.node.length());
 			this.accept(new NodeBuilder(xml));
-			Console.groupEnd();
 		}
 		
 	}

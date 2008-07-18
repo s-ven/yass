@@ -74,12 +74,12 @@ package org.yass.main.model
         	Console.log("model.PlayListModel.set datas");
 			if(value is XMLList)
 				for(var i:Object in value)
-					addItem(new ObjectProxy(new XMLTrack(value[i])));
+					addItem(new ObjectProxy(new Track(value[i])));
 			else if(value is ArrayCollection)
 				for(var i:Object in value)
-					addItem(new ObjectProxy(new XMLTrack(value[i])));
+					addItem(new ObjectProxy(new Track(value[i])));
 			else
-				addItem(new ObjectProxy(new XMLTrack(value as XML)));
+				addItem(new ObjectProxy(new Track(value as XML)));
    		} 
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;
@@ -95,7 +95,7 @@ package org.yass.main.model
         public function get selectedTrack():Object{
         	if(trackIndex !=-1 && trackIndex < length){
         		_selectedTrack = (getItemAt(trackIndex) as ObjectProxy)
-	        	return _selectedTrack.valueOf() as XMLTrack;
+	        	return _selectedTrack.valueOf() as Track;
 	        }
         	return null;
         }

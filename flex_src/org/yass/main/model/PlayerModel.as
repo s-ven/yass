@@ -76,7 +76,7 @@ package org.yass.main.model{
 				_soundHandler.fadeOut(5000);
 			this._loadedTrack = track;
         	if(track){
-				this._soundHandler = new SoundHandler(track as XMLTrack, volume);
+				this._soundHandler = new SoundHandler(track as Track, volume);
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED));
 			}
 			Console.groupEnd();

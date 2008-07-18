@@ -5,7 +5,7 @@ package org.yass.main.model
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
-	public class XMLTrack{
+	public class Track{
 		public var id:String
 		public var trackNr:int
 		public var title:String
@@ -18,7 +18,7 @@ package org.yass.main.model
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
 		public var allFields:String;
-		public function XMLTrack(obj:XML):void		{
+		public function Track(obj:XML):void		{
 				this.id = obj.@id;
 				this.trackNr = obj.@trackNr;
 				this.title = obj.@title;
@@ -28,9 +28,9 @@ package org.yass.main.model
 					this._rating = obj.@rating;
 				//this.lastPlayed = obj.lastPlayed;
 				this.playCount = obj.@playCount;
-				this.artist = BrowserModel.dict["artist_" + obj.@artist];
-				this.genre = BrowserModel.dict["genre_" + obj.@genre];
-				this.album = BrowserModel.dict["album_" + obj.@album];
+				this.artist = LibraryModel.dict["artist_" + obj.@artist];
+				this.genre = LibraryModel.dict["genre_" + obj.@genre];
+				this.album = LibraryModel.dict["album_" + obj.@album];
 				this.allFields = (artist.value + " " + album.value +" " + title).toLocaleLowerCase();
 		}
 		

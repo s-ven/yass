@@ -36,7 +36,6 @@
     import org.yass.main.events.TrackEvent;
     import org.yass.main.model.interfaces.IPlayListModel;
     
-    [Bindable]
     public class PlayListView  extends DataGrid   {
 				
 		private var _model:IPlayListModel;
@@ -64,7 +63,6 @@
  		*/
 		public function set model(value:IPlayListModel):void{
 			this._model = value;
-			Console.group("view.PlayList.setLoader : ");
 			dataProvider = _model; 
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			dataProvider.addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange, false, -3, true)
@@ -77,16 +75,15 @@
 				this.selectedIndex = Yass.player.loadedPlayList.trackIndex;
 				this.selectedIndex = Yass.player.loadedPlayList.getItemIndex(Yass.player.loadedTrack);
 			}
-			Console.groupEnd();
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
 		}		
 		private function onCollectionChange(evt:CollectionEvent):void{
 			Console.log("view.PlayList.onCollectionChange " + model.trackIndex);
-        if (model.trackIndex != -1 &&(model.trackIndex >= verticalScrollPosition + listItems.length - offscreenExtraRowsBottom || model.trackIndex < verticalScrollPosition)){
-            verticalScrollPosition =  model.trackIndex //Math.min(evt.trackIndex, maxVerticalScrollPosition);
-        }
+	        if (model.trackIndex != -1 &&(model.trackIndex >= verticalScrollPosition + listItems.length - offscreenExtraRowsBottom || model.trackIndex < verticalScrollPosition)){
+	            verticalScrollPosition =  model.trackIndex //Math.min(evt.trackIndex, maxVerticalScrollPosition);
+	        }
 		}
 
 	 	

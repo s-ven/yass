@@ -20,12 +20,12 @@ package org.yass.main.model
         
         private var sound:Sound = new Sound();
         private var soundChannel:SoundChannel;
-        private var loadedTrack:XMLTrack;
+        private var loadedTrack:Track;
         private var _volume:Number;
         private var fadeoutDuration:Number = 10000;
         private var fadeoutStartTime:Number;
         private var initialVolume:Number = 0;
-		public function SoundHandler(track:XMLTrack, volume:Number, fadeOutDuration:Number=10000)		{
+		public function SoundHandler(track:Track, volume:Number, fadeOutDuration:Number=10000)		{
             Console.log("model.SoundHandler :: Init title:" +track.title);
 			this.loadedTrack = track;
 			this.volume = volume;

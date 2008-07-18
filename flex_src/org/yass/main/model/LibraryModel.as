@@ -1,7 +1,6 @@
 package org.yass.main.model
 {
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
@@ -12,8 +11,7 @@ package org.yass.main.model
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
 	import org.yass.util.tree.*;
-	[Bindable]
-	public class BrowserModel extends EventDispatcher{
+	public class LibraryModel extends PlayListModel{
 		public var genreArray:ArrayCollection; 
 		public var artistArray:ArrayCollection;
 		public var albumArray:ArrayCollection; 
@@ -23,14 +21,15 @@ package org.yass.main.model
 		public var albumSelected: Array = new Array();
 		private var _tree:Tree;
 		private var _sort:Sort = new Sort();
-		public function BrowserModel():void{
-			Console.log("model.BrowserModel :: Init");
+		public function LibraryModel(libTreeData:Object, libraryData:Object):void{
+			Console.log("model.Library :: Init");
+			_tree = new Tree(new XML(libTreeData));
 			populateTree();
 			_sort.fields = [new SortField("value")];
+			datas = new XML(libraryData).children()
 		}
 		private function populateTree():void{
-			Console.group("model.BrowserModel.populateTree");
-			_tree = new Tree(new XML(Yass.libTreeData));
+			Console.group("model.Library.populateTree");
 			createArray("genre");
 			createArray("artist");
 			createArray("album");
@@ -63,7 +62,7 @@ package org.yass.main.model
 			sub.refresh();
 		}
 		public function browseBy(type:String, selectedItems:Array):void{
-			Console.group("model.BrowserModel.browseBy : type="+type);
+			Console.group("model.Library.browseBy : type="+type);
 			Console.log("Items : " + selectedItems);
 			var toDispatch:Event;
 			if(selectedItems[0].id == -1){
@@ -120,7 +119,7 @@ package org.yass.main.model
 					albumSelected = selectedItems;
 			}
 			if(_filteredText && _filteredText.length > 0)
-				Yass.library.filterFunction = function(row:Object):Boolean{
+				filterFunction = function(row:Object):Boolean{
 							var ret : Boolean = true;
 							if (genreSelected.length != 0)
 							 	ret = ret && genreSelected.lastIndexOf(row.genre) != -1
@@ -133,7 +132,7 @@ package org.yass.main.model
 							return ret;
 				}
 			else
-				Yass.library.filterFunction = function(row:Object):Boolean{
+				filterFunction = function(row:Object):Boolean{
 							var ret : Boolean = true;
 							if (genreSelected.length != 0)
 							 	ret = ret && genreSelected.lastIndexOf(row.genre) != -1
@@ -143,7 +142,7 @@ package org.yass.main.model
 							 	return ret && artistSelected.lastIndexOf(row.artist) != -1
 							return ret;
 				}
-			Yass.library.refresh();
+			refresh();
 			Console.groupEnd();
 			if(toDispatch)
 				dispatchEvent(toDispatch)
@@ -154,13 +153,13 @@ package org.yass.main.model
 		private var _artistFiltered:Array;
 		public function set filteredText(txt:String):void{
 			_filteredText = txt.toLowerCase().split(/\W/);;
-			Console.group("browser.set filteredText:" + _filteredText);
+			Console.group("model.Library.set filteredText:" + _filteredText);
 			_genreFiltered = new Array();
 			_artistFiltered = new Array();
 			_albumFiltered = new Array();
 			if(_filteredText.length > 0){
 				Console.log("Non empty text");
-				Yass.library.filterFunction = function(row:Object):Boolean{
+				filterFunction = function(row:Object):Boolean{
 					var ret:Boolean= true
 					_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
 						if(ret){
@@ -176,7 +175,7 @@ package org.yass.main.model
 			}
 			else {
 				Console.log("Empty text");
-				Yass.library.filterFunction = function(row:Object):Boolean{
+				filterFunction = function(row:Object):Boolean{
 					if(_genreFiltered.indexOf(row.genre) == -1)
 						_genreFiltered.push(row.genre)
 					if(_artistFiltered.indexOf(row.artist) == -1)
@@ -184,10 +183,10 @@ package org.yass.main.model
 					if(_albumFiltered.indexOf(row.album) == -1)
 						_albumFiltered.push(row.album)
 					return true
-				};
+				}; 
 			}
-			Yass.library.refresh()
-			Console.log("list : " + Yass.library.length)
+			refresh()
+			Console.log("list : " + length)
 			if(checkSelected("album"));
 			else if(checkSelected("artist"));
 			else if(checkSelected("genre"));

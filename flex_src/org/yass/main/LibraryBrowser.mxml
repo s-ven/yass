@@ -2,13 +2,10 @@
 <mx:VDividedBox  right="0" left="0" top="0" bottom="0" verticalGap="5" horizontalAlign="center" verticalAlign="middle" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:mp3="org.yass.main.mp3.*" xmlns:view="org.yass.main.view.*" creationComplete="init()">
 	<mx:Script> 
 		<![CDATA[
-			import org.yass.main.model.PlayListModel;
 			import org.yass.main.view.BrowserView;
-			import org.yass.main.model.BrowserModel;
 	    	[Bindable]
 			public var browserView:BrowserView;
 			private function  init():void{
-				this.playList.model = new PlayListModel();
 				browserView = new BrowserView(genre, artist, album, this.playList);
 			}
 		]]>

@@ -40,7 +40,6 @@ package org.yass.main.view
 	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.NavigationModel;
 	import org.yass.main.model.interfaces.INavigationModel;
-	[Bindable]
 	public class NavigationView extends Tree {	 
 		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;  
  		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;  

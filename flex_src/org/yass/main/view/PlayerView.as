@@ -52,7 +52,6 @@ package org.yass.main.view
 		private var rightImgCl:Class;
 		
 		public function PlayerView(){
-			Console.group("view.PlayerView :: Init");
 			controller = new PlayerController(this, Yass.player as IPlayerModel);
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlaying);
 			Yass.player.addEventListener(PlayerEvent.STOPPED, onStopped);

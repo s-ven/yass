@@ -1,16 +1,13 @@
 package org.yass{
 	import mx.formatters.DateFormatter;
 	
-	import org.yass.main.model.BrowserModel;
-	import org.yass.main.model.PlayListModel;
+	import org.yass.main.model.LibraryModel;
 	import org.yass.main.model.PlayerModel;
 	import org.yass.visualization.Display;
 	public class Yass
 	{
-		public static var library:PlayListModel= new PlayListModel();
 		public static var player:PlayerModel = new PlayerModel();
-		public static var libTreeData:Object;
-		public static var browser:BrowserModel;
+		public static var library:LibraryModel;
 		
 		private static var _dateFormatter:DateFormatter;
 		public static function get display():Display{

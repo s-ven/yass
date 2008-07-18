@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas
 	 creationComplete="init()"
-	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" >
+	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" hideEffect="{fadeout}" showEffect="{fadein}" visible="false">
 	<mx:ProgressBar id = "loadingProgress" labelPlacement="top" indeterminate="false" enabled="true" horizontalCenter="0" verticalCenter="0" borderColor="#EEF8EC" 
 		barSkin="@Embed('/assets/progress-highlight.png')"
 			trackHeight="12" color="#0B333C" fontWeight="normal"
 			mode="manual"/>
+	<mx:Fade id="fadeout" startDelay="500" alphaFrom="1" alphaTo="0" effectEnd="{uicomponent.currentState='MainWindow'}" duration="250" />
+	<mx:Fade id="fadein" alphaFrom="0" alphaTo="1"  effectEnd="{dataLoad()}" duration="250" suspendBackgroundProcessing="true"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.effects.EffectManager;
+			import mx.events.EffectEvent;
+			import mx.effects.Fade;
 			import mx.core.UIComponent;
-			import org.yass.main.model.BrowserModel;
+			import org.yass.main.model.LibraryModel;
 			import mx.utils.ObjectProxy;
 			import mx.collections.ArrayCollection;
 			import mx.core.Application;
 			import org.yass.Yass;
 			import org.yass.main.LibraryBrowser;
 			import org.yass.debug.log.Console;
-			private var libraryLoader:URLLoader = new URLLoader(new URLRequest("/yass/library_browse.do"))
-			private var libTreeLoader:URLLoader = new URLLoader(new URLRequest("/yass/library_get_tree.do"))
+			private var libraryLoader:URLLoader = new URLLoader()
+			private var libTreeLoader:URLLoader = new URLLoader()
 			private var itemLoaded:Number = 0;
 			public var uicomponent:UIComponent;
 			public function init():void{
+				this.visible = true;
+			}
+			private function dataLoad():void{
 				libTreeLoader.addEventListener(ProgressEvent.PROGRESS, handleProgress );
 				libraryLoader.addEventListener(ProgressEvent.PROGRESS, handleProgress );
 				libraryLoader.addEventListener(Event.COMPLETE, libraryLoaded );
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
+				libraryLoader.load(new URLRequest("/yass/library_browse.do"));
+				libTreeLoader.load(new URLRequest("/yass/library_get_tree.do"));
 			}
 			private function libraryLoaded( e:Event ):void {
+				libraryLoader.removeEventListener(ProgressEvent.PROGRESS, handleProgress );
+				libraryLoader.removeEventListener(Event.COMPLETE, libraryLoaded );
 				Console.log("Finished loading Library"  );
 				checkAllLoaded();
 			} 
 			private function libTreeLoaded( e:Event ):void {
+				libTreeLoader.removeEventListener(ProgressEvent.PROGRESS, handleProgress );
+				libTreeLoader.removeEventListener(Event.COMPLETE, libTreeLoaded );
 				Console.log("Finished loading lib Tree"  );
 				checkAllLoaded();
 			} 
@@ -40,16 +54,12 @@
 			private function checkAllLoaded():void{
 				if(++itemLoaded ==2){
 					Console.group("Initializing data structures..."  );
-					loadingProgress.label="Initializing data structures...";
-					Yass.libTreeData = libTreeLoader.data;
-					Console.log("Lib Tree OK");
-					Yass.browser = new BrowserModel();
-					Yass.library.datas = new XML(libraryLoader.data).children()
+					Yass.library = new LibraryModel(libTreeLoader.data, libraryLoader.data);
 					Console.log("Library tracks OK");
 					loadingProgress.label="Data structures OK...";
 					Console.log("All items loaded, initializing application");
-					uicomponent.currentState = "MainWindow";
 					Console.groupEnd();
+					this.visible = false;
 				}
 			}
 		]]>
