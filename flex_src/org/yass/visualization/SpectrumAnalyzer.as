@@ -20,127 +20,92 @@ package org.yass.visualization
 	
 	public class SpectrumAnalyzer extends UIComponent{
 
+		private var _clipMask:Shape = new Shape();
+		private var _spectrumArr:ByteArray = new ByteArray();
+		private var _vuWidth:int;
+		private var _vuTops:Array = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
+		private var _vuCount:int;
+		private var _vuLevels:int;
+		private var _colorTop:Number;
+		private var _colorMax:Number;
+		private var _colorActive:Number
+		private var _colorInactive:Number
+		private var _alphaTop:Number = 1;
+		private var _alphaMax:Number = 1;
+		private var _alphaInactive:Number = 0.5
+		private var _alphaActive:Number = 1;
 		public function SpectrumAnalyzer(){
 			super();
         }
         
         override protected function createChildren():void{
-			super.createChildren();	
-			addChild(clipMask);
-			mask = clipMask;
+			addChild(_clipMask);
+			mask = _clipMask;
 		}
 		override protected function commitProperties() : void		{
 			styleName = "dimmed";
-			this.addEventListener( Event.ENTER_FRAME, onEnterFrame );
-
+			addEventListener( Event.ENTER_FRAME, onEnterFrame );
 		}
-		private var clipMask:Shape = new Shape();
-		public var ba:ByteArray = new ByteArray();
-		private var vuwidth:int;
-			
-			
-		override public function get height():Number{
-				return parent.height;
-		}	
-			
-		override public function get width():Number{
-				return parent.width;
-		}	
-			
-			
-		public function get vuStep():int{
-			return 256/vuCount;
-		}
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number ) : void{
+			_colorTop = getStyle("colorTop");
+			_vuCount = getStyle("vuCount");
+			_vuLevels = getStyle("vuLevels") * 2;
+			_colorMax = getStyle("colorMax");
+			_colorActive =  getStyle("colorActive");
+			_colorInactive =  getStyle("colorInactive");
+			_alphaTop = getStyle("alphaTop");
+			_alphaMax = getStyle("alphaMax");
+			_alphaActive = getStyle("alphaActive");
+			_alphaInactive =  getStyle("alphaInactive");
+			}		
 		private function onEnterFrame( event : Event ) : void{
-			if ( this.visible){
-				event.stopImmediatePropagation();
-				vuwidth = ((width-4)/2 ) / vuCount ;
+			_vuWidth = ((parent.width-4)/2 ) / _vuCount -1 ;
+			if (visible){
 				try{
-					SoundMixer.computeSpectrum(ba, false,1);
+					SoundMixer.computeSpectrum(_spectrumArr, false,1);
 				}
 				catch(e:Error){
-					this.visible=false;
+					visible=false;
 					Console.log(e);
 					Console.log("SpectrumAnalyzer : ERROR");
 					return;
 				}
 				finally{}
-				this.graphics.clear();
-				this.graphics.beginFill(0,1)
-				for(var i:uint = 0; i < vuCount *2; i++){
-					ba.position = i * vuStep; 
-					this.drawVuMeter(i, ba.readFloat()*vuLevels);
+				graphics.clear();
+				graphics.beginFill(0,1)
+				var vuStep:int = 256/_vuCount;
+				for(var i:uint = 0; i < _vuCount *2; i++){
+					_spectrumArr.position = i * vuStep; 
+					var vuMax:int = _spectrumArr.readFloat()*_vuLevels
+					var xVu:int = parent.width / 2 - (i+1) * (_vuWidth+1) - 3;
+					if(i>=_vuCount)
+						xVu = parent.width/2 +2   + (i-_vuCount) * (_vuWidth +1);
+					graphics.lineStyle(1, _colorActive,_alphaActive);
+					// draws active vu
+					for(var j:int = 0; j<vuMax; j +=2)
+						graphics.drawRect(xVu, parent.height - j,_vuWidth,0);
+					// draws max vu
+					graphics.lineStyle(1, _colorMax,_alphaMax);
+					graphics.drawRect(xVu, parent.height - vuMax,_vuWidth,0);		
+					// draws inactive vu
+					graphics.lineStyle(1, _colorInactive, _alphaInactive);
+					for(var j:int = vuMax + 2; j<_vuLevels; j +=2)
+						graphics.drawRect(xVu, parent.height - j,_vuWidth,0);
+					// draws top vu
+					graphics.lineStyle(1,_colorTop,_alphaTop);
+					graphics.drawRect(xVu, parent.height - top(i, vuMax),_vuWidth-1,0);	
 				}
-				clipMask.graphics.clear();
-				clipMask.graphics.beginFill(0);
-				clipMask.graphics.drawRect(0,0,width,height);
-				clipMask.graphics.endFill();
+				_clipMask.graphics.clear();
+				_clipMask.graphics.beginFill(0);
+				_clipMask.graphics.drawRect(0,0,parent.width,parent.height);
+				_clipMask.graphics.endFill();
 			}
 		}
-		private function drawVuMeter(vuId:int, vuMax:Number):void{
-			var vuTop:int = top(vuId, vuMax).value;
-			var xVu:int = (width -4) / 2 - (vuId+1) * vuwidth -1;
-			if(vuId>=vuCount)
-				xVu = width/2 +2   + (vuId-vuCount) * vuwidth;
-			this.graphics.lineStyle(1, colorActive,alphaActive);
-			// draws active vu
-			for(var j:int = 0; j<vuMax; j++)
-				this.graphics.drawRect(xVu, unscaledHeight - j*2,vuwidth-1,0);
-			// draws max vu
-			this.graphics.lineStyle(1, colorMax,alphaMax);
-			this.graphics.drawRect(xVu, unscaledHeight - vuMax*2,vuwidth-1,0);		
-			// draws inactive vu
-			this.graphics.lineStyle(1, colorInactive, alphaInactive);
-			for(var j:int = vuMax + 1; j<vuLevels; j++)
-				this.graphics.drawRect(xVu, unscaledHeight - j*2,vuwidth-1,0);
-			// draws top vu
-			this.graphics.lineStyle(1,colorTop,alphaTop);
-			this.graphics.drawRect(xVu, unscaledHeight - vuTop*2,vuwidth-1,0);		
-		} 
-
-		public function get colorTop():Number{
-			return getStyle("colorTop");
-		}	
-		public function get vuCount():Number{
-			return getStyle("vuCount");
-		}	
-		public function get vuLevels():Number{
-			return getStyle("vuLevels");
-		}	
-		public function get colorMax():Number{
-			return getStyle("colorMax");
-		}	
-		public function get colorActive():Number{
-			return getStyle("colorActive");
-		}	
-		public function get colorInactive():Number{
-			return getStyle("colorInactive");
-		}	
-		public function get alphaTop():Number{
-			return getStyle("alphaTop");
-		}	
-		public function get alphaMax():Number{
-			return getStyle("alphaMax");
-		}	
-		public function get alphaActive():Number{
-			return getStyle("alphaActive");
-		}	
-		public function get alphaInactive():Number{
-			return getStyle("alphaInactive");
-		}	
-		
-		private var tops:Array = [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,
-		null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null];
-		private function top(i:int, compare:Number):VuTop{
-			var top:VuTop = tops[i] as VuTop;
-			if(!top || top.value < compare){
-				top = new VuTop();
-				top.value = compare;
-			tops[i] = top;
-			}				
-			else
-				top.value = Math.round(top.value) - 1;
-			return top;
+		private function top(i:int, compare:Number):int{
+			var top:int = _vuTops[i];
+			if(!top || top < compare)
+				return _vuTops[i] = compare;
+			return _vuTops[i] = --top
 		}
 	}
 }

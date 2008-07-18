@@ -10,9 +10,9 @@ package org.yass.main.renderers
 	
 	public class PlayingNowRenderer extends UIComponent implements IListItemRenderer{
 		[Embed(source="/assets/playlist_loaded.png")] 
-		private static var loadedSource:Class;
+		private static const loadedSource:Class;
 		[Embed(source="/assets/playlist_play.png")] 
-		private static var playSource:Class;
+		private static const playSource:Class;
 		private var imgPlay:Image = new Image();
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;

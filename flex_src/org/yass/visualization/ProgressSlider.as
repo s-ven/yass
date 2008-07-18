@@ -11,20 +11,15 @@ package org.yass.visualization
 
 	[Bindable]
 	public class ProgressSlider extends HSlider{
-				
-		
 		public function ProgressSlider(){
 			Console.log("ProgressSlider : init");
 			super();
 			this.addEventListener(MouseEvent.MOUSE_DOWN, sliderChange);
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}		
-		
-
 		private function sliderChange(event:Event):void{
 				Yass.player.skipTo(event.currentTarget.value);
 		}
-		
 		private 	function onEnterFrame(event:Event):void{
 			if(Yass.player.isPlaying){
 				value = Yass.player.position;
@@ -38,7 +33,5 @@ package org.yass.visualization
 				this.visible = false;
 			}
 		}
-		
-		
 	}
 }

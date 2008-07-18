@@ -27,15 +27,15 @@
 				</mx:columns>
 			</mx:DataGrid>
 		</mx:HBox>
-		<view:PlayListView showScrollTips="false" verticalScrollPolicy = "on"  id="playList" right="10" left="0" top="0" bottom="10" rowHeight="15" width="100%" height="100%" horizontalScrollPolicy="auto">
+		<view:PlayListView showScrollTips="false"  horizontalScrollPolicy="auto" verticalScrollPolicy="on"  id="playList" right="10" left="0" top="0" bottom="10" rowHeight="15" width="100%" height="100%">
   			<view:columns>
 				<mx:DataGridColumn showDataTips="false" width="16" minWidth="16" resizable="false" sortable="false" draggable="false" itemRenderer="org.yass.main.renderers.PlayingNowRenderer"/> 
-				<mx:DataGridColumn showDataTips="false" headerText="Track" dataField="trackNr" width="40" resizable="false" draggable="false" textAlign="right"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
-				<mx:DataGridColumn showDataTips="false" headerText="Title" dataField="title" width="300"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
-				<mx:DataGridColumn showDataTips="false" headerText="Duration" dataField="length" textAlign="right" minWidth="60" width="60" itemRenderer="org.yass.main.renderers.DurationPropertyRenderer"/>
+				<mx:DataGridColumn showDataTips="false" headerText="Track" dataField="trackNr" width="38" resizable="false" draggable="false" textAlign="right"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn showDataTips="false" headerText="Title" dataField="title" width="260"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn showDataTips="false" headerText="Duration" dataField="length" textAlign="right" minWidth="55" width="55" itemRenderer="org.yass.main.renderers.DurationPropertyRenderer"/>
 				<mx:DataGridColumn showDataTips="false" headerText="Artist" dataField="artist" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer"/>
 				<mx:DataGridColumn showDataTips="false" headerText="Album" dataField="album" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
-				<mx:DataGridColumn showDataTips="false" headerText="Genre"  dataField="genre" minWidth="80" visible="false" width="80" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
+				<mx:DataGridColumn showDataTips="false" headerText="Genre"  dataField="genre" minWidth="65" visible="true" width="80" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
 				<mx:DataGridColumn showDataTips="false" headerText="Play Count"  dataField="playCount" visible="false" minWidth="70" resizable="false" width="20" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
 				<mx:DataGridColumn showDataTips="false" headerText="Rating"  dataField="rating" minWidth="80" resizable="false" width="80" itemRenderer="org.yass.main.renderers.RatingRenderer" />
 			</view:columns>
