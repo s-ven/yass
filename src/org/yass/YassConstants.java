@@ -14,11 +14,11 @@ public interface YassConstants {
 	public static final String ARTIST_ID = "ARTIST_ID";
 	public static final String ALBUM_ID = "ALBUM_ID";
 	public static final String GENRE_ID = "GENRE_ID";
-	public static final String ARTIST = "ARTIST";
-	public static final String ALBUM = "ALBUM";
+	public static final String ARTIST = "artist";
+	public static final String ALBUM = "album";
 	public static final String TRACK = "TRACK";
 	public static final String TITLE = "TITLE";
-	public static final String GENRE = "GENRE";
+	public static final String GENRE = "genre";
 	public static final String PATH = "PATH";
 	public static final String LENGTH = "LENGTH";
 	public static final String UUID = "UUID";

@@ -128,7 +128,7 @@ public final class Track implements YassConstants {
 
 	public void setTrackInfos(final Collection<TrackInfo> infos) {
 		for (final TrackInfo trackInfo : infos)
-			trackInfos.put(trackInfo.type, trackInfo);
+			trackInfos.put(trackInfo.getType(), trackInfo);
 	}
 
 	/**

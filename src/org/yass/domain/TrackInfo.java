@@ -5,9 +5,18 @@ import org.yass.dao.TrackInfoDao;
 public class TrackInfo {
 
 	public static final TrackInfoDao dao = new TrackInfoDao();
-	public String value;
-	public int id;
-	public String type;
+	private final String value;
+	private int id;
+
+	/**
+	 * @param id
+	 *          the id to set
+	 */
+	public final void setId(final int id) {
+		this.id = id;
+	}
+
+	private final String type;
 
 	public TrackInfo(final int id, final String type, final String value) {
 		this.type = type;
@@ -21,6 +30,27 @@ public class TrackInfo {
 
 	@Override
 	public final String toString() {
-		return "{id:" + id + ",type:\"" + type + "\",value:\"" + value + "\"}";
+		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	}
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
 	}
 }

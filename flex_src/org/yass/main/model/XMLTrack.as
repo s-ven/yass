@@ -28,9 +28,9 @@ package org.yass.main.model
 					this._rating = obj.@rating;
 				//this.lastPlayed = obj.lastPlayed;
 				this.playCount = obj.@playCount;
-				this.artist = BrowserModel.dict["ARTIST_" + obj.@artist];
-				this.genre = BrowserModel.dict["GENRE_" + obj.@genre];
-				this.album = BrowserModel.dict["ALBUM_" + obj.@album];
+				this.artist = BrowserModel.dict["artist_" + obj.@artist];
+				this.genre = BrowserModel.dict["genre_" + obj.@genre];
+				this.album = BrowserModel.dict["album_" + obj.@album];
 				this.allFields = (artist.value + " " + album.value +" " + title).toLocaleLowerCase();
 		}
 		

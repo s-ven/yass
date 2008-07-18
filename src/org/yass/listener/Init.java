@@ -103,20 +103,20 @@ public class Init implements ServletContextListener, YassConstants {
 				genre = track.getTrackInfo(GENRE);
 				for (int i = 0; i < genreList.getLength(); i++) {
 					genreNode = (Element) genreList.item(i);
-					if (genre != null && genreNode.getAttribute("value").equals(genre.value)) {
+					if (genre != null && genreNode.getAttribute("value").equals(genre.getValue())) {
 						// If this genre already exists, will populate the corresponding
 						// node
 						// with
 						final NodeList artistLst = genreNode.getChildNodes();
 						for (int j = 0; j < artistLst.getLength(); j++) {
 							artistNode = (Element) artistLst.item(j);
-							if (artistNode.getAttribute("value").equals(artist.value)) {
+							if (artistNode.getAttribute("value").equals(artist.getValue())) {
 								// If this artist already exists, will populate the
 								// corresponding
 								// node with
 								final NodeList albLst = artistNode.getChildNodes();
 								for (int k = 0; k < albLst.getLength(); k++)
-									if (((Element) albLst.item(k)).getAttribute("value").equals(album.value)) {
+									if (((Element) albLst.item(k)).getAttribute("value").equals(album.getValue())) {
 										exists = true;
 										break;
 									}
@@ -159,9 +159,9 @@ public class Init implements ServletContextListener, YassConstants {
 	private Element makeNodeFromProp(final Document doc, final TrackInfo album) {
 		Element albNode;
 		albNode = doc.createElement("node");
-		albNode.setAttribute("id", "" + album.id);
-		albNode.setAttribute("value", album.value);
-		albNode.setAttribute("type", album.type);
+		albNode.setAttribute("id", "" + album.getId());
+		albNode.setAttribute("value", album.getValue());
+		albNode.setAttribute("type", album.getType());
 		return albNode;
 	}
 

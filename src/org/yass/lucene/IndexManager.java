@@ -93,17 +93,17 @@ public final class IndexManager implements org.yass.YassConstants {
 					try {
 						final Track track = new Track(file);
 						// Add the fields for the search
-						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).value, Store.YES, Index.TOKENIZED));
-						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).value, Store.YES, Index.TOKENIZED));
-						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).value, Store.YES, Index.TOKENIZED));
+						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).getValue(), Store.YES, Index.TOKENIZED));
+						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).getValue(), Store.YES, Index.TOKENIZED));
+						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).getValue(), Store.YES, Index.TOKENIZED));
 						doc.add(new Field(TITLE, track.getTitle(), Store.YES, Index.TOKENIZED));
 						doc.add(new Field(TRACK, track.getTrackNr() + "", Store.YES, Index.TOKENIZED));
 						doc.add(new Field(PATH, track.getPath(), Store.YES, Index.UN_TOKENIZED));
 						// TODO : Use a formatter
 						doc.add(new Field(LENGTH, "" + track.getLength(), Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).id + "", Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).id + "", Store.YES, Index.UN_TOKENIZED));
-						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).id + "", Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(ARTIST, track.getTrackInfo(ARTIST).getId() + "", Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(ALBUM, track.getTrackInfo(ALBUM).getId() + "", Store.YES, Index.UN_TOKENIZED));
+						doc.add(new Field(GENRE, track.getTrackInfo(GENRE).getId() + "", Store.YES, Index.UN_TOKENIZED));
 						LOG.info("Indexing MP3 File : " + ++currentMediaFileIndex + "/" + mediaFilesCount);
 						iw.addDocument(doc);
 					} catch (final Exception e) {

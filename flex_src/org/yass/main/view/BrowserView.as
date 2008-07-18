@@ -42,62 +42,53 @@ package org.yass.main.view
 		private var _playlistView:PlayListView;
 		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
-			this._genre = genre;
-			this._artist = artist;  
-			this._album = album; 
 			model = Yass.browser;
-			genre.dataProvider = createAllRow("genre", model.genreArray);
-			artist.dataProvider = createAllRow("artist", model.artistArray);
-			album.dataProvider = createAllRow("album", model.albumArray);
+			init("genre", genre)
+			init("artist", artist)
+			init("album", album)
 			this._playlistView = playlistView; 
 			this._playlistView.model = Yass.library;
-			genre.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
-			artist.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
-			album.addEventListener(ListEvent.ITEM_CLICK, onItemClick);
-			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed);
+			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed,false,-1);
+		}
+		private function init(type:String, dg:DataGrid){
+			this["_"+type] = dg;
+			createAllRow(type);
+			this["_"+type].addEventListener(ListEvent.ITEM_CLICK, onItemClick);
 		}
 		private function onItemClick(evt:ListEvent):void{
 			Console.log("view.BrowserView.onItemClick id:"+evt.currentTarget.id);
 			model.browseBy(evt.currentTarget.id, evt.currentTarget.selectedItems);
 		}
 		private function onRefreshed(evt:BrowserEvent):void{
-			Console.log("view.BrowserView.onRefreshed types:" + evt.types);
-			if(evt.containsType("genre")){
-				_genre.dataProvider = createAllRow("genre", model.genreArray);
-				_genre.selectedItems = model.selectedGenres
-				if(_genre.selectedIndex !=-1)
-					_genre.scrollToIndex(_genre.selectedIndex)
-			}
-			if(evt.containsType("artist")){
-				_artist.dataProvider = createAllRow("artist", model.artistArray);
-				_artist.selectedItems = model.selectedArtists
-				if(_artist.selectedIndex !=-1)
-					_artist.scrollToIndex(_artist.selectedIndex)
-			}
-			if(evt.containsType("album")){
-				_album.dataProvider = createAllRow("album", model.albumArray);
-				_album.selectedItems = model.selectedAlbums
-				if(_album.selectedIndex !=-1)
-					_album.scrollToIndex(_album.selectedIndex)
-			}
+			Console.group("view.BrowserView.onRefreshed types:" + evt.types);
+			for each(var type in evt.types)
+				createAllRow(type)
+			Console.groupEnd();
 		}
-		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
+		private function createAllRow(type:String):void{
+			Console.group("type:" + type);
+			var arrCol:ArrayCollection = model[type+"Array"]
 			var arr:Array = new Array();
 			if(arrCol.length > 1){
 				var allRow:Object = new Object();
-				allRow.value = "All (" + arrCol.length + " " + label+"s)";
+				allRow.value = "All (" + arrCol.length + " " + type+"s)";
 				allRow.id = -1;
 				arr.push(allRow)
 			}
-			return arr.concat(arrCol.toArray());
+			this["_" + type].dataProvider = arr.concat(arrCol.toArray());
+			Console.log("length:"+this["_" + type].dataProvider.length)
+			this["_"+type].selectedItems = model[type +"Selected"]
+			if(this["_"+type].selectedIndex != -1){
+				Console.log("selected index : " + this["_"+type].selectedIndex);
+				this["_" + type].scrollToIndex(this["_"+type].selectedIndex)
+			}
+			Console.groupEnd();
 		}
 		public function onClickPlayList(type:String, val:Value):void{
 			Console.group("view.BrowserView.onClickPlayList type:"+type+  ", val:"+ val);
 			model.browseBy(type, [val])	
-			this["_" + type].dataProvider = createAllRow(type, model[type+"Array"]);
-			this["_" + type].selectedItem = val;
-			this["_" + type].scrollToIndex(this["_"+type].selectedIndex)
-			Console.groupEnd()		
+			createAllRow(type);
+			Console.groupEnd();
 		}
 	}
 } 	

@@ -29,19 +29,19 @@ public class TrackInfoDao extends AbstractDao {
 	}
 
 	public void save(final TrackInfo trackInfo) {
-		if (trackInfo.id == 0) {
-			final PreparedStatementCreator psc = trackInfoPscf.newPreparedStatementCreator(new Object[] { trackInfo.type,
-					trackInfo.value });
+		if (trackInfo.getId() == 0) {
+			final PreparedStatementCreator psc = trackInfoPscf.newPreparedStatementCreator(new Object[] {
+					trackInfo.getType(), trackInfo.getValue() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(psc, kh);
-			trackInfo.id = kh.getKey().intValue();
+			trackInfo.setId(kh.getKey().intValue());
 		}
 	}
 
 	public TrackInfo getFromValue(final String value, final String type) {
 		final Iterator<TrackInfo> it = getJdbcTempate().query(
-				"select id, type, value from track_info where value = ? and type = ?", new Object[] { value, type }, rowMapper)
-				.iterator();
+				"select id, type, value from track_info where value = ? and type = ?",
+				new Object[] { value, type.toLowerCase() }, rowMapper).iterator();
 		TrackInfo trackInfo = null;
 		if (it.hasNext())
 			trackInfo = it.next();
@@ -70,7 +70,7 @@ public class TrackInfoDao extends AbstractDao {
 	private static class TrackInfoRowMapper implements ParameterizedRowMapper<TrackInfo> {
 
 		public TrackInfo mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new TrackInfo(rs.getInt(1), rs.getString(2), rs.getString(3));
+			return new TrackInfo(rs.getInt(1), rs.getString(2).toLowerCase(), rs.getString(3));
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class TrackDao extends AbstractDao {
 		getJdbcTempate().execute("delete from track_track_info where track_id = " + track.getId());
 		for (final TrackInfo trackInfo : track.getTrackInfos())
 			getJdbcTempate().update("insert into track_track_info (track_id, track_info_id) values(?, ?)",
-					new Object[] { track.getId(), trackInfo.id });
+					new Object[] { track.getId(), trackInfo.getId() });
 	}
 
 	public final void fillLibrary(final LibraryPlayList lib) {
