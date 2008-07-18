@@ -26,7 +26,6 @@ package org.yass.main.events{
 
 	public class BrowserEvent extends Event{
 		public static const REFRESHED:String = "refreshed";
-		public static const REFRESHED_PLAYLIST:String = "refreshed_playlist";
 		public var types : ArrayCollection;
 		public function BrowserEvent(type:String, types:Array=null):void{
 			super(type);

@@ -58,16 +58,28 @@ package org.yass.main.view
 		}
 		private function onItemClick(evt:ListEvent):void{
 			Console.log("view.BrowserView.onItemClick id:"+evt.currentTarget.id);
-			model.browseBy(evt.currentTarget.id, evt.currentTarget.selectedIndices, evt.currentTarget.selectedItems);
+			model.browseBy(evt.currentTarget.id, evt.currentTarget.selectedItems);
 		}
 		private function onRefreshed(evt:BrowserEvent):void{
 			Console.log("view.BrowserView.onRefreshed types:" + evt.types);
-			if(evt.containsType("genre"))
+			if(evt.containsType("genre")){
 				_genre.dataProvider = createAllRow("genre", model.genreArray);
-			if(evt.containsType("artist"))
+				_genre.selectedItems = model.selectedGenres
+				if(_genre.selectedIndex !=-1)
+					_genre.scrollToIndex(_genre.selectedIndex)
+			}
+			if(evt.containsType("artist")){
 				_artist.dataProvider = createAllRow("artist", model.artistArray);
-			if(evt.containsType("album"))
+				_artist.selectedItems = model.selectedArtists
+				if(_artist.selectedIndex !=-1)
+					_artist.scrollToIndex(_artist.selectedIndex)
+			}
+			if(evt.containsType("album")){
 				_album.dataProvider = createAllRow("album", model.albumArray);
+				_album.selectedItems = model.selectedAlbums
+				if(_album.selectedIndex !=-1)
+					_album.scrollToIndex(_album.selectedIndex)
+			}
 		}
 		private function createAllRow(label:String, arrCol:ArrayCollection):Array{
 			var arr:Array = new Array();
@@ -77,12 +89,11 @@ package org.yass.main.view
 				allRow.id = -1;
 				arr.push(allRow)
 			}
-			arr = arr.concat(arrCol.toArray());
-			return arr;
+			return arr.concat(arrCol.toArray());
 		}
 		public function onClickPlayList(type:String, val:Value):void{
 			Console.group("view.BrowserView.onClickPlayList type:"+type+  ", val:"+ val);
-			model.browseBy(type, this._artist.selectedIndices, [val])	
+			model.browseBy(type, [val])	
 			this["_" + type].dataProvider = createAllRow(type, model[type+"Array"]);
 			this["_" + type].selectedItem = val;
 			this["_" + type].scrollToIndex(this["_"+type].selectedIndex)

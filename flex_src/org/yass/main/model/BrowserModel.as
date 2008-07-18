@@ -71,7 +71,7 @@ package org.yass.main.model
 									};
 			sub.refresh();
 		}
-		public function browseBy(type:String, selectedIndices:Array, selectedItems:Array):void{
+		public function browseBy(type:String, selectedItems:Array):void{
 			Console.group("model.BrowserModel.browseBy : type="+type);
 			Console.log("Items : " + selectedItems);
 			if(selectedItems[0].id == -1){
@@ -125,20 +125,31 @@ package org.yass.main.model
 				} else if(type == "album")
 					selectedAlbums = selectedItems;
 			}
-			Yass.library.filterFunction = function(row:Object):Boolean{
-						var ret : Boolean = true;
-						if (selectedGenres.length != 0)
-						 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
-						if (selectedAlbums.length != 0)
-						 	ret = ret && selectedAlbums.lastIndexOf(row.album) != -1
-						if (selectedArtists.length != 0)
-						 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
-						if(ret && _filteredText && _filteredText.length > 0)
-							_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
-						return ret;
-			}
+			if(_filteredText && _filteredText.length > 0)
+				Yass.library.filterFunction = function(row:Object):Boolean{
+							var ret : Boolean = true;
+							if (selectedGenres.length != 0)
+							 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
+							if (selectedAlbums.length != 0)
+							 	ret = ret && selectedAlbums.lastIndexOf(row.album) != -1
+							if (selectedArtists.length != 0)
+							 	ret = ret && selectedArtists.lastIndexOf(row.artist) != -1
+							 if(ret)
+								return ret && _filteredText.every(function(obj:Object, index:int, arr:Array):Boolean{return row.allFields.indexOf(obj) != -1});
+							return ret;
+				}
+			else
+				Yass.library.filterFunction = function(row:Object):Boolean{
+							var ret : Boolean = true;
+							if (selectedGenres.length != 0)
+							 	ret = ret && selectedGenres.lastIndexOf(row.genre) != -1
+							if (selectedAlbums.length != 0)
+							 	ret = ret && selectedAlbums.lastIndexOf(row.album) != -1
+							if (selectedArtists.length != 0)
+							 	return ret && selectedArtists.lastIndexOf(row.artist) != -1
+							return ret;
+				}
 			Yass.library.refresh();
-			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED_PLAYLIST));
 			Console.groupEnd();
 		}
 		private var _filteredText:Array;
@@ -185,6 +196,21 @@ package org.yass.main.model
 				Console.groupEnd();
 			}
 			populateTree()
+			if(selectedArtists.length > 0 && selectedArtists.every(
+				function(obj:Object, index:int, arr:Array):Boolean{
+					return _filteredARTIST.indexOf(obj) != -1
+					}))
+				browseBy("artist", selectedArtists);
+			else if(selectedGenres.length >0 && selectedGenres.every(
+				function(obj:Object, index:int, arr:Array):Boolean{
+					return _filteredGENRE.indexOf(obj) != -1
+					}))
+				browseBy("genre", selectedGenres);
+			else if(selectedAlbums.length >0 && selectedAlbums.every(
+				function(obj:Object, index:int, arr:Array):Boolean{
+					return _filteredALBUM.indexOf(obj) != -1
+					}))
+				browseBy("album", selectedAlbums);
 			
 		}
 	}
