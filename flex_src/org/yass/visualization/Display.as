@@ -43,6 +43,7 @@ package org.yass.visualization
 			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
+			this.setStyle("fontThickness", 150);
 			songInfo.percentWidth = 100;
 			songInfo.percentHeight = 100;
 			songInfo.setStyle("verticalAlign", "middle");
@@ -68,7 +69,9 @@ package org.yass.visualization
 			vbox.setStyle("verticalGap", 0);
 			vbox.setStyle("verticalAlign", "middle");
 			vbox.setStyle("horizontalAlign", "center");
-			vbox.percentWidth = 100;		
+			vbox.percentWidth = 100;	
+			vbox.percentHeight = 100;	
+			trackLabel.height = 15	
 			vbox.addChild(trackLabel);	
 			scrollText.percentWidth = 100;
 			scrollText.height=15

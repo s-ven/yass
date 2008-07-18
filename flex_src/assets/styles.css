@@ -134,6 +134,7 @@ TextInput.inputText
 global {
    fontFamily: Monaco;
    fontAntiAliasType:advanced;
+	fontSize: 9;
 }
 
 
@@ -571,6 +572,7 @@ DataGrid {
 	paddingBottom: 0;
 	paddingTop: 0;
 	paddingLeft: 0;
+	fontSize: 9;
 }
 
 .mydataGridHeaderStyle {
@@ -578,7 +580,7 @@ DataGrid {
 	fontThickness:200;
 	textDecoration: normal;
 	fontStyle: normal;
-	fontSize: 10;
+	fontSize: 9;
 }
 
 MenuBar {
@@ -628,6 +630,8 @@ DataGrid.FilterPane
 	paddingTop: 0;
 	leading: 0;
 	verticalAlign: middle;
+	headerStyleName: mydataGridHeaderStyle;
+	fontSize: 9;
 }
 PlayListView
 {
