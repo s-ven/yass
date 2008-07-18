@@ -19,7 +19,7 @@ package org.yass.main.renderers
 				var tree:Tree = Tree(parent.parent);
 	        	if(data.@type == "void"){
 	                enabled=false;
-	                setStyle("fontWeight","bold");
+	                setStyle("fontThickness",200);
 	                label.x = 20;;
 	            }
 	            else{
@@ -27,7 +27,6 @@ package org.yass.main.renderers
 	            	buttonMode = true;
 					enabled = true;
 	                setStyle("color","#000000");
-	                setStyle("fontWeight","normal");
 	                label.x = 36;
 	                icon.x = 20
 					if(data.@type == "smart")

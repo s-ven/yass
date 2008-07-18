@@ -13,46 +13,14 @@
 			private function createView():void{
 				this.searchView  = new SearchView(this);
 			}
-			private var filtering:Boolean=false;
-			private var buff:String;
-			private var timeOut:int=200
-			private function onChange():void{
-				if(!filtering){
-					buff = searchInput.text
-					filtering = true
-					setTimeout(timeoutFunction , timeOut)
-						
-				}
-			}
-			private function timeoutFunction():void{
-				if(searchInput.text != buff){
-					buff = searchInput.text
-					setTimeout(timeoutFunction , timeOut)
-				}
-				else{
-					(parent.parent.parent as MainWindow).mainPane.libraryBrowser.browserView.model.filteredText = searchInput.text;
-					filtering = false
-					if(searchInput.text.length !=0 && Yass.library.source.length > Yass.library.length){
-						onCollectionUpdate(null);
-						Yass.library.addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionUpdate)
-					}
-					else{
-						Yass.library.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionUpdate)
-						labelKeywordsScope.text="Search"
-					}
-				}
-			}
-			private function onCollectionUpdate(evt:Event):void{
-				labelKeywordsScope.text= "Found " + Yass.library.length + " tracks on " +Yass.library.source.length + " in library"
-			}
 		]]>
 	</mx:Script>
 		<mx:Canvas verticalCenter="0" backgroundSize="100%" height="26"
 			backgroundImage="@Embed(source='/assets/input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='65')" horizontalCenter="0">
 			<mx:TextInput id="searchInput" paddingTop="5" paddingLeft="21" height="26" 
 					cornerRadius="8" borderStyle="none" width="190" backgroundAlpha="0.0" color="#C9C9C9"
-					verticalCenter="0" horizontalCenter="0"  change="onChange()"/>
-			<mx:Image id="dropDownMenu" source="@Embed(source='/assets/dropmarker-plus.gif')" verticalCenter="0" left="10"/>
+					verticalCenter="0" horizontalCenter="0"/>
+			<mx:Image useHandCursor="true" mouseChildren="false" buttonMode="true" id="dropDownMenu" source="@Embed(source='/assets/dropmarker-plus.gif')" verticalCenter="0" left="10"/>
 		</mx:Canvas>
 	<mx:Label id="labelKeywordsScope" text="Search" verticalCenter="23" horizontalCenter="0" color="#C1C1C1" fontSize="9"/>
 </mx:Canvas>

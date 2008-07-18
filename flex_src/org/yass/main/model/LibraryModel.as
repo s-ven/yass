@@ -7,7 +7,6 @@ package org.yass.main.model
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	
-	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
 	import org.yass.util.tree.*;
@@ -21,6 +20,11 @@ package org.yass.main.model
 		public var albumSelected: Array = new Array();
 		private var _tree:Tree;
 		private var _sort:Sort = new Sort();
+		private var _filteredText:Array;
+		private var _genreFiltered:Array;
+		private var _albumFiltered:Array;
+		private var _artistFiltered:Array;
+		private var _searchScope:String=SearchScope.ALL;
 		public function LibraryModel(libTreeData:Object, libraryData:Object):void{
 			Console.log("model.Library :: Init");
 			_tree = new Tree(new XML(libTreeData));
@@ -147,44 +151,16 @@ package org.yass.main.model
 			if(toDispatch)
 				dispatchEvent(toDispatch)
 		}
-		private var _filteredText:Array;
-		private var _genreFiltered:Array;
-		private var _albumFiltered:Array;
-		private var _artistFiltered:Array;
 		public function set filteredText(txt:String):void{
-			_filteredText = txt.toLowerCase().split(/\W/);;
+			_filteredText = txt.toLowerCase().split(/\W/);
+			filterText();
+		}
+		private function filterText():void{
 			Console.group("model.Library.set filteredText:" + _filteredText);
 			_genreFiltered = new Array();
 			_artistFiltered = new Array();
 			_albumFiltered = new Array();
-			if(_filteredText.length > 0){
-				Console.log("Non empty text");
-				filterFunction = function(row:Object):Boolean{
-					var ret:Boolean= true
-					_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
-						if(ret){
-							if(_genreFiltered.indexOf(row.genre) == -1)
-								_genreFiltered.push(row.genre)
-							if(_artistFiltered.indexOf(row.artist) == -1)
-								_artistFiltered.push(row.artist)
-							if(_albumFiltered.indexOf(row.album) == -1)
-								_albumFiltered.push(row.album)
-						}
-					return ret
-				}
-			}
-			else {
-				Console.log("Empty text");
-				filterFunction = function(row:Object):Boolean{
-					if(_genreFiltered.indexOf(row.genre) == -1)
-						_genreFiltered.push(row.genre)
-					if(_artistFiltered.indexOf(row.artist) == -1)
-						_artistFiltered.push(row.artist)
-					if(_albumFiltered.indexOf(row.album) == -1)
-						_albumFiltered.push(row.album)
-					return true
-				}; 
-			}
+			createTextFilterFunction();
 			refresh()
 			Console.log("list : " + length)
 			if(checkSelected("album"));
@@ -203,6 +179,93 @@ package org.yass.main.model
 				return true;
 			}
 			return false;
+		}
+		public function set searchScope(scope:String):void{
+			_searchScope = scope;
+			if(_filteredText && _filteredText.length !=0)
+				filterText();
+		}
+		public function get searchScope():String{
+			return _searchScope;
+		}
+		private function createTextFilterFunction():void{
+			if(_filteredText.length > 0){
+				Console.log("Non empty text");
+				switch(searchScope){
+				case SearchScope.ALL :
+					filterFunction = function(row:Object):Boolean{
+						var ret:Boolean= true
+						_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.allFields.indexOf(obj) != -1});
+							if(ret){
+								if(_genreFiltered.indexOf(row.genre) == -1)
+									_genreFiltered.push(row.genre)
+								if(_artistFiltered.indexOf(row.artist) == -1)
+									_artistFiltered.push(row.artist)
+								if(_albumFiltered.indexOf(row.album) == -1)
+									_albumFiltered.push(row.album)
+							}
+						return ret
+					}
+					break;
+				case SearchScope.ARTISTS :
+					filterFunction = function(row:Object):Boolean{
+						var ret:Boolean= true
+						_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.artist.lowerCaseValue.indexOf(obj) != -1});
+							if(ret){
+								if(_genreFiltered.indexOf(row.genre) == -1)
+									_genreFiltered.push(row.genre)
+								if(_artistFiltered.indexOf(row.artist) == -1)
+									_artistFiltered.push(row.artist)
+								if(_albumFiltered.indexOf(row.album) == -1)
+									_albumFiltered.push(row.album)
+							}
+						return ret
+					}
+					break;
+				case SearchScope.ALBUMS :
+					filterFunction = function(row:Object):Boolean{
+						var ret:Boolean= true
+						_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.album.lowerCaseValue.indexOf(obj) != -1});
+							if(ret){
+								if(_genreFiltered.indexOf(row.genre) == -1)
+									_genreFiltered.push(row.genre)
+								if(_artistFiltered.indexOf(row.artist) == -1)
+									_artistFiltered.push(row.artist)
+								if(_albumFiltered.indexOf(row.album) == -1)
+									_albumFiltered.push(row.album)
+							}
+						return ret
+					}
+					break;
+				case SearchScope.TITLE :
+					filterFunction = function(row:Object):Boolean{
+						var ret:Boolean= true
+						_filteredText.forEach(function(obj:Object, index:int, arr:Array):void{ret = ret && row.lowerCaseTitle.indexOf(obj) != -1});
+							if(ret){
+								if(_genreFiltered.indexOf(row.genre) == -1)
+									_genreFiltered.push(row.genre)
+								if(_artistFiltered.indexOf(row.artist) == -1)
+									_artistFiltered.push(row.artist)
+								if(_albumFiltered.indexOf(row.album) == -1)
+									_albumFiltered.push(row.album)
+							}
+						return ret
+					}
+					break;
+				}
+			}
+			else {
+				Console.log("Empty text");
+				filterFunction = function(row:Object):Boolean{
+					if(_genreFiltered.indexOf(row.genre) == -1)
+						_genreFiltered.push(row.genre)
+					if(_artistFiltered.indexOf(row.artist) == -1)
+						_artistFiltered.push(row.artist)
+					if(_albumFiltered.indexOf(row.album) == -1)
+						_albumFiltered.push(row.album)
+					return true
+				}; 
+			}
 		}
 	}
 }	

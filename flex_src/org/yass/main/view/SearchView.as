@@ -21,17 +21,94 @@
 */
 package org.yass.main.view
 {
-	import org.yass.main.controller.SearchController;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
+	import flash.events.MouseEvent;
+	import flash.utils.setTimeout;
+	
+	import mx.controls.Menu;
+	import mx.events.CollectionEvent;
+	import mx.events.MenuEvent;
+	
+	import org.yass.Yass;
+	import org.yass.main.model.SearchScope;
 	import org.yass.main.view.component.SearchField;
 	
-	public class SearchView{
+	public class SearchView extends EventDispatcher{
 		private var component:SearchField;
-		private var controller:SearchController;
 		
+		private var _keyBuff:Boolean=false;
+		private var _tmpString:String;
+		private var _timeOut:int=250
+		private var _scopeLabel:String = "Search"
+		private var searchMenuData:Array = [
+		    {label: "Search", enabled: "false"},
+		    {label: SearchScope.ALL, type: "radio", groupName: "g1", toggled: true},
+		    {label: SearchScope.ARTISTS, type: "radio", groupName: "g1"}, 
+		    {label: SearchScope.ALBUMS, type: "radio", groupName: "g1"}, 
+		    {label: SearchScope.TITLE, type: "radio", groupName: "g1"} 
+		    ]; 
+
 		public function SearchView(_component:SearchField):void{
 			this.component = _component;
-			this.controller = new SearchController(component);
+			component.dropDownMenu.addEventListener(MouseEvent.CLICK, onDropDownRollover);
+			component.searchInput.addEventListener(Event.CHANGE, onChange);
+		}
+		private function onDropDownRollover(evt:MouseEvent):void {
+			var searchMenu:Menu = Menu.createMenu(null, searchMenuData, true);
+			searchMenu.addEventListener(MenuEvent.ITEM_CLICK, searchMenuClick);
+		    searchMenu.show(evt.stageX - evt.localX,evt.stageY - evt.localY);
+		}
 
+		private function searchMenuClick(event:MenuEvent):void{
+			var searchSentence:String = "Search";
+			switch(event.item.label){
+			case SearchScope.ALL :
+				_scopeLabel = "Search";
+				break;
+			case SearchScope.ARTISTS :
+				_scopeLabel = "Search an artist";
+				break;
+			case SearchScope.ALBUMS :
+				_scopeLabel = "Search an album";
+				break;
+			case SearchScope.TITLE :
+				_scopeLabel = "Search a title";
+				break;
+			}
+			Yass.library.searchScope = event.item.label;
+			computeScopeLabel();
+		}
+		private function onChange(evt:Event):void{
+			if(!_keyBuff){
+				_tmpString = component.searchInput.text
+				_keyBuff = true
+				setTimeout(timeoutFunction , _timeOut)
+			}
+		}
+		private function timeoutFunction():void{
+			if(component.searchInput.text != _tmpString){
+				_tmpString = component.searchInput.text
+				setTimeout(timeoutFunction , _timeOut)
+			}
+			else{
+				Yass.library.filteredText = component.searchInput.text;
+				_keyBuff = false
+				computeScopeLabel();
+			}
+		}
+		private function computeScopeLabel():void{
+			if(component.searchInput.text.length !=0 && Yass.library.source.length > Yass.library.length){
+				onCollectionUpdate(null);
+				Yass.library.addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionUpdate)
+			}
+			else{
+				Yass.library.removeEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionUpdate)
+				component.labelKeywordsScope.text=_scopeLabel
+			}
+		}
+		private function onCollectionUpdate(evt:Event):void{
+			component.labelKeywordsScope.text= "Found " + Yass.library.length + " tracks on " +Yass.library.source.length + " in library"
 		}
 	}
 }

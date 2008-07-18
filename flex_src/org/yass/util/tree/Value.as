@@ -10,8 +10,10 @@ package org.yass.util.tree
 		public var value:String;
 		public var type:String;
 		public var parent:Value;
+		public var lowerCaseValue:String;
 		public function Value(name:String, type:String, id:int):void{
 			this.value = name;
+			this.lowerCaseValue = value.toLowerCase();
 			this.type = type;
 			this.id = id;
 		}

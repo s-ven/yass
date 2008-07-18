@@ -17,7 +17,7 @@
 	</mx:states>
 	<mx:Script>
 		<![CDATA[
-			[Embed(source="/assets/MONACO.TTF", fontName="Monaco")]
+			[Embed(source="/assets/MONACO.TTF", fontName="Monaco" )]
 			private var _monacoFont:Class;
 		]]> 
 	</mx:Script>

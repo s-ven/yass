@@ -18,10 +18,12 @@ package org.yass.main.model
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
 		public var allFields:String;
+		public var lowerCaseTitle:String;
 		public function Track(obj:XML):void		{
 				this.id = obj.@id;
 				this.trackNr = obj.@trackNr;
 				this.title = obj.@title;
+				this.lowerCaseTitle = title.toLocaleLowerCase();
 				this.track = obj.@track;
 				this.length = obj.@length;
 				if(obj.rating)

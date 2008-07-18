@@ -25,11 +25,9 @@ package org.yass.main.renderers
 		}
 		protected function over(evt:Event) : void			{
 			setStyle("textDecoration", "underline");
-			setStyle("fontWeight", "bold");
 		}
 		protected function out(evt:Event) : void			{
 			setStyle("textDecoration", "none");
-			setStyle("fontWeight", "normal");
 		}
 	}
 }
