@@ -100,7 +100,7 @@ Button.VolumeUpButton
 }
 SpectrumAnalyzer.dimmed
 {
-	vuCount:16;
+	vuCount:32;
 	vuLevels:27;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
@@ -113,7 +113,7 @@ SpectrumAnalyzer.dimmed
 }
 SpectrumAnalyzer.visible
 {
-	vuCount:16;
+	vuCount:32;
 	vuLevels:27;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";

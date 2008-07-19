@@ -138,7 +138,6 @@ package org.yass.main.model
 			_artistFiltered = new Array();
 			_albumFiltered = new Array();
 			createTextFilterFunction();
-			refresh()
 			Console.log("list : " + length)
 			populateTree()
 			Console.groupEnd();
@@ -152,27 +151,36 @@ package org.yass.main.model
 			return _searchScope;
 		}
 		private function createTextFilterFunction():void{
-			var selFilterFunction:Function = function(row:Object):Boolean{
-				return 	(genreSelected.length == 0 || genreSelected.indexOf(row.genre) !=-1) &&
-						(artistSelected.length == 0 || artistSelected.indexOf(row.artist) !=-1) &&
-						(albumSelected.length == 0 || albumSelected.indexOf(row.album) !=-1);
-				};
 			if(_filteredText != null && _filteredText.length > 0){
 				var ffunction:Function = getFilterFunction();
+				source.forEach(
+								function(row:Object, index:int, arr:Array):void{
+									if(_filteredText.every(ffunction, row)){
+										if(_genreFiltered.indexOf(row.genre) == -1)
+											_genreFiltered.push(row.genre)
+										if(_artistFiltered.indexOf(row.artist) == -1)
+											_artistFiltered.push(row.artist)
+										if(_albumFiltered.indexOf(row.album) == -1)
+											_albumFiltered.push(row.album)
+									}
+								});
+				var genreSel:Array = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
+				var albumSel:Array = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
+				var artistSel:Array = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
+
 				filterFunction = function(row:Object):Boolean{
-						if(_filteredText.every(ffunction, row)){
-							if(_genreFiltered.indexOf(row.genre) == -1)
-								_genreFiltered.push(row.genre)
-							if(_artistFiltered.indexOf(row.artist) == -1)
-								_artistFiltered.push(row.artist)
-							if(_albumFiltered.indexOf(row.album) == -1)
-								_albumFiltered.push(row.album)
-							return selFilterFunction(row);
-						}
-					return false;
-				}
+					return 	(_filteredText.every(ffunction, row))&&(genreSel.length == 0 || genreSel.indexOf(row.genre) !=-1) &&
+							(artistSel.length == 0 || artistSel.indexOf(row.artist) !=-1) &&
+							(albumSel.length == 0 || albumSel.indexOf(row.album) !=-1);
+					};
+
 			}
-			else 
+			else {
+				var selFilterFunction:Function = function(row:Object):Boolean{
+					return 	(genreSelected.length == 0 || genreSelected.indexOf(row.genre) !=-1) &&
+							(artistSelected.length == 0 || artistSelected.indexOf(row.artist) !=-1) &&
+							(albumSelected.length == 0 || albumSelected.indexOf(row.album) !=-1);
+					};
 				filterFunction = function(row:Object):Boolean{
 					if(_genreFiltered.indexOf(row.genre) == -1)
 						_genreFiltered.push(row.genre)
@@ -182,6 +190,8 @@ package org.yass.main.model
 						_albumFiltered.push(row.album)
 					return selFilterFunction(row);
 				}; 
+			}
+			refresh();
 		}
 		
 		private function getFilterFunction():Function{
