@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.lucene.document.Document;
 import org.yass.YassConstants;
 
 public final class Track implements YassConstants {
@@ -77,21 +76,6 @@ public final class Track implements YassConstants {
 
 	public TrackInfo getTrackInfo(final String type) {
 		return trackInfos.get(type);
-	}
-
-	public Track(final Document doc) {
-		trackInfos.put(ARTIST, TrackInfo.getFromValue(doc.getFieldable(ARTIST).stringValue(), ARTIST));
-		trackInfos.put(GENRE, TrackInfo.getFromValue(doc.getFieldable(GENRE).stringValue(), GENRE));
-		trackInfos.put(ALBUM, TrackInfo.getFromValue(doc.getFieldable(ALBUM).stringValue(), ALBUM));
-		title = doc.getFieldable(TITLE).stringValue();
-		final String trackNr = doc.getFieldable(TRACK).stringValue();
-		if (!"".equals(trackNr))
-			this.trackNr = Integer.parseInt(trackNr);
-		else
-			this.trackNr = -1;
-		path = doc.getFieldable(PATH).stringValue();
-		length = Integer.parseInt(doc.getFieldable(LENGTH).stringValue());
-		lastUpdate = new Date();
 	}
 
 	/**
