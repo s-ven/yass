@@ -42,8 +42,8 @@ public class LibraryDao extends AbstractDao {
 	public Library getFromId(final int id) {
 		LOG.info("Loading Library id:" + id);
 		Library lib = null;
-		final Iterator<Library> it = getJdbcTempate().query(
-				"select id, path, last_update from library where id = ?", new Object[] { id }, rowMapper).iterator();
+		final Iterator<Library> it = getJdbcTempate().query("select id, path, last_update from library where id = ?",
+				new Object[] { id }, rowMapper).iterator();
 		if (it.hasNext()) {
 			lib = it.next();
 			trackDao.fillLibrary(lib);

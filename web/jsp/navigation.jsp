@@ -22,6 +22,6 @@
  <playlist name="<%=plst.getName() %>" type="user" id="<%=plst.getId() %>"/>
  <%
  	}%>
- 	 <playlist name="&lt;New&gt;" type="user" id="-1"/>
+ 	 <playlist name="&lt;New&gt;" type="user" id="0"/>
  	</user>
 </playlists>

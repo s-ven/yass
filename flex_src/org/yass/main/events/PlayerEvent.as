@@ -21,7 +21,8 @@
 */
 package org.yass.main.events{
 	import flash.events.Event;
-	import org.yass.debug.log.Console;
+	
+	import org.yass.main.model.Track;
 
 	public class PlayerEvent extends Event{
 		public static const NEXT:String = "next";
@@ -30,9 +31,11 @@ package org.yass.main.events{
 		public static const STOPPED:String = "stopped";
 		public static const PLAYING:String = "playing";
 		public static const TRACK_LOADED:String = "loaded";
+		public var track:Track
 
-		public function PlayerEvent(type:String):void{
+		public function PlayerEvent(type:String, track:Track=null):void{
 			super(type);
+			this.track = track;
 		}
 	}
 }

@@ -3,6 +3,9 @@ package org.yass.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +15,6 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.yass.domain.Library;
 import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
 
@@ -47,16 +49,34 @@ public class PlayListDao extends AbstractDao {
 				getJdbcTempate().execute("delete from simple_playlist where playlist_id = " + plst.getId());
 				int trackOrder = 0;
 				for (final int trackId : ((SimplePlayList) plst).trackIds)
-					getJdbcTempate().update("insert into simple_playlsit (playlist_id, track_id, track_order) values (?, ?, ?)",
+					getJdbcTempate().update("insert into simple_playlist (playlist_id, track_id, track_order) values (?, ?, ?)",
 							new Object[] { plst.id, trackId, trackOrder++ });
 			}
 		}
 	}
 
-	private static class PlayListRowMapper implements ParameterizedRowMapper<Library> {
+	public Map<Integer, PlayList> getFromUserId(final int userId) {
+		LOG.info("Loading Playlist from user_id:" + userId);
+		final Map<Integer, PlayList> plsts = new LinkedHashMap<Integer, PlayList>();
+		final Iterator<PlayList> it = getJdbcTempate().query(
+				"select id, type_id, name, last_update from playlist where user_id = ?", new Object[] { userId }, rowMapper)
+				.iterator();
+		if (it.hasNext()) {
+			final PlayList lib = it.next();
+			plsts.put(lib.getId(), lib);
+		}
+		LOG.info("Playlists succefuly loaded");
+		return plsts;
+	}
 
-		public Library mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new Library(rs.getInt(1), rs.getString(2), rs.getDate(3));
+	private static class PlayListRowMapper implements ParameterizedRowMapper<SimplePlayList> {
+
+		public SimplePlayList mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+			final SimplePlayList list = new SimplePlayList(rs.getInt(1), rs.getString(3), rs.getDate(4));
+			list.trackIds = (Integer[]) DaoHelper.getInstance().getJdbcTemplate().queryForList(
+					"select track_id from simple_playlist where playlist_id = ?", new Object[] { list.id }).toArray(
+					new Integer[] {});
+			return list;
 		}
 	}
 }

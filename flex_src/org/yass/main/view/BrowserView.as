@@ -39,18 +39,16 @@ package org.yass.main.view
 		private var _genre:DataGrid;
 		private var _artist:DataGrid;
 		private var _album:DataGrid; 
-		private var _playlistView:PlayListView;
 		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
 			model = Yass.library;
 			init("genre", genre)
 			init("artist", artist)
 			init("album", album)
-			this._playlistView = playlistView; 
-			this._playlistView.model = Yass.library;
-			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed,false,-1);
+			playlistView.model = Yass.library;
+			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed);
 		} 
-		private function init(type:String, dg:DataGrid){
+		private function init(type:String, dg:DataGrid):void{
 			this["_"+type] = dg;
 			createAllRow(type);
 			this["_"+type].addEventListener(ListEvent.ITEM_CLICK, onItemClick);
@@ -61,7 +59,7 @@ package org.yass.main.view
 		}
 		private function onRefreshed(evt:BrowserEvent):void{
 			Console.group("view.BrowserView.onRefreshed types:" + evt.types);
-			for each(var type in evt.types)
+			for each(var type:String in evt.types)
 				createAllRow(type)
 			Console.groupEnd();
 		}

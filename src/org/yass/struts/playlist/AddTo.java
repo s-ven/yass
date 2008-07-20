@@ -9,8 +9,8 @@ import org.yass.struts.YassAction;
 public class AddTo extends YassAction implements YassConstants {
 
 	private final PlayListDao playlistDao = new PlayListDao();
-	public String id;
-	public int[] trackIds;
+	public int id;
+	public Integer[] trackIds;
 	/**
 	 * 
 	 */

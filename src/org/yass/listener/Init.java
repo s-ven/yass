@@ -1,6 +1,7 @@
 package org.yass.listener;
 
 import java.util.Date;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -15,8 +16,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
 import org.yass.dao.LibraryDao;
+import org.yass.dao.PlayListDao;
 import org.yass.domain.Library;
 import org.yass.domain.MetadataReader;
+import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
@@ -62,9 +65,12 @@ public class Init implements ServletContextListener, YassConstants {
 						new MetadataReader().scanLibrary(lib);
 					}
 					servletContext.setAttribute(ALL_LIBRARY, lib);
+					LOG.info("Building library trackInfo XML document");
 					servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
+					final Map<Integer, PlayList> plsts = new PlayListDao().getFromUserId(1);
+					servletContext.setAttribute(USER_PLAYLISTS, plsts);
 				} catch (final Exception e) {
-					LOG.trace("Error in Yass init", e);
+					LOG.fatal("Error in Yass init", e);
 				}
 			}
 		});

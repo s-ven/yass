@@ -23,6 +23,7 @@
  package org.yass.main.view{
     import flash.events.Event;
     import flash.utils.Dictionary;
+    import flash.utils.setTimeout;
     
     import mx.controls.DataGrid;
     import mx.controls.dataGridClasses.DataGridColumn;
@@ -65,27 +66,14 @@
 			this._model = value;
 			dataProvider = _model; 
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
-			dataProvider.addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange, false, -3, true)
 			// Remove the eventLoaders for a potentially previous controller
 			if(controller)
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
-			// if the playlistModel is currently played, selecti the playing track
-			if(Yass.player.isPlaying && Yass.player.loadedPlayList == model){
-				this.selectedIndex = Yass.player.loadedPlayList.trackIndex;
-				this.selectedIndex = Yass.player.loadedPlayList.getItemIndex(Yass.player.loadedTrack);
-			}
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
 		}		
-		private function onCollectionChange(evt:CollectionEvent):void{
-			Console.log("view.PlayList.onCollectionChange " + model.trackIndex);
-	        if (model.trackIndex != -1 &&(model.trackIndex >= verticalScrollPosition + listItems.length - offscreenExtraRowsBottom || model.trackIndex < verticalScrollPosition)){
-	            verticalScrollPosition =  model.trackIndex //Math.min(evt.trackIndex, maxVerticalScrollPosition);
-	        }
-		}
-
 	 	
 
         /*
@@ -135,10 +123,9 @@
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList == this.model){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
-				scrollToIndex(model.trackIndex);
+				setTimeout(function ():void{scrollToIndex(evt.trackIndex);}, 0);
 			}	
 			Console.groupEnd();
-		
 		}
 		/**
 		 * 

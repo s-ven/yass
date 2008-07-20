@@ -23,7 +23,6 @@ package org.yass.main.model{
     
     import mx.core.UIComponent;
     
-    import org.yass.Yass;
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
     import org.yass.main.model.interfaces.IPlayListModel;
@@ -35,7 +34,7 @@ package org.yass.main.model{
 		public var shuffle:Boolean;
 		public var loop:Boolean;
         
-        private var _loadedTrack:Object;
+        private var _loadedTrack:Track;
         private var _volume:Number = 1;
         private var _soundHandler:SoundHandler;
         
@@ -70,19 +69,19 @@ package org.yass.main.model{
             	_soundHandler.volume = value;
             
         }    
-        public function set loadedTrack(track:Object):void{
+        public function set loadedTrack(track:Track):void{
         	Console.group("model.Player.loadedTrack title:"+track);
 			if(isPlaying)
 				_soundHandler.fadeOut(5000);
 			this._loadedTrack = track;
         	if(track){
 				this._soundHandler = new SoundHandler(track as Track, volume);
-				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED));
+				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED, track));
 			}
 			Console.groupEnd();
         }
         
-        public function get loadedTrack():Object{
+        public function get loadedTrack():Track{
         	return _loadedTrack;
         }
         public function skipTo(value:Number):void{
@@ -121,14 +120,14 @@ package org.yass.main.model{
 				if(!loadedTrack)
         			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
         		_soundHandler.play();				
-         	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
+         	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
 			}
 			Console.groupEnd();
 		}
 		public function play():void{
 			if(!isPlaying){
 				this._soundHandler.play();
-            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING));
+            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
    			}
 		}
 		public function stop():void{
@@ -138,7 +137,7 @@ package org.yass.main.model{
             this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 		}
 		
-		public function playTrack(track:Object):void{
+		public function playTrack(track:Track):void{
         	Console.group("model.Player.loadedTrack title:"+track.title);
 			if(loadedTrack != track || !this.isPlaying){
 				if(isPlaying)

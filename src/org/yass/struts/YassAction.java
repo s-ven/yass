@@ -31,8 +31,4 @@ public class YassAction extends ActionSupport implements YassConstants {
 	protected Map<Integer, PlayList> getPlayLists() {
 		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
 	}
-
-	public PlayList getAllLibrary() {
-		return (PlayList) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
-	}
 }

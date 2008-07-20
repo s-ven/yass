@@ -33,7 +33,6 @@ package org.yass.main.model{
 
 	public class NavigationModel extends EventDispatcher implements INavigationModel{
 		private var httpService:HTTPService = new HTTPService();
-		private var previousSelection:Object;
 		public function NavigationModel():void{
         	Console.log("model.NavigationModel :: init");
 			httpService.url="/yass/jsp/navigation.jsp";
@@ -56,24 +55,29 @@ package org.yass.main.model{
 			Console.group("model.Navigation.loadPlayList type=" + type + ", id=" + id);
 			var playlist:IPlayListModel;
 			try{
-				if(previousSelection != id && type == "user" && id != "-1"){
+				if(type == "user" && id != "-1"){
 					if(Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId == id){
 						Console.log("model.Navigation.loadPlayList :: Already playing PlayList" + Yass.player.loadedPlayList.trackIndex);
 						playlist = Yass.player.loadedPlayList;
 					}
 					else{
-							Console.log("model.Navigation.loadPlayList :: Fetching playList from server");
+						Console.log("model.Navigation.loadPlayList :: Fetching playList from server");
 						playlist = new PlayListModel();
 						(playlist as PlayListModel).playListId = id;
 						var obj:Object = new Object();
 						obj.id = id;
-						(playlist as PlayListModel).httpService.send(obj);
+						var httpSvc:HTTPService = (playlist as PlayListModel).httpService; 
+						httpSvc.addEventListener(ResultEvent.RESULT, function(){
+							if(httpSvc.lastResult.tracks)
+								for each(var track:Object in httpSvc.lastResult.tracks.track)
+									playlist.addItem(Yass.library.getTrack(track.id))
+						});
+						httpSvc.send(obj);
 					}				 
 				}  
 			}finally{
 				Console.groupEnd()
 				dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, playlist, type));
-				previousSelection = id;
 			}
 		}	
 		

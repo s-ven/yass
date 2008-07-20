@@ -15,7 +15,6 @@
 			import mx.effects.Fade;
 			import mx.core.UIComponent;
 			import org.yass.main.model.LibraryModel;
-			import mx.utils.ObjectProxy;
 			import mx.collections.ArrayCollection;
 			import mx.core.Application;
 			import org.yass.Yass;

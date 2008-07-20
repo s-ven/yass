@@ -21,8 +21,6 @@
 */
 package org.yass.main.model
 {
-	import flash.events.Event;
-	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
@@ -30,7 +28,6 @@ package org.yass.main.model
 	import mx.events.CollectionEventKind;
 	import mx.formatters.DateFormatter;
 	import mx.rpc.http.HTTPService;
-	import mx.utils.ObjectProxy;
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
@@ -46,7 +43,6 @@ package org.yass.main.model
 		private var _playListId:String;
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
-   		private var _datasProxy:ObjectProxy;
 		private var _sortA:Sort = new Sort();
 		private var _sortByTrackNr:SortField = new SortField("trackNr", true, false, true);
 		private var _sortByArtist:SortField = new SortField("artist", true);
@@ -55,7 +51,7 @@ package org.yass.main.model
 		private var _sortByLength:SortField = new SortField("length", true, false, true);
 		private var _sortByRating:SortField = new SortField("rating", true, false, true);
 		private var _oldColumn:String;
-		private var _selectedTrack:ObjectProxy;
+		private var _selectedTrack:Track;
 			
 		public function PlayListModel(){			
         	Console.log("model.PlayListModel :: Init");
@@ -65,16 +61,11 @@ package org.yass.main.model
 			_playListId = df.format(new Date());
  			httpService.method = "POST";
 			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange,false,-1);
+			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 		} 
 		
-   		public function set datas(value:Object):void{
-        	Console.log("model.PlayListModel.set datas");
-			if(value is XMLList || value is ArrayCollection)
-				for(var i:Object in value)
-					addItem(new ObjectProxy(new Track(value[i])));
-			else
-				addItem(new ObjectProxy(new Track(value as XML)));
-   		} 
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;
     	}
@@ -86,10 +77,10 @@ package org.yass.main.model
 		public function get playListId():String{
 			return _playListId;
 		}
-        public function get selectedTrack():Object{
+        public function get selectedTrack():Track{
         	if(trackIndex !=-1 && trackIndex < length){
-        		_selectedTrack = (getItemAt(trackIndex) as ObjectProxy)
-	        	return _selectedTrack.valueOf() as Track;
+        		_selectedTrack = getItemAt(trackIndex) as Track
+	        	return _selectedTrack;
 	        }
         	return null;
         }
@@ -109,7 +100,7 @@ package org.yass.main.model
         	shuffledListPosition += 1;
         	return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
     	}
-        public function getNextTrack(shuffle:Boolean, loop:Boolean):Object{
+        public function getNextTrack(shuffle:Boolean, loop:Boolean):Track{
         	Console.log("model.PlayList.getNextTrack");
             if(Yass.player.shuffle)
 	           	trackIndex = getNextShuffledTrack();
@@ -124,7 +115,7 @@ package org.yass.main.model
 			return selectedTrack;
         }
         
-        public function getPreviousTrack(shuffle:Boolean, loop:Boolean):Object{
+        public function getPreviousTrack(shuffle:Boolean, loop:Boolean):Track{
         	Console.log("model.PlayList.getPreviousTrack");
         	if(shuffle)
         		trackIndex = getPreviousShuffledTrack();
@@ -145,7 +136,7 @@ package org.yass.main.model
   			Console.group("group.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
 			var wasPlaying = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
-			loadToPlayer()
+				loadToPlayer()
 			Yass.player.playTrack(selectedTrack)
 			// If the Player is shuffling, will add the selected track to the random list 
  	       	if(Yass.player.shuffle){
@@ -171,25 +162,17 @@ package org.yass.main.model
 		 */
 		private function loadToPlayer():void{
 			Console.log("model.PlayList.loadToPlayer");
-			if(Yass.player.loadedPlayList)
-				(Yass.player.loadedPlayList as PlayListModel).unLoadFromPlayer();
-			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
-			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
-			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
   			Yass.player.loadedPlayList = this;
 		} 
-		private function unLoadFromPlayer():void{
-			Console.log("model.PlayList.unLoadFromPlayer");
-			Yass.player.removeEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
-			Yass.player.removeEventListener(PlayerEvent.PLAYING, onPlayerEvent);
-			Yass.player.removeEventListener(PlayerEvent.STOPPED, onPlayerEvent);
-		}
 		/**
 		 * Will dispatch a TrackEvent in order to refresh the view (Plate, PlayList) 
 		 */
-		private function onPlayerEvent(evt:Event):void{
+		protected function onPlayerEvent(evt:PlayerEvent):void{
 			if(Yass.player.loadedPlayList == this)
 				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
+			else if (this.getItemIndex(Yass.player.loadedTrack) != -1)
+				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, this.getItemIndex(Yass.player.loadedTrack), this));
+			
 		}
 		private function onCollectionChange(evt:CollectionEvent):void{
 			if(evt.kind == CollectionEventKind.REFRESH){

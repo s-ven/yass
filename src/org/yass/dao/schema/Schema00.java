@@ -71,10 +71,12 @@ public class Schema00 extends Schema {
 			template.execute("insert  into playlist_type (id, label) values (1, 'smart')");
 			LOG.info(" table 'playlist_type' was created successfully.");
 		}
+		// template.execute("drop table simple_playlist");
+		// template.execute("drop table playlist");
 		if (!tableExists(template, "playlist")) {
 			LOG.info(" table 'playlist' not found.  Creating it.");
 			template
-					.execute("create table playlist (id  int not null generated always as identity, user_id int not null, type_id int not null, name varchar(128) not null, last_play date"
+					.execute("create table playlist (id  int not null generated always as identity, user_id int not null, type_id int not null, name varchar(128) not null, last_update date"
 							+ ", primary key(id), foreign key(user_id) references yass_user(id), foreign key(type_id) references playlist_type(id))");
 			LOG.info(" table 'playlist' was created successfully.");
 		}

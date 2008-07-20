@@ -28,8 +28,10 @@ package org.yass.main.model
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.BrowserEvent;
+	import org.yass.main.events.PlayerEvent;
 	import org.yass.util.tree.*;
 	public class LibraryModel extends PlayListModel{
 		public var genreArray:ArrayCollection; 
@@ -46,6 +48,7 @@ package org.yass.main.model
 		private var _albumFiltered:Array;
 		private var _artistFiltered:Array;
 		private var _textFilterScope:String=TextFilterScope.ALL;
+		private var _trackDictionary:Dictionary = new Dictionary();
 		public function LibraryModel(libTreeData:Object, libraryData:Object):void{
 			Console.log("model.Library :: Init");
 			_tree = new Tree(new XML(libTreeData));
@@ -53,7 +56,27 @@ package org.yass.main.model
 			dispatchEvent(new BrowserEvent(BrowserEvent.REFRESHED, ["genre","artist", "album"]));
 			_sort.fields = [new SortField("value")];
 			datas = new XML(libraryData).children()
+				Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+				Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+				Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 		}
+   		public function set datas(value:Object):void{
+        	Console.log("model.PlayListModel.set datas");
+			if(value is XMLList || value is ArrayCollection)
+				for(var i:Object in value){
+					var track = new Track(value[i])
+					addItem(track);
+					_trackDictionary[track.id] = track;
+				}
+			else{
+				var track = new Track(value as XML)
+				addItem(track);
+				_trackDictionary[track.id] = track;
+			}
+   		} 
+   		public function getTrack(id:int){
+   			return _trackDictionary[id];
+   		}
 		private function populateTree():void{
 			Console.group("model.Library.populateTree");
 			createArray("genre");

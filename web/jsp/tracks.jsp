@@ -4,8 +4,9 @@
 <%@page import="org.yass.domain.PlayList"%>
 <%@page import="org.yass.YassConstants"%> 
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
-<tracks><%
-	Iterator<Track> it = ((PlayList) session.getAttribute(YassConstants.CURRENT_PLAYLIST)).getTracks().iterator();
+<%@page import="org.yass.domain.Library"%><tracks><%
+	Library lib  = (Library) application.getAttribute(YassConstants.ALL_LIBRARY);
+	Iterator<Track> it = lib.getTracks().iterator();
 	while(it.hasNext()){
 		Track mf = it.next();
 		if(mf.getTrackInfo(YassConstants.ARTIST) != null){

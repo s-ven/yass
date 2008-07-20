@@ -69,10 +69,6 @@ package org.yass.main.view
 	        setStyle("folderOpenIcon", null); 
 	        itemRenderer = new ClassFactory(NavigationViewRenderer);
 		}
-
-		
-
-		
 		override protected function dragEnterHandler(event:DragEvent):void{
             DragManager.acceptDragDrop(UIComponent(event.currentTarget)); 
 		}
@@ -107,7 +103,7 @@ package org.yass.main.view
 			var svc:HTTPService = new HTTPService();
 			svc.url = "/yass/playlist_addto.do";
 			var data:Object=new Object();
-			data.ids = uids
+			data.trackIds = uids
 			data.id= event.currentTarget.selectedItem.@id;
 			svc.send(data);
 		}
@@ -124,15 +120,18 @@ package org.yass.main.view
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
-			if(item.@type != "void"){
+			if(item.@type == "user"){
 				Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
-				if(item.@id == -1)
+				if(item.@id == 0)
 					this.editable = true;
 				else		{
 					dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
 					this.editable = false;
 				}
-			}else
+			}
+			else if(item.@type=="library")
+				mainPane.currentState = "libraryBrowser";
+			else
 				event.stopImmediatePropagation();
 		}		
 		
@@ -146,9 +145,7 @@ package org.yass.main.view
 		}
 		public function onLoadPlayList(evt:PlayListEvent):void{		
 			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.playListType);
-			if(evt.playListType == "library")
-				mainPane.currentState = "libraryBrowser";
-			else {
+			if(evt.playListType == "user"){
 				mainPane.currentState = "playListBrowser";
 				mainPane.playListBrowser.playList.model = evt.playlist
 			}

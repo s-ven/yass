@@ -8,7 +8,7 @@
 		<action name="library_get_tree" class="org.yass.struts.library.GetTree">
 		</action>
 		<action name="playlist_show" class="org.yass.struts.playlist.Show">
-			<result>/jsp/tracks.jsp</result>
+			<result>/jsp/playlist.jsp</result>
 		</action>
 		<action name="track_play" class="org.yass.struts.track.Play">
 		</action>

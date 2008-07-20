@@ -10,7 +10,7 @@ public abstract class PlayList implements YassConstants {
 	protected String name;
 	public int typeId;
 	public int userId = 1;
-	private final Date lastUpdate = new Date();
+	public Date lastUpdate = new Date();
 
 	/**
 	 * @return the id
