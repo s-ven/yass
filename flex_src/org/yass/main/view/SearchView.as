@@ -31,7 +31,7 @@ package org.yass.main.view
 	import mx.events.MenuEvent;
 	
 	import org.yass.Yass;
-	import org.yass.main.model.SearchScope;
+	import org.yass.main.model.TextFilterScope;
 	import org.yass.main.view.component.SearchField;
 	
 	public class SearchView extends EventDispatcher{
@@ -43,10 +43,10 @@ package org.yass.main.view
 		private var _scopeLabel:String = "Search"
 		private var searchMenuData:Array = [
 		    {label: "Search", enabled: "false"},
-		    {label: SearchScope.ALL, type: "radio", groupName: "g1", toggled: true},
-		    {label: SearchScope.ARTISTS, type: "radio", groupName: "g1"}, 
-		    {label: SearchScope.ALBUMS, type: "radio", groupName: "g1"}, 
-		    {label: SearchScope.TITLE, type: "radio", groupName: "g1"} 
+		    {label: TextFilterScope.ALL, type: "radio", groupName: "g1", toggled: true},
+		    {label: TextFilterScope.ARTISTS, type: "radio", groupName: "g1"}, 
+		    {label: TextFilterScope.ALBUMS, type: "radio", groupName: "g1"}, 
+		    {label: TextFilterScope.TITLE, type: "radio", groupName: "g1"} 
 		    ]; 
 
 		public function SearchView(_component:SearchField):void{
@@ -63,20 +63,20 @@ package org.yass.main.view
 		private function searchMenuClick(event:MenuEvent):void{
 			var searchSentence:String = "Search";
 			switch(event.item.label){
-			case SearchScope.ALL :
+			case TextFilterScope.ALL :
 				_scopeLabel = "Search";
 				break;
-			case SearchScope.ARTISTS :
+			case TextFilterScope.ARTISTS :
 				_scopeLabel = "Search an artist";
 				break;
-			case SearchScope.ALBUMS :
+			case TextFilterScope.ALBUMS :
 				_scopeLabel = "Search an album";
 				break;
-			case SearchScope.TITLE :
+			case TextFilterScope.TITLE :
 				_scopeLabel = "Search a title";
 				break;
 			}
-			Yass.library.searchScope = event.item.label;
+			Yass.library.textFilterScope = event.item.label;
 			computeScopeLabel();
 		}
 		private function onChange(evt:Event):void{

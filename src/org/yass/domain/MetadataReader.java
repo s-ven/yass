@@ -21,7 +21,7 @@ public class MetadataReader implements org.yass.YassConstants {
 	private final String ext = "mp3";
 	private final TrackDao trackDao = new TrackDao();
 
-	public final void scanLibrary(final LibraryPlayList lib) {
+	public final void scanLibrary(final Library lib) {
 		LOG.info("Scanning path : " + lib.path);
 		final File root = new File(lib.path);
 		final File[] files = FileUtils.getFiles(root, FileUtils.getExtensionFilter(ext)).toArray(new File[] {});

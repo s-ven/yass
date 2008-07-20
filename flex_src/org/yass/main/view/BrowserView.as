@@ -49,7 +49,7 @@ package org.yass.main.view
 			this._playlistView = playlistView; 
 			this._playlistView.model = Yass.library;
 			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed,false,-1);
-		}
+		} 
 		private function init(type:String, dg:DataGrid){
 			this["_"+type] = dg;
 			createAllRow(type);

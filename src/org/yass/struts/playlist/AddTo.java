@@ -1,20 +1,16 @@
 package org.yass.struts.playlist;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-
 import org.yass.YassConstants;
+import org.yass.dao.PlayListDao;
 import org.yass.domain.PlayList;
-import org.yass.lucene.FilePlayList;
+import org.yass.domain.SimplePlayList;
 import org.yass.struts.YassAction;
-
-import com.opensymphony.xwork2.ActionContext;
 
 public class AddTo extends YassAction implements YassConstants {
 
+	private final PlayListDao playlistDao = new PlayListDao();
 	public String id;
-	public String[] UUIDs;
+	public int[] trackIds;
 	/**
 	 * 
 	 */
@@ -25,23 +21,11 @@ public class AddTo extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final PlayList pl = ((Map<String, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS))
-				.get(id);
-		try {
-			pl.add(super.getIndexManager().searchFromUIDS(Arrays.asList(UUIDs)));
-			((FilePlayList) pl).save();
-		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		final PlayList pl = getPlayLists().get(id);
+		if (pl instanceof SimplePlayList) {
+			((SimplePlayList) pl).add(trackIds);
+			playlistDao.savePlaylist(pl);
 		}
 		return NONE;
-	}
-
-	/**
-	 * @param albums
-	 *          the albums to set
-	 */
-	public final void setAlbums(final String[] genres) {
-		getSearchQuery().setAlbumsFilter(genres);
 	}
 }

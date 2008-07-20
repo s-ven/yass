@@ -59,10 +59,31 @@ public class Schema00 extends Schema {
 					+ " foreign key(track_id) references track(id), " + " foreign key(track_info_id) references track_info(id))");
 			LOG.info(" table 'track_track_info' was created successfully.");
 		}
-		if (!tableExists(template, "IDX_track_track_info_01")) {
+		if (!indexExists(template, "IDX_track_track_info_01")) {
 			LOG.info(" index 01 on 'track_track_info' not found.  Creating it.");
 			template.execute("create unique index IDX_track_track_info_01 on track_track_info (track_id, track_info_id)");
 			LOG.info(" index 01 on 'track_track_info' was created successfully.");
+		}
+		if (!tableExists(template, "playlist_type")) {
+			LOG.info(" table 'playlist_type' not found.  Creating it.");
+			template.execute("create table playlist_type (id int not null, label varchar(16) not null, primary key(id))");
+			template.execute("insert  into playlist_type (id, label) values (0, 'simple')");
+			template.execute("insert  into playlist_type (id, label) values (1, 'smart')");
+			LOG.info(" table 'playlist_type' was created successfully.");
+		}
+		if (!tableExists(template, "playlist")) {
+			LOG.info(" table 'playlist' not found.  Creating it.");
+			template
+					.execute("create table playlist (id  int not null generated always as identity, user_id int not null, type_id int not null, name varchar(128) not null, last_play date"
+							+ ", primary key(id), foreign key(user_id) references yass_user(id), foreign key(type_id) references playlist_type(id))");
+			LOG.info(" table 'playlist' was created successfully.");
+		}
+		if (!tableExists(template, "simple_playlist")) {
+			LOG.info(" table 'simple_playlist' not found.  Creating it.");
+			template
+					.execute("create table simple_playlist (playlist_id int not null, track_id int not null, track_order int not null"
+							+ ", foreign key(playlist_id) references playlist(id), foreign key(track_id) references track(id))");
+			LOG.info(" table 'simple_playlist' was created successfully.");
 		}
 	}
 }

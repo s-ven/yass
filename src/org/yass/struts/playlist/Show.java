@@ -26,12 +26,4 @@ public class Show extends YassAction implements YassConstants {
 		ActionContext.getContext().getSession().put(CURRENT_PLAYLIST, pl);
 		return SUCCESS;
 	}
-
-	/**
-	 * @param albums
-	 *          the albums to set
-	 */
-	public final void setAlbums(final String[] genres) {
-		getSearchQuery().setAlbumsFilter(genres);
-	}
 }

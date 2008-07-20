@@ -23,9 +23,9 @@ package org.yass.main.model{
     
     import mx.core.UIComponent;
     
+    import org.yass.Yass;
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
-    import org.yass.main.events.TrackEvent;
     import org.yass.main.model.interfaces.IPlayListModel;
     import org.yass.main.model.interfaces.IPlayerModel;
     

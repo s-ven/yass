@@ -25,7 +25,7 @@ public class DaoHelper implements YassConstants {
 		return instance;
 	}
 
-	public DaoHelper() {
+	private DaoHelper() {
 		final File home = FileUtils.createFolder(YASS_HOME);
 		final DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");

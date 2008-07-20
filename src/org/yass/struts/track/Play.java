@@ -22,7 +22,7 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final Track mf = getAllLibraryList().getMediaFile(id);
+		final Track mf = getLibrary().getMediaFile(id);
 		final File toPlayr = new File(mf.getPath());
 		OutputStream out = null;
 		InputStream fis = null;

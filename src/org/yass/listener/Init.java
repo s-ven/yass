@@ -8,18 +8,17 @@ import javax.servlet.ServletContextListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
-import org.yass.dao.DaoHelper;
 import org.yass.dao.LibraryDao;
-import org.yass.domain.LibraryPlayList;
+import org.yass.domain.Library;
 import org.yass.domain.MetadataReader;
-import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
-import org.yass.lucene.IndexManager;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -27,6 +26,7 @@ import org.yass.lucene.IndexManager;
  */
 public class Init implements ServletContextListener, YassConstants {
 
+	private static Log LOG = LogFactory.getLog(Init.class);
 	static final long serialVersionUID = 1L;
 	private Thread initThread;
 
@@ -46,33 +46,25 @@ public class Init implements ServletContextListener, YassConstants {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
-		final DaoHelper daoHelper = new DaoHelper();
 		final ServletContext servletContext = event.getServletContext();
 		initThread = new Thread(new Runnable() {
 
 			public void run() {
 				final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
-				final IndexManager mib = new IndexManager(trackroot, servletContext
-						.getInitParameter("org.yass.metadataIndexRoot"));
-				mib.setMediaFilesExtensions(servletContext.getInitParameter("org.yass.mediaFilesExtensions"));
-				servletContext.setAttribute(INDEX_MANAGER, mib);
-				mib.createIndex();
 				try {
+					LOG.info("Loading Library from DB");
 					final LibraryDao libDao = new LibraryDao();
-					// final LibraryPlayList lib = new LibraryPlayList(0, trackroot, new
-					// Date());
-					// libDao.saveLibrary(lib);
-					// mib.search(new SearchQuery(), lib);// libDao.getFromId(1);
-					LibraryPlayList lib = libDao.getFromId(1);
+					Library lib = libDao.getFromId(1);
 					if (lib == null) {
-						lib = new LibraryPlayList(0, trackroot, new Date());
+						LOG.info("No Library found, creating new one");
+						lib = new Library(0, trackroot, new Date());
 						libDao.saveLibrary(lib);
 						new MetadataReader().scanLibrary(lib);
 					}
 					servletContext.setAttribute(ALL_LIBRARY, lib);
 					servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
 				} catch (final Exception e) {
-					e.printStackTrace();
+					LOG.trace("Error in Yass init", e);
 				}
 			}
 		});
@@ -83,7 +75,7 @@ public class Init implements ServletContextListener, YassConstants {
 
 	// TODO :: LA METHODE DE LA MORT, PLUS LONGUE TU MEURS, ABSOLUMENT POURRI, A
 	// REFAIRE
-	private Document buildXMLDoc(final PlayList pl) {
+	private Document buildXMLDoc(final Library pl) {
 		Document doc = null;
 		try {
 			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -151,7 +143,7 @@ public class Init implements ServletContextListener, YassConstants {
 			}
 			doc.appendChild(treeNode);
 		} catch (final Exception e) {
-			e.printStackTrace(System.err);
+			LOG.trace("Error in Library TrackInfo XML creation", e);
 		}
 		return doc;
 	}

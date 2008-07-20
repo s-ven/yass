@@ -1,17 +1,16 @@
 package org.yass.domain;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Date;
 
 import org.yass.YassConstants;
 
-public class PlayList implements YassConstants {
+public abstract class PlayList implements YassConstants {
 
-	protected final Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
 	public int id;
 	protected String name;
-	protected String type;
+	public int typeId;
+	public int userId = 1;
+	private final Date lastUpdate = new Date();
 
 	/**
 	 * @return the id
@@ -21,37 +20,16 @@ public class PlayList implements YassConstants {
 	}
 
 	/**
+	 * @return the lastUpdate
+	 */
+	public final Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	/**
 	 * @return the value
 	 */
 	public final String getName() {
 		return name;
-	}
-
-	public final Track getMediaFile(final int id) {
-		return tracks.get(id);
-	}
-
-	/**
-	 * @param tracks
-	 *          the tracks to set
-	 */
-	public void add(final Track track) {
-		tracks.put(track.getId(), track);
-	}
-
-	public final void clean() {
-		tracks.clear();
-	}
-
-	/**
-	 * @return the tracks
-	 */
-	public final Collection<Track> getTracks() {
-		return tracks.values();
-	}
-
-	public void add(final PlayList pl) {
-		for (final Track mf : pl.tracks.values())
-			this.add(mf);
 	}
 }

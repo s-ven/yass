@@ -67,15 +67,9 @@ package org.yass.main.model
 			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange,false,-1);
 		} 
 		
-/*    		public function get datas():Object{
-   			return _datas;
-   		}*/
    		public function set datas(value:Object):void{
         	Console.log("model.PlayListModel.set datas");
-			if(value is XMLList)
-				for(var i:Object in value)
-					addItem(new ObjectProxy(new Track(value[i])));
-			else if(value is ArrayCollection)
+			if(value is XMLList || value is ArrayCollection)
 				for(var i:Object in value)
 					addItem(new ObjectProxy(new Track(value[i])));
 			else

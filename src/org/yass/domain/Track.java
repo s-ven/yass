@@ -18,7 +18,7 @@ public final class Track implements YassConstants {
 	private String path;
 	private long length;
 	private int id;
-	private LibraryPlayList library;
+	private Library library;
 	private Date lastUpdate = new Date(0);
 	private int rating = 0;
 	private int playCount = 0;
@@ -31,14 +31,14 @@ public final class Track implements YassConstants {
 	 * @param library
 	 *          the library to set
 	 */
-	public final void setLibrary(final LibraryPlayList library) {
+	public final void setLibrary(final Library library) {
 		this.library = library;
 	}
 
 	/**
 	 * @return the library
 	 */
-	public final LibraryPlayList getLibrary() {
+	public final Library getLibrary() {
 		return library;
 	}
 

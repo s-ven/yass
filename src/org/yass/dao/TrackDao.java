@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.yass.domain.LibraryPlayList;
+import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
@@ -41,9 +41,8 @@ public class TrackDao extends AbstractDao {
 
 	public void save(final Track track) {
 		if (track.getId() == 0) {
-			final PreparedStatementCreator psc = trackPscf.newPreparedStatementCreator(new Object[] {
-					track.getLibrary().getId(), track.getPath(), track.getTrackNr(), track.getTitle(), track.getLastUpdate(),
-					track.getLength() });
+			final PreparedStatementCreator psc = trackPscf.newPreparedStatementCreator(new Object[] { track.getLibrary().id,
+					track.getPath(), track.getTrackNr(), track.getTitle(), track.getLastUpdate(), track.getLength() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(psc, kh);
 			track.setId(kh.getKey().intValue());
@@ -56,7 +55,7 @@ public class TrackDao extends AbstractDao {
 					new Object[] { track.getId(), trackInfo.getId() });
 	}
 
-	public final void fillLibrary(final LibraryPlayList lib) {
+	public final void fillLibrary(final Library lib) {
 		final Iterator<Track> it = getJdbcTempate().query(
 				"select id, path, title, track_nr, length, "
 						+ "last_update, play_count, rating from track where library_id = ?", new Object[] { lib.id }, rowMapper)
@@ -68,7 +67,7 @@ public class TrackDao extends AbstractDao {
 		}
 	}
 
-	public final Track getFromPath(final LibraryPlayList lib, final String path) {
+	public final Track getFromPath(final Library lib, final String path) {
 		Track track = null;
 		final Iterator<Track> it = getJdbcTempate().query(
 				"select id, path, title, track_nr, length, "

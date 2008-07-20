@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.yass.domain.LibraryPlayList;
+import org.yass.domain.Library;
 
 public class LibraryDao extends AbstractDao {
 
@@ -28,7 +28,7 @@ public class LibraryDao extends AbstractDao {
 		pscf.setReturnGeneratedKeys(true);
 	}
 
-	public void saveLibrary(final LibraryPlayList lib) {
+	public void saveLibrary(final Library lib) {
 		LOG.info("Saving Library");
 		if (lib.id == 0) {
 			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { lib.path, lib.lastUpdate });
@@ -39,10 +39,10 @@ public class LibraryDao extends AbstractDao {
 		}
 	}
 
-	public LibraryPlayList getFromId(final int id) {
+	public Library getFromId(final int id) {
 		LOG.info("Loading Library id:" + id);
-		LibraryPlayList lib = null;
-		final Iterator<LibraryPlayList> it = getJdbcTempate().query(
+		Library lib = null;
+		final Iterator<Library> it = getJdbcTempate().query(
 				"select id, path, last_update from library where id = ?", new Object[] { id }, rowMapper).iterator();
 		if (it.hasNext()) {
 			lib = it.next();
@@ -52,10 +52,10 @@ public class LibraryDao extends AbstractDao {
 		return lib;
 	}
 
-	private static class LibraryRowMapper implements ParameterizedRowMapper<LibraryPlayList> {
+	private static class LibraryRowMapper implements ParameterizedRowMapper<Library> {
 
-		public LibraryPlayList mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new LibraryPlayList(rs.getInt(1), rs.getString(2), rs.getDate(3));
+		public Library mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+			return new Library(rs.getInt(1), rs.getString(2), rs.getDate(3));
 		}
 	}
 }

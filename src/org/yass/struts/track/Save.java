@@ -17,7 +17,7 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final Track track = getAllLibraryList().getMediaFile(id);
+		final Track track = getLibrary().getMediaFile(id);
 		track.setRating(rating);
 		trackDao.save(track);
 		return NONE;

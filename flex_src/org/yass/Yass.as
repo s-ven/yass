@@ -6,8 +6,8 @@ package org.yass{
 	import org.yass.visualization.Display;
 	public class Yass
 	{
-		public static var player:PlayerModel = new PlayerModel();
 		public static var library:LibraryModel;
+		public static var player:PlayerModel = new PlayerModel();
 		
 		private static var _dateFormatter:DateFormatter;
 		public static function get display():Display{
