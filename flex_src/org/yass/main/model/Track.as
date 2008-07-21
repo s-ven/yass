@@ -78,5 +78,9 @@ package org.yass.main.model{
 		public function get rating():int{
 			return _rating;
 		}
+		
+		public function toString():String{
+			return this.title;
+		}
 	}
 }

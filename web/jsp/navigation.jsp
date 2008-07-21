@@ -2,26 +2,34 @@
  <%@page import="java.util.Map"%>
  <%@page import="org.yass.domain.PlayList"%>
  <%@page import="org.yass.YassConstants"%>
-  <playlists>
+  
+<%@page import="org.yass.domain.SimplePlayList"%>
+<%@page import="org.yass.domain.SmartPlayList"%><playlists>
  
   <library name="LIBRARY" type="void">
   <playlist name="Music" type="library" id="0"/>
-</library><!--
- 	<smart name="SMART PLAYLISTS" type="void">
- 	 <playlist name="Most played" type="smart" id="1"/>
- 	 <playlist name="Top rated" type="smart" id="1"/>
- 	 <playlist name="&lt;New&gt;" type="smart" id="-1"/>
- 	</smart> -->
- 	<user name="USER PLAYLISTS" type="void">
+</library>
+
  <%
  	final Map<Integer, PlayList> plsts = (Map<Integer, PlayList>)application.getAttribute(YassConstants.USER_PLAYLISTS);
- 	if(plsts != null)
+%>
+ 	<smart name="SMART PLAYLISTS" type="void"><%
  	for(PlayList plst : plsts.values()){
+ 		if(plst instanceof SmartPlayList){ %> 
+ <playlist name="<%=plst.getName() %>" type="smart" id="<%=plst.getId() %>"/>
+ <%
+ 		}
+ 	}
  %>
- 
+ 	</smart>
+ 	<user name="USER PLAYLISTS" type="void"><%
+ 	for(PlayList plst : plsts.values()){
+ 		if(plst instanceof SimplePlayList){ %> 
  <playlist name="<%=plst.getName() %>" type="user" id="<%=plst.getId() %>"/>
  <%
- 	}%>
+ 		}
+ 	}
+ %>
  	 <playlist name="&lt;New&gt;" type="user" id="0"/>
  	</user>
 </playlists>

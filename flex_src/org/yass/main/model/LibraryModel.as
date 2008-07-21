@@ -20,7 +20,6 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.model{
-	import flash.events.Event;
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
@@ -137,26 +136,35 @@ package org.yass.main.model{
 					albumSelected = new Array();
 					filterChild(albumArray, selectedItems);
 					refreshedPanes = ["album"];
-					if(checkParent(selectedItems, genreSelected)){
+					if(!checkParent(selectedItems, genreSelected)){
 						genreSelected = new Array()
 						genreArray.filterFunction = null;
 						genreArray.refresh();
 						refreshedPanes.push("genre");
+					}
+					if(!artistSelected.every(function(obj:Object, index:int, arr:Array):Boolean{return artistArray.contains(obj)})){
+						artistArray.filterFunction = null;
+						artistArray.refresh();
+						refreshedPanes.push("artist");
 					}
 				}
 				else if(type == "album"){
 					albumSelected = selectedItems;
-					if(checkParent(selectedItems, genreSelected)){
+					if(!checkParent(selectedItems, genreSelected)){
 						genreSelected = new Array()
 						genreArray.filterFunction = null;
 						genreArray.refresh();
 						refreshedPanes.push("genre");
 					}
-					if(checkParent(selectedItems, artistSelected)){
+					if(!checkParent(selectedItems, artistSelected)){
 						artistSelected = new Array()
 						artistArray.filterFunction = null;
 						artistArray.refresh();
 						refreshedPanes.push("artist");
+					}
+					if(!albumSelected.every(function(obj:Object, index:int, arr:Array):Boolean{return albumArray.contains(obj)})){
+						albumArray.filterFunction = null;
+						albumArray.refresh();
 					}
 				}
 			}
@@ -193,10 +201,14 @@ package org.yass.main.model{
 				dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, refreshedPanes));		
 		}
 		private function checkParent(itemsArray:Array, parentArray: Array):Boolean{
-			return itemsArray.every(function(obj:Object, index:int, arr:Array):Boolean{
-									return parentArray.every(function(obj1:Object, index1:int, arr1:Array):Boolean{
-											return obj.isChildOf(obj1)
+			if(parentArray.length ==0)
+				return true;
+			return itemsArray.every(function(item:Object, index:int, arr:Array):Boolean{
+									var toret:Boolean= parentArray.every(function(parent:Object, index1:int, arr1:Array):Boolean{
+											var toret1:Boolean=item.isChildOf(parent)
+											return toret1;
 										});
+									return toret;
 								});
 		}
 		public function set filteredText(txt:String):void{
@@ -287,7 +299,7 @@ package org.yass.main.model{
 			sub.filterFunction = 	function(rowVal:Value):Boolean{
 									if(rowVal.id !=-1){
 										for each(var toFilter:Value in items)
-											if (toFilter.isChildOf(rowVal))
+											if (rowVal.isChildOf(toFilter))
 												return true;
 										return false; }
 									return true;

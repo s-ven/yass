@@ -177,8 +177,10 @@ package org.yass.main.model{
 			if(evt.kind == CollectionEventKind.REFRESH){
 				Console.group("model.PlayList.onCollectionChange");
 				this.trackIndex = getItemIndex(_selectedTrack);
-				if(trackIndex != -1 && Yass.player.loadedPlayList == this)
+				if(trackIndex != -1)
 					this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this, true));
+				else if (this.getItemIndex(Yass.player.loadedTrack) != -1)
+					this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, this.getItemIndex(Yass.player.loadedTrack), this));
 				Console.groupEnd();
 			}
 		}

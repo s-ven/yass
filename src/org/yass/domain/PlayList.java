@@ -1,6 +1,9 @@
 package org.yass.domain;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.yass.YassConstants;
 
@@ -11,6 +14,7 @@ public abstract class PlayList implements YassConstants {
 	public int typeId;
 	public int userId = 1;
 	public Date lastUpdate = new Date();
+	public Set<Integer> trackIds = new LinkedHashSet<Integer>();
 
 	/**
 	 * @return the id
@@ -31,5 +35,13 @@ public abstract class PlayList implements YassConstants {
 	 */
 	public final String getName() {
 		return name;
+	}
+
+	public void add(final Integer[] toAdd) {
+		trackIds.addAll(Arrays.asList(toAdd));
+	}
+
+	public void add(final Integer toAdd) {
+		trackIds.add(toAdd);
 	}
 }

@@ -72,8 +72,10 @@
 			if(controller)
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
-			if(model.trackIndex != -1)
-				setTimeout(function ():void{scrollToIndex(model.trackIndex);}, 150);
+			if(model.trackIndex != -1){
+				validateNow()
+				scrollToIndex(model.trackIndex);
+			}
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
@@ -127,7 +129,8 @@
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList == this.model){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
-				setTimeout(function ():void{scrollToIndex(evt.trackIndex);}, 0);
+				validateNow()
+				scrollToIndex(evt.trackIndex); 
 			}	
 			Console.groupEnd();
 		}
@@ -143,8 +146,6 @@
 				}
 			}
 			Console.groupEnd();
-			
-			
 		}
     }
 }

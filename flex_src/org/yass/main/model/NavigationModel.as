@@ -55,7 +55,6 @@ package org.yass.main.model{
 			Console.group("model.Navigation.loadPlayList type=" + type + ", id=" + id);
 			var playlist:IPlayListModel;
 			try{
-				if(type == "user" && id != "-1"){
 					if(Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId == id){
 						Console.log("model.Navigation.loadPlayList :: Already playing PlayList" + Yass.player.loadedPlayList.trackIndex);
 						playlist = Yass.player.loadedPlayList;
@@ -74,7 +73,6 @@ package org.yass.main.model{
 						});
 						httpSvc.send(obj);
 					}				 
-				}  
 			}finally{
 				Console.groupEnd()
 				dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, playlist, type));

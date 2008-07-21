@@ -19,19 +19,22 @@ public class TrackInfoDao extends AbstractDao {
 
 	private static final Log LOG = LogFactory.getLog(TrackInfoDao.class);
 	private final TrackInfoRowMapper rowMapper = new TrackInfoRowMapper();
-	private final PreparedStatementCreatorFactory trackInfoPscf = new PreparedStatementCreatorFactory(
+	private final PreparedStatementCreatorFactory insertPscf = new PreparedStatementCreatorFactory(
 			"insert into track_info (type, value) values (?, ?) ");
+	private final PreparedStatementCreatorFactory getFromIdPscf = new PreparedStatementCreatorFactory(
+			"select id, type, value from track_info, track_track_info where track_id = ? and track_info_id = id");
 
 	public TrackInfoDao() {
-		trackInfoPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
-		trackInfoPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
-		trackInfoPscf.setReturnGeneratedKeys(true);
+		getFromIdPscf.addParameter(new SqlParameter("track_id", java.sql.Types.INTEGER));
+		insertPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
+		insertPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
+		insertPscf.setReturnGeneratedKeys(true);
 	}
 
 	public void save(final TrackInfo trackInfo) {
 		if (trackInfo.getId() == 0) {
-			final PreparedStatementCreator psc = trackInfoPscf.newPreparedStatementCreator(new Object[] {
-					trackInfo.getType(), trackInfo.getValue() });
+			final PreparedStatementCreator psc = insertPscf.newPreparedStatementCreator(new Object[] { trackInfo.getType(),
+					trackInfo.getValue() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(psc, kh);
 			trackInfo.setId(kh.getKey().intValue());
@@ -62,9 +65,7 @@ public class TrackInfoDao extends AbstractDao {
 	}
 
 	public Collection<TrackInfo> getFromTrackId(final int trackId) {
-		return getJdbcTempate().query(
-				"select id, type, value from track_info, track_track_info where track_id = ? and track_info_id = id",
-				new Object[] { trackId }, rowMapper);
+		return getJdbcTempate().query(getFromIdPscf.newPreparedStatementCreator(new Object[] { trackId }), rowMapper);
 	}
 
 	private static class TrackInfoRowMapper implements ParameterizedRowMapper<TrackInfo> {

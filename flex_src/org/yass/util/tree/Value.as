@@ -48,7 +48,7 @@ package org.yass.util.tree
 		}
 		
 		public function isChildOf(val:Value):Boolean{
-			return val.hasParent(this)
+			return this.hasParent(val)
 		}
 		
 	}

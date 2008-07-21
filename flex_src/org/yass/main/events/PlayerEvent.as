@@ -22,6 +22,7 @@
 package org.yass.main.events{
 	import flash.events.Event;
 	
+	import org.yass.debug.log.Console;
 	import org.yass.main.model.Track;
 
 	public class PlayerEvent extends Event{
@@ -35,6 +36,7 @@ package org.yass.main.events{
 
 		public function PlayerEvent(type:String, track:Track=null):void{
 			super(type);
+			Console.log("event.Player type=" + type + ", track:" + track);
 			this.track = track;
 		}
 	}
