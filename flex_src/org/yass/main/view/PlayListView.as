@@ -104,23 +104,6 @@
         		dispatchEvent(new TrackEvent(TrackEvent.TRACK_CLICK, selectedIndex, _model));
 			Console.groupEnd();
         }
-        // TODO : Move this to the model
-		public function autoPlay():void{
-			Console.group("view.PlayList.autoPlay :: requested");
-			addEventListener(Event.ENTER_FRAME, function autoPlayAfterRefresh():void{
-				if(enabled){
-					Yass.player.loadedPlayList = _model;
-					Console.log("view.PlayList.autoPlayDatagrid");
-					removeEventListener(Event.ENTER_FRAME, autoPlayAfterRefresh);
-					Yass.player.stop();
-					Yass.player.loadedPlayList = model;
-					Yass.player.play();
-					this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
-					Console.log("view.PlayList.autoPlayDatagrid :: AutoPlay : OK");
-				}
-			});		
-			Console.groupEnd();	
-		}
 		/**
 		 * Called when an event occured from the Model (eg end of track, previous track
 		 * Will cause the previously selected track to be displayed 

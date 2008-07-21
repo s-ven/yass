@@ -22,6 +22,7 @@
 package org.yass.main.model{
 	import flash.events.EventDispatcher;
 	
+	import mx.events.CollectionEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
 	
@@ -29,10 +30,10 @@ package org.yass.main.model{
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.interfaces.INavigationModel;
-	import org.yass.main.model.interfaces.IPlayListModel;
 
 	public class NavigationModel extends EventDispatcher implements INavigationModel{
 		private var httpService:HTTPService = new HTTPService();
+		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
         	Console.log("model.NavigationModel :: init");
 			httpService.url="/yass/jsp/navigation.jsp";
@@ -53,30 +54,33 @@ package org.yass.main.model{
 		}
 		public function loadPlayList(id:String, type:String):void{
 			Console.group("model.Navigation.loadPlayList type=" + type + ", id=" + id);
-			var playlist:IPlayListModel;
-			try{
-					if(Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId == id){
-						Console.log("model.Navigation.loadPlayList :: Already playing PlayList" + Yass.player.loadedPlayList.trackIndex);
-						playlist = Yass.player.loadedPlayList;
+			if(type != "library"){
+				if(Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId == id)
+					_playlist = Yass.player.loadedPlayList as PlayListModel;
+				else
+					_playlist = new PlayListModel();
+				_playlist.removeEventListeners();
+				_playlist.playListId = id;
+				var obj:Object = new Object();
+				obj.id = id;
+				var httpSvc:HTTPService = (_playlist as PlayListModel).httpService; 
+				httpSvc.addEventListener(ResultEvent.RESULT, function():void{
+					if(httpSvc.lastResult.tracks){
+						_playlist.removeAll();
+						for each(var track:Object in httpSvc.lastResult.tracks.track)
+							_playlist.addItem(Yass.library.getTrack(track.id))
 					}
-					else{
-						Console.log("model.Navigation.loadPlayList :: Fetching playList from server");
-						playlist = new PlayListModel();
-						(playlist as PlayListModel).playListId = id;
-						var obj:Object = new Object();
-						obj.id = id;
-						var httpSvc:HTTPService = (playlist as PlayListModel).httpService; 
-						httpSvc.addEventListener(ResultEvent.RESULT, function():void{
-							if(httpSvc.lastResult.tracks)
-								for each(var track:Object in httpSvc.lastResult.tracks.track)
-									playlist.addItem(Yass.library.getTrack(track.id))
-						});
-						httpSvc.send(obj);
-					}				 
-			}finally{
-				Console.groupEnd()
-				dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, playlist, type));
+				});
+				httpSvc.send(obj);
+				_playlist.setEventListeners();
 			}
+			else{
+				if(_playlist && Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId != _playlist.playListId)
+					_playlist.removeEventListeners();
+				_playlist = Yass.library
+			}
+			Console.groupEnd()
+			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 		}	
 		
 		private function serviceResultHandler(event:ResultEvent):void{

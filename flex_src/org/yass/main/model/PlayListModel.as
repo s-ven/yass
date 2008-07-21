@@ -59,11 +59,20 @@ package org.yass.main.model{
 			df.formatString="HH:NN:SS";
 			_playListId = df.format(new Date());
  			httpService.method = "POST";
-			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange,false,-1);
+		}
+		
+		public function removeEventListeners(){
+			removeEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
+			Yass.player.removeEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+			Yass.player.removeEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+			Yass.player.removeEventListener(PlayerEvent.STOPPED, onPlayerEvent);
+		}
+		public function setEventListeners(){
+			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
 			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
 			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
-		} 
+		}
 		
     	public function set trackIndex(value:Number):void{
     		_trackIndex = value;

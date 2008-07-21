@@ -19,8 +19,7 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package org.yass.main.view
-{
+package org.yass.main.view{
 	import flash.events.MouseEvent;
 	import flash.utils.setTimeout;
 	
@@ -73,12 +72,6 @@ package org.yass.main.view
 		override protected function dragEnterHandler(event:DragEvent):void{
             DragManager.acceptDragDrop(UIComponent(event.currentTarget)); 
 		}
-		
-		override protected  function dragExitHandler(event:DragEvent):void{			
-		}		
-		
-		override protected  function dragCompleteHandler(event:DragEvent):void{	
-		}
 		override protected  function dragOverHandler(event:DragEvent):void{
                 var dropTarget:Tree = Tree(event.currentTarget);
                 var r:int = dropTarget.calculateDropIndex(event);
@@ -89,7 +82,6 @@ package org.yass.main.view
                     return;
                 }
                 DragManager.showFeedback(DragManager.NONE);
-		
 		}
 		
 		override protected  function dragDropHandler(event:DragEvent):void{
@@ -121,18 +113,12 @@ package org.yass.main.view
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
-				Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
-			if(item.@type == "user" ||item.@type == "smart")
-				if(item.@id == 0) 
-					this.editable = true;
-				else		{
-					dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
-					this.editable = false;
-				}
-			else if(item.@type=="library"){
-				mainPane.currentState = null;
-				mainPane.playList.model = Yass.library;
-			}
+			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);if(item.@type == "user" || item.@type == "smart" || item.@type=="library")	{
+				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
+				this.editable = false;
+			}	
+			else if(item.@id == 0) 
+				this.editable = true;
 			else
 				event.stopImmediatePropagation();
 		}		
@@ -147,7 +133,10 @@ package org.yass.main.view
 		}
 		public function onLoadPlayList(evt:PlayListEvent):void{		
 			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.playListType);
-			mainPane.currentState = "playListState";
+			if(evt.playListType == "library")
+				mainPane.currentState = null;
+			else
+				mainPane.currentState = "playListState";
 			mainPane.playList.model = evt.playlist
 		}	
 	}

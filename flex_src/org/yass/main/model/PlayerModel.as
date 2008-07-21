@@ -97,7 +97,7 @@ package org.yass.main.model{
 			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
        		if(wasPlaying && loadedTrack)
-        		play();
+				this._soundHandler.play();
 			Console.groupEnd();
 		}   
 		public function previous():void{
@@ -105,7 +105,7 @@ package org.yass.main.model{
 			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
        		if(wasPlaying && loadedTrack)
-        		play();
+				this._soundHandler.play();
         	else
         		stop();
 			Console.groupEnd();
@@ -124,12 +124,6 @@ package org.yass.main.model{
 			}
 			Console.groupEnd();
 		}
-		public function play():void{
-			if(!isPlaying){
-				this._soundHandler.play();
-            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
-   			}
-		}
 		public function stop():void{
 			if(isPlaying)
 				this._soundHandler.fadeOut(1000);
@@ -143,8 +137,11 @@ package org.yass.main.model{
 				if(isPlaying)
 					_soundHandler.fadeOut(1000)	
 				loadedTrack = track;
-				play();
-			}
+				if(!isPlaying){
+					this._soundHandler.play();
+	            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
+	   			}
+   			}
 			Console.groupEnd();
 		}        
     }
