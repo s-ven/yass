@@ -9,6 +9,7 @@ public class Save extends YassAction implements YassConstants {
 
 	public int id;
 	public int rating;
+	public int playCount;
 	private static final TrackDao trackDao = new TrackDao();
 	/**
 	 * 
@@ -19,6 +20,7 @@ public class Save extends YassAction implements YassConstants {
 	public String execute() {
 		final Track track = getLibrary().getMediaFile(id);
 		track.setRating(rating);
+		track.setPlayCount(playCount);
 		trackDao.save(track);
 		return NONE;
 	}

@@ -63,6 +63,8 @@
  		* called when a playlist have been returned from the Model after a server call
  		*/
 		public function set model(value:IPlayListModel):void{
+			if(model)
+				_model.removeEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			this._model = value;
 			dataProvider = _model; 
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);

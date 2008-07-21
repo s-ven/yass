@@ -32,14 +32,15 @@ package org.yass.main.view
 	import mx.managers.DragManager;
 	import mx.rpc.http.HTTPService;
 	
+	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.MainPane;
-	import org.yass.main.renderers.NavigationViewRenderer;
 	import org.yass.main.controller.NavigationController;
 	import org.yass.main.events.NavigationEvent;
 	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.NavigationModel;
 	import org.yass.main.model.interfaces.INavigationModel;
+	import org.yass.main.renderers.NavigationViewRenderer;
 	public class NavigationView extends Tree {	 
 		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;  
  		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;  
@@ -129,8 +130,10 @@ package org.yass.main.view
 					this.editable = false;
 				}
 			}
-			else if(item.@type=="library")
-				mainPane.currentState = "libraryBrowser";
+			else if(item.@type=="library"){
+				mainPane.currentState = null;
+				mainPane.playList.model = Yass.library;
+			}
 			else
 				event.stopImmediatePropagation();
 		}		
@@ -145,10 +148,8 @@ package org.yass.main.view
 		}
 		public function onLoadPlayList(evt:PlayListEvent):void{		
 			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.playListType);
-			if(evt.playListType == "user"){
-				mainPane.currentState = "playListBrowser";
-				mainPane.playListBrowser.playList.model = evt.playlist
-			}
+			mainPane.currentState = "playListState";
+			mainPane.playList.model = evt.playlist
 		}	
 	}
 }

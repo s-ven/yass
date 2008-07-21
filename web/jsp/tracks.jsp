@@ -11,7 +11,7 @@
 		Track mf = it.next();
 		if(mf.getTrackInfo(YassConstants.ARTIST) != null){
 %>
- <track id="<%=mf.getId() %>" trackNr="<%=mf.getTrackNr() %>" title="<%=StringEscapeUtils.escapeXml(mf.getTitle())%>" artist="<%=mf.getTrackInfo(YassConstants.ARTIST).getId()%>" album="<%=mf.getTrackInfo(YassConstants.ALBUM).getId()%>" genre="<%=mf.getTrackInfo(YassConstants.GENRE).getId()%>" length="<%=mf.getLength() %>" rating="<%=mf.getRating() %>"/><%
+ <track id="<%=mf.getId() %>" trackNr="<%=mf.getTrackNr() %>" title="<%=StringEscapeUtils.escapeXml(mf.getTitle())%>" artist="<%=mf.getTrackInfo(YassConstants.ARTIST).getId()%>" album="<%=mf.getTrackInfo(YassConstants.ALBUM).getId()%>" genre="<%=mf.getTrackInfo(YassConstants.GENRE).getId()%>" length="<%=mf.getLength() %>" rating="<%=mf.getRating() %>" playCount="<%=mf.getPlayCount() %>"/><%
 		}
  	} 
  %> </tracks>

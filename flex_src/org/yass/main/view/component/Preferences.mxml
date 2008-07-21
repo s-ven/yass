@@ -12,7 +12,7 @@
 			}
 			private function onItemClick():void{
 				currentState = configurationPane.selectedItem.@state
-				preferencepane2.dataProvider = mainWindow.mainPane.libraryBrowser.playList.columns.slice(1);
+				preferencepane2.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
 			} 
 			private function onCreationComplete():void{
 				configurationPane.selectedIndex = 0
@@ -31,7 +31,7 @@
 		</mx:State>
 		<mx:State name="Pane2">
 			<mx:AddChild relativeTo="{prefPane}">
-				<component:PreferencePane2 id="preferencepane2" playList="{mainWindow.mainPane.libraryBrowser.playList}" />
+				<component:PreferencePane2 id="preferencepane2" playList="{mainWindow.mainPane.playList}" />
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>

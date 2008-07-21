@@ -5,6 +5,7 @@ package org.yass.main.model
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
+	[Bindable]
 	public class Track{
 		public var id:String
 		public var trackNr:int
@@ -14,11 +15,11 @@ package org.yass.main.model
 		public var genre:Value;
 		public var album:Value;
 		public var length:int;
-		public var _rating:int = 0;
 		public var lastPlayed:Date;
 		public var playCount:int = 0;
 		public var allFields:String;
 		public var lowerCaseTitle:String;
+		private var _rating:int = 0;
 		public function Track(obj:XML):void		{
 				this.id = obj.@id;
 				this.trackNr = obj.@trackNr;

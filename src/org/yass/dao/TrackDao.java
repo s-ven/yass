@@ -47,8 +47,8 @@ public class TrackDao extends AbstractDao {
 			getJdbcTempate().update(psc, kh);
 			track.setId(kh.getKey().intValue());
 		} else
-			getJdbcTempate().update("update track set rating = ? where id = ?",
-					new Object[] { track.getRating(), track.getId() });
+			getJdbcTempate().update("update track set rating = ?, play_count = ? where id = ?",
+					new Object[] { track.getRating(), track.getPlayCount(), track.getId() });
 		getJdbcTempate().execute("delete from track_track_info where track_id = " + track.getId());
 		for (final TrackInfo trackInfo : track.getTrackInfos())
 			getJdbcTempate().update("insert into track_track_info (track_id, track_info_id) values(?, ?)",

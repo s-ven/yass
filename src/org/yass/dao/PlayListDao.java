@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -72,11 +73,12 @@ public class PlayListDao extends AbstractDao {
 	private static class PlayListRowMapper implements ParameterizedRowMapper<SimplePlayList> {
 
 		public SimplePlayList mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			final SimplePlayList list = new SimplePlayList(rs.getInt(1), rs.getString(3), rs.getDate(4));
-			list.trackIds = (Integer[]) DaoHelper.getInstance().getJdbcTemplate().queryForList(
-					"select track_id from simple_playlist where playlist_id = ?", new Object[] { list.id }).toArray(
-					new Integer[] {});
-			return list;
+			final SimplePlayList pLst = new SimplePlayList(rs.getInt(1), rs.getString(3), rs.getDate(4));
+			final List<Map> lst = DaoHelper.getInstance().getJdbcTemplate().queryForList(
+					"select track_id from simple_playlist where playlist_id = ?", new Object[] { pLst.id });
+			for (final Map<String, Integer> map : lst)
+				pLst.add(map.get("TRACK_ID"));
+			return pLst;
 		}
 	}
 }

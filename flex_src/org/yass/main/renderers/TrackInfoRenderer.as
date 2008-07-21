@@ -4,9 +4,9 @@ package org.yass.main.renderers
 	import flash.events.MouseEvent;
 	
 	import mx.controls.DataGrid;
-	import mx.controls.listClasses.IListItemRenderer;
 	
-	import org.yass.main.LibraryBrowser;
+	import org.yass.Yass;
+	import org.yass.main.MainPane;
 
 	public class TrackInfoRenderer  extends TrackRenderer{
 		
@@ -21,7 +21,9 @@ package org.yass.main.renderers
 		}
 		private function click(evt:Event):void{
 			var dataField:String = (owner as DataGrid).columns[listData.columnIndex].dataField;
-			(parent.parent.parent as LibraryBrowser).browserView.onClickPlayList(dataField, data[dataField])
+			(parent.parent.parent.parent as MainPane).playList.model = Yass.library;
+			(parent.parent.parent.parent as MainPane).currentState = null;
+			(parent.parent.parent.parent as MainPane).browserView.onClickPlayList(dataField, data[dataField])
 		}
 		protected function over(evt:Event) : void			{
 			setStyle("textDecoration", "underline");
