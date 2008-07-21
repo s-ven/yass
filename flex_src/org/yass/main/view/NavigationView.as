@@ -121,15 +121,14 @@ package org.yass.main.view
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
-			if(item.@type == "user"){
 				Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);
+			if(item.@type == "user")
 				if(item.@id == 0)
 					this.editable = true;
 				else		{
 					dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
 					this.editable = false;
 				}
-			}
 			else if(item.@type=="library"){
 				mainPane.currentState = null;
 				mainPane.playList.model = Yass.library;

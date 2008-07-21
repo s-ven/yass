@@ -67,7 +67,7 @@ package org.yass.main.model{
 						var obj:Object = new Object();
 						obj.id = id;
 						var httpSvc:HTTPService = (playlist as PlayListModel).httpService; 
-						httpSvc.addEventListener(ResultEvent.RESULT, function(){
+						httpSvc.addEventListener(ResultEvent.RESULT, function():void{
 							if(httpSvc.lastResult.tracks)
 								for each(var track:Object in httpSvc.lastResult.tracks.track)
 									playlist.addItem(Yass.library.getTrack(track.id))

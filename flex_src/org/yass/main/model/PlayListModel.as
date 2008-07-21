@@ -19,8 +19,7 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package org.yass.main.model
-{
+package org.yass.main.model{
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
@@ -134,7 +133,7 @@ package org.yass.main.model
   		public function playTrack(_trackIndex:Number):void{ 
 			this.trackIndex = _trackIndex;
   			Console.group("group.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
-			var wasPlaying = Yass.player.isPlaying;
+			var wasPlaying:Boolean = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
 				loadToPlayer()
 			Yass.player.playTrack(selectedTrack)

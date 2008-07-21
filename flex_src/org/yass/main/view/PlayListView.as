@@ -72,6 +72,8 @@
 			if(controller)
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
+			if(model.trackIndex != -1)
+				setTimeout(function ():void{scrollToIndex(model.trackIndex);}, 150);
 		}
 		public function get model():IPlayListModel{ 
 			return _model;

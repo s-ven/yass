@@ -30,7 +30,7 @@ package org.yass.main.view
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
-	import org.yass.main.events.BrowserEvent;
+	import org.yass.main.events.LibraryEvent;
 	import org.yass.main.model.LibraryModel;
 	import org.yass.util.tree.Value;
 
@@ -46,7 +46,7 @@ package org.yass.main.view
 			init("artist", artist)
 			init("album", album)
 			playlistView.model = Yass.library;
-			model.addEventListener(BrowserEvent.REFRESHED, onRefreshed);
+			model.addEventListener(LibraryEvent.REFRESHED, onRefreshed);
 		} 
 		private function init(type:String, dg:DataGrid):void{
 			this["_"+type] = dg;
@@ -57,7 +57,7 @@ package org.yass.main.view
 			Console.log("view.BrowserView.onItemClick id:"+evt.currentTarget.id);
 			model.browseBy(evt.currentTarget.id, evt.currentTarget.selectedItems);
 		}
-		private function onRefreshed(evt:BrowserEvent):void{
+		private function onRefreshed(evt:LibraryEvent):void{
 			Console.group("view.BrowserView.onRefreshed types:" + evt.types);
 			for each(var type:String in evt.types)
 				createAllRow(type)

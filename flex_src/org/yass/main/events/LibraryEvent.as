@@ -24,10 +24,10 @@ package org.yass.main.events{
 	
 	import mx.collections.ArrayCollection;
 
-	public class BrowserEvent extends Event{
+	public class LibraryEvent extends Event{
 		public static const REFRESHED:String = "refreshed";
 		public var types : ArrayCollection;
-		public function BrowserEvent(type:String, types:Array=null,bubbles:Boolean=false):void{
+		public function LibraryEvent(type:String, types:Array=null,bubbles:Boolean=false):void{
 			super(type,bubbles);
 			this.types = new ArrayCollection(types)
 		}

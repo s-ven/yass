@@ -18,7 +18,6 @@
 			import mx.collections.ArrayCollection;
 			import mx.core.Application;
 			import org.yass.Yass;
-			import org.yass.main.LibraryBrowser;
 			import org.yass.debug.log.Console;
 			private var libraryLoader:URLLoader = new URLLoader()
 			private var libTreeLoader:URLLoader = new URLLoader()
