@@ -37,9 +37,8 @@ package org.yass.main.model{
 	public class PlayListModel extends ArrayCollection implements IPlayListModel{
         public var shuffledTracks:ArrayCollection= new ArrayCollection();
         public var shuffledListPosition:int; 
-		public var httpService : HTTPService = new HTTPService();
+		public var playListId:String;
 		
-		private var _playListId:String;
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
 		private var _sortA:Sort = new Sort();
@@ -54,20 +53,15 @@ package org.yass.main.model{
 			
 		public function PlayListModel(){			
         	Console.log("model.PlayListModel :: Init");
-        	// TODO :: Find another way to generate time based GUI!!!!!!!!!!!!!
-			var df:DateFormatter	 = new DateFormatter();
-			df.formatString="HH:NN:SS";
-			_playListId = df.format(new Date());
- 			httpService.method = "POST";
 		}
 		
-		public function removeEventListeners(){
+		public function removeEventListeners():void{
 			removeEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
 			Yass.player.removeEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
 			Yass.player.removeEventListener(PlayerEvent.PLAYING, onPlayerEvent);
 			Yass.player.removeEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 		}
-		public function setEventListeners(){
+		public function setEventListeners():void{
 			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
 			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
@@ -78,13 +72,6 @@ package org.yass.main.model{
     		_trackIndex = value;
     	}
 		
-		public function set playListId(val:String):void{
-			this._playListId = val; 
- 			httpService.url = "/yass/playlist_show.do";
-		}
-		public function get playListId():String{
-			return _playListId;
-		}
         public function get selectedTrack():Track{
         	if(trackIndex !=-1 && trackIndex < length){
         		_selectedTrack = getItemAt(trackIndex) as Track

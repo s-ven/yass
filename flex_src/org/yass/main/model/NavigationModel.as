@@ -63,7 +63,8 @@ package org.yass.main.model{
 				_playlist.playListId = id;
 				var obj:Object = new Object();
 				obj.id = id;
-				var httpSvc:HTTPService = (_playlist as PlayListModel).httpService; 
+				var httpSvc : HTTPService = new HTTPService();
+	 			httpSvc.url = "/yass/playlist_show.do";
 				httpSvc.addEventListener(ResultEvent.RESULT, function():void{
 					if(httpSvc.lastResult.tracks){
 						_playlist.removeAll();

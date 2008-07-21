@@ -35,7 +35,6 @@ package org.yass.main.model.interfaces{
 		function set trackIndex(value:Number):void;
 		function get trackIndex():Number;
 		function get selectedTrack():Track;
-		function get playListId():String;
 		function playTrack(trackIndex:Number):void;
 		function selectTrack(trackIndex:Number):void;
 		function sortColumn(columnName:String):void;

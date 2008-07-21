@@ -30,7 +30,7 @@ package org.yass.main.model{
     
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{
-        public var loadedPlayList:IPlayListModel
+        public var loadedPlayList:PlayListModel
 		public var shuffle:Boolean;
 		public var loop:Boolean;
         
