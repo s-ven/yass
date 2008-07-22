@@ -3,7 +3,6 @@
 <struts>
 	<package name="yass"  extends="struts-default">
 		<action name="library_browse" class="org.yass.struts.library.Browse">
-			<result>/jsp/tracks.jsp</result>
 		</action>
 		<action name="library_get_tree" class="org.yass.struts.library.GetTree">
 		</action>

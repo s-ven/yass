@@ -1,7 +1,22 @@
 package org.yass.struts;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.struts2.ServletActionContext;
+import org.w3c.dom.Document;
 import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.PlayList;
@@ -11,6 +26,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class YassAction extends ActionSupport implements YassConstants {
 
+	public static final Log LOG = LogFactory.getLog(YassAction.class);
 	/**
 	 * 
 	 */
@@ -30,5 +46,37 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	protected Map<Integer, PlayList> getPlayLists() {
 		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
+	}
+
+	/**
+	 * @param document
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws IllegalArgumentException
+	 */
+	public String outputDocument(final Document document) {
+		try {
+			final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "no");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			ServletActionContext.getResponse().setContentType("text/xml");
+			final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			final StreamResult result = new StreamResult(bout);
+			final DOMSource source = new DOMSource(document);
+			transformer.transform(source, result);
+			ServletActionContext.getResponse().setContentLength(bout.size());
+			bout.writeTo(ServletActionContext.getResponse().getOutputStream());
+			bout.flush();
+			ServletActionContext.getResponse().flushBuffer();
+		} catch (final FileNotFoundException e) {
+			LOG.error("", e);
+			return ERROR;
+		} catch (final IOException e) {
+			LOG.error("", e);
+			return ERROR;
+		} catch (final TransformerException e) {
+			LOG.error("", e);
+			return ERROR;
+		}
+		return NONE;
 	}
 }

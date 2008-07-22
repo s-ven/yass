@@ -55,9 +55,9 @@ package org.yass.main.model{
 			dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, ["genre","artist", "album"]));
 			_sort.fields = [new SortField("value")];
 			datas = new XML(libraryData).children()
-				Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
-				Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
-				Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
+			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
 		} 
    		public function set datas(value:Object):void{
