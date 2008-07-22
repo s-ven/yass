@@ -25,6 +25,7 @@ package org.yass.main.model{
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
+	import mx.events.CollectionEvent;
 	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
@@ -57,7 +58,8 @@ package org.yass.main.model{
 				Yass.player.addEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
 				Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
 				Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
-		}
+			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
+		} 
    		public function set datas(value:Object):void{
         	Console.log("model.PlayListModel.set datas");
 			if(value is XMLList || value is ArrayCollection)

@@ -32,7 +32,10 @@ public class GetTree extends YassAction implements YassConstants {
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			// initialize StreamResult with File object to save to file
+			ServletActionContext.getResponse().setContentType("text/xml");
+			ServletActionContext.getResponse().setBufferSize(5000 * 1000);
 			final StreamResult result = new StreamResult(ServletActionContext.getResponse().getOutputStream());
+			ServletActionContext.getResponse().setBufferSize(5000 * 1000);
 			final DOMSource source = new DOMSource((Document) ActionContext.getContext().getApplication().get(LIB_XML_TREE));
 			transformer.transform(source, result);
 			ServletActionContext.getResponse().flushBuffer();

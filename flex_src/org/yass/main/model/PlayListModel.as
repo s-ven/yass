@@ -46,8 +46,10 @@ package org.yass.main.model{
 		private var _sortByArtist:SortField = new SortField("artist", true);
 		private var _sortByAlbum:SortField = new SortField("album", true);
 		private var _sortByTitle:SortField = new SortField("title", true);
+		private var _sortByGenre:SortField = new SortField("genre", true);
 		private var _sortByLength:SortField = new SortField("length", true, false, true);
 		private var _sortByRating:SortField = new SortField("rating", true, false, true);
+		private var _sortByPlayCount:SortField = new SortField("playCount", true, false, true);
 		private var _oldColumn:String;
 		private var _selectedTrack:Track;
 			
@@ -169,7 +171,7 @@ package org.yass.main.model{
 				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, this.getItemIndex(Yass.player.loadedTrack), this));
 			
 		}
-		private function onCollectionChange(evt:CollectionEvent):void{
+		public function onCollectionChange(evt:CollectionEvent):void{
 			if(evt.kind == CollectionEventKind.REFRESH){
 				Console.group("model.PlayList.onCollectionChange");
 				this.trackIndex = getItemIndex(_selectedTrack);
@@ -214,7 +216,15 @@ package org.yass.main.model{
 			} else if (columnName=="rating") {
 			    if(_oldColumn == "rating")
 			    	_sortByRating.reverse();
-			   _sortA.fields=[_sortByRating, _sortByArtist, _sortByAlbum, _sortByTrackNr];
+			   _sortA.fields=[_sortByRating, _sortByPlayCount];
+			} else if (columnName=="playCount") {
+			    if(_oldColumn == "playCount")
+			    	_sortByPlayCount.reverse();
+			   _sortA.fields=[_sortByPlayCount];
+			} else if (columnName=="genre") {
+			    if(_oldColumn == "genre")
+			    	_sortByGenre.reverse();
+			   _sortA.fields=[_sortByGenre];
 			} 
 			_oldColumn = columnName;
 			sort = _sortA

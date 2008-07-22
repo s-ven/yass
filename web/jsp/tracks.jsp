@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<%@ page contentType="text/xml"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.yass.domain.Track"%>
 <%@page import="org.yass.domain.PlayList"%>
 <%@page import="org.yass.YassConstants"%> 
 <%@page import="org.apache.commons.lang.StringEscapeUtils"%>
 <%@page import="org.yass.domain.Library"%><tracks><%
+	response.setBufferSize(5000*1000);
 	Library lib  = (Library) application.getAttribute(YassConstants.ALL_LIBRARY);
 	Iterator<Track> it = lib.getTracks().iterator();
 	while(it.hasNext()){
