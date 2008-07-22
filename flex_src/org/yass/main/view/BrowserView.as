@@ -78,8 +78,7 @@ package org.yass.main.view
 			this["_"+type].selectedItems = model[type +"Selected"]
 			if(this["_"+type].selectedIndex != -1){
 				Console.log("selected index : " + this["_"+type].selectedIndex);
-				this["_" + type].validateNow();
-				this["_" + type].scrollToIndex(this["_"+type].selectedIndex);
+				this["_" + type].callLater(this["_" + type].scrollToIndex, [this["_"+type].selectedIndex]);
 			}
 			Console.groupEnd();
 		}

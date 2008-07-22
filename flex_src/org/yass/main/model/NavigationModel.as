@@ -70,16 +70,17 @@ package org.yass.main.model{
 						_playlist.removeAll();
 						for each(var track:Object in httpSvc.lastResult.tracks.track)
 							_playlist.addItem(Yass.library.getTrack(track.id))
+			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 					}
 				});
-				httpSvc.send(obj);
 				_playlist.setEventListeners();
+				httpSvc.send(obj);
+			Console.groupEnd()
+				return ;
 			}
-			else{
-				if(_playlist && Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId != _playlist.playListId)
-					_playlist.removeEventListeners();
-				_playlist = Yass.library
-			}
+			if(_playlist && Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId != _playlist.playListId)
+				_playlist.removeEventListeners();
+			_playlist = Yass.library
 			Console.groupEnd()
 			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 		}	

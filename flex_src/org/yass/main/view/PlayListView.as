@@ -72,10 +72,12 @@
 			if(controller)
 				controller.destroy();
 			this.controller = new PlayListController(this, value);
-			if(model.trackIndex != -1){
-				validateNow()
-				scrollToIndex(model.trackIndex);
+			if(Yass.player.loadedTrack && model.getItemIndex(Yass.player.loadedTrack) != -1){
+				callLater(scrollToIndex,  [model.getItemIndex(Yass.player.loadedTrack)]); 
+				model.trackIndex = model.getItemIndex(Yass.player.loadedTrack);
 			}
+			else if(model.trackIndex != -1)
+				callLater(scrollToIndex,  [model.trackIndex]); 
 		}
 		public function get model():IPlayListModel{ 
 			return _model;
@@ -112,8 +114,7 @@
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList == this.model){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
-				validateNow()
-				scrollToIndex(evt.trackIndex); 
+				callLater(scrollToIndex,  [evt.trackIndex]); 
 			}	
 			Console.groupEnd();
 		}

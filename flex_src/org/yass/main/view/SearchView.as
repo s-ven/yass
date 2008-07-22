@@ -97,9 +97,9 @@ package org.yass.main.view
 				setTimeout(timeoutFunction , _timeOut)
 			}
 			else{
-				Yass.library.filteredText = component.searchInput.text;
 				component.resetSearch.visible = component.searchInput.text != "";
 				_keyBuff = false
+				Yass.library.filteredText = component.searchInput.text;
 				computeScopeLabel();
 			}
 		}
