@@ -52,6 +52,7 @@
 					libraryLoader.removeEventListener(Event.ENTER_FRAME, handleProgress )
 					Console.group("Initializing data structures..."  );
 					Yass.library = new LibraryModel(libTreeLoader.data, libraryLoader.data);
+					Yass.player.loadedPlayList = Yass.library;
 					Console.log("Library tracks OK");
 					Console.log("All items loaded, initializing application");
 					Console.groupEnd(); 

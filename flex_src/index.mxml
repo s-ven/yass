@@ -14,7 +14,7 @@
 				<component:LoadingProgressBar id="progressLoaderBar" horizontalCenter="0" verticalCenter="0" uicomponent="{this}"  />
 			</mx:AddChild>   
 		</mx:State>  
-	</mx:states>
+	</mx:states> 
 	<mx:Script>
 		<![CDATA[
 			[Embed(source="/assets/MONACO.TTF", fontName="Monaco" )]

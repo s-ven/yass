@@ -17,6 +17,7 @@ public class Schema00 extends Schema {
 			template.execute("insert into schema_version values (1)");
 			LOG.info(" table 'schema_version' successfully created");
 		}
+		// Table 'Role'
 		if (!tableExists(template, "role")) {
 			LOG.info(" table 'role' not found...");
 			template
@@ -25,6 +26,7 @@ public class Schema00 extends Schema {
 			template.execute("insert into role (name) values ('playlist')");
 			LOG.info(" table 'role' successfully created");
 		}
+		// Table 'yass_user'
 		if (!tableExists(template, "yass_user")) {
 			LOG.info(" table 'yass_user' not found.  Creating it.");
 			template
@@ -33,12 +35,14 @@ public class Schema00 extends Schema {
 			template.execute("insert  into yass_user (user_name, password, role_id) values ('admin', 'admin', 1)");
 			LOG.info(" table 'yass_user' was created successfully.");
 		}
+		// Table 'library'
 		if (!tableExists(template, "library")) {
 			LOG.info(" table 'library' not found.  Creating it.");
 			template
 					.execute("create table library (id int not null generated always as identity, path varchar(512) not null, last_update date not null, primary key(id))");
 			LOG.info(" table 'library' was created successfully.");
 		}
+		// Table 'track'
 		if (!tableExists(template, "track")) {
 			LOG.info(" table 'track' not found.  Creating it.");
 			template
@@ -47,6 +51,15 @@ public class Schema00 extends Schema {
 							+ " rating int default 0, length int not null, primary key(id), foreign key(library_id) references library(id))");
 			LOG.info(" table 'track' was created successfully.");
 		}
+		// Table track_stats
+		if (!tableExists(template, "track_stats")) {
+			LOG.info(" table 'track_stats' not found.  Creating it.");
+			template
+					.execute("create table track_stats (user_id int not null, track_id int not null, rating int not null, last_played date, playcount int not null, last_selected date, "
+							+ "foreign key(user_id) references yass_user(id), foreign key(track_id) references track(id))");
+			LOG.info(" table 'track_stats' was created successfully.");
+		}
+		// Table track_info
 		if (!tableExists(template, "track_info")) {
 			LOG.info(" table 'track_info' not found.  Creating it.");
 			template
