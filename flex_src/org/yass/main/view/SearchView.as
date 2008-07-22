@@ -39,7 +39,7 @@ package org.yass.main.view
 		
 		private var _keyBuff:Boolean=false;
 		private var _tmpString:String;
-		private var _timeOut:int=250
+		private var _timeOut:int=100
 		private var _scopeLabel:String = "Search"
 		private var searchMenuData:Array = [
 		    {label: "Search", enabled: "false"},
@@ -53,6 +53,11 @@ package org.yass.main.view
 			this.component = _component;
 			component.dropDownMenu.addEventListener(MouseEvent.CLICK, onDropDownRollover);
 			component.searchInput.addEventListener(Event.CHANGE, onChange);
+			component.resetSearch.addEventListener(MouseEvent.CLICK, onClickReset);
+		}
+		private function onClickReset(evt:Event):void{
+			component.searchInput.text = "";
+			onChange(evt);
 		}
 		private function onDropDownRollover(evt:MouseEvent):void {
 			var searchMenu:Menu = Menu.createMenu(null, searchMenuData, true);
@@ -93,6 +98,7 @@ package org.yass.main.view
 			}
 			else{
 				Yass.library.filteredText = component.searchInput.text;
+				component.resetSearch.visible = component.searchInput.text != "";
 				_keyBuff = false
 				computeScopeLabel();
 			}

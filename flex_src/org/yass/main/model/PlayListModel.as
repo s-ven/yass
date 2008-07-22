@@ -196,15 +196,15 @@ package org.yass.main.model{
 			if (columnName=="trackNr") {
 			    if(_oldColumn == "trackNr")
 			    	_sortByTrackNr.reverse();
-			 _sortA.fields=[_sortByTrackNr, _sortByArtist, _sortByAlbum, ];
+				_sortA.fields=[_sortByTrackNr, _sortByArtist, _sortByAlbum, ];
 			} else if (columnName=="album") {
 			    if(_oldColumn == "album")
 			    	_sortByAlbum.reverse();
-			 _sortA.fields=[_sortByAlbum, _sortByArtist, _sortByTrackNr];
+				_sortA.fields=[_sortByAlbum, _sortByArtist, _sortByTrackNr];
 			} else if (columnName=="artist") {
 			    if(_oldColumn == "artist")
 			    	_sortByArtist.reverse();
-			 _sortA.fields=[_sortByArtist, _sortByAlbum, _sortByTrackNr];
+				_sortA.fields=[_sortByArtist, _sortByAlbum, _sortByTrackNr];
 			   } else if (columnName=="title") {
 			    if(_oldColumn == "title")
 			    	_sortByTitle.reverse();
