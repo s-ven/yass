@@ -16,8 +16,8 @@ public class GetTree extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final Document document = (Document) ActionContext.getContext().getApplication().get(LIB_XML_TREE);
-		return outputDocument(document);
+		LOG.info("Library trackInfos requested");
+		return outputDocument((Document) ActionContext.getContext().getApplication().get(LIB_XML_TREE));
 	}
 
 	/**

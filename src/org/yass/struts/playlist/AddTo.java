@@ -21,9 +21,10 @@ public class AddTo extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
+		LOG.info("Adding trackis to playlist " + id);
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
-			((PlayList) pl).add(trackIds);
+			(pl).add(trackIds);
 			playlistDao.savePlaylist(pl);
 		}
 		return NONE;

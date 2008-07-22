@@ -5,7 +5,6 @@ import java.util.Iterator;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.yass.YassConstants;
@@ -25,6 +24,7 @@ public class Browse extends YassAction implements YassConstants {
 	@Override
 	public String execute() {
 		try {
+			LOG.info("Library requested");
 			final Library lib = (Library) ActionContext.getContext().getApplication().get(YassConstants.ALL_LIBRARY);
 			final Iterator<Track> it = lib.getTracks().iterator();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -36,7 +36,7 @@ public class Browse extends YassAction implements YassConstants {
 				final Track mf = it.next();
 				trackNode.setAttribute("id", mf.getId() + "");
 				trackNode.setAttribute("trackNr", mf.getTrackNr() + "");
-				trackNode.setAttribute("title", StringEscapeUtils.escapeXml(mf.getTitle()));
+				trackNode.setAttribute("title", mf.getTitle());
 				trackNode.setAttribute("artist", mf.getTrackInfo(YassConstants.ARTIST).getId() + "");
 				trackNode.setAttribute("album", mf.getTrackInfo(YassConstants.ALBUM).getId() + "");
 				trackNode.setAttribute("genre", mf.getTrackInfo(YassConstants.GENRE).getId() + "");
@@ -44,7 +44,7 @@ public class Browse extends YassAction implements YassConstants {
 				trackNode.setAttribute("rating", mf.getRating() + "");
 				trackNode.setAttribute("playCount", mf.getPlayCount() + "");
 			}
-			outputDocument(doc);
+			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {
 			LOG.error("", e);
 		}

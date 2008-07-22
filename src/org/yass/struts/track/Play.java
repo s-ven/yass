@@ -22,11 +22,14 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
+		LOG.info("Playing track id:" + id);
 		final Track mf = getLibrary().getMediaFile(id);
 		final File toPlayr = new File(mf.getPath());
 		OutputStream out = null;
 		InputStream fis = null;
 		try {
+			ServletActionContext.getResponse().setContentType("audio/mpeg");
+			ServletActionContext.getResponse().setContentLength(new Long(toPlayr.length()).intValue());
 			fis = new FileInputStream(toPlayr);
 			out = ServletActionContext.getResponse().getOutputStream();
 			final byte[] buf = new byte[4 * 1024]; // 4K buffer
@@ -35,10 +38,10 @@ public class Play extends YassAction implements YassConstants {
 				out.write(buf, 0, bytesRead);
 			ServletActionContext.getResponse().flushBuffer();
 		} catch (final FileNotFoundException e) {
-			e.printStackTrace();
+			LOG.error("", e);
 			return ERROR;
 		} catch (final IOException e) {
-			e.printStackTrace();
+			LOG.error("", e);
 			return ERROR;
 		} finally {
 			if (fis != null)

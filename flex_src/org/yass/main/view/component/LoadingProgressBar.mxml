@@ -11,6 +11,7 @@
 	<mx:Fade id="fadein" alphaFrom="0" alphaTo="1"  effectEnd="{dataLoad()}" duration="250" suspendBackgroundProcessing="true"/>
 	<mx:Script>
 		<![CDATA[
+			import org.yass.main.loaders.LibraryLoader;
 			import mx.effects.EffectManager;
 			import mx.events.EffectEvent;
 			import mx.effects.Fade;
@@ -20,7 +21,7 @@
 			import mx.core.Application;
 			import org.yass.Yass;
 			import org.yass.debug.log.Console;
-			private var libraryLoader:URLLoader = new URLLoader()
+			private var libraryLoader:LibraryLoader = new LibraryLoader()
 			private var libTreeLoader:URLLoader = new URLLoader()
 			private var itemLoaded:Number = 0;
 			public var uicomponent:UIComponent;
@@ -31,7 +32,7 @@
 				this.addEventListener(Event.ENTER_FRAME, handleProgress );
 				libraryLoader.addEventListener(Event.COMPLETE, libraryLoaded );
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
-				libraryLoader.load(new URLRequest("/yass/library_browse.do"));
+				libraryLoader.loadData();
 				libTreeLoader.load(new URLRequest("/yass/library_get_tree.do"));
 			}
 			private function libraryLoaded( e:Event ):void {

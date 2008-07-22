@@ -21,6 +21,7 @@ public class Show extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
+		LOG.info("Playlist id:" + id + " requested");
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SmartPlayList)
 			new PlayListDao().reloadSmartPlayLsit((SmartPlayList) pl);

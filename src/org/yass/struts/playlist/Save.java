@@ -23,6 +23,7 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
+		LOG.info("Saving playlist " + id);
 		PlayList pl = getPlayLists().get(id);
 		if (pl == null)
 			pl = new SimplePlayList(0, name, new Date());

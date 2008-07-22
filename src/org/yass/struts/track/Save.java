@@ -18,6 +18,7 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
+		LOG.info("Saving track id:" + id);
 		final Track track = getLibrary().getMediaFile(id);
 		track.setRating(rating);
 		track.setPlayCount(playCount);
