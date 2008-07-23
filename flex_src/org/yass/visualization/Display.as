@@ -44,7 +44,8 @@ package org.yass.visualization
 			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
-			this.setStyle("fontThickness", 150);
+			this.setStyle("fontThickness", 200);
+			this.setStyle("fontAntiAliasType", "advanced");
 			horizontalScrollPolicy = ScrollPolicy.OFF;
 			verticalScrollPolicy = ScrollPolicy.OFF;
 			songInfo.percentWidth = 100;
@@ -92,10 +93,10 @@ package org.yass.visualization
 			// Loop Button
 			var canv1:Canvas = new Canvas();
 			canv1.setStyle("verticalCenter", -2);
-			canv1.setStyle("horizontalAlign", "center");
+			canv1.setStyle("horizontalAlign", "right");
 			canv1.height = 15;
 			canv1.percentWidth = 5;
-			canv1.minWidth=20;
+			canv1.minWidth=25;
 			loop. styleName="LoopCheckBox";
 			canv1.addChild(loop);
 			hbox.addChild(canv1);
@@ -133,10 +134,10 @@ package org.yass.visualization
 			// Loop Button
 			var canv5:Canvas = new Canvas();
 			canv5.setStyle("verticalCenter", -2);
-			canv5.setStyle("horizontalAlign", "center");
+			canv5.setStyle("horizontalAlign", "left");
 			canv5.height = 15;
 			canv5.percentWidth = 5;
-			canv5.minWidth=20;
+			canv5.minWidth=25;
 			shuffle. styleName="ShuffleCheckBox";
 			canv5.addChild(shuffle);
 			hbox.addChild(canv5);

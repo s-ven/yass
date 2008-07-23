@@ -2,7 +2,13 @@
 <mx:Application frameRate="20"
 	xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
 	minWidth="800"
-	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*" >
+	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
+    borderSkin="AppBackground"
+    backgroundGradientAlphas="[]"  
+    backgroundImage=""
+    backgroundAlpha="0" 
+    backgroundColor="#000000"
+ >
 	<mx:states>  
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
@@ -22,4 +28,4 @@
 		]]> 
 	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>
-</mx:Application>   
+</mx:Application>

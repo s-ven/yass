@@ -84,13 +84,19 @@ HSlider.VolumeSlider
 	dataTipPlacement: bottom;
 	verticalCenter: -5;
 	horizontalCenter: 0;
-}
+} 
 Display.Display
-{
+{  
 	 horizontal-center:0; 
 	 vertical-center:0 ;
 	 background-size:"100%";
-	backgroundImage: Embed('faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='10', scaleGridRight='65');
+	backgroundImage: Embed('faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
+}
+Canvas.DisplayReflect
+{
+	 background-size:"100%";
+	backgroundImage: Embed('faceplate-fg.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
+	backgroundAlpha: 0.95;
 }
 Button.VolumeUpButton
 {
@@ -100,8 +106,8 @@ Button.VolumeUpButton
 }
 SpectrumAnalyzer.dimmed
 {
-	vuCount:32;
-	vuLevels:27;
+	vuCount:32; 
+	vuLevels:23;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
 	colorActive:"0x222222";
@@ -110,11 +116,11 @@ SpectrumAnalyzer.dimmed
 	alphaMax:"0.3";
 	alphaActive:"0.25";
 	alphaInactive:"0.10";
-}
+} 
 SpectrumAnalyzer.visible
 {
 	vuCount:32;
-	vuLevels:27;
+	vuLevels:23; 
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
 	colorActive:"0x222222";
@@ -126,7 +132,7 @@ SpectrumAnalyzer.visible
 }
 
 TextInput.inputText
-{
+{ 
 	corner-radius:8;
 	padding-top:4;
 	borderSkin: Embed('input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='260');
@@ -136,8 +142,6 @@ global {
    fontAntiAliasType:advanced;
 	fontSize: 9;
 }
-
-
 Application {
    backgroundColor: #333333;
    backgroundGradientColors: #333333, #333333;
@@ -146,10 +150,9 @@ Application {
    color: #ffffff;
 	paddingLeft: 0;
 	paddingRight: 0;
-	paddingTop: 0;
+	paddingTop: 0; 
 	paddingBottom: 0;
 }
-
 Button {
    cornerRadius: 6;
    paddingLeft: 10;
@@ -170,7 +173,6 @@ Button {
 	downSkin: Embed(source="button-down.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
 	textSelectedColor: #FFFFFF;
 }
-
 ButtonBar {
    buttonStyleName: "mybuttonBarButtonStyle";
    firstButtonStyleName: "mybuttonBarFirstButtonStyle";
@@ -611,6 +613,7 @@ DataGrid {
 	paddingLeft: 0;
 	fontSize: 9;
 	verticalScrollBarStyleName: dataGridVerticalScrollBar;
+	selectionDuration: 0;
 }
 
 .mydataGridHeaderStyle {
@@ -655,6 +658,7 @@ ToolTip {
 	verticalScrollBarStyleName: listBaseVerticalScrollBar;
 	paddingTop: 4;
 	paddingBottom: 4;
+	
 }
 .listBaseVerticalScrollBar
 {

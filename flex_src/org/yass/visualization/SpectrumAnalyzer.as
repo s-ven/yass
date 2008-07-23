@@ -37,6 +37,8 @@ package org.yass.visualization
 		private var _alphaInactive:Number = 0.5
 		private var _alphaActive:Number = 1;
 		private var _vuStep:int;
+		private var _bottom:int;
+		public var active:Boolean =true;
 		public function SpectrumAnalyzer(){
 			super();
 			Console.log("vizu.SpectrumAnalyzer :: Init");
@@ -63,14 +65,15 @@ package org.yass.visualization
 			_vuStep = 256/_vuCount;
 			_colorArrays = buildStyleArray(_colorTop, _colorMax, _colorActive, _colorInactive);
 			_alphaArrays = buildStyleArray(_alphaTop, _alphaMax, _alphaActive, _alphaInactive);
+			_bottom = parent.height / 2 + _vuLevels;
 		}
 		private function buildStyleArray(__top:Number, __max:Number, __active:Number, __inactive:Number):Array{
 			var arr:Array = new Array(_vuLevels);
 			for(var localTop:int=_vuLevels; localTop >=0 ; --localTop){
 				arr[localTop] = new Array(localTop);
-				for(var localMx:int=localTop; localMx >=0; localMx--){
+				for(var localMx:int=localTop; localMx >=0; localMx--){ 
 					arr[localTop][localMx] = new Array(_vuLevels);
-					for(var k:int=0; k< _vuLevels; k++){
+					for(var k:int=0; k< _vuLevels; k++)
 						if(k == localTop)
 							arr[localTop][localMx][k] = __top;
 						else if(k == localMx)
@@ -79,7 +82,6 @@ package org.yass.visualization
 							arr[localTop][localMx][k] = __inactive; 
 						else if(k < localTop || k < localMx)
 							arr[localTop][localMx][k] = __active;
-					}
 					arr[localTop][localMx] = arr[localTop][localMx]
 				}
 			}
@@ -91,9 +93,9 @@ package org.yass.visualization
 		private var _current : Number = 0;
 		
 		private function onEnterFrame( event : Event ) : void{
-			_miWidth = parent.width / 2
-			_vuWidth = (_miWidth -2) / _vuCount -1 ;
-			if (visible && _colorArrays && _alphaArrays){
+			if (visible){
+				_miWidth = parent.width / 2
+				_vuWidth = (_miWidth -10) / _vuCount -1 ;
 				try{
 					SoundMixer.computeSpectrum(_spectrumArr, true);
 				}
@@ -113,11 +115,11 @@ package org.yass.visualization
 					var vuMax:int = Math.min( _current, 1 )* (_vuLevels -1)
 					var localTop:int = top(i, vuMax)
 					var xVu:int = _miWidth - (i+1) * (_vuWidth+1) - 3;
-					if(i>=_vuCount)
+					if(i>=_vuCount) 
 						xVu = _miWidth + (i-_vuCount) * (_vuWidth+1) + 2;
 					for(var j:int = 0; j<_vuLevels;j++){
 						graphics.lineStyle(1, _colorArrays[localTop][vuMax][j],_alphaArrays[localTop][vuMax][j]);
-						graphics.drawRect(xVu, parent.height - j * 2,_vuWidth,0);
+						graphics.drawRect(xVu, _bottom - j * 2,_vuWidth,0);
  					}  
 				}
 				_clipMask.graphics.clear();
