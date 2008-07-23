@@ -3,11 +3,11 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
 	minWidth="800"
 	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*" >
-	<mx:states>
+	<mx:states>  
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
 				<main:MainWindow id="mainWindow" addedEffect="fadein"/>
-			</mx:AddChild>   
+			</mx:AddChild>    
 		</mx:State>
 		<mx:State name="ProgressLoader" >
 			<mx:AddChild  position="lastChild" >
@@ -22,4 +22,4 @@
 		]]> 
 	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>
-</mx:Application>  
+</mx:Application>   
