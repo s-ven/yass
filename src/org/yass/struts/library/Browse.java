@@ -1,6 +1,7 @@
 package org.yass.struts.library;
 
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,6 +11,7 @@ import org.w3c.dom.Element;
 import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
+import org.yass.domain.TrackStat;
 import org.yass.struts.YassAction;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -30,6 +32,8 @@ public class Browse extends YassAction implements YassConstants {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("library");
 			doc.appendChild(libNode);
+			final Map<Integer, TrackStat> trackStats = (Map<Integer, TrackStat>) ActionContext.getContext().getApplication()
+					.get(USER_TRACK_STATS);
 			while (it.hasNext()) {
 				final Element trackNode = doc.createElement("track");
 				libNode.appendChild(trackNode);
@@ -41,8 +45,14 @@ public class Browse extends YassAction implements YassConstants {
 				trackNode.setAttribute("album", mf.getTrackInfo(YassConstants.ALBUM).getId() + "");
 				trackNode.setAttribute("genre", mf.getTrackInfo(YassConstants.GENRE).getId() + "");
 				trackNode.setAttribute("length", mf.getLength() + "");
-				trackNode.setAttribute("rating", mf.getRating() + "");
-				trackNode.setAttribute("playCount", mf.getPlayCount() + "");
+				final TrackStat stat = trackStats.get(mf.getId());
+				if (stat != null) {
+					trackNode.setAttribute("rating", stat.getRating() + "");
+					trackNode.setAttribute("playCount", stat.getPlayCount() + "");
+				} else {
+					trackNode.setAttribute("rating", "0");
+					trackNode.setAttribute("playCount", "0");
+				}
 			}
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {

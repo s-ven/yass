@@ -19,8 +19,6 @@ public final class Track implements YassConstants {
 	private int id;
 	private Library library;
 	private Date lastUpdate = new Date(0);
-	private int rating = 0;
-	private int playCount = 0;
 
 	public void setTrackInfo(final String type, final TrackInfo trackInfo) {
 		trackInfos.put(type, trackInfo);
@@ -124,48 +122,16 @@ public final class Track implements YassConstants {
 	 * @param lastUpdate
 	 */
 	public Track(final int id, final String path, final String title, final int trackNr, final int length,
-			final Date lastUpdate, final int playCount, final int rating) {
+			final Date lastUpdate, final int typeId) {
 		this.id = id;
 		this.path = path;
 		this.title = title;
 		this.trackNr = trackNr;
 		this.length = length;
 		this.lastUpdate = lastUpdate;
-		this.playCount = playCount;
-		this.rating = rating;
 	}
 
 	public Track() {
-	}
-
-	/**
-	 * @return the rating
-	 */
-	public final int getRating() {
-		return rating;
-	}
-
-	/**
-	 * @param rating
-	 *          the rating to set
-	 */
-	public final void setRating(final int rating) {
-		this.rating = rating;
-	}
-
-	/**
-	 * @return the playCount
-	 */
-	public final int getPlayCount() {
-		return playCount;
-	}
-
-	/**
-	 * @param playCount
-	 *          the playCount to set
-	 */
-	public final void setPlayCount(final int playCount) {
-		this.playCount = playCount;
 	}
 
 	/**

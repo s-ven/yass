@@ -1,7 +1,6 @@
 package org.yass.listener;
 
 import java.util.Date;
-import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -17,9 +16,9 @@ import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
 import org.yass.dao.LibraryDao;
 import org.yass.dao.PlayListDao;
+import org.yass.dao.TrackStatDao;
 import org.yass.domain.Library;
 import org.yass.domain.MetadataReader;
-import org.yass.domain.PlayList;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
@@ -50,33 +49,25 @@ public class Init implements ServletContextListener, YassConstants {
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
 		final ServletContext servletContext = event.getServletContext();
-		initThread = new Thread(new Runnable() {
-
-			public void run() {
-				final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
-				try {
-					LOG.info("Loading Library from DB");
-					final LibraryDao libDao = new LibraryDao();
-					Library lib = libDao.getFromId(1);
-					if (lib == null) {
-						LOG.info("No Library found, creating new one");
-						lib = new Library(0, trackroot, new Date());
-						libDao.saveLibrary(lib);
-						new MetadataReader().scanLibrary(lib);
-					}
-					servletContext.setAttribute(ALL_LIBRARY, lib);
-					LOG.info("Building library trackInfo XML document");
-					servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
-					final Map<Integer, PlayList> plsts = new PlayListDao().getFromUserId(1);
-					servletContext.setAttribute(USER_PLAYLISTS, plsts);
-				} catch (final Exception e) {
-					LOG.fatal("Error in Yass init", e);
-				}
+		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
+		try {
+			LOG.info("Loading Library from DB");
+			final LibraryDao libDao = new LibraryDao();
+			Library lib = libDao.getFromId(1);
+			if (lib == null) {
+				LOG.info("No Library found, creating new one");
+				lib = new Library(0, trackroot, new Date());
+				libDao.saveLibrary(lib);
+				new MetadataReader().scanLibrary(lib);
 			}
-		});
-		initThread.setDaemon(true);
-		initThread.setPriority(Thread.MIN_PRIORITY);
-		initThread.start();
+			servletContext.setAttribute(ALL_LIBRARY, lib);
+			LOG.info("Building library trackInfo XML document");
+			servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
+			servletContext.setAttribute(USER_PLAYLISTS, new PlayListDao().getFromUserId(1));
+			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
+		} catch (final Exception e) {
+			LOG.fatal("Error in Yass init", e);
+		}
 	}
 
 	// TODO :: LA METHODE DE LA MORT, PLUS LONGUE TU MEURS, ABSOLUMENT POURRI, A

@@ -42,22 +42,30 @@ public class Schema00 extends Schema {
 					.execute("create table library (id int not null generated always as identity, path varchar(512) not null, last_update date not null, primary key(id))");
 			LOG.info(" table 'library' was created successfully.");
 		}
+		// Table track_type
+		if (!tableExists(template, "track_type")) {
+			LOG.info(" table 'track_type' not found.  Creating it.");
+			template
+					.execute("create table track_type (id int not null, content_type varchar(64) not null, label varchar(64) not null, primary key(id))");
+			template.execute("insert into track_type (id, content_type, label) values (1, 'audio/mp3', 'MP3')");
+			template.execute("insert into track_type (id, content_type, label) values (2, 'audio/aac', 'AAC')");
+			LOG.info(" table 'track_type' was created successfully.");
+		}
 		// Table 'track'
 		if (!tableExists(template, "track")) {
 			LOG.info(" table 'track' not found.  Creating it.");
 			template
-					.execute("create table track (id  int not null generated always as identity, library_id int not null, path varchar(512) not null, track_nr int, title varchar(256) not null,"
-							+ " last_update date not null, play_count int default 0, last_play date,"
-							+ " rating int default 0, length int not null, primary key(id), foreign key(library_id) references library(id))");
+					.execute("create table track (id  int not null generated always as identity, library_id int not null, track_type_id integer not null, path varchar(512) not null, track_nr int, title varchar(256) not null,"
+							+ " last_update date not null, length int not null, primary key(id), foreign key(library_id) references library(id), foreign key(track_type_id) references track_type(id))");
 			LOG.info(" table 'track' was created successfully.");
 		}
 		// Table track_stats
-		if (!tableExists(template, "track_stats")) {
-			LOG.info(" table 'track_stats' not found.  Creating it.");
+		if (!tableExists(template, "track_stat")) {
+			LOG.info(" table 'track_stat' not found.  Creating it.");
 			template
-					.execute("create table track_stats (user_id int not null, track_id int not null, rating int not null, last_played date, playcount int not null, last_selected date, "
+					.execute("create table track_stat (user_id int not null, track_id int not null, rating int not null, last_played date, play_count int not null, last_selected date, "
 							+ "foreign key(user_id) references yass_user(id), foreign key(track_id) references track(id))");
-			LOG.info(" table 'track_stats' was created successfully.");
+			LOG.info(" table 'track_stat' was created successfully.");
 		}
 		// Table track_info
 		if (!tableExists(template, "track_info")) {
@@ -66,27 +74,32 @@ public class Schema00 extends Schema {
 					.execute("create table track_info (id  int not null generated always as identity, type varchar(64) not null, value varchar(128) not null, primary key(id))");
 			LOG.info(" table 'track_info' was created successfully.");
 		}
+		// Index IDX_track_info_01
 		if (!indexExists(template, "IDX_track_info_01")) {
 			LOG.info(" index IDX_track_info_01 on 'track_track_info' not found.  Creating it.");
 			template.execute("create unique index IDX_track_info_01 on track_info (type, value, id)");
 			LOG.info(" index IDX_track_info_01 on 'track_track_info' was created successfully.");
 		}
+		// Index IDX_track_info_02
 		if (!indexExists(template, "IDX_track_info_02")) {
 			LOG.info(" index IDX_track_info_02 on 'track_track_info' not found.  Creating it.");
 			template.execute("create unique index IDX_track_info_02 on track_info (id,type, value)");
 			LOG.info(" index IDX_track_info_02 on 'track_track_info' was created successfully.");
 		}
+		// Table track_track¡info
 		if (!tableExists(template, "track_track_info")) {
 			LOG.info(" table 'track_track_info' not found.  Creating it.");
 			template.execute("create table track_track_info (track_id int not null, track_info_id int not null,"
 					+ " foreign key(track_id) references track(id), " + " foreign key(track_info_id) references track_info(id))");
 			LOG.info(" table 'track_track_info' was created successfully.");
 		}
+		// Index IDX_track_track_info_01
 		if (!indexExists(template, "IDX_track_track_info_01")) {
 			LOG.info(" index IDX_track_track_info_01 on 'track_track_info' not found.  Creating it.");
 			template.execute("create unique index IDX_track_track_info_01 on track_track_info (track_id, track_info_id)");
 			LOG.info(" index IDX_track_track_info_01 on 'track_track_info' was created successfully.");
 		}
+		// Table playlist_type
 		if (!tableExists(template, "playlist_type")) {
 			LOG.info(" table 'playlist_type' not found.  Creating it.");
 			template.execute("create table playlist_type (id int not null, label varchar(16) not null, primary key(id))");
@@ -94,10 +107,7 @@ public class Schema00 extends Schema {
 			template.execute("insert  into playlist_type (id, label) values (1, 'smart')");
 			LOG.info(" table 'playlist_type' was created successfully.");
 		}
-		template.execute("drop table smart_playlist_condition");
-		template.execute("drop table smart_playlist");
-		template.execute("drop table simple_playlist");
-		template.execute("drop table playlist");
+		// Table playlist
 		if (!tableExists(template, "playlist")) {
 			LOG.info(" table 'playlist' not found.  Creating it.");
 			template
@@ -107,6 +117,7 @@ public class Schema00 extends Schema {
 			template.execute("insert into playlist (user_id, type_id, name) values(1, 1, 'Most played')");
 			LOG.info(" table 'playlist' was created successfully.");
 		}
+		// Table simple_playlist
 		if (!tableExists(template, "simple_playlist")) {
 			LOG.info(" table 'simple_playlist' not found.  Creating it.");
 			template
@@ -114,6 +125,7 @@ public class Schema00 extends Schema {
 							+ ", foreign key(playlist_id) references playlist(id), foreign key(track_id) references track(id))");
 			LOG.info(" table 'simple_playlist' was created successfully.");
 		}
+		// Table smart_playlist
 		if (!tableExists(template, "smart_playlist")) {
 			LOG.info(" table 'smart_playlist' not found.  Creating it.");
 			template
@@ -125,6 +137,7 @@ public class Schema00 extends Schema {
 					.execute("insert into smart_playlist (playlist_id, max_tracks, order_by, operator) values (2,250,'play_count desc', 0)");
 			LOG.info(" table 'smart_playlist' was created successfully.");
 		}
+		// Table smart_playlist_condition
 		if (!tableExists(template, "smart_playlist_condition")) {
 			LOG.info(" table 'smart_playlist_condition' not found.  Creating it.");
 			template

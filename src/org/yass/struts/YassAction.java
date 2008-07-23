@@ -20,6 +20,7 @@ import org.w3c.dom.Document;
 import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.PlayList;
+import org.yass.domain.TrackStat;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -38,6 +39,10 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	protected Library getLibrary() {
 		return (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
+	}
+
+	protected Map<Integer, TrackStat> getTrackStats() {
+		return (Map<Integer, TrackStat>) ActionContext.getContext().getApplication().get(USER_TRACK_STATS);
 	}
 
 	protected void setPlayList(final String playListId, final PlayList search) {

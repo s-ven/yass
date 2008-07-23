@@ -107,6 +107,6 @@ public class PlayListDao extends AbstractDao {
 		final List<Map> lst = getJdbcTempate().queryForList(pLst.getSqlStatement());
 		pLst.trackIds = new LinkedHashSet<Integer>();
 		for (final Map<String, Integer> map1 : lst)
-			pLst.add(map1.get("ID"));
+			pLst.add(map1.get("TRACK_ID"));
 	}
 }

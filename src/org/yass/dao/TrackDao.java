@@ -20,7 +20,7 @@ public class TrackDao extends AbstractDao {
 
 	private static final Log LOG = LogFactory.getLog(TrackDao.class);
 	private final PreparedStatementCreatorFactory trackPscf = new PreparedStatementCreatorFactory(
-			"insert into track (library_id, path, track_nr, title, last_update, length) values (?, ?, ?, ?, ?, ?) ");
+			"insert into track (library_id, path, track_nr, title, last_update, length, track_type_id) values (?, ?, ?, ?, ?, ?, ?) ");
 	private final PreparedStatementCreatorFactory trackInfoPscf = new PreparedStatementCreatorFactory(
 			"insert into track_info (type, value) values (?, ?) ");
 	private final static TrackInfoDao trackInfoDao = new TrackInfoDao();
@@ -33,6 +33,7 @@ public class TrackDao extends AbstractDao {
 		trackPscf.addParameter(new SqlParameter("title", java.sql.Types.VARCHAR));
 		trackPscf.addParameter(new SqlParameter("last_update", java.sql.Types.DATE));
 		trackPscf.addParameter(new SqlParameter("length", java.sql.Types.INTEGER));
+		trackPscf.addParameter(new SqlParameter("track_type_id", java.sql.Types.INTEGER));
 		trackPscf.setReturnGeneratedKeys(true);
 		trackInfoPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
 		trackInfoPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
@@ -46,9 +47,7 @@ public class TrackDao extends AbstractDao {
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(psc, kh);
 			track.setId(kh.getKey().intValue());
-		} else
-			getJdbcTempate().update("update track set rating = ?, play_count = ? where id = ?",
-					new Object[] { track.getRating(), track.getPlayCount(), track.getId() });
+		}
 		getJdbcTempate().execute("delete from track_track_info where track_id = " + track.getId());
 		for (final TrackInfo trackInfo : track.getTrackInfos())
 			getJdbcTempate().update("insert into track_track_info (track_id, track_info_id) values(?, ?)",
@@ -57,9 +56,8 @@ public class TrackDao extends AbstractDao {
 
 	public final void fillLibrary(final Library lib) {
 		final Iterator<Track> it = getJdbcTempate().query(
-				"select id, path, title, track_nr, length, "
-						+ "last_update, play_count, rating from track where library_id = ?", new Object[] { lib.id }, rowMapper)
-				.iterator();
+				"select id, path, title, track_nr, length, " + "last_update, track_type_id from track where library_id = ?",
+				new Object[] { lib.id }, rowMapper).iterator();
 		while (it.hasNext()) {
 			final Track track = it.next();
 			lib.add(track);
@@ -71,8 +69,8 @@ public class TrackDao extends AbstractDao {
 		Track track = null;
 		final Iterator<Track> it = getJdbcTempate().query(
 				"select id, path, title, track_nr, length, "
-						+ "last_update, play_count, rating from track where library_id = ? and path = ?",
-				new Object[] { lib.id, path }, rowMapper).iterator();
+						+ "last_update, track_type_id from track where library_id = ? and path = ?", new Object[] { lib.id, path },
+				rowMapper).iterator();
 		if (it.hasNext()) {
 			track = it.next();
 			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
@@ -85,7 +83,7 @@ public class TrackDao extends AbstractDao {
 
 		public Track mapRow(final ResultSet rs, final int rowNum) throws SQLException {
 			return new Track(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getTimestamp(6),
-					rs.getInt(7), rs.getInt(8));
+					rs.getInt(7));
 		}
 	}
 }

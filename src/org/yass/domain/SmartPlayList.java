@@ -28,7 +28,7 @@ public class SmartPlayList extends PlayList {
 
 	public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
-		final StringBuffer buff = new StringBuffer("select id from track where ");
+		final StringBuffer buff = new StringBuffer("select track_id from track_stat where ");
 		while (it.hasNext()) {
 			final SmartPlayListCondition condition = it.next();
 			buff.append(condition.term).append(condition.operator).append(condition.value);

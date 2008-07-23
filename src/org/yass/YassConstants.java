@@ -9,6 +9,7 @@ public interface YassConstants {
 	public static final String USER_PLAYLISTS = "USER_PLAYLISTS";
 	public static final String SMART_PLAYLISTS = "SMART_PLAYLIST";
 	public static final String ALL_LIBRARY = "ALL_LIBRARY";
+	public static final String USER_TRACK_STATS = "USER_TRACK_STATS";
 	public static final String LIB_XML_TREE = "LIB_XML_TREE";
 	public static final String CURRENT_LIB_PLAYLIST = "CURRENT_LIB_PLAYLIST";
 	public static final String ARTIST_ID = "ARTIST_ID";
