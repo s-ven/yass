@@ -194,7 +194,9 @@ package org.yass.main.model{
 							 	return ret && artistSelected.lastIndexOf(row.artist) != -1
 							return ret;
 				};
+			Console.time("model.Library.refresh");
 			refresh();
+			Console.timeEnd("model.Library.refresh");
 			Console.groupEnd();
 			if(refreshedPanes.length> 0)
 				dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, refreshedPanes));		

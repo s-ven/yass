@@ -38,15 +38,10 @@ package org.yass.main.renderers{
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;
 		public function PlayingNowRenderer() {
-			super();
 			this.imgPlay.source = playSource;
 			this.imgLoaded.source = loadedSource;
 			this.imgPlay.visible = false;
 			this.imgLoaded.visible = false;
-			imgPlay.move(2,2);
-			imgPlay.setActualSize(12,12);
-			imgLoaded.move(2, 2); 	
-			imgLoaded.setActualSize(12,12);
 		}
 
 		public function get data():Object{
@@ -64,6 +59,10 @@ package org.yass.main.renderers{
 		}		
 		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
+			imgPlay.move(2,2);
+			imgPlay.setActualSize(12,12);
+			imgLoaded.move(2, 2); 	
+			imgLoaded.setActualSize(12,12);
 			imgLoaded.visible = data && data.isLoaded;		
 			imgPlay.visible = imgLoaded.visible && Yass.player.isPlaying;
 		}

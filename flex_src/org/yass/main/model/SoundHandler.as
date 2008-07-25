@@ -71,7 +71,7 @@ package org.yass.main.model
         public function skipTo(value:Number):void{
 			if(value != 0 && loadedLength >  value	&& value <= loadedTrack.length){
 				Console.group("model.SoundHandler.skipTo value:"+value);
-				var wasPlaying:Boolean = isPlaying;
+				var wasPlaying:Boolean = isPlaying; //192872.90249433107 193228 //192914.2857142857
 				stop();
 				position = value;
 				if(wasPlaying)		
@@ -81,7 +81,7 @@ package org.yass.main.model
 		}
         public function onSoundComplete(event:Event):void {
             Console.log("model.SoundHandler.soundCompleteHandler title:" + loadedTrack.title);
-            if(soundChannel.position >= loadedLength)
+            if(soundChannel.position+10 >= sound.length)
 				Yass.player.next();
 			else 
 				skipTo(soundChannel.position + 10)

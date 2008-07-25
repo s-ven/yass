@@ -45,7 +45,6 @@ package org.yass.main.renderers{
 		private var img:Image = new Image();
 		private var _data:Object;
 		public function RatingRenderer() {
-			super();
 			img.addEventListener(MouseEvent.CLICK, click);
 			img.setActualSize(69,12);
 		}

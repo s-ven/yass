@@ -32,7 +32,6 @@ package org.yass.main.renderers{
 	public class TrackInfoRenderer  extends TrackRenderer{
 		
 		public function TrackInfoRenderer(){
-			super();
 			this.useHandCursor = true;
 			this.mouseChildren = false;
 			this.buttonMode = true;
