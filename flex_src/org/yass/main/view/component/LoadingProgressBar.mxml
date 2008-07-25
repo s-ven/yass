@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas
+<mx:Canvas preinitialize="visible=false"
 	 creationComplete="init()"
-	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" hideEffect="{fadeout}" showEffect="{fadein}" visible="false">
-	<mx:ProgressBar id = "loadingProgress" labelPlacement="top" indeterminate="false" enabled="true" horizontalCenter="0" verticalCenter="0" borderColor="#EEF8EC" 
+	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" hideEffect="{fadeout}" showEffect="{fadein}" visible="true" xmlns:display="flash.display.*">
+	<mx:ProgressBar id = "loadingProgress" labelPlacement="top" indeterminate="false" enabled="true" horizontalCenter="0" verticalCenter="0" borderColor="#000000" 
 		barSkin="@Embed('/assets/progress-highlight.png')"
-			trackHeight="12" color="#0B333C" fontWeight="normal"
+			trackHeight="12" color="#000000" fontWeight="normal"
 			label="Loading %3%"
-			mode="manual" />
+			mode="manual"  barColor="#000000"/>
 	<mx:Fade id="fadeout" startDelay="500" alphaFrom="1" alphaTo="0" effectEnd="{uicomponent.currentState='MainWindow'}" duration="250" />
 	<mx:Fade id="fadein" alphaFrom="0" alphaTo="1"  effectEnd="{dataLoad()}" duration="250" suspendBackgroundProcessing="true"/>
 	<mx:Script>
@@ -29,7 +29,7 @@
 				this.visible = true;
 			}
 			private function dataLoad():void{
-				this.addEventListener(Event.ENTER_FRAME, handleProgress );
+				libraryLoader.addEventListener(ProgressEvent.PROGRESS, handleProgress );
 				libraryLoader.addEventListener(Event.COMPLETE, libraryLoaded );
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
 				libraryLoader.loadData();
@@ -62,5 +62,9 @@
 			} 
 		]]>
 	</mx:Script><mx:Canvas  styleName="DisplayReflect" left="0" top="0" bottom="0" right="0" mouseChildren="false" mouseEnabled="false"/>
+	
+			<display:Loader id="iiii">
+				
+			</display:Loader>
 </mx:Canvas>
   

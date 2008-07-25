@@ -1,25 +1,21 @@
 /* CSS file */
 
-Button.PlayButtonStopped 
-{
+Button.PlayButtonStopped{
 	downSkin: Embed('active-play.png');
 	overSkin: Embed('hover-play.png');
 	upSkin: Embed('normal-play.png');
 }
-Button.PrefsButton
-{
+Button.PrefsButton{
 	downSkin: Embed('active-pref.png');
 	overSkin: Embed('hover-pref.png');
 	upSkin: Embed('normal-pref.png');
 }
-Button.PlayButtonStarted
-{
+Button.PlayButtonStarted{
 	downSkin: Embed('active-pause.png');
 	overSkin: Embed('hover-pause.png');
 	upSkin: Embed('normal-pause.png');
 }
-ProgressSlider.ProgressSlider
-{
+ProgressSlider.ProgressSlider{
 	showTrackHighlight: true;
 	thumbDownSkin: Embed('progress-thumb.png');
 	thumbOverSkin: Embed('progress-thumb.png');
@@ -30,8 +26,7 @@ ProgressSlider.ProgressSlider
 	slide-easing-function: 0;
 	slide-duration:0; 
 }
-CheckBox.LoopCheckBox
-{
+CheckBox.LoopCheckBox{
 	downIcon: Embed('repeat-off.png');
 	icon: Embed('repeat-off.png');
 	overIcon: Embed('repeat-off.png');
@@ -42,8 +37,7 @@ CheckBox.LoopCheckBox
 	verticalCenter:0;
 	right:0; 
 }
-CheckBox.ShuffleCheckBox
-{
+CheckBox.ShuffleCheckBox{
 	downIcon: Embed('shuffle-off.png');
 	icon: Embed('shuffle-off.png');
 	overIcon: Embed('shuffle-off.png');
@@ -54,26 +48,22 @@ CheckBox.ShuffleCheckBox
 	verticalCenter:0;
 	left:0; 
 }
-Button.ForwardButton
-{
+Button.ForwardButton{
 	downSkin: Embed('active-fwd.png');
 	overSkin: Embed('hover-fwd.png');
 	upSkin: Embed('normal-fwd.png');
 }
-Button.BackButton
-{
+Button.BackButton{
 	downSkin: Embed('active-back.png');
 	overSkin: Embed('hover-back.png');
 	upSkin: Embed('normal-back.png');
 }
-Button.VolDownButton
-{
+Button.VolDownButton{
 	downSkin: Embed('hover-vol-down.png');
 	overSkin: Embed('hover-vol-down.png');
 	upSkin: Embed('normal-vol-down.png');
 }
-HSlider.VolumeSlider
-{
+HSlider.VolumeSlider{
 	thumbDownSkin: Embed('volume-thumb-active.png');
 	thumbOverSkin: Embed('volume-thumb-active.png');
 	thumbSkin: Embed('volume-thumb.png');
@@ -85,27 +75,23 @@ HSlider.VolumeSlider
 	verticalCenter: -5;
 	horizontalCenter: 0;
 } 
-Display.Display
-{  
+Display.Display{  
 	 horizontal-center:0; 
 	 vertical-center:0 ;
 	 background-size:"100%";
 	backgroundImage: Embed('faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
 }
-Canvas.DisplayReflect
-{
+Canvas.DisplayReflect{
 	 background-size:"100%";
 	backgroundImage: Embed('faceplate-fg.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
 	backgroundAlpha: 0.95;
 }
-Button.VolumeUpButton
-{
+Button.VolumeUpButton{
 	downSkin: Embed('hover-vol-up.png');
 	overSkin: Embed('hover-vol-up.png');
 	upSkin: Embed('normal-vol-up.png');
 }
-SpectrumAnalyzer.dimmed
-{
+SpectrumAnalyzer.dimmed{
 	vuCount:32; 
 	vuLevels:23;
 	colorTop:"0xFFFF00";
@@ -117,8 +103,7 @@ SpectrumAnalyzer.dimmed
 	alphaActive:"0.25";
 	alphaInactive:"0.10";
 } 
-SpectrumAnalyzer.visible
-{
+SpectrumAnalyzer.visible{
 	vuCount:32;
 	vuLevels:23; 
 	colorTop:"0xFFFF00";
@@ -130,19 +115,17 @@ SpectrumAnalyzer.visible
 	alphaActive:"0.6";
 	alphaInactive:"0.2";
 }
-
-TextInput.inputText
-{ 
+TextInput.inputText{ 
 	corner-radius:8;
 	padding-top:4;
 	borderSkin: Embed('input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='260');
 }
-global {
+global{
    fontFamily: Monaco;
    fontAntiAliasType:advanced;
 	fontSize: 9;
 }
-Application {
+Application{
    backgroundColor: #333333;
    backgroundGradientColors: #333333, #333333;
    backgroundGradientAlphas: 1, 1;
@@ -153,7 +136,7 @@ Application {
 	paddingTop: 0; 
 	paddingBottom: 0;
 }
-Button {
+Button{
    cornerRadius: 6;
    paddingLeft: 10;
    paddingRight: 10;
@@ -173,13 +156,12 @@ Button {
 	downSkin: Embed(source="button-down.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
 	textSelectedColor: #FFFFFF;
 }
-ButtonBar {
+ButtonBar{
    buttonStyleName: "mybuttonBarButtonStyle";
    firstButtonStyleName: "mybuttonBarFirstButtonStyle";
    lastButtonStyleName: "mybuttonBarLastButtonStyle";
 }
-
-.mybuttonBarButtonStyle {
+.mybuttonBarButtonStyle{
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #666666, #333333, #666666, #666666;
@@ -189,8 +171,7 @@ ButtonBar {
    borderColor: #333333;
    themeColor: #333333;
 }
-
-.mybuttonBarFirstButtonStyle {
+.mybuttonBarFirstButtonStyle{
    cornerRadius: 10;
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
@@ -201,8 +182,7 @@ ButtonBar {
    borderColor: #333333;
    themeColor: #333333;
 }
-
-.mybuttonBarLastButtonStyle {
+.mybuttonBarLastButtonStyle{
    cornerRadius: 10;
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
@@ -213,8 +193,7 @@ ButtonBar {
    borderColor: #333333;
    themeColor: #333333;
 }
-
-LinkBar {
+LinkBar{
    separatorColor: #333333;
    rollOverColor: #cccccc;
    selectionColor: #333333;
@@ -222,20 +201,16 @@ LinkBar {
    textRollOverColor: #333333;
    textSelectedColor: #cccccc;
    disabledColor: #ffffff;
-
 }
-
-LinkButton {
+LinkButton{
    cornerRadius: 10;
    rollOverColor: #999999;
    selectionColor: #333333;
    color: #ffffff;
    textRollOverColor: #ffffff;
    textSelectedColor: #ffffff;
-
 }
-
-PopUpButton {
+PopUpButton{
    cornerRadius: 10;
    arrowButtonWidth: 15;
    paddingLeft: 0;
@@ -251,15 +226,13 @@ PopUpButton {
    borderColor: #333333;
    themeColor: #333333;
 }
-
-ToggleButtonBar {
+ToggleButtonBar{
    buttonStyleName: "mytoggleButtonBarButtonStyle";
    firstButtonStyleName: "mytoggleButtonBarFirstButtonStyle";
    lastButtonStyleName: "mytoggleButtonBarLastButtonStyle";
    selectedButtonTextStyleName: "mytoggleButtonBarSelectedButtonStyle";
 }
-
-.mytoggleButtonBarButtonStyle {
+.mytoggleButtonBarButtonStyle{
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #666666, #333333, #666666, #666666;
@@ -268,10 +241,8 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-
 }
-
-.mytoggleButtonBarFirstButtonStyle {
+.mytoggleButtonBarFirstButtonStyle{
    cornerRadius: 10;
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
@@ -281,10 +252,8 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-
 }
-
-.mytoggleButtonBarLastButtonStyle {
+.mytoggleButtonBarLastButtonStyle{
    cornerRadius: 10;
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
@@ -294,17 +263,13 @@ ToggleButtonBar {
    textSelectedColor: #000000;
    borderColor: #333333;
    themeColor: #333333;
-
 }
-
-.mytoggleButtonBarSelectedButtonStyle {
+.mytoggleButtonBarSelectedButtonStyle{
    color: #ffffff;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #333333, #666666, #666666, #666666;
-
 }
-
-ApplicationControlBar {
+ApplicationControlBar{
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.66;
    fillColors: #333333, #000000;
@@ -316,11 +281,8 @@ ApplicationControlBar {
    dropShadowColor: #000000;
 }
 
-
-
-Panel
-{
-	borderSkin: Embed("panel_bkg.png",  scaleGridTop="25", scaleGridBottom="50", scaleGridLeft="5", scaleGridRight="19");
+Panel{
+	borderSkin: Embed("panel-bkg.png", scaleGridTop="23", scaleGridBottom="340", scaleGridLeft="26", scaleGridRight="341");
 	padding-top:30;
 	borderColor: #0B333C;
 	borderStyle: solid;
@@ -331,14 +293,11 @@ Panel
    highlightAlphas: 0, 0;
    titleStyleName: "mypanelTitle";
 }
-
-.mypanelTitle {
+.mypanelTitle{
    color: #ffffff;
    textAlign: center;
-
 }
-
-CheckBox {
+CheckBox{
    highlightAlphas: 0, 0;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #999999, #666666, #666666, #999999;
@@ -360,10 +319,8 @@ CheckBox {
 	selectedDownIcon: Embed(source="checkbox-down-selected.png");
 	downIcon: Embed(source="checkbox-down.png");
 	disabledIcon: Embed(source="checkbox-disabled.png");;
-
 }
-
-ComboBox {
+ComboBox{
    cornerRadius: 10;
    color: #ffffff;
    borderColor: #333333;
@@ -375,21 +332,17 @@ ComboBox {
    rollOverColor: #cccccc;
    textRollOverColor: #333333;
    themeColor: #333333;
-
    dropDownStyleName: "myComboBoxDropDowns";
 	dropdownStyleName: comboBoxDropdown;
 	leading: 0;
 	textAlign: left;
 }
-
-.myComboBoxDropDowns {
+.myComboBoxDropDowns{
    cornerRadius: 0;
    borderColor: #333333;
    color: #000000;
-
 }
-
-DateChooser {
+DateChooser{
    cornerRadius: 10;
    borderThickness: 0;
    headerColors: #666666, #333333;
@@ -400,27 +353,19 @@ DateChooser {
    selectionColor: #333333;
    color: #333333;
    themeColor: #333333;
-
    headerStyleName: "mydateChooserHeaderStyle";   weekDayStyleName: "mydateChooserWeekDayStyle";   todayStyleName: "mydateChooserTodayStyle";
 }
-
-.mydateChooserHeaderStyle {
+.mydateChooserHeaderStyle{
    color: #ffffff;
 
-
 }
-
-.mydateChooserWeekDayStyle {
+.mydateChooserWeekDayStyle{
    color: #333333;
-
 }
-
-.mydateChooserTodayStyle {
+.mydateChooserTodayStyle{
    color: #ffffff;
-
 }
-
-RadioButton {
+RadioButton{
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #999999, #666666, #666666, #999999;
    borderColor: #333333;
@@ -428,10 +373,8 @@ RadioButton {
    textSelectedColor: #cccccc;
    textRollOverColor: #cccccc;
    themeColor: #333333;
-
 }
-
-NumericStepper {
+NumericStepper{
    borderStyle: inset;
    fillAlphas: 0.52, 0.67, 0.75, 0.65;
    fillColors: #666666, #333333, #666666, #666666;
@@ -441,9 +384,7 @@ NumericStepper {
    textRollOverColor: #cccccc;
    themeColor: #333333;
 }
-
-TextArea {
-
+TextArea{
    color: #333333;
    paddingLeft: 6;
    paddingRight: 6;
@@ -452,32 +393,29 @@ TextArea {
    cornerRadius: 6;
    backgroundAlpha: .9;
 }
-
-TextInput {
+TextInput{
    borderStyle: inset;
    borderColor: #333333;
    color: #333333;
    cornerRadius: 6;
    backgroundAlpha: .9;
 }
-List {
+List{
    textRollOverColor: #333333;
    borderStyle: inset;
    borderThickness: 1;
    selectionColor: #666666;
    color: #333333;
    textSelectedColor: #ffffff;
-
 }
-Tree {
+Tree{
    rollOverColor: #cccccc;
    textRollOverColor: #333333;
    selectionColor: #666666;
    color: #333333;
    textSelectedColor: #ffffff;
-
 }
-Accordion {
+Accordion{
    highlightAlphas: 0, 0;
    fillAlphas: 0.73, 0.7, 0.75, 0.65;
    fillColors: #000000, #000000, #333333, #666666;
@@ -488,12 +426,10 @@ Accordion {
    textSelectedColor: #ffffff;
    headerStyleName: "myaccordionHeader";
 }
-
-.myaccordionHeader {
+.myaccordionHeader{
    color: #ffffff;
-
 }
-TabNavigator {
+TabNavigator{
    cornerRadius: 0;
    backgroundColor: #222222;
    borderColor: #333333;
@@ -503,8 +439,7 @@ TabNavigator {
    firstButtonStyleName: "myTabs";
    selectedTabTextStyleName: "mySelectedTabs";
 }
-
-.myTabs {
+.myTabs{
    cornerRadius: 6;
    highlightAlphas: 0, 0;
    letterSpacing: 0;
@@ -515,33 +450,58 @@ TabNavigator {
    textRollOverColor: #cccccc;
    themeColor: #333333;
 
-
 }
-
-.mySelectedTabs {
+.mySelectedTabs{
    color: #ffffff;
    textRollOverColor: #cccccc;
-
 }
-HRule {
+HRule{
    strokeColor: #999999;
    shadowColor: #666666;
 }
-VRule {
+VRule{
    strokeColor: #999999;
    shadowColor: #666666;
 }
-HScrollBar {
-	trackSkin: Embed(source="vscroll-track.png",scaleGridTop="23",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="71");
-	trackUpSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackOverSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDownSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDisabledSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
+HScrollBar{
+	trackSkin: Embed(source="hscroll-track.png");
+	trackUpSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
+	trackOverSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
+	trackDownSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
+	trackDisabledSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
 	
-	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
+	thumbUpSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbOverSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbDownSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	
+	upArrowSkin: Embed(source="hscroll-right.png");
+	upArrowOverSkin: Embed(source="hscroll-right.png");
+	upArrowDownSkin: Embed(source="hscroll-right.png");
+	upArrowDisabledSkin: Embed(source="hscroll-right.png");
+	upArrowUpSkin: Embed(source="hscroll-right.png");
+	
+	downArrowSkin: Embed(source="hscroll-left.png");
+	downArrowOverSkin: Embed(source="hscroll-left.png");
+	downArrowDownSkin: Embed(source="hscroll-left.png");
+	downArrowDisabledSkin: Embed(source="hscroll-left.png");
+	downArrowUpSkin: Embed(source="hscroll-left.png");
+	themeColor: #000000;
+	trackColors:  #000000;
+	fillColors:  #000000;
+	borderColor: #000000;
+}
+VScrollBar{
+	trackSkin: Embed(source="vscroll-track.png",scaleGridTop="25",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="149");
+	trackUpSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
+	trackOverSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
+	trackDownSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
+	trackDisabledSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
+	
+	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	
 	upArrowSkin: Embed(source="vscroll-up.png");
 	upArrowOverSkin: Embed(source="vscroll-up.png");
@@ -556,57 +516,25 @@ HScrollBar {
 	downArrowUpSkin: Embed(source="vscroll-down.png");
 	themeColor: #000000;
 	trackColors:  #000000;
-	fillColors:  #000000;
+	fillColors:  #000000; 
 	borderColor: #000000;
 }
-VScrollBar {
-	trackSkin: Embed(source="vscroll-track.png",scaleGridTop="23",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="71");
-	trackUpSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackOverSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDownSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDisabledSkin: Embed(source="vscroll-track.png", scaleGridTop="23", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	
-	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="60");
-	
-	upArrowSkin: Embed(source="vscroll-up.png");
-	upArrowOverSkin: Embed(source="vscroll-up.png");
-	upArrowDownSkin: Embed(source="vscroll-up.png");
-	upArrowDisabledSkin: Embed(source="vscroll-up.png");
-	upArrowUpSkin: Embed(source="vscroll-up.png");
-	
-	downArrowSkin: Embed(source="vscroll-down.png");
-	downArrowOverSkin: Embed(source="vscroll-down.png");
-	downArrowDownSkin: Embed(source="vscroll-down.png");
-	downArrowDisabledSkin: Embed(source="vscroll-down.png");
-	downArrowUpSkin: Embed(source="vscroll-down.png");
-	themeColor: #000000;
-	trackColors:  #000000;
-	fillColors:  #000000;
-	borderColor: #000000;
-}
-DataGrid {
-   headerColors: #525252, #000000; 
-   verticalGridLines: true;
-   verticalGridLineColor: #cccccc;
-   textRollOverColor: #333333;
-   borderColor: #333333;
-   selectionColor: #718474;
-   color: #333333;
-   textSelectedColor: #ffffff;
-
-   headerStyleName: "mydataGridHeaderStyle";
+DataGrid{ 
+	verticalGridLines: true;
+	verticalGridLineColor: #cccccc;
+	textRollOverColor: #333333;
+	borderColor: #333333;
+	selectionColor: #718474;
+	color: #333333;
+	textSelectedColor: #ffffff;
+	headerStyleName: "mydataGridHeaderStyle";
 	textAlign: left;
 	horizontalGridLines: true;
-	horizontalGridLineColor: #F8F8F8;
 	borderStyle: none;
 	borderThickness: 0;
 	alternatingItemColors: #FFFFFF, #f3fbf3;
 	backgroundAlpha: 1.0;
 	fontWeight: normal;
-	leading: 0;
 	rollOverColor: #AFC5AF;
 	paddingBottom: 0;
 	paddingTop: 0;
@@ -614,15 +542,15 @@ DataGrid {
 	fontSize: 9;
 	verticalScrollBarStyleName: dataGridVerticalScrollBar;
 	selectionDuration: 0;
+	paddingRight: 5;
+	headerBackgroundSkin: Embed(source="col-header.png", scaleGridTop="1", scaleGridLeft="10", scaleGridRight="230", scaleGridBottom="15");
 }
-
-.mydataGridHeaderStyle {
+.mydataGridHeaderStyle{
 	color: #D1D1D1;
 	fontThickness:200;
 	fontSize: 9;
 }
-
-MenuBar {
+MenuBar{
    cornerRadius: 0;
    backgroundColor: #333333;
    borderColor: #333333;
@@ -637,7 +565,7 @@ MenuBar {
    disabledColor: #333333;
    themeColor: #000000;
 }
-ProgressBar {
+ProgressBar{
    borderColor: #0B333C;
    barColor: #FFFFFF;
    trackColors: #666666, #999999;
@@ -647,24 +575,21 @@ ProgressBar {
 	trackHeight: 12;
 	textAlign: center;
 }
-ToolTip {
+ToolTip{ 
    backgroundAlpha: 0.92;
    cornerRadius: 10;
    backgroundColor: #333333;
    color: #ffffff;
 }
-.comboBoxDropdown
-{
+.comboBoxDropdown{
 	verticalScrollBarStyleName: listBaseVerticalScrollBar;
 	paddingTop: 4;
 	paddingBottom: 4;
 	
 }
-.listBaseVerticalScrollBar
-{
+.listBaseVerticalScrollBar{
 }
-DataGrid.FilterPane
-{
+DataGrid.FilterPane{
 	alternatingItemColors: #FFFFFF, #F8F8F8;
 	paddingBottom: 0;
 	paddingTop: 0;
@@ -672,14 +597,14 @@ DataGrid.FilterPane
 	verticalAlign: middle;
 	headerStyleName: filtersHeaderStyle;
 	fontSize: 9;
+	headerBackgroundSkin: Embed(source="col-header.png", scaleGridTop="1", scaleGridLeft="10", scaleGridRight="230", scaleGridBottom="15");
 }
-.filtersHeaderStyle {
+.filtersHeaderStyle{
 	fontThickness:200;
 	fontSize: 9;
 	color: #D1D1D1;
 	textAlign: center;
 }
-PlayListView
-{
+PlayListView{
 	alternatingItemColors: #FFFFFF, #e8ece8;
 }

@@ -8,6 +8,7 @@
     backgroundImage=""
     backgroundAlpha="0" 
     backgroundColor="#000000"
+    
  >
 	<mx:states>  
 		<mx:State name="MainWindow">
@@ -25,6 +26,8 @@
 		<![CDATA[
 			[Embed(source="/assets/MONACO.TTF", fontName="Monaco" )]
 			private var _monacoFont:Class;
+			function init(){
+			}
 		]]> 
 	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>

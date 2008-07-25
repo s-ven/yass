@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" 
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
 	horizontalCenter="0" verticalCenter="0" title="Preferences" xmlns:component="org.yass.main.view.component.*" 
 	verticalScrollPolicy="off" horizontalScrollPolicy="off" currentState="Pane1"
-	creationComplete="onCreationComplete()" width="400" height="250">
+	creationComplete="onCreationComplete()" width="450" height="250">
 	<mx:Script>
 		<![CDATA[
 			import org.yass.main.MainWindow;
@@ -35,9 +35,9 @@
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>
-	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" width="100%" height="100%">
+	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" right="10" left="10" bottom="5" top="30">
 		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" width="120" height="100%" id="configurationPane" dataProvider="{ConfigurationPanes}"  
-			showHeaders="false"  itemClick="onItemClick()">
+			showHeaders="false"  itemClick="onItemClick()" borderStyle="none" borderThickness="14">
 			<mx:columns>
 				<mx:DataGridColumn dataField="@label" sortable="false" draggable="false" />
 			</mx:columns>

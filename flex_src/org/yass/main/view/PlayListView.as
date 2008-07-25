@@ -45,6 +45,7 @@
 
  		public function PlayListView(){	
  			super();
+ 			
  			Console.log("view.PlayList :: Init");
 			this.doubleClickEnabled=true;
 			this.allowMultipleSelection=true; 
