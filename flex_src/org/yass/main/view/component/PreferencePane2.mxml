@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:DataGrid xmlns="*" 
-	xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" 
+<mx:Canvas xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+		<mx:borderSkin>@Embed(source='/assets/white-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
+<mx:DataGrid 
+	id="columnsDG"
 	showHeaders="false"
-	dropEnabled="true" 
+	dropEnabled="true"  
 	dragEnabled="true"
 	dragMoveEnabled="true"
 	allowMultipleSelection="false"	 allowDragSelection="true"
 	dragDrop="onDragDrop(event)"
-	dragStart="dragStart(event)"
-	dragOver="dragOver(event)" height="100%"
-	 rowHeight="16" resizableColumns="false" sortableColumns="false" variableRowHeight="false" includeInLayout="false" scaleX="1" scaleY="1">
+	dragStart="dragStart(event)" 
+	dragOver="dragOver(event)"
+	 rowHeight="16" resizableColumns="false" sortableColumns="false"
+	  left="4" right="4" top="6" bottom="5">
 	<mx:Script>
 		<![CDATA[
 			import mx.events.DragEvent;
 			import org.yass.main.view.PlayListView;
 			public var playList:PlayListView;
 			private function onDragDrop(event:DragEvent):void{
-				if(calculateDropIndex(event) > 1)
+				if(columnsDG.calculateDropIndex(event) > 1)
 					setTimeout(validatePlayList,250);
 				else
 					event.stopImmediatePropagation();
 			}
 			private function dragStart(event:DragEvent):void{
-				if(selectedItem.dataField == "trackNr" || selectedItem.dataField == "title")
+				if(columnsDG.selectedItem.dataField == "trackNr" || columnsDG.selectedItem.dataField == "title")
 					event.stopImmediatePropagation()
 			}
 			private function dragOver(event:DragEvent):void{
-				if(calculateDropIndex(event) < 2)
+				if(columnsDG.calculateDropIndex(event) < 2)
 					event.stopImmediatePropagation();
 			}
 			private function validatePlayList():void{
 				var arr:Array = new Array();
 				arr[0]= playList.columns[0];
-				playList.columns = arr.concat(dataProvider.source)
+				playList.columns = arr.concat(columnsDG.dataProvider.source)
 			}
 		]]>
 	</mx:Script>
@@ -61,4 +64,4 @@
 		<mx:DataGridColumn dataField="headerText" itemRenderer="org.yass.main.renderers.LabelDataGridRenderer"/>
 	</mx:columns>
 </mx:DataGrid>
-	
+	</mx:Canvas>

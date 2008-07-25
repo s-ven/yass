@@ -2,6 +2,7 @@ package org.yass.visualization
 {
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.profiler.showRedrawRegions;
 	
 	import mx.containers.Canvas;
 	import mx.containers.HBox;
@@ -23,8 +24,6 @@ package org.yass.visualization
 		public var elapsed:Label = new Label();
 		public var remaining:Label = new Label();
 		public var spectrumAnalyzer:SpectrumAnalyzer = new SpectrumAnalyzer();
-		private var showRemaining:Boolean= true;
-		public var currentDisplay:int = 1;
 		public var vuMeters:Canvas = new Canvas();
 		public var songInfo:Canvas = new Canvas();
 		
@@ -35,12 +34,7 @@ package org.yass.visualization
 				_instance = new Display();
 			return _instance
 		}
-		public function switchDisplay():void{
-			if(currentDisplay ++==2)
-				currentDisplay=0;
-		}
-		public function Display()
-		{
+		public function Display()		{
 			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
@@ -144,20 +138,25 @@ package org.yass.visualization
 			vbox.addChild(hbox);
 			songInfo.addChild(vbox);
 			setEventListeners();
+			shuffle.selected = Yass.settings.shuffle;
+			loop.selected = Yass.settings.loop;
+			switchDisplay();
 		}
 		private function handlerEnterFrame(e:Event):void {
 			if(Yass.player.loadedTrack){
 				trackLabel.text = Yass.player.loadedTrack.title;
 				elapsed.text = formatPos(Yass.player.position);
-				remaining.text = showRemaining?"-" + formatPos(Yass.player.loadedLength - Yass.player.position):formatPos(Yass.player.loadedLength);
+				remaining.text = Yass.settings.showRemaining?"-" + formatPos(Yass.player.loadedLength - Yass.player.position):formatPos(Yass.player.loadedLength);
 			}
 		}
 
-		private var  noDisplaySwitch:Boolean;
 		private function plateClick(evt:Event):void{
-			if(!noDisplaySwitch)
-				switchDisplay();
-			switch (currentDisplay){
+			if((Yass.settings.displayMode+=1) ==3) 
+				Yass.settings.displayMode=0;
+			switchDisplay();
+		}
+		private function switchDisplay(){
+			switch (Yass.settings.displayMode){
 			case(0):
 				spectrumAnalyzer.styleName = "dimmed";
 				spectrumAnalyzer.visible = false;
@@ -173,25 +172,19 @@ package org.yass.visualization
 				spectrumAnalyzer.visible = true;
 				songInfo.visible = false;
 				break;
-			
 			}
-			noDisplaySwitch=false;
 		}
 		private function loopClick(evt:Event):void{
 			evt.stopPropagation();
-			evt.preventDefault();
-			Yass.player.loop = loop.selected;
-			noDisplaySwitch=true;
+			Yass.settings.loop = loop.selected;
 		}
 		private function remainingClick(evt:Event):void{
 			evt.stopPropagation();
-			noDisplaySwitch=true;
-			showRemaining = !showRemaining;
+			Yass.settings.showRemaining = !Yass.settings.showRemaining;
 		}
 		private function shuffleClick(evt:Event):void{
 			evt.stopPropagation();
-			noDisplaySwitch=true;
-			Yass.player.shuffle = shuffle.selected;
+			Yass.settings.shuffle = shuffle.selected;
 		}
 		private function setEventListeners():void{			
 			loop.addEventListener(MouseEvent.CLICK , loopClick);

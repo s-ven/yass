@@ -36,10 +36,7 @@ package org.yass.main.model{
 		public var genreArray:ArrayCollection; 
 		public var artistArray:ArrayCollection;
 		public var albumArray:ArrayCollection; 
-		public static var dict:Dictionary = new Dictionary();
-		public var artistSelected: Array = new Array();
-		public var genreSelected: Array = new Array();
-		public var albumSelected: Array = new Array();
+		public static var trackInfos:Dictionary = new Dictionary();
 		private var _tree:Tree;
 		private var _sort:Sort = new Sort();
 		private var _filteredText:Array;
@@ -89,7 +86,7 @@ package org.yass.main.model{
 			if(_filteredText == null){
 				array = this[type+"Array"] = _tree.getArrayByType(type);
 				for(var i:Object in array)
-					dict[array[i].type + "_" + array[i].id] = array[i]
+					trackInfos[array[i].id] = array[i]
 			}
 			else 
 				array = this[type+"Array"] = new ArrayCollection(this["_" + type + "Filtered"]);
@@ -324,6 +321,25 @@ package org.yass.main.model{
 					break;
 				};
 			return null;
+		}
+		
+		public function get artistSelected():Array{
+			return Yass.settings.artistSelected
+		}
+		public function get genreSelected():Array{
+			return Yass.settings.genreSelected
+		}
+		public function get albumSelected():Array{
+			return Yass.settings.albumSelected
+		}
+		public function set artistSelected(arr:Array):void{
+			Yass.settings.artistSelected = arr
+		}
+		public function set genreSelected(arr:Array):void{
+			Yass.settings.genreSelected = arr
+		}
+		public function set albumSelected(arr:Array):void{
+			Yass.settings.albumSelected = arr
 		}
 	}
 }	

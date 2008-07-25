@@ -115,6 +115,7 @@
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
 			if(evt.playList == this.model){
 				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
+				if(evt.trackIndex != -1)
 				callLater(scrollToIndex,  [evt.trackIndex]); 
 			}	
 			Console.groupEnd();

@@ -30,8 +30,8 @@ package org.yass.main.model.interfaces{
 	
 
 	public interface IPlayListModel extends IEventDispatcher, ICollectionView, IList, IMXMLObject	{
-		function getNextTrack(shuffle:Boolean, loop:Boolean):Track;
-		function getPreviousTrack(shuffle:Boolean, loop:Boolean):Track;
+		function getNextTrack():Track;
+		function getPreviousTrack():Track;
 		function set trackIndex(value:Number):void;
 		function get trackIndex():Number;
 		function get selectedTrack():Track;

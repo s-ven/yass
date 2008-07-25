@@ -23,18 +23,15 @@ package org.yass.main.model{
     
     import mx.core.UIComponent;
     
+    import org.yass.Yass;
     import org.yass.debug.log.Console;
     import org.yass.main.events.PlayerEvent;
-    import org.yass.main.model.interfaces.IPlayListModel;
     import org.yass.main.model.interfaces.IPlayerModel;
     
     [Bindable]
     public class PlayerModel extends UIComponent implements IPlayerModel{
         public var loadedPlayList:PlayListModel
-		public var shuffle:Boolean;
-		public var loop:Boolean;
         
-        private var _loadedTrack:Track;
         private var _volume:Number = 1;
         private var _soundHandler:SoundHandler;
         
@@ -72,8 +69,8 @@ package org.yass.main.model{
         public function set loadedTrack(track:Track):void{
         	Console.group("model.Player.loadedTrack title:"+track);
 			if(isPlaying)
-				_soundHandler.fadeOut(5000);
-			this._loadedTrack = track;
+				_soundHandler.fadeOut(Yass.settings.skipFadeout);
+			Yass.settings.loadedTrack = track;
         	if(track){
 				this._soundHandler = new SoundHandler(track as Track, volume);
 				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED, track));
@@ -82,7 +79,7 @@ package org.yass.main.model{
         }
         
         public function get loadedTrack():Track{
-        	return _loadedTrack;
+        	return Yass.settings.loadedTrack;
         }
         public function skipTo(value:Number):void{
         	if(_soundHandler && value != 0){
@@ -95,7 +92,7 @@ package org.yass.main.model{
 		public function next():void{
 			Console.group("model.PlayerModel.next");
 			var wasPlaying:Boolean = isPlaying;
-       		loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
+       		loadedTrack = loadedPlayList.getNextTrack();
        		if(wasPlaying && loadedTrack)
 				this._soundHandler.play();
 			Console.groupEnd();
@@ -103,7 +100,7 @@ package org.yass.main.model{
 		public function previous():void{
 			Console.group("model.PlayerModel.previous");
 			var wasPlaying:Boolean = isPlaying;
-       		loadedTrack = loadedPlayList.getPreviousTrack(shuffle, loop);
+       		loadedTrack = loadedPlayList.getPreviousTrack();
        		if(wasPlaying && loadedTrack)
 				this._soundHandler.play();
         	else
@@ -118,7 +115,7 @@ package org.yass.main.model{
 			}
 			else {
 				if(!loadedTrack)
-        			loadedTrack = loadedPlayList.getNextTrack(shuffle, loop);
+        			loadedTrack = loadedPlayList.getNextTrack();
         		_soundHandler.play();				
          	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
 			}
@@ -126,7 +123,7 @@ package org.yass.main.model{
 		}
 		public function stop():void{
 			if(isPlaying)
-				this._soundHandler.fadeOut(1000);
+				this._soundHandler.fadeOut(Yass.settings.stopFadeout);
             Console.log("model.PlayerModel.stop");
             this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 		}
@@ -135,7 +132,7 @@ package org.yass.main.model{
         	Console.group("model.Player.loadedTrack title:"+track.title);
 			if(loadedTrack != track || !this.isPlaying){
 				if(isPlaying)
-					_soundHandler.fadeOut(1000)	
+					_soundHandler.fadeOut(Yass.settings.stopFadeout)	
 				loadedTrack = track;
 				if(!isPlaying){
 					this._soundHandler.play();

@@ -28,7 +28,7 @@ package org.yass.main.model{
 	import org.yass.util.tree.Value;
 	[Bindable]
 	public class Track{
-		public var id:String
+		public var id:int
 		public var trackNr:int
 		public var title:String
 		public var track:String
@@ -52,14 +52,14 @@ package org.yass.main.model{
 					this._rating = obj.@rating;
 				//this.lastPlayed = obj.lastPlayed;
 				this.playCount = obj.@playCount;
-				this.artist = LibraryModel.dict["artist_" + obj.@artist];
-				this.genre = LibraryModel.dict["genre_" + obj.@genre];
-				this.album = LibraryModel.dict["album_" + obj.@album];
+				this.artist = LibraryModel.trackInfos[obj.@artist+""];
+				this.genre = LibraryModel.trackInfos[obj.@genre+""];
+				this.album = LibraryModel.trackInfos[obj.@album+""];
 				this.allFields = (artist.value + " " + album.value +" " + title).toLocaleLowerCase();
 		}
 		
 		public function get isLoaded():Boolean{
-			return Yass.player.loadedTrack == this
+			return Yass.player.loadedTrack == this 
 		}
 		public function get isPlaying():Boolean{
 			return Yass.player.loadedTrack == this && Yass.player.isPlaying;

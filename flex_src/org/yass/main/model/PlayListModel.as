@@ -97,14 +97,14 @@ package org.yass.main.model{
         	shuffledListPosition += 1;
         	return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
     	}
-        public function getNextTrack(shuffle:Boolean, loop:Boolean):Track{
+        public function getNextTrack():Track{
         	Console.log("model.PlayList.getNextTrack");
-            if(Yass.player.shuffle)
+            if(Yass.settings.shuffle)
 	           	trackIndex = getNextShuffledTrack();
 	        else{
 				if(trackIndex < length - 1)
 					trackIndex += 1;
-				else if(loop)
+				else if(Yass.settings.loop)
 					trackIndex = 0;
 				else
 					return null;
@@ -112,14 +112,14 @@ package org.yass.main.model{
 			return selectedTrack;
         }
         
-        public function getPreviousTrack(shuffle:Boolean, loop:Boolean):Track{
+        public function getPreviousTrack():Track{
         	Console.log("model.PlayList.getPreviousTrack");
-        	if(shuffle)
+        	if(Yass.settings.shuffle)
         		trackIndex = getPreviousShuffledTrack();
         	else
         	   	if(trackIndex > 0)
                		trackIndex -= 1;
-            	else if(loop)
+            	else if(Yass.settings.loop)
                 	trackIndex = length -1;
 				else
 					return null;
@@ -136,7 +136,7 @@ package org.yass.main.model{
 				loadToPlayer()
 			Yass.player.playTrack(selectedTrack)
 			// If the Player is shuffling, will add the selected track to the random list 
- 	       	if(Yass.player.shuffle){
+ 	       	if(Yass.settings.shuffle){
 	       		while(shuffledTracks.length > shuffledListPosition)
 	       			shuffledTracks.removeItemAt(shuffledListPosition);
 	       		shuffledListPosition +=1;

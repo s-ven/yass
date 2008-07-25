@@ -18,19 +18,14 @@ package{
     import flash.events.IOErrorEvent;
     import flash.geom.Matrix;
     import flash.net.URLRequest;
-    
     import mx.controls.Image;
     import mx.core.BitmapAsset;
     import mx.graphics.RectangularDropShadow;
     import mx.skins.RectangularBorder;
-
     public class AppBackground extends RectangularBorder{
         private var tile:BitmapData;
-        
         [Embed(source="/assets/app-bkg.png")]
         public var imgCls:Class;
-
-        
         public function AppBackground():void{
             var background:BitmapAsset = BitmapAsset(new imgCls());
             this.tile =  background.bitmapData;

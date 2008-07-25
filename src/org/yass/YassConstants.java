@@ -27,4 +27,5 @@ public interface YassConstants {
 	public static final String UNKNOWN_ARTIST = "<Unknown Artist>";
 	public static final String UNKNOWN_ALBUM = "<Unknown Album>";
 	public static final String UNKNOWN_TITLE = "<Unknown Title>";
+	public static final String USER_SETTINGS = "USER_SETTINGS";
 }

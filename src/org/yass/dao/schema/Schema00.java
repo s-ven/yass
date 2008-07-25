@@ -149,5 +149,22 @@ public class Schema00 extends Schema {
 					.execute("insert into smart_playlist_condition (playlist_id, term, operator, value) values (2, 'play_count', '>', '0')");
 			LOG.info(" table 'smart_playlist_condition' was created successfully.");
 		}
+		// Table user_setting
+		if (!tableExists(template, "user_setting")) {
+			LOG.info(" table 'user_setting' not found.  Creating it.");
+			template
+					.execute("create table user_setting (user_id int not null, loaded_track_id int not null, volume int not null, shuffle smallint not null,"
+							+ "repeat smallint not null, show_remaining smallint not null, display_mode smallint not null, stop_fadeout int not null,"
+							+ "skip_fadeout int not null, next_fadeout int not null, foreign key(user_id) references yass_user(id))");
+			LOG.info(" table 'user_setting' was created successfully.");
+		}
+		// Table user_browsing_context
+		if (!tableExists(template, "user_browsing_context")) {
+			LOG.info(" table 'user_browsing_context' not found.  Creating it.");
+			template.execute("create table user_browsing_context (user_id int not null, track_info_id int not null"
+					+ ", foreign key(user_id) references yass_user(id)"
+					+ ", foreign key(track_info_id) references track_info(id))");
+			LOG.info(" table 'user_browsing_context' was created successfully.");
+		}
 	}
 }

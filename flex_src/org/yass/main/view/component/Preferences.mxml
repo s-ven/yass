@@ -12,7 +12,7 @@
 			}
 			private function onItemClick():void{
 				currentState = configurationPane.selectedItem.@state
-				preferencepane2.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
+				preferencepane2.columnsDG.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
 			} 
 			private function onCreationComplete():void{
 				configurationPane.selectedIndex = 0
@@ -36,12 +36,15 @@
 		</mx:State>
 	</mx:states>
 	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" right="10" left="10" bottom="5" top="30">
-		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" width="120" height="100%" id="configurationPane" dataProvider="{ConfigurationPanes}"  
-			showHeaders="false"  itemClick="onItemClick()" borderStyle="none" borderThickness="14">
+	<mx:Canvas height="100%" width="130">
+		<mx:borderSkin>@Embed(source='/assets/white-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
+		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" id="configurationPane" dataProvider="{ConfigurationPanes}"  
+			showHeaders="false"  itemClick="onItemClick()" borderStyle="none" left="4" right="4" top="6" bottom="5">
 			<mx:columns>
 				<mx:DataGridColumn dataField="@label" sortable="false" draggable="false" />
 			</mx:columns>
 		</mx:DataGrid>
+	</mx:Canvas>
 		<mx:VBox height="100%"  horizontalAlign="center" width="100%" paddingRight="5">
 			<mx:Canvas id="prefPane" height="100%" width="100%"/>
 			<mx:Button label="Submit" click="onSubmit()" />
