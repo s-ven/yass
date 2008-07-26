@@ -5,9 +5,18 @@
 	creationComplete="onCreationComplete()" width="450" height="250">
 	<mx:Script>
 		<![CDATA[
+			import mx.validators.NumberValidator;
+			import mx.formatters.NumberFormatter;
+			import org.yass.Yass;
 			import org.yass.main.MainWindow;
 			public var mainWindow:MainWindow;
 			private function onSubmit():void{
+				Yass.settings.valueOf().shuffle = preferencepane1.shuffle.selected;
+				Yass.settings.valueOf().loop = preferencepane1.loop.selected;
+				Yass.settings.valueOf().skipFadeout = new Number(preferencepane1.skipFadeout.text);
+				Yass.settings.valueOf().stopFadeout = new Number(preferencepane1.stopFadeout.text);
+				Yass.settings.nextFadeout = new Number(preferencepane1.nextFadeout.text);
+				mainWindow.displayPane.refresh();
 				mainWindow.currentState = null;
 			}
 			private function onItemClick():void{
@@ -26,12 +35,12 @@
 	<mx:states>
 		<mx:State name="Pane1">
 			<mx:AddChild relativeTo="{prefPane}">
-					<component:PreferencePane1 id="preferencepane1" horizontalCenter="0" top="0"/>
+					<component:SettingsPane1 id="preferencepane1" horizontalCenter="0" top="0"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Pane2">
 			<mx:AddChild relativeTo="{prefPane}">
-				<component:PreferencePane2 id="preferencepane2" playList="{mainWindow.mainPane.playList}" />
+				<component:SettingsPane2 id="preferencepane2" playList="{mainWindow.mainPane.playList}" />
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>

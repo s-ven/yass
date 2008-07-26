@@ -6,14 +6,14 @@
 	<mx:states>
 		<mx:State name="preferencePane" > 
 			<mx:AddChild position="lastChild">
-				<component:Preferences id="preferencesPanel" mainWindow="{this}"/>
+				<component:SettingsPanel id="preferencesPanel" mainWindow="{this}"/>
 			</mx:AddChild>
 			<mx:SetProperty target="{app}" name="enabled" value="false"/>
 		</mx:State>
 	</mx:states>
 	<mx:Style source="/assets/styles.css"/>
 	<mx:Canvas width="100%"  height="100%" id="app" >
-			<mx:HBox height="80" verticalAlign="middle" horizontalAlign="center" horizontalGap="0" backgroundImage="@Embed(source='/assets/top-bk.png')" backgroundSize="100%" top="3" left="5" right="5">
+			<mx:HBox height="80" verticalAlign="middle" horizontalAlign="center" horizontalGap="0" styleName="PlayerPanel" backgroundSize="100%" top="3" left="5" right="5">
 				<mx:Spacer width="20"/>
 				<view:PlayerView height="100%" verticalAlign="middle" left="10" right="10" horizontalGap="0" />
 				<!-- Player Plate -->

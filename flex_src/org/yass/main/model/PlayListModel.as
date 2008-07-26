@@ -191,7 +191,6 @@ package org.yass.main.model{
  		 *  TODO :: Move this to the Model
  		 */
 		public function sortColumn(columnName:String):void{
-			
 			Console.group("model.PlayList.sortColumn name:"+columnName);
 			if (columnName=="trackNr") {
 			    if(_oldColumn == "trackNr")
@@ -205,18 +204,22 @@ package org.yass.main.model{
 			    if(_oldColumn == "artist")
 			    	_sortByArtist.reverse();
 				_sortA.fields=[_sortByArtist, _sortByAlbum, _sortByTrackNr];
-			   } else if (columnName=="title") {
+			} else if (columnName=="genre") {
+			    if(_oldColumn == "genre")
+			    	_sortByGenre.reverse();
+				_sortA.fields=[_sortByGenre,_sortByArtist, _sortByAlbum, _sortByTrackNr];
+			} else if (columnName=="title") {
 			    if(_oldColumn == "title")
 			    	_sortByTitle.reverse();
 			   _sortA.fields=[_sortByTitle, _sortByArtist, _sortByAlbum];
-			}else if (columnName=="length") {
-			    if(_oldColumn == "length")
+			}else if (columnName=="lengthText") {
+			    if(_oldColumn == "lengthText")
 			    	_sortByLength.reverse();
 			   _sortA.fields=[_sortByLength, _sortByTitle, _sortByArtist, _sortByAlbum];
 			} else if (columnName=="rating") {
 			    if(_oldColumn == "rating")
-			    	_sortByRating.reverse();
-			   _sortA.fields=[_sortByRating, _sortByPlayCount];
+			    	_sortByRating.reverse(); 
+			   _sortA.fields=[_sortByRating];
 			} else if (columnName=="playCount") {
 			    if(_oldColumn == "playCount")
 			    	_sortByPlayCount.reverse();

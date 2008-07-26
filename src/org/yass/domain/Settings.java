@@ -12,7 +12,7 @@ public class Settings {
 	private int stopFadeout;
 	private int nextFadeout;
 	private int skipFadeout;
-	private Integer[] trackInfoIds;
+	private Integer[] trackInfoIds = new Integer[] {};
 
 	/**
 	 * @return the trackInfoIds
@@ -55,7 +55,7 @@ public class Settings {
 		this.nextFadeout = nextFadeout;
 		this.skipFadeout = skipFadeout;
 		this.stopFadeout = stopFadeout;
-		this.trackInfoIds = trackInfoIds;
+		this.trackInfoIds = trackInfoIds == null ? new Integer[] {} : trackInfoIds;
 	}
 
 	/**

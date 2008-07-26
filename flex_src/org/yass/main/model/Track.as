@@ -28,34 +28,68 @@ package org.yass.main.model{
 	import org.yass.util.tree.Value;
 	[Bindable]
 	public class Track{
-		public var id:int
-		public var trackNr:int
-		public var title:String
-		public var track:String
-		public var artist:Value;
-		public var genre:Value;
-		public var album:Value;
-		public var length:int;
-		public var lastPlayed:Date;
-		public var playCount:int = 0;
-		public var allFields:String;
-		public var lowerCaseTitle:String;
-		private var _rating:int = 0;
+		private var _xml:XML;
 		public function Track(obj:XML):void		{
-				this.id = obj.@id;
-				this.trackNr = obj.@trackNr;
-				this.title = obj.@title;
-				this.lowerCaseTitle = title.toLocaleLowerCase();
-				this.track = obj.@track;
-				this.length = obj.@length;
-				if(obj.rating)
-					this._rating = obj.@rating;
-				//this.lastPlayed = obj.lastPlayed;
-				this.playCount = obj.@playCount;
-				this.artist = LibraryModel.trackInfos[obj.@artist+""];
-				this.genre = LibraryModel.trackInfos[obj.@genre+""];
-				this.album = LibraryModel.trackInfos[obj.@album+""];
-				this.allFields = (artist.value + " " + album.value +" " + title).toLocaleLowerCase();
+				_xml = obj
+		}
+		
+		public  function get  id():int{
+			return _xml.@id;
+		}
+		public  function get  trackNr():int{
+			return _xml.@trackNr
+		}
+		public  function get  title():String{
+			return _xml.@title
+		}
+		public  function get  track():String{
+			return _xml.@track;
+		}
+		public  function get  length():int{
+			return _xml.@length
+		}
+		public  function get  lastPlayed():Date{
+			return new Date() // _xml.@lastPlayed
+		}
+		public  function get  playCount():int{
+			return _xml.@playCount;
+		}
+		
+		public  function set  playCount(val:int){
+			_xml.@playCount = val;
+		}
+		public  function set  lastPlayed(val:Date){
+			_xml.@lastPlayed = val;
+		}
+		private var _allFields;
+		public  function get  allFields():String{
+			if(_allFields)
+				return _allFields;
+			return _allFields = (artist.value + " " + album.value +" " + _xml.@title).toLocaleLowerCase()
+		}
+		public  function get  lowerCaseTitle():String{
+			return _xml.@title.toLocaleLowerCase();
+		}
+		private var _genre:Value;
+		private var _artist:Value;
+		private var _album:Value;
+		public function get artist():Value{
+			if(_artist)
+				return _artist
+			return _artist = LibraryModel.trackInfos[_xml.@artist+""];
+		}
+		public function get genre():Value{
+			if(_genre)
+				return _genre
+			return _genre = LibraryModel.trackInfos[_xml.@genre+""];
+		}
+		public function get album():Value{
+			if(_album)
+				return _album
+			return _album = LibraryModel.trackInfos[_xml.@album+""];
+		}
+		public function get lengthText(){
+			return Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, _xml.@length))
 		}
 		
 		public function get isLoaded():Boolean{
@@ -66,7 +100,7 @@ package org.yass.main.model{
 		}
 		public function set rating(value:int):void{
 			Console.log("model.Track.rating:" + value);
-			_rating = value;
+			_xml.@rating = value;
 			save();
 		}
 		public function save():void{
@@ -76,7 +110,7 @@ package org.yass.main.model{
 		}
 		
 		public function get rating():int{
-			return _rating;
+			return _xml.@rating;
 		}
 		
 		public function toString():String{

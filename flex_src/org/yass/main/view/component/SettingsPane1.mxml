@@ -1,4 +1,9 @@
 <mx:Grid xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import org.yass.Yass;
+		]]>
+	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>
 	<mx:GridRow verticalAlign="middle" paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 		<mx:GridItem verticalAlign="top" paddingBottom="0" paddingLeft="0" paddingRight="0" horizontalAlign="right" width="50%">
@@ -7,19 +12,19 @@
 		<mx:GridItem paddingLeft="5" verticalAlign="middle" width="50%">
 			<mx:VBox height="100%" verticalAlign="middle" verticalGap="0">
 			<mx:HBox  verticalAlign="middle" horizontalGap="0">
-				<mx:TextInput  maxChars="6" editable="true" enabled="true" width="60" height="24" styleName="inputText" color="#FFFFFF" textAlign="center"/>
-				<mx:Label text="on track end" textAlign="right"/>
+				<mx:TextInput id="nextFadeout" text="{Yass.settings.nextFadeout}"  maxChars="6" editable="true" enabled="true" width="60" height="24" styleName="inputText" color="#FFFFFF" textAlign="center"/>
+				<mx:Label text="ms on track end" textAlign="right"/>
 			</mx:HBox>
 			<mx:HBox  verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
-				<mx:TextInput  maxChars="6" editable="true" enabled="true" width="60" styleName="inputText" height="24" color="#FFFFFF" textAlign="center"/>
-				<mx:Label text="on track stop" textAlign="right"/>
+				<mx:TextInput id="stopFadeout" text="{Yass.settings.stopFadeout}"  maxChars="6" editable="true" enabled="true" width="60" styleName="inputText" height="24" color="#FFFFFF" textAlign="center"/>
+				<mx:Label text="ms on track stop" textAlign="right"/>
 			</mx:HBox>
-			<mx:HBox  verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
-				<mx:TextInput maxChars="6" editable="true" enabled="true" width="60" styleName="inputText" height="24" color="#FFFFFF" textAlign="center"/>
-				<mx:Label text="on track skip" textAlign="right"/>
+			<mx:HBox   verticalAlign="middle" horizontalAlign="center" horizontalGap="0">
+				<mx:TextInput id="skipFadeout" text="{Yass.settings.skipFadeout}" maxChars="6" editable="true" enabled="true" width="60" styleName="inputText" height="24" color="#FFFFFF" textAlign="center"/>
+				<mx:Label text="ms on track skip" textAlign="right"/>
 			</mx:HBox>
 			</mx:VBox>
-		</mx:GridItem>
+		</mx:GridItem> 
 	</mx:GridRow>
 	<mx:GridRow  paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 		<mx:GridItem verticalAlign="middle" paddingBottom="0" paddingLeft="0" paddingRight="0" horizontalAlign="right" width="50%">
@@ -34,8 +39,8 @@
 			<mx:Label text="Play mode :"/>
 		</mx:GridItem>
 		<mx:GridItem verticalAlign="middle" paddingLeft="5" width="50%">
-			<mx:CheckBox label="shuffle" />
-			<mx:CheckBox label="loop"/>
+			<mx:CheckBox id="loop" label="loop" selected="{Yass.settings.loop}"/>
+			<mx:CheckBox id="shuffle" label="shuffle" selected="{Yass.settings.shuffle}"/>
 		</mx:GridItem>
 	</mx:GridRow>
 </mx:Grid>

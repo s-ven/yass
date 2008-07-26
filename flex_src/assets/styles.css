@@ -608,3 +608,7 @@ DataGrid.FilterPane{
 PlayListView{
 	alternatingItemColors: #FFFFFF, #e8ece8;
 }
+HBox.PlayerPanel{
+	backgroundImage: Embed(source='top-bk.png', scaleGridTop="15", scaleGridLeft="15", scaleGridRight="1020", scaleGridBottom="16");
+	backgroundAlpha: 0.7;
+}

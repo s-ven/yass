@@ -19,6 +19,7 @@ package org.yass.main.model{
 		public var nextFadeout:int = 6000;
 		public var loadedTrackId:int = 0;
 		public var trackInfoIds:Array;
+		private var _init:Boolean=false;
 		public function Settings(obj:Object):void{
 			Yass.settings = this;
 			var xml:XML = new XML(obj);
@@ -30,18 +31,24 @@ package org.yass.main.model{
 				stopFadeout = xml.@stopFadeout;
 				skipFadeout = xml.@skipFadeout;
 				nextFadeout = xml.@nextFadeout;
+				Console.time("model.settings.init : context init")
 				for(var nodeName:Object in xml.trackInfoIds.trackInfo){
 					var trackInfo:Value = LibraryModel.trackInfos[xml.trackInfoIds.trackInfo[nodeName].@id+""];
 					this[trackInfo.type+"Selected"].push(trackInfo);					
-				} 
+				}
+				if(artistSelected.length > 0 || genreSelected.length > 0 || albumSelected.length >0)
+					Yass.library.filteredText = "";
+				Console.timeEnd("model.settings.init : context init")
+				Console.time("model.settings.init : load track")
 				if(xml.@loadedTrackId != 0)
 					Yass.player.loadedTrack = Yass.library.getTrack(xml.@loadedTrackId)
-				Yass.library.filteredText = "";
+				Console.timeEnd("model.settings.init : load track")
 			}
+			_init = true;
 		}
 		
 		public function save(evt:PropertyChangeEvent):void{
-			if(evt.property != "artistSelected" && evt.property != "genreSelected"){
+			if(_init && evt.property != "artistSelected" && evt.property != "genreSelected"){
 				Console.log("model.Settings.save");
 				var svc:HTTPService = new HTTPService();
 				loadedTrackId = loadedTrack?loadedTrack.id:0;

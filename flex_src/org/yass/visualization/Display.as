@@ -138,9 +138,7 @@ package org.yass.visualization
 			vbox.addChild(hbox);
 			songInfo.addChild(vbox);
 			setEventListeners();
-			shuffle.selected = Yass.settings.shuffle;
-			loop.selected = Yass.settings.loop;
-			switchDisplay();
+			refresh();
 		}
 		private function handlerEnterFrame(e:Event):void {
 			if(Yass.player.loadedTrack){
@@ -153,9 +151,11 @@ package org.yass.visualization
 		private function plateClick(evt:Event):void{
 			if((Yass.settings.displayMode+=1) ==3) 
 				Yass.settings.displayMode=0;
-			switchDisplay();
+			refresh();
 		}
-		private function switchDisplay(){
+		public function refresh(){
+			shuffle.selected = Yass.settings.shuffle;
+			loop.selected = Yass.settings.loop;
 			switch (Yass.settings.displayMode){
 			case(0):
 				spectrumAnalyzer.styleName = "dimmed";

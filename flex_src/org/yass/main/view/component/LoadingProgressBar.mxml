@@ -52,7 +52,7 @@
 			} 
 			private function settingsLoaded( e:Event ):void {
 				libTreeLoader.removeEventListener(Event.COMPLETE, settingsLoaded );
-				Console.log("Finished loading lib Tree"  );
+				Console.log("Finished loading settings"  );
 				checkAllLoaded();
 			} 
 			private function handleProgress( e:Event ):void {
@@ -62,11 +62,13 @@
 				if(++itemLoaded ==3){ 
 					libraryLoader.removeEventListener(Event.ENTER_FRAME, handleProgress )
 					Console.group("Initializing data structures..."  );
+					Console.time("Library loading")
 					Yass.library = new LibraryModel(libTreeLoader.data, libraryLoader.data);
+					Console.timeEnd("Library loading")
+					Console.time("Settings loading")
 					Yass.settings = new Settings(settingsLoader.data);
 					Yass.player.loadedPlayList = Yass.library;
-					Console.log("Library tracks OK"); 
-					Console.log("All items loaded, initializing application");
+					Console.timeEnd("Settings loading")
 					Console.groupEnd(); 
 					this.visible = false;
 				} 
