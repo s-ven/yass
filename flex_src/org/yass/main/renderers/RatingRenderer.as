@@ -56,26 +56,7 @@ package org.yass.main.renderers{
 		public function set data(value:Object):void{
 			if(value){
 	        	_data = value;	    
-				switch(data.rating){
-					case 0:
-						img.source = rating0;
-						break;
-					case 1:
-						img.source = rating1;
-						break;
-					case 2:
-						img.source = rating2;
-						break;
-					case 3:
-						img.source = rating3;
-						break;
-					case 4:
-						img.source = rating4;
-						break;
-					case 5:
-						img.source = rating5;
-						break;
-				}
+				img.source = RatingRenderer["rating" + _data.rating];
 		    	invalidateProperties();
 		        dispatchEvent(new FlexEvent(FlexEvent.DATA_CHANGE));
 			}
@@ -93,6 +74,8 @@ package org.yass.main.renderers{
 			data.rating = Math.floor(evt.localX / 14) +1;
 			if(oldRating == data.rating && oldRating == 1)
 				data.rating = 0;
+				// Hack to force the refresh of the rating stars
+			data = data;
 			evt.stopPropagation();
 		}
 	}
