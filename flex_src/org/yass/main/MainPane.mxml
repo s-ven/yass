@@ -16,7 +16,7 @@
 	    	[Bindable]
 			public var browserView:BrowserView;
 			private function  init():void{
-				browserView = new BrowserView(genre, artist, album, this.playList);
+				browserView = new BrowserView(genre, artist, album, playList);
 			} //  
 		]]>
 	</mx:Script>

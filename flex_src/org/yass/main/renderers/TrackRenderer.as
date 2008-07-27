@@ -21,11 +21,12 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.renderers{
-	import org.yass.debug.log.Console;
+	import mx.controls.dataGridClasses.DataGridItemRenderer;
 	
-	public class TrackRenderer extends LabelDataGridRenderer{
-		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
-			super.updateDisplayList(unscaledWidth, unscaledHeight);
+	public class TrackRenderer extends DataGridItemRenderer{
+		
+		override public function set data( obj:Object ) : void{
+			super.data = obj;
 			setStyle("fontThickness", data.isLoaded?200:0);
 		}
 		

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
+import java.util.zip.GZIPOutputStream;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -64,14 +65,15 @@ public class YassAction extends ActionSupport implements YassConstants {
 			transformer.setOutputProperty(OutputKeys.INDENT, "no");
 			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
 			ServletActionContext.getResponse().setContentType("text/xml");
-			final ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			final StreamResult result = new StreamResult(bout);
+			ServletActionContext.getResponse().setHeader("Content-Encoding", "gzip");
+			ByteArrayOutputStream bout;
+			final GZIPOutputStream gzoz = new GZIPOutputStream(bout = new ByteArrayOutputStream(), 2048000);
+			final StreamResult result = new StreamResult(gzoz);
 			final DOMSource source = new DOMSource(document);
 			transformer.transform(source, result);
+			gzoz.finish();
 			ServletActionContext.getResponse().setContentLength(bout.size());
 			bout.writeTo(ServletActionContext.getResponse().getOutputStream());
-			bout.flush();
-			ServletActionContext.getResponse().flushBuffer();
 		} catch (final FileNotFoundException e) {
 			LOG.error("", e);
 			return ERROR;

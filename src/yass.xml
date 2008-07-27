@@ -4,9 +4,7 @@
 	<package name="yass"  extends="struts-default">
 		<action name="library_browse" class="org.yass.struts.library.Browse"/>
 		<action name="library_get_tree" class="org.yass.struts.library.GetTree"/>
-		<action name="playlist_show" class="org.yass.struts.playlist.Show">
-			<result>/jsp/playlist.jsp</result>
-		</action>
+		<action name="playlist_show" class="org.yass.struts.playlist.Show"/>
 		<action name="track_play" class="org.yass.struts.track.Play"/>
 		<action name="track_save" class="org.yass.struts.track.Save"/>
 		<action name="playlist_addto" class="org.yass.struts.playlist.AddTo"/>
@@ -15,4 +13,3 @@
 		<action name="settings_get" class="org.yass.struts.settings.Get"/>
 	</package>
 </struts>
-

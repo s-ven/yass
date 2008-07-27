@@ -61,8 +61,8 @@ package org.yass.main.model{
         }
         
         public function set volume(value:Number):void{
-            this._volume = value;
-            if(this._soundHandler != null)
+            _volume = value;
+            if(_soundHandler != null)
             	_soundHandler.volume = value;
             
         }    
@@ -72,8 +72,8 @@ package org.yass.main.model{
 				_soundHandler.fadeOut(Yass.settings.skipFadeout);
 			Yass.settings.loadedTrack = track;
         	if(track){
-				this._soundHandler = new SoundHandler(track as Track, volume);
-				this.dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED, track));
+				_soundHandler = new SoundHandler(track as Track, volume);
+				dispatchEvent(new PlayerEvent(PlayerEvent.TRACK_LOADED, track));
 			}
 			Console.groupEnd();
         }
@@ -87,14 +87,14 @@ package org.yass.main.model{
 				_soundHandler.skipTo(value);
 				Console.groupEnd();
 			}
-            this.dispatchEvent(new PlayerEvent(isPlaying?PlayerEvent.PLAYING:PlayerEvent.STOPPED));
+            dispatchEvent(new PlayerEvent(isPlaying?PlayerEvent.PLAYING:PlayerEvent.STOPPED));
 		}
 		public function next():void{
 			Console.group("model.PlayerModel.next");
 			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getNextTrack();
        		if(wasPlaying && loadedTrack)
-				this._soundHandler.play();
+				_soundHandler.play();
 			Console.groupEnd();
 		}   
 		public function previous():void{
@@ -102,7 +102,7 @@ package org.yass.main.model{
 			var wasPlaying:Boolean = isPlaying;
        		loadedTrack = loadedPlayList.getPreviousTrack();
        		if(wasPlaying && loadedTrack)
-				this._soundHandler.play();
+				_soundHandler.play();
         	else
         		stop();
 			Console.groupEnd();
@@ -111,32 +111,32 @@ package org.yass.main.model{
 			Console.group("model.PlayerModel.toogle");
 			if(isPlaying){
 				_soundHandler.pause();
-	            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
+	            dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 			}
 			else {
 				if(!loadedTrack)
         			loadedTrack = loadedPlayList.getNextTrack();
         		_soundHandler.play();				
-         	   this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
+         	   dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
 			}
 			Console.groupEnd();
 		}
 		public function stop():void{
 			if(isPlaying)
-				this._soundHandler.fadeOut(Yass.settings.stopFadeout);
+				_soundHandler.fadeOut(Yass.settings.stopFadeout);
             Console.log("model.PlayerModel.stop");
-            this.dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
+            dispatchEvent(new PlayerEvent(PlayerEvent.STOPPED));
 		}
 		
 		public function playTrack(track:Track):void{
         	Console.group("model.Player.loadedTrack title:"+track.title);
-			if(loadedTrack != track || !this.isPlaying){
+			if(loadedTrack != track || !isPlaying){
 				if(isPlaying)
 					_soundHandler.fadeOut(Yass.settings.stopFadeout)	
 				loadedTrack = track;
 				if(!isPlaying){
-					this._soundHandler.play();
-	            	this.dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
+					_soundHandler.play();
+	            	dispatchEvent(new PlayerEvent(PlayerEvent.PLAYING, loadedTrack));
 	   			}
    			}
 			Console.groupEnd();

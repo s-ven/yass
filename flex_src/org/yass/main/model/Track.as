@@ -26,9 +26,12 @@ package org.yass.main.model{
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
-	[Bindable]
 	public class Track{
 		private var _xml:XML;
+		private var _genre:Value;
+		private var _artist:Value;
+		private var _album:Value;
+		private var _lengthText:String;
 		public function Track(obj:XML):void		{
 				_xml = obj
 		}
@@ -70,9 +73,6 @@ package org.yass.main.model{
 		public  function get  lowerCaseTitle():String{
 			return _xml.@title.toLocaleLowerCase();
 		}
-		private var _genre:Value;
-		private var _artist:Value;
-		private var _album:Value;
 		public function get artist():Value{
 			if(_artist)
 				return _artist
@@ -89,7 +89,9 @@ package org.yass.main.model{
 			return _album = LibraryModel.trackInfos[_xml.@album+""];
 		}
 		public function get lengthText(){
-			return Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, _xml.@length))
+			if(_lengthText)
+				return _lengthText;
+			return _lengthText = Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, _xml.@length))
 		}
 		
 		public function get isLoaded():Boolean{
@@ -114,7 +116,7 @@ package org.yass.main.model{
 		}
 		
 		public function toString():String{
-			return this.title;
+			return title;
 		}
 	}
 }

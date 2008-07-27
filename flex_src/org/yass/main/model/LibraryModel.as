@@ -37,6 +37,9 @@ package org.yass.main.model{
 		public var artistArray:ArrayCollection;
 		public var albumArray:ArrayCollection; 
 		public static var trackInfos:Dictionary = new Dictionary();
+		private var genreAll:ArrayCollection
+		private var artistAll:ArrayCollection;
+		private var albumAll:ArrayCollection;
 		private var _tree:Tree;
 		private var _sort:Sort = new Sort();
 		private var _filteredText:Array;
@@ -66,35 +69,36 @@ package org.yass.main.model{
 			if(value is XMLList || value is ArrayCollection)
 				for(var i:Object in value){
 					var track:Track = new Track(value[i])
-					addItem(track);
-					_trackDictionary[track.id] = track;
+					addItem(_trackDictionary[track.id] = track);
 				}
-			else{
-				var track:Track = new Track(value as XML)
-				addItem(track);
-				_trackDictionary[track.id] = track;
-			}
+			else
+				addItem(_trackDictionary[track.id] = track = new Track(value as XML));
    		} 
    		public function getTrack(id:int):Track{
    			return _trackDictionary[id];
    		}
 		private function populateTree():void{
 			Console.group("model.Library.populateTree");
-			createArray("genre");
-			createArray("artist");
-			createArray("album"); 
+			genreArray = createArray("genre");
+			artistArray = createArray("artist");
+			albumArray = createArray("album"); 
 			Console.groupEnd();
 		}
-		private function createArray(type:String):void{
+		private function createArray(type:String):ArrayCollection{
 			var array:ArrayCollection;
 			if(_filteredText == null){
-				array = this[type+"Array"] = _tree.getArrayByType(type);
-				for(var i:Object in array)
-					trackInfos[array[i].id] = array[i]
+				if(this[type+"All"])
+					return this[type+"All"]
+				else{
+					array = this[type+"All"] = _tree.getArrayByType(type);
+					for(var i:Object in array)
+						trackInfos[array[i].id] = array[i]
+				}
 			}
 			else 
 				array = this[type+"Array"] = new ArrayCollection(this["_" + type + "Filtered"]);
 			Console.log("type:"+type+", length:"+array.length);
+			return array;
 		}
 		public function browseBy(type:String, selectedItems:Array):void{
 			Console.group("model.Library.browseBy : type="+type);
@@ -232,16 +236,8 @@ package org.yass.main.model{
 
 			}
 			else {
-				var selFilterFunction:Function = new LibraryfilterFunctions().getFilterFunction(genreSelected, artistSelected, albumSelected)
-				filterFunction = function(row:Object):Boolean{
-					if(_genreFiltered.indexOf(row.genre) == -1)
-						_genreFiltered.push(row.genre)
-					if(_artistFiltered.indexOf(row.artist) == -1)
-						_artistFiltered.push(row.artist)
-					if(_albumFiltered.indexOf(row.album) == -1)
-						_albumFiltered.push(row.album)
-					return selFilterFunction(row);
-				}; 
+				_filteredText = null
+				filterFunction = new LibraryfilterFunctions().getFilterFunction(genreSelected, artistSelected, albumSelected)
 				refresh();
 				populateTree()
 				if(genreSelected.length > 0)

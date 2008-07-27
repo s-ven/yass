@@ -27,9 +27,9 @@ package org.yass.main.events{
 	public class LibraryEvent extends Event{
 		public static const REFRESHED:String = "refreshed";
 		public var types : ArrayCollection;
-		public function LibraryEvent(type:String, types:Array=null,bubbles:Boolean=false):void{
+		public function LibraryEvent(type:String, _types:Array=null,bubbles:Boolean=false):void{
 			super(type,bubbles);
-			this.types = new ArrayCollection(types)
+			types = new ArrayCollection(_types)
 		}
 		public function containsType(val:String):Boolean{
 			return types.getItemIndex(val) != -1;

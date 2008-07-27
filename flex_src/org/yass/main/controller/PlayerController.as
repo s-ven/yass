@@ -30,8 +30,8 @@ package org.yass.main.controller{
 		private var model:IPlayerModel;
 		private var view:IEventDispatcher;
 		public function PlayerController(_view:IEventDispatcher, _model:IPlayerModel){
-			this.model = _model;
-			this.view = _view;
+			model = _model;
+			view = _view;
 			view.addEventListener(PlayerEvent.NEXT, onNext);
 			view.addEventListener(PlayerEvent.PREVIOUS, onPrevious);
 			view.addEventListener(PlayerEvent.TOOGLE, onToogle);

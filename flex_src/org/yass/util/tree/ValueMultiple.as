@@ -6,9 +6,8 @@ package org.yass.util.tree
 	public class ValueMultiple extends Value
 	{
 		public var values:Array = new Array();
-		public function ValueMultiple(ex:Value)
-		{
-			super(ex.value, ex.type, ex.id);
+		public function ValueMultiple(ex:Value)		{
+			super(ex.xml);
 			values.push(ex);
 		}
 		override public function hasParent(parent:Value):Boolean{

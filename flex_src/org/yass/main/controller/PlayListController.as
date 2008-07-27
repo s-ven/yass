@@ -32,8 +32,8 @@ package org.yass.main.controller{
 		private var view:IEventDispatcher;
 		private var model:IPlayListModel;
 		public function PlayListController(_view:IEventDispatcher, _model:IPlayListModel){
-			this.view = _view;
-			this.model = _model;
+			view = _view;
+			model = _model;
 			view.addEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
 			view.addEventListener(TrackEvent.TRACK_CLICK, onTrackClick);
 			view.addEventListener(DataGridEvent.HEADER_RELEASE, onHeaderRelease);

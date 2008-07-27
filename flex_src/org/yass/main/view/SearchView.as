@@ -50,7 +50,7 @@ package org.yass.main.view
 		    ]; 
 
 		public function SearchView(_component:SearchField):void{
-			this.component = _component;
+			component = _component;
 			component.dropDownMenu.addEventListener(MouseEvent.CLICK, onDropDownRollover);
 			component.searchInput.addEventListener(Event.CHANGE, onChange);
 			component.resetSearch.addEventListener(MouseEvent.CLICK, onClickReset);

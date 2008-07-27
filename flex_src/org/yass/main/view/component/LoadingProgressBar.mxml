@@ -25,11 +25,11 @@
 			import org.yass.debug.log.Console;
 			private var libraryLoader:LibraryLoader = new LibraryLoader()
 			private var libTreeLoader:URLLoader = new URLLoader()
-			private var settingsLoader = new URLLoader()
+			private var settingsLoader:URLLoader = new URLLoader()
 			private var itemLoaded:Number = 0;
 			public var uicomponent:UIComponent;
 			public function init():void{
-				this.visible = true;
+				visible = true;
 			}
 			private function dataLoad():void{
 				libraryLoader.addEventListener(ProgressEvent.PROGRESS, handleProgress );
@@ -70,14 +70,10 @@
 					Yass.player.loadedPlayList = Yass.library;
 					Console.timeEnd("Settings loading")
 					Console.groupEnd(); 
-					this.visible = false;
+					visible = false;
 				} 
 			} 
 		]]>
 	</mx:Script><mx:Canvas  styleName="DisplayReflect" left="0" top="0" bottom="0" right="0" mouseChildren="false" mouseEnabled="false"/>
-	
-			<display:Loader id="iiii">
-				
-			</display:Loader>
 </mx:Canvas>
   

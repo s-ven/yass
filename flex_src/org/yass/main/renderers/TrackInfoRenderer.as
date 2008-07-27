@@ -25,21 +25,22 @@ package org.yass.main.renderers{
 	import flash.events.MouseEvent;
 	
 	import mx.controls.DataGrid;
+	import mx.managers.CursorManager;
 	
 	import org.yass.Yass;
 	import org.yass.main.MainPane;
 
 	public class TrackInfoRenderer  extends TrackRenderer{
+		[Embed(source="/assets/cursor-hand.png")] 
+		[Bindable]
+		private static var handCursor:Class;  
 		
 		public function TrackInfoRenderer(){
-			this.useHandCursor = true;
-			this.mouseChildren = false;
-			this.buttonMode = true;
-			this.addEventListener(MouseEvent.MOUSE_OVER, over);
-			this.addEventListener(MouseEvent.MOUSE_OUT, out);
-			this.addEventListener(MouseEvent.CLICK, click);
+			addEventListener(MouseEvent.MOUSE_OVER, over);
+			addEventListener(MouseEvent.MOUSE_OUT, out);
+			addEventListener(MouseEvent.CLICK, click);
 		}
-		private function click(evt:Event):void{
+		private function click(evt:Event):void{ 
 			var dataField:String = (owner as DataGrid).columns[listData.columnIndex].dataField;
 			(parent.parent.parent.parent as MainPane).playList.model = Yass.library;
 			(parent.parent.parent.parent as MainPane).currentState = null;
@@ -47,9 +48,13 @@ package org.yass.main.renderers{
 		}
 		protected function over(evt:Event) : void			{
 			setStyle("textDecoration", "underline");
+			setStyle("fontThickness", 200);
+			CursorManager.setCursor(handCursor, 2, -6)
 		}
 		protected function out(evt:Event) : void			{
 			setStyle("textDecoration", "none");
+			setStyle("fontThickness", data.isLoaded?200:0);
+			CursorManager.removeAllCursors();
 		}
 	}
 }

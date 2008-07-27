@@ -28,8 +28,8 @@ package org.yass.util.tree
 	public class Tree extends Value{
 
 		public function Tree(xml:XML):void{
-			super("root", "root", -1)
-			this.accept(new NodeBuilder(xml));
+			super(<node id="-1" value="root" type="root"/>)
+			accept(new NodeBuilder(xml));
 		}
 		
 	}

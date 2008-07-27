@@ -35,8 +35,8 @@ package org.yass.main.events{
 		public function TrackEvent(type:String, _trackIndex:Number, _playList:IPlayListModel, scrollToTrack:Boolean=false):void{
 			super(type,true);
 			Console.log("event.Track type:" + type + ", trackIndex:"+_trackIndex);
-			this.trackIndex = _trackIndex;
-			this.playList = _playList;
+			trackIndex = _trackIndex;
+			playList = _playList;
 			this.scrollToTrack = scrollToTrack;
 		}
 	}

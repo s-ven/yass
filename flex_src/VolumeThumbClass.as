@@ -4,8 +4,8 @@ package {
     public class VolumeThumbClass extends SliderThumb {
         public function VolumeThumbClass() {
             super();
-            this.width = 14;
-            this.height = 14;
+            width = 14;
+            height = 14;
         }
     }
 }

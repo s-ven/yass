@@ -47,12 +47,12 @@
  			super();
  			
  			Console.log("view.PlayList :: Init");
-			this.doubleClickEnabled=true;
-			this.allowMultipleSelection=true; 
-			this.dragEnabled=true;
- 			this.addEventListener(ListEvent.ITEM_CLICK, onClick);
- 			this.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, onDoubleClick);
- 			this.addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
+			doubleClickEnabled=true;
+			allowMultipleSelection=true; 
+			dragEnabled=true;
+ 			addEventListener(ListEvent.ITEM_CLICK, onClick);
+ 			addEventListener(ListEvent.ITEM_DOUBLE_CLICK, onDoubleClick);
+ 			addEventListener(FlexEvent.CREATION_COMPLETE, onCreationComplete);
  		}
  		
  		override protected function commitProperties():void{
@@ -66,13 +66,13 @@
 		public function set model(value:IPlayListModel):void{
 			if(model)
 				_model.removeEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
-			this._model = value;
+			_model = value;
 			dataProvider = _model; 
 			_model.addEventListener(TrackEvent.TRACK_SELECTED, onTrackSelected);
 			// Remove the eventLoaders for a potentially previous controller
 			if(controller)
 				controller.destroy();
-			this.controller = new PlayListController(this, value);
+			controller = new PlayListController(this, value);
 			if(Yass.player.loadedTrack && model.getItemIndex(Yass.player.loadedTrack) != -1){
 				callLater(scrollToIndex,  [model.getItemIndex(Yass.player.loadedTrack)]); 
 				model.trackIndex = model.getItemIndex(Yass.player.loadedTrack);
@@ -93,7 +93,7 @@
 			Console.group("view.PlayList.onDoubleClick");
 		  	if(enabled){
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_PLAY, selectedIndex, _model));
-				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
+				collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 		  	}
 			Console.groupEnd();
         }
@@ -113,8 +113,8 @@
 		 */
 		public function onTrackSelected(evt:TrackEvent):void{
 			Console.group("view.PlayList.onTrackSelected trackIndex=" + evt.trackIndex);
-			if(evt.playList == this.model){
-				this.collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
+			if(evt.playList == model){
+				collectionChangeHandler(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
 				if(evt.trackIndex != -1)
 				callLater(scrollToIndex,  [evt.trackIndex]); 
 			}	

@@ -58,12 +58,12 @@ package org.yass.main.view{
 			super();
 			labelField="@name";
 			showRoot=false;
-			this.addEventListener(DragEvent.DRAG_ENTER, dragEnterHandler);
-			this.addEventListener(DragEvent.DRAG_OVER, dragOverHandler);
-			this.addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
-			this.addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
-			this.addEventListener(ListEvent.ITEM_CLICK, mouseClickHandler);
-			this.addEventListener(ListEvent.ITEM_EDIT_END, onEditItem);
+			addEventListener(DragEvent.DRAG_ENTER, dragEnterHandler);
+			addEventListener(DragEvent.DRAG_OVER, dragOverHandler);
+			addEventListener(DragEvent.DRAG_DROP, dragDropHandler);
+			addEventListener(DragEvent.DRAG_EXIT, dragExitHandler);
+			addEventListener(ListEvent.ITEM_CLICK, mouseClickHandler);
+			addEventListener(ListEvent.ITEM_EDIT_END, onEditItem);
 			dropEnabled = true;
 	        setStyle("folderClosedIcon", null);
 	        setStyle("folderOpenIcon", null); 
@@ -75,8 +75,8 @@ package org.yass.main.view{
 		override protected  function dragOverHandler(event:DragEvent):void{
                 var dropTarget:Tree = Tree(event.currentTarget);
                 var r:int = dropTarget.calculateDropIndex(event);
-                this.selectedIndex = r;
-                var node:XML = this.selectedItem as XML;
+                selectedIndex = r;
+                var node:XML = selectedItem as XML;
                 if( node.@type == "user" ) {
                     DragManager.showFeedback(DragManager.COPY);
                     return;
@@ -103,29 +103,29 @@ package org.yass.main.view{
 		private function onEditItem(event:ListEvent):void{
 			var oldName:String=selectedItem.@name;
 			setTimeout(saveItem,250, selectedItem, oldName);
-			this.editable = false;
+			editable = false;
 		}
 		private function saveItem(obj:Object, oldName:String):void	{	
 			if(obj.@name != oldName){			
 				Console.log("view.Navigation.saveItem name=" + obj.@name + ",oldName=" +  oldName);
-				this.dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_EDITED, obj.@id, obj.@name, obj.@type));		
+				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_EDITED, obj.@id, obj.@name, obj.@type));		
 			}
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
 			var item:Object= event.currentTarget.selectedItem		
 			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);if(item.@type == "user" || item.@type == "smart" || item.@type=="library")	{
 				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
-				this.editable = false;
+				editable = false;
 			}	
 			else if(item.@id == 0) 
-				this.editable = true;
+				editable = true;
 			else
 				event.stopImmediatePropagation();
 		}		
 		
 		public function onRefreshPane(evt:PlayListEvent):void{			
 			Console.log("view.Navigation.refreshNavigation");
-			this.dataProvider = evt.result;
+			dataProvider = evt.result;
 			if(dataProvider){
 				var treeData:XML = dataProvider[0];
 				openItems = treeData.elements();

@@ -38,10 +38,10 @@ package org.yass.main.renderers{
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;
 		public function PlayingNowRenderer() {
-			this.imgPlay.source = playSource;
-			this.imgLoaded.source = loadedSource;
-			this.imgPlay.visible = false;
-			this.imgLoaded.visible = false;
+			imgPlay.source = playSource;
+			imgLoaded.source = loadedSource;
+			imgPlay.visible = false;
+			imgLoaded.visible = false;
 		}
 
 		public function get data():Object{

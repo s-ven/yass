@@ -7,7 +7,7 @@ package
 		public function VSliberThumbClass()
 		{
 			super();
-			this.minHeight = 50;
+			minHeight = 50;
 		}
 		
 	}

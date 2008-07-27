@@ -9,7 +9,7 @@ package org.yass.main.loaders
 			super();
 		}
 		public function loadData(){
-			this.load(urlReq);
+			load(urlReq);
 		}
 		
 	}

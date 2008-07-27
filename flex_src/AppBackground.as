@@ -28,7 +28,7 @@ package{
         public var imgCls:Class;
         public function AppBackground():void{
             var background:BitmapAsset = BitmapAsset(new imgCls());
-            this.tile =  background.bitmapData;
+            tile =  background.bitmapData;
         }
         
         override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void {
@@ -38,7 +38,7 @@ package{
 
             // Finally, copy the resulting bitmap into our own graphic context.
             graphics.clear();
-            graphics.beginBitmapFill(this.tile, transform, true);
+            graphics.beginBitmapFill(tile, transform, true);
             graphics.drawRect(0, 0, unscaledWidth, unscaledHeight);
         }
     }  

@@ -129,7 +129,7 @@ package org.yass.main.model{
   		 *  This will play the request track,
   		 */
   		public function playTrack(_trackIndex:Number):void{ 
-			this.trackIndex = _trackIndex;
+			trackIndex = _trackIndex;
   			Console.group("group.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
 			var wasPlaying:Boolean = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
@@ -146,7 +146,7 @@ package org.yass.main.model{
 		}	  		
   		public function selectTrack(_trackIndex:Number):void{
   			Console.group("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
-  			this.trackIndex = _trackIndex;
+  			trackIndex = _trackIndex;
   			// If a track is selected and the current player is not playing, wll cause the display to be updated
   			if(!Yass.player.loadedPlayList)
   				loadToPlayer()
@@ -166,19 +166,19 @@ package org.yass.main.model{
 		 */
 		protected function onPlayerEvent(evt:PlayerEvent):void{
 			if(Yass.player.loadedPlayList == this)
-				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
-			else if (this.getItemIndex(Yass.player.loadedTrack) != -1)
-				this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, this.getItemIndex(Yass.player.loadedTrack), this));
+				dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
+			else if (getItemIndex(Yass.player.loadedTrack) != -1)
+				dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, getItemIndex(Yass.player.loadedTrack), this));
 			
 		}
 		public function onCollectionChange(evt:CollectionEvent):void{
 			if(evt.kind == CollectionEventKind.REFRESH){
 				Console.group("model.PlayList.onCollectionChange");
-				this.trackIndex = getItemIndex(_selectedTrack);
+				trackIndex = getItemIndex(_selectedTrack);
 				if(trackIndex != -1)
-					this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this, true));
-				else if (this.getItemIndex(Yass.player.loadedTrack) != -1)
-					this.dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, this.getItemIndex(Yass.player.loadedTrack), this));
+					dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this, true));
+				else if (getItemIndex(Yass.player.loadedTrack) != -1)
+					dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, getItemIndex(Yass.player.loadedTrack), this));
 				Console.groupEnd();
 			}
 		}

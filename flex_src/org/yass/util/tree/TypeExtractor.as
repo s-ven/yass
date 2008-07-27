@@ -54,7 +54,7 @@ package org.yass.util.tree
 			}
 			else
 				for each(var child:Value in val.childs)
-					this.visit(child);
+					visit(child);
 		}		
 	}
 }

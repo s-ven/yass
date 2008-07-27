@@ -90,9 +90,9 @@ package org.yass.main.renderers{
 		}
 		protected function click(evt:MouseEvent) : void{
 			var oldRating:int = data.rating;
-			this.data.rating = Math.floor(evt.localX / 14) +1;
-			if(oldRating == this.data.rating && oldRating == 1)
-				this.data.rating = 0;
+			data.rating = Math.floor(evt.localX / 14) +1;
+			if(oldRating == data.rating && oldRating == 1)
+				data.rating = 0;
 			evt.stopPropagation();
 		}
 	}

@@ -50,7 +50,7 @@ public class TrackInfoDao extends AbstractDao {
 			trackInfo = it.next();
 		else {
 			trackInfo = new TrackInfo(0, type, value);
-			this.save(trackInfo);
+			save(trackInfo);
 		}
 		return trackInfo;
 	}

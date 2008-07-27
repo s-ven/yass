@@ -7,44 +7,38 @@ package org.yass.main.model
 			if(subFunction){			
 				if(genres.length !=0 && albums.length ==0 && artists.length ==0)
 					return function(row:Object):Boolean{
-								return genres.lastIndexOf(row.genre) != -1 &&
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) && genres.lastIndexOf(row.genre) != -1
+										
 					};
 				else if(genres.length !=0 && albums.length !=0 && artists.length ==0)
 					return function(row:Object):Boolean{
-								return genres.lastIndexOf(row.genre) != -1 && 
-										albums.lastIndexOf(row.album) != -1  &&
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) && genres.lastIndexOf(row.genre) != -1 && 
+										albums.lastIndexOf(row.album) != -1
 					};
 				else if(genres.length !=0 && albums.length !=0 && artists.length !=0)
 					return function(row:Object):Boolean{
-								return genres.lastIndexOf(row.genre) != -1 && 
+								return txtArray.every(subFunction, row) && genres.lastIndexOf(row.genre) != -1 && 
 										albums.lastIndexOf(row.album) != -1 && 
-										artists.lastIndexOf(row.artist) != -1 && 
-										txtArray.every(subFunction, row)
+										artists.lastIndexOf(row.artist) != -1
 					};
 				else if(genres.length ==0 && albums.length !=0 && artists.length !=0)
 					return function(row:Object):Boolean{
-								return albums.lastIndexOf(row.album) != -1 && 
-										artists.lastIndexOf(row.artist) != -1 && 
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) && albums.lastIndexOf(row.album) != -1 && 
+										artists.lastIndexOf(row.artist) != -1
 					};
 				else if(genres.length ==0 && albums.length ==0 && artists.length !=0)
 					return function(row:Object):Boolean{
-								return artists.lastIndexOf(row.artist) != -1 && 
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) && artists.lastIndexOf(row.artist) != -1
 					};
 				else if(genres.length ==0 && albums.length !=0 && artists.length ==0)
 					return function(row:Object):Boolean{
-								return albums.lastIndexOf(row.album) != -1 && 
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) && albums.lastIndexOf(row.album) != -1
 					};
 				else if(genres.length !=0 && albums.length ==0 
 				&& artists.length !=0)
 					return function(row:Object):Boolean{
-								return genres.lastIndexOf(row.genre) != -1 &&
-										artists.lastIndexOf(row.artist) != -1 &&
-										txtArray.every(subFunction, row)
+								return txtArray.every(subFunction, row) &&  genres.lastIndexOf(row.genre) != -1 &&
+										artists.lastIndexOf(row.artist) != -1
 					};
 				else
 					return function(row:Object):Boolean{

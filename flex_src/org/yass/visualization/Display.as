@@ -38,8 +38,8 @@ package org.yass.visualization
 			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
-			this.setStyle("fontThickness", 200);
-			this.setStyle("fontAntiAliasType", "advanced");
+			setStyle("fontThickness", 200);
+			setStyle("fontAntiAliasType", "advanced");
 			horizontalScrollPolicy = ScrollPolicy.OFF;
 			verticalScrollPolicy = ScrollPolicy.OFF;
 			songInfo.percentWidth = 100;
@@ -190,7 +190,7 @@ package org.yass.visualization
 			loop.addEventListener(MouseEvent.CLICK , loopClick);
 			remaining.addEventListener(MouseEvent.CLICK , remainingClick);
 			shuffle.addEventListener(MouseEvent.CLICK , shuffleClick);
-			this.addEventListener(MouseEvent.CLICK , plateClick);
+			addEventListener(MouseEvent.CLICK , plateClick);
 		}
 	}
 }

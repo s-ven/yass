@@ -42,7 +42,7 @@ package org.yass.visualization{
 			super();
 			Console.log("ScrollingText : init");
 			instance = this;
-			this.addEventListener(MouseEvent.CLICK, mouseClick);
+			addEventListener(MouseEvent.CLICK, mouseClick);
 		}
 
 		/**

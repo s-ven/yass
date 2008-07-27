@@ -66,11 +66,11 @@ package org.yass.main.model{
 				var httpSvc : HTTPService = new HTTPService();
 	 			httpSvc.url = "/yass/playlist_show.do";
 				httpSvc.addEventListener(ResultEvent.RESULT, function():void{
-					if(httpSvc.lastResult.tracks){
+					if(httpSvc.lastResult.playlist){
 						_playlist.removeAll();
-						for each(var track:Object in httpSvc.lastResult.tracks.track)
+						for each(var track:Object in httpSvc.lastResult.playlist.track)
 							_playlist.addItem(Yass.library.getTrack(track.id))
-			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
+						dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 					}
 				});
 				_playlist.setEventListeners();
