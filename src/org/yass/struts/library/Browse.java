@@ -35,23 +35,31 @@ public class Browse extends YassAction implements YassConstants {
 			final Map<Integer, TrackStat> trackStats = (Map<Integer, TrackStat>) ActionContext.getContext().getApplication()
 					.get(USER_TRACK_STATS);
 			while (it.hasNext()) {
-				final Element trackNode = doc.createElement("track");
-				libNode.appendChild(trackNode);
 				final Track mf = it.next();
-				trackNode.setAttribute("id", mf.getId() + "");
-				trackNode.setAttribute("trackNr", mf.getTrackNr() + "");
-				trackNode.setAttribute("title", mf.getTitle());
-				trackNode.setAttribute("artist", mf.getTrackInfo(YassConstants.ARTIST).getId() + "");
-				trackNode.setAttribute("album", mf.getTrackInfo(YassConstants.ALBUM).getId() + "");
-				trackNode.setAttribute("genre", mf.getTrackInfo(YassConstants.GENRE).getId() + "");
-				trackNode.setAttribute("length", mf.getLength() + "");
-				final TrackStat stat = trackStats.get(mf.getId());
-				if (stat != null) {
-					trackNode.setAttribute("rating", stat.getRating() + "");
-					trackNode.setAttribute("playCount", stat.getPlayCount() + "");
-				} else {
-					trackNode.setAttribute("rating", "0");
-					trackNode.setAttribute("playCount", "0");
+				if (mf.getTrackInfo(YassConstants.ARTIST) != null && mf.getTrackInfo(YassConstants.ALBUM) != null
+						&& mf.getTrackInfo(YassConstants.GENRE) != null) {
+					final Element trackNode = doc.createElement("track");
+					libNode.appendChild(trackNode);
+					trackNode.setAttribute("id", mf.getId() + "");
+					trackNode.setAttribute("trackNr", mf.getTrackNr() + "");
+					trackNode.setAttribute("title", mf.getTitle());
+					trackNode.setAttribute("artist", mf.getTrackInfo(YassConstants.ARTIST).getId() + "");
+					trackNode.setAttribute("album", mf.getTrackInfo(YassConstants.ALBUM).getId() + "");
+					trackNode.setAttribute("genre", mf.getTrackInfo(YassConstants.GENRE).getId() + "");
+					if (mf.getTrackInfo(YassConstants.YEAR) != null)
+						trackNode.setAttribute("year", mf.getTrackInfo(YassConstants.YEAR).getValue());
+					if (mf.getTrackInfo(YassConstants.BITRATE) != null)
+						trackNode.setAttribute("bitrate", mf.getTrackInfo(YassConstants.BITRATE).getValue());
+					trackNode.setAttribute("vbr", mf.isVBR() + "");
+					trackNode.setAttribute("length", mf.getLength() + "");
+					final TrackStat stat = trackStats.get(mf.getId());
+					if (stat != null) {
+						trackNode.setAttribute("rating", stat.getRating() + "");
+						trackNode.setAttribute("playCount", stat.getPlayCount() + "");
+					} else {
+						trackNode.setAttribute("rating", "0");
+						trackNode.setAttribute("playCount", "0");
+					}
 				}
 			}
 			return outputDocument(doc);

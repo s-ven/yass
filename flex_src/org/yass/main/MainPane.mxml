@@ -47,7 +47,9 @@
 				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Artist" dataField="artist" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer"/>
 				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Album" dataField="album" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
 				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Genre"  dataField="genre" minWidth="65" visible="true" width="80" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
-				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Play Count"  dataField="playCount" visible="true" minWidth="70" resizable="false" width="20" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Play Count"  dataField="playCountText" visible="true" minWidth="70" resizable="false" width="70" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Year"  dataField="yearText" visible="true" minWidth="40" resizable="false" width="40" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Bitrate"  dataField="bitrateText" visible="true" minWidth="90" resizable="false" width="90" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
 				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Rating"  dataField="rating" minWidth="80" resizable="false" width="80" itemRenderer="org.yass.main.renderers.RatingRenderer" />
 			</view:columns>
 		</view:PlayListView>

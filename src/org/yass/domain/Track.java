@@ -18,7 +18,39 @@ public final class Track implements YassConstants {
 	private long length;
 	private int id;
 	private Library library;
-	private Date lastUpdate = new Date(0);
+	private Date lastModified = new Date(0);
+	private int typeId = 1;
+	private boolean VBR = false;
+
+	/**
+	 * @param vbr
+	 *          the vBR to set
+	 */
+	public final void setVBR(final boolean vbr) {
+		VBR = vbr;
+	}
+
+	/**
+	 * @return the vBR
+	 */
+	public final boolean isVBR() {
+		return VBR;
+	}
+
+	/**
+	 * @return the typeId
+	 */
+	public final int getTypeId() {
+		return typeId;
+	}
+
+	/**
+	 * @param typeId
+	 *          the typeId to set
+	 */
+	public final void setTypeId(final int typeId) {
+		this.typeId = typeId;
+	}
 
 	public void setTrackInfo(final String type, final TrackInfo trackInfo) {
 		trackInfos.put(type, trackInfo);
@@ -93,8 +125,8 @@ public final class Track implements YassConstants {
 	/**
 	 * @return the lastUpdate
 	 */
-	public final Date getLastUpdate() {
-		return lastUpdate;
+	public final Date getLastModified() {
+		return lastModified;
 	}
 
 	/**
@@ -122,13 +154,14 @@ public final class Track implements YassConstants {
 	 * @param lastUpdate
 	 */
 	public Track(final int id, final String path, final String title, final int trackNr, final int length,
-			final Date lastUpdate, final int typeId) {
+			final Date lastUpdate, final int typeId, final boolean vbr) {
 		this.id = id;
 		this.path = path;
 		this.title = title;
 		this.trackNr = trackNr;
 		this.length = length;
-		this.lastUpdate = lastUpdate;
+		VBR = vbr;
+		lastModified = lastUpdate;
 	}
 
 	public Track() {
@@ -162,7 +195,7 @@ public final class Track implements YassConstants {
 	 * @param lastUpdate
 	 *          the lastUpdate to set
 	 */
-	public final void setLastUpdate(final Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	public final void setLastModified(final Date lastUpdate) {
+		lastModified = lastUpdate;
 	}
 }

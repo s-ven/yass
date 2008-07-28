@@ -42,14 +42,16 @@ package org.yass.main.model{
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
 		private var _sortA:Sort = new Sort();
-		private var _sortByTrackNr:SortField = new SortField("trackNr", true, false, true);
+		private var _sortByTrackNr:SortField = new SortField("trackNr", false, false, true);
 		private var _sortByArtist:SortField = new SortField("artist", true);
 		private var _sortByAlbum:SortField = new SortField("album", true);
 		private var _sortByTitle:SortField = new SortField("title", true);
 		private var _sortByGenre:SortField = new SortField("genre", true);
-		private var _sortByLength:SortField = new SortField("length", true, false, true);
-		private var _sortByRating:SortField = new SortField("rating", true, false, true);
-		private var _sortByPlayCount:SortField = new SortField("playCount", true, false, true);
+		private var _sortByLength:SortField = new SortField("length", false, false, true);
+		private var _sortByRating:SortField = new SortField("rating", false, false, true);
+		private var _sortByPlayCount:SortField = new SortField("playCount", false, false, true);
+		private var _sortByBitrate:SortField = new SortField("bitrate", false, false, true);
+		private var _sortByYear:SortField = new SortField("year", false, false, true);
 		private var _oldColumn:String;
 		private var _selectedTrack:Track;
 			
@@ -220,14 +222,22 @@ package org.yass.main.model{
 			    if(_oldColumn == "rating")
 			    	_sortByRating.reverse(); 
 			   _sortA.fields=[_sortByRating];
-			} else if (columnName=="playCount") {
-			    if(_oldColumn == "playCount")
+			} else if (columnName=="playCountText") {
+			    if(_oldColumn == "playCountText")
 			    	_sortByPlayCount.reverse();
 			   _sortA.fields=[_sortByPlayCount];
 			} else if (columnName=="genre") {
 			    if(_oldColumn == "genre")
 			    	_sortByGenre.reverse();
 			   _sortA.fields=[_sortByGenre];
+			}  else if (columnName=="bitrateText") {
+			    if(_oldColumn == "bitrateText")
+			    	_sortByBitrate.reverse();
+			   _sortA.fields=[_sortByBitrate,_sortByArtist, _sortByAlbum, _sortByTrackNr];
+			}  else if (columnName=="yearText") {
+			    if(_oldColumn == "yearText")
+			    	_sortByYear.reverse();
+			   _sortA.fields=[_sortByYear,_sortByArtist, _sortByAlbum, _sortByTrackNr];
 			} 
 			_oldColumn = columnName;
 			sort = _sortA

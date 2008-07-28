@@ -4,7 +4,7 @@ package org.yass.main.model
 	
 	public class LibraryfilterFunctions	{
 		public function getFilterFunction(genres:Array, artists:Array, albums:Array, subFunction:Function=null, txtArray:Array=null):Function{
-			if(subFunction){			
+			if(subFunction != null){			
 				if(genres.length !=0 && albums.length ==0 && artists.length ==0)
 					return function(row:Object):Boolean{
 								return txtArray.every(subFunction, row) && genres.lastIndexOf(row.genre) != -1

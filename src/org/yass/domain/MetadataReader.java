@@ -29,20 +29,23 @@ public class MetadataReader implements org.yass.YassConstants {
 		final Collection<Track> toKeep = new ArrayList<Track>();
 		int id = 0;
 		for (final File file : files) {
-			LOG.info(" file : " + id++ + "/" + files.length + " : " + file.getName());
-			Track track = trackDao.getFromPath(lib, file.getPath());
-			if (track == null) {
+			id += 1;
+			Track track = lib.getFromPath(file.getPath());
+			if (track == null)
 				track = new Track();
-				track.setLibrary(lib);
+			if (file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
+				lib.add(track);
+				LOG.info(" file : " + id + "/" + files.length + " : " + file.getName());
+				trackDao.save(track);
 			}
-			if (file.lastModified() > track.getLastUpdate().getTime())
-				if (parseFile(file, track))
-					trackDao.save(track);
-			lib.add(track);
 			toKeep.add(track);
 		}
 		final Collection<Track> toDelete = new ArrayList<Track>(lib.getTracks());
 		toDelete.removeAll(toKeep);
+		for (final Track track : toDelete) {
+			lib.tracks.remove(track.getId());
+			trackDao.delete(track);
+		}
 	}
 
 	public final static boolean parseFile(final File file, final Track track) {
@@ -50,10 +53,10 @@ public class MetadataReader implements org.yass.YassConstants {
 			final AudioFileFormat audioFormat = AudioSystem.getAudioFileFormat(file);
 			if (audioFormat instanceof TAudioFileFormat) {
 				final Map props = ((TAudioFileFormat) audioFormat).properties();
-				String author = (String) props.get("author");
-				if (author == null || "".equals(author))
-					author = UNKNOWN_ARTIST;
-				track.setTrackInfo(ARTIST, TrackInfo.getFromValue(author, ARTIST));
+				String artist = (String) props.get("author");
+				if (artist == null || "".equals(artist))
+					artist = UNKNOWN_ARTIST;
+				track.setTrackInfo(ARTIST, TrackInfo.getFromValue(artist, ARTIST));
 				String genre = (String) props.get("mp3.id3tag.genre");
 				if (genre == null || "".equals(genre))
 					genre = UNKNOWN_GENRE;
@@ -62,6 +65,15 @@ public class MetadataReader implements org.yass.YassConstants {
 				if (album == null || "".equals(album))
 					album = UNKNOWN_ALBUM;
 				track.setTrackInfo(ALBUM, TrackInfo.getFromValue(album, ALBUM));
+				final String year = (String) props.get("date");
+				if (year != null && !"".equals(year))
+					track.setTrackInfo(YEAR, TrackInfo.getFromValue(year, YEAR));
+				final Integer bitRate = (Integer) props.get("mp3.bitrate.nominal.bps");
+				if (bitRate != null && !"".equals(album))
+					track.setTrackInfo(BITRATE, TrackInfo.getFromValue(bitRate / 1000 + "", BITRATE));
+				final Boolean vbr = (Boolean) props.get("mp3.vbr");
+				if (vbr != null)
+					track.setVBR(vbr.booleanValue());
 				String title = ((String) props.get("title")).trim();
 				if (title == null || "".equals(title))
 					title = file.getName();
@@ -72,7 +84,7 @@ public class MetadataReader implements org.yass.YassConstants {
 					trackNr = trackNr.substring(0, slashIndex);
 				track.setTrackNr(Integer.parseInt(trackNr));
 				track.setPath(file.getPath());
-				track.setLastUpdate(new Date(file.lastModified()));
+				track.setLastModified(new Date(file.lastModified()));
 				track.setLength((Long) props.get("duration") / 1000);
 			}
 		} catch (final Exception e) {

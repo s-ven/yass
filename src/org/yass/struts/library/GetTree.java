@@ -1,10 +1,8 @@
 package org.yass.struts.library;
 
-import org.w3c.dom.Document;
 import org.yass.YassConstants;
+import org.yass.listener.Init;
 import org.yass.struts.YassAction;
-
-import com.opensymphony.xwork2.ActionContext;
 
 public class GetTree extends YassAction implements YassConstants {
 
@@ -17,7 +15,7 @@ public class GetTree extends YassAction implements YassConstants {
 	@Override
 	public String execute() {
 		LOG.info("Library trackInfos requested");
-		return outputDocument((Document) ActionContext.getContext().getApplication().get(LIB_XML_TREE));
+		return outputDocument(Init.buildXMLDoc(getLibrary()));
 	}
 
 	/**

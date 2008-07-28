@@ -34,7 +34,8 @@ package org.yass.main.model{
 				Console.time("model.settings.init : context init")
 				for(var nodeName:Object in xml.trackInfoIds.trackInfo){
 					var trackInfo:Value = LibraryModel.trackInfos[xml.trackInfoIds.trackInfo[nodeName].@id+""];
-					this[trackInfo.type+"Selected"].push(trackInfo);					
+					if(trackInfo)
+						this[trackInfo.type+"Selected"].push(trackInfo);					
 				}
 				if(artistSelected.length > 0 || genreSelected.length > 0 || albumSelected.length >0)
 					Yass.library.filteredText = "";

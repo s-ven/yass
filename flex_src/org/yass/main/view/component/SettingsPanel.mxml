@@ -5,6 +5,7 @@
 	creationComplete="onCreationComplete()" width="450" height="250">
 	<mx:Script>
 		<![CDATA[
+			import org.yass.util.TextColor;
 			import mx.validators.NumberValidator;
 			import mx.formatters.NumberFormatter;
 			import org.yass.Yass;
@@ -21,7 +22,8 @@
 			}
 			private function onItemClick():void{
 				currentState = configurationPane.selectedItem.@state
-				preferencepane2.columnsDG.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
+				if(preferencepane2)
+					preferencepane2.columnsDG.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
 			} 
 			private function onCreationComplete():void{
 				configurationPane.selectedIndex = 0

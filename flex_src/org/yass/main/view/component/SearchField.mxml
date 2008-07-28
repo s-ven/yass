@@ -3,6 +3,7 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"  height="100%" width="220"  right="10" creationComplete="createView()">
 	<mx:Script>
 		<![CDATA[
+			import org.yass.util.TextColor;
 			import org.yass.main.view.SearchView;
 			private var searchView:SearchView;
 			private function createView():void{

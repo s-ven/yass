@@ -32,6 +32,8 @@ package org.yass.main.model{
 		private var _artist:Value;
 		private var _album:Value;
 		private var _lengthText:String;
+		private var _bitrateText:String;
+		private var _playCountText:String;
 		public function Track(obj:XML):void		{
 				_xml = obj
 		}
@@ -57,7 +59,11 @@ package org.yass.main.model{
 		public  function get  playCount():int{
 			return _xml.@playCount;
 		}
-		
+		public function get playCountText():String{
+			if(_playCountText)
+				return _playCountText
+			return _playCountText = _xml.@playCount == 0?"":_xml.@playCount;
+		}
 		public  function set  playCount(val:int){
 			_xml.@playCount = val;
 		}
@@ -114,7 +120,20 @@ package org.yass.main.model{
 		public function get rating():int{
 			return _xml.@rating;
 		}
-		
+		public function get yearText():String{
+			return _xml.@year ==0?"":_xml.@year;
+		}
+		public function get bitrateText():String{
+			if(_bitrateText)
+				return _bitrateText;
+			return _bitrateText = ((_xml.@vbr == "true")?(_xml.@bitrate + " kbps (VBR)"):(_xml.@bitrate + " kbps"));
+		}
+		public function get bitrate():int{
+			return _xml.@bitrate;
+		}
+		public function get year():int{
+			return _xml.@year;
+		}
 		public function toString():String{
 			return title;
 		}

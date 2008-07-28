@@ -55,6 +55,7 @@ package org.yass.main.controller{
 		private function onHeaderRelease(event:DataGridEvent):void {
 			Console.log("controller.PlayList.headerRelease column=" + event.dataField.toString());
 			model.sortColumn(event.dataField.toString());
+			event.stopImmediatePropagation();
 			event.preventDefault();
 
 		}

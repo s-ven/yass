@@ -9,6 +9,7 @@ public class Library {
 
 	protected final Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
 	public String path;
+	private final Map<String, Track> paths = new LinkedHashMap<String, Track>();
 	public Date lastUpdate = new Date();
 	public int id;
 
@@ -29,7 +30,12 @@ public class Library {
 	 */
 	public final void add(final Track track) {
 		track.setLibrary(this);
+		paths.put(track.getPath(), track);
 		tracks.put(track.getId(), track);
+	}
+
+	public final Track getFromPath(final String filePath) {
+		return paths.get(filePath);
 	}
 
 	public final Track getMediaFile(final int id) {

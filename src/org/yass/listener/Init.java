@@ -56,13 +56,17 @@ public class Init implements ServletContextListener, YassConstants {
 			Library lib = libDao.getFromId(1);
 			if (lib == null) {
 				LOG.info("No Library found, creating new one");
-				lib = new Library(0, trackroot, new Date());
-				libDao.saveLibrary(lib);
-				new MetadataReader().scanLibrary(lib);
+				libDao.saveLibrary(lib = new Library(0, trackroot, new Date()));
 			}
 			servletContext.setAttribute(ALL_LIBRARY, lib);
-			LOG.info("Building library trackInfo XML document");
-			servletContext.setAttribute(LIB_XML_TREE, buildXMLDoc(lib));
+			final Runnable runnable = new Runnable() {
+
+				public void run() {
+					LOG.info("Scanning library path to add new media");
+					new MetadataReader().scanLibrary((Library) servletContext.getAttribute(ALL_LIBRARY));
+				}
+			};
+			new Thread(runnable).start();
 			servletContext.setAttribute(USER_PLAYLISTS, new PlayListDao().getFromUserId(1));
 			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
 		} catch (final Exception e) {
@@ -72,7 +76,7 @@ public class Init implements ServletContextListener, YassConstants {
 
 	// TODO :: LA METHODE DE LA MORT, PLUS LONGUE TU MEURS, ABSOLUMENT POURRI, A
 	// REFAIRE
-	private Document buildXMLDoc(final Library pl) {
+	public final static Document buildXMLDoc(final Library pl) {
 		Document doc = null;
 		try {
 			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -145,7 +149,7 @@ public class Init implements ServletContextListener, YassConstants {
 		return doc;
 	}
 
-	private Element makeNodeFromProp(final Document doc, final TrackInfo album) {
+	private final static Element makeNodeFromProp(final Document doc, final TrackInfo album) {
 		Element albNode;
 		albNode = doc.createElement("node");
 		albNode.setAttribute("id", "" + album.getId());

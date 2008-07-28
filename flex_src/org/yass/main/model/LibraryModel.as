@@ -91,6 +91,8 @@ package org.yass.main.model{
 					return this[type+"All"]
 				else{
 					array = this[type+"All"] = _tree.getArrayByType(type);
+					array.sort = _sort;
+					array.refresh();
 					for(var i:Object in array)
 						trackInfos[array[i].id] = array[i]
 				}

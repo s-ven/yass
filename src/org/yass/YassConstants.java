@@ -20,6 +20,8 @@ public interface YassConstants {
 	public static final String TRACK = "TRACK";
 	public static final String TITLE = "TITLE";
 	public static final String GENRE = "genre";
+	public static final String BITRATE = "bitrate";
+	public static final String YEAR = "year";
 	public static final String PATH = "PATH";
 	public static final String LENGTH = "LENGTH";
 	public static final String UUID = "UUID";
