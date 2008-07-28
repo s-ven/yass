@@ -49,7 +49,7 @@ public class SettingsDao extends AbstractDao {
 	}
 
 	public final Settings getFromUserId(final int usrId) {
-		LOG.info("Loading Track Stats from user_id:" + usrId);
+		LOG.info("Loading Settings for user id:" + usrId);
 		final Iterator<Settings> it = getJdbcTempate()
 				.query(
 						"select user_id, loaded_track_id, volume, shuffle, repeat, show_remaining, display_mode, stop_fadeout, skip_fadeout, next_fadeout from user_setting where user_id = ?",

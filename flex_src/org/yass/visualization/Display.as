@@ -149,7 +149,7 @@ package org.yass.visualization
 		}
 
 		private function plateClick(evt:Event):void{
-			if((Yass.settings.displayMode+=1) ==3) 
+			if(Yass.settings.displayMode++ >=2)  
 				Yass.settings.displayMode=0;
 			refresh();
 		}

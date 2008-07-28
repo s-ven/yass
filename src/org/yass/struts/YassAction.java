@@ -67,7 +67,7 @@ public class YassAction extends ActionSupport implements YassConstants {
 			ServletActionContext.getResponse().setContentType("text/xml");
 			ServletActionContext.getResponse().setHeader("Content-Encoding", "gzip");
 			ByteArrayOutputStream bout;
-			final GZIPOutputStream gzoz = new GZIPOutputStream(bout = new ByteArrayOutputStream(), 2048000);
+			final GZIPOutputStream gzoz = new GZIPOutputStream(bout = new ByteArrayOutputStream());
 			final StreamResult result = new StreamResult(gzoz);
 			final DOMSource source = new DOMSource(document);
 			transformer.transform(source, result);

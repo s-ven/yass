@@ -18,7 +18,7 @@ package org.yass.main.model{
 		public var skipFadeout:int = 3000;
 		public var nextFadeout:int = 6000;
 		public var loadedTrackId:int = 0;
-		public var trackInfoIds:Array;
+		public var trackInfoIds:Array; 
 		private var _init:Boolean=false;
 		public function Settings(obj:Object):void{
 			Yass.settings = this;
