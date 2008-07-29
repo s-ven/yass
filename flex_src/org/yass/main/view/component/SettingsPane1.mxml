@@ -24,7 +24,7 @@
 				<mx:Label text="ms on track skip" textAlign="right"/>
 			</mx:HBox>
 			</mx:VBox>
-		</mx:GridItem> 
+		</mx:GridItem>
 	</mx:GridRow>
 	<mx:GridRow  paddingBottom="0" paddingLeft="0" paddingRight="0" paddingTop="0">
 		<mx:GridItem verticalAlign="middle" paddingBottom="0" paddingLeft="0" paddingRight="0" horizontalAlign="right" width="50%">
@@ -44,4 +44,4 @@
 		</mx:GridItem>
 	</mx:GridRow>
 </mx:Grid>
-	
+

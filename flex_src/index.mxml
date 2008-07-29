@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application frameRate="20" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" minWidth="800"
 	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
-    borderSkin="AppBackground" backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222">
+	borderSkin="AppBackground" backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222">
 	<mx:states>
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
 				<main:MainWindow id="mainWindow" addedEffect="fadein"/>
-			</mx:AddChild> 
+			</mx:AddChild>
 		</mx:State>
 		<mx:State name="ProgressLoader" >
 			<mx:AddChild  position="lastChild" >
 				<component:LoadingProgressBar id="progressLoaderBar" horizontalCenter="0" verticalCenter="0" uicomponent="{this}"  />
 			</mx:AddChild>
-		</mx:State>  
+		</mx:State>
 	</mx:states>
 	<mx:Script>
 		<![CDATA[

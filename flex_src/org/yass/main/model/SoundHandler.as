@@ -1,5 +1,4 @@
-package org.yass.main.model
-{
+package org.yass.main.model{
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.media.Sound;
@@ -7,90 +6,90 @@ package org.yass.main.model
 	import flash.media.SoundLoaderContext;
 	import flash.media.SoundTransform;
 	import flash.net.URLRequest;
-	
+
 	import mx.core.UIComponent;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
-	public class SoundHandler extends UIComponent	{
-        public var position:Number = 0;
-        public var loadedLength:Number;
-        public var isPlaying:Boolean = false;
-        
-        private var _sound:Sound = new Sound();
-        private var _soundChannel:SoundChannel;
-        private var _loadedTrack:Track;
-        private var _volume:Number;
-		private var _fadeoutDuration:int; 
-        private var _fadeoutStartTime:Number;
-        private var _initialVolume:Number = 0;
-		public function SoundHandler(track:Track, volume:Number)		{
-            Console.log("model.SoundHandler :: Init title:" +track.title);
+	public class SoundHandler extends UIComponent{
+		public var position:Number = 0;
+		public var loadedLength:Number;
+		public var isPlaying:Boolean = false;
+
+		private var _sound:Sound = new Sound();
+		private var _soundChannel:SoundChannel;
+		private var _loadedTrack:Track;
+		private var _volume:Number;
+		private var _fadeoutDuration:int;
+		private var _fadeoutStartTime:Number;
+		private var _initialVolume:Number = 0;
+		public function SoundHandler(track:Track, volume:Number){
+			Console.log("model.SoundHandler :: Init title:" +track.title);
 			_loadedTrack = track;
 			this.volume = volume;
-            _sound.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
-            addEventListener( Event.ENTER_FRAME, onEnterFrame)
+			_sound.addEventListener(IOErrorEvent.IO_ERROR, onIoError);
+			addEventListener( Event.ENTER_FRAME, onEnterFrame)
 		}
 
-        public function set volume(value:Number):void{
-        	_volume = value;
-        	if(_soundChannel){
-        		var transform:SoundTransform = _soundChannel.soundTransform;
-        		transform.volume = value;
-        		_soundChannel.soundTransform = transform;
-        	}
-        }
-        
-        public function pause():void{
-        	if(_soundChannel)
-	            position = _soundChannel.position;
-            stop();
-            Console.log("model.SoundHandler.pause title:" + _loadedTrack.title);
-        }
-        
-        public function stop():void{
-        	isPlaying = false;
-        	if(_soundChannel){
-        		_soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete)
+		public function set volume(value:Number):void{
+			_volume = value;
+			if(_soundChannel){
+				var transform:SoundTransform = _soundChannel.soundTransform;
+				transform.volume = value;
+				_soundChannel.soundTransform = transform;
+			}
+		}
+
+		public function pause():void{
+			if(_soundChannel)
+				position = _soundChannel.position;
+			stop();
+			Console.log("model.SoundHandler.pause title:" + _loadedTrack.title);
+		}
+
+		public function stop():void{
+			isPlaying = false;
+			if(_soundChannel){
+				_soundChannel.removeEventListener(Event.SOUND_COMPLETE, onSoundComplete)
 				_soundChannel.stop();
-        	}
-        }       
-        public function play():void{
-        	isPlaying = true;
-            Console.log("model.SoundHandler.play title:" + _loadedTrack.title);
-	        if (position == 0){
+			}
+		}
+		public function play():void{
+			isPlaying = true;
+			Console.log("model.SoundHandler.play title:" + _loadedTrack.title);
+			if (position == 0){
 				_sound.load(new URLRequest("/yass/track_play.do?id=" + _loadedTrack.id), new SoundLoaderContext(375000, false));
-	        	_loadedTrack.playCount ++;
-	        	_loadedTrack.lastPlayed = new Date();
-	        	_loadedTrack.save();
-	        }
-	        _soundChannel = _sound.play(position);
-            _soundChannel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
-	    	volume = _volume;
-	    }
-        public function skipTo(value:Number):void{
+				_loadedTrack.playCount ++;
+				_loadedTrack.lastPlayed = new Date().time;
+				_loadedTrack.save();
+			}
+			_soundChannel = _sound.play(position);
+			_soundChannel.addEventListener(Event.SOUND_COMPLETE, onSoundComplete);
+			volume = _volume;
+		}
+		public function skipTo(value:Number):void{
 			if(value != 0 && loadedLength >  value	&& value <= _loadedTrack.length){
 				Console.group("model.SoundHandler.skipTo value:"+value);
-				var wasPlaying:Boolean = isPlaying; //192872.90249433107 193228 //192914.2857142857
+				var wasPlaying:Boolean = isPlaying;
 				stop();
 				position = value;
-				if(wasPlaying)		
+				if(wasPlaying)
 					play();
 				Console.groupEnd();
 			}
 		}
-        public function onSoundComplete(event:Event):void {
-            Console.log("model.SoundHandler.soundCompleteHandler title:" + _loadedTrack.title);
-            if(_soundChannel.position+10 >= _sound.length)
+		public function onSoundComplete(event:Event):void {
+			Console.log("model.SoundHandler.soundCompleteHandler title:" + _loadedTrack.title);
+			if(_soundChannel.position+10 >= _sound.length)
 				Yass.player.next();
-			else 
+			else
 				skipTo(_soundChannel.position + 10)
-			
-        }        
-        private function onIoError(event:IOErrorEvent):void {
-           Console.log("model.SoundHandler.ioErrorHandler event.text:" + event.text);
-        }
-        private function onEnterFrame(event:Event):void {
+
+		}
+		private function onIoError(event:IOErrorEvent):void {
+		   Console.log("model.SoundHandler.ioErrorHandler event.text:" + event.text);
+		}
+		private function onEnterFrame(event:Event):void {
 			if(_soundChannel != null){
 				if(isPlaying){
 					position = _soundChannel.position;
@@ -102,7 +101,7 @@ package org.yass.main.model
 					}
 				}
 				else if(_loadedTrack)
-					loadedLength = _loadedTrack.length;					
+					loadedLength = _loadedTrack.length;
 			}
 		}
 		public function fadeOut(duration:Number):void{

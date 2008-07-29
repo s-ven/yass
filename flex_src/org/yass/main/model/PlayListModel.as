@@ -1,21 +1,21 @@
-/* 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+/*
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
@@ -25,20 +25,18 @@ package org.yass.main.model{
 	import mx.collections.SortField;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
-	import mx.formatters.DateFormatter;
-	import mx.rpc.http.HTTPService;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayerEvent;
 	import org.yass.main.events.TrackEvent;
 	import org.yass.main.model.interfaces.IPlayListModel;
-	
+
 	public class PlayListModel extends ArrayCollection implements IPlayListModel{
-        public var shuffledTracks:ArrayCollection= new ArrayCollection();
-        public var shuffledListPosition:int; 
+		public var shuffledTracks:ArrayCollection= new ArrayCollection();
+		public var shuffledListPosition:int;
 		public var playListId:String;
-		
+
 		private var _trackIndex:Number = -1;
    		private var _datas:ArrayCollection;
 		private var _sortA:Sort = new Sort();
@@ -52,13 +50,15 @@ package org.yass.main.model{
 		private var _sortByPlayCount:SortField = new SortField("playCount", false, false, true);
 		private var _sortByBitrate:SortField = new SortField("bitrate", false, false, true);
 		private var _sortByYear:SortField = new SortField("year", false, false, true);
+		private var _sortByLastPlayed:SortField = new SortField("lastPlayed", false, false, true);
+		private var _sortByLastModified:SortField = new SortField("lastModified", false, false, true);
 		private var _oldColumn:String;
 		private var _selectedTrack:Track;
-			
-		public function PlayListModel(){			
-        	Console.log("model.PlayListModel :: Init");
+
+		public function PlayListModel(){
+			Console.log("model.PlayListModel :: Init");
 		}
-		
+
 		public function removeEventListeners():void{
 			removeEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
 			Yass.player.removeEventListener(PlayerEvent.TRACK_LOADED, onPlayerEvent);
@@ -71,81 +71,81 @@ package org.yass.main.model{
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
 			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 		}
-		
-    	public function set trackIndex(value:Number):void{
-    		_trackIndex = value;
-    	}
-		
-        public function get selectedTrack():Track{
-        	if(trackIndex !=-1 && trackIndex < length){
-        		_selectedTrack = getItemAt(trackIndex) as Track
-	        	return _selectedTrack;
-	        }
-        	return null;
-        }
-        
+
+		public function set trackIndex(value:Number):void{
+			_trackIndex = value;
+		}
+
+		public function get selectedTrack():Track{
+			if(trackIndex !=-1 && trackIndex < length){
+				_selectedTrack = getItemAt(trackIndex) as Track
+				return _selectedTrack;
+			}
+			return null;
+		}
+
  		public function get trackIndex():Number{
  			return _trackIndex;
  		}
-        private function getPreviousShuffledTrack():Number{
-        	if(shuffledTracks.length > 1 && shuffledListPosition > 1)
-        		return shuffledTracks.getItemAt((shuffledListPosition -= 1) -1) as Number;
-        	return trackIndex;
-    	}     
-        private function getNextShuffledTrack():Number{
-        	if(!(shuffledTracks.length > 1 && shuffledListPosition < shuffledTracks.length))
-        		shuffledTracks.addItem(Math.ceil( 
-        		( 1 - Math.random()) * length) - 1);
-        	shuffledListPosition += 1;
-        	return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
-    	}
-        public function getNextTrack():Track{
-        	Console.log("model.PlayList.getNextTrack");
-            if(Yass.settings.shuffle)
-	           	trackIndex = getNextShuffledTrack();
-	        else{
+		private function getPreviousShuffledTrack():Number{
+			if(shuffledTracks.length > 1 && shuffledListPosition > 1)
+				return shuffledTracks.getItemAt((shuffledListPosition -= 1) -1) as Number;
+			return trackIndex;
+		}
+		private function getNextShuffledTrack():Number{
+			if(!(shuffledTracks.length > 1 && shuffledListPosition < shuffledTracks.length))
+				shuffledTracks.addItem(Math.ceil(
+				( 1 - Math.random()) * length) - 1);
+			shuffledListPosition += 1;
+			return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
+		}
+		public function getNextTrack():Track{
+			Console.log("model.PlayList.getNextTrack");
+			if(Yass.settings.shuffle)
+			   	trackIndex = getNextShuffledTrack();
+			else{
 				if(trackIndex < length - 1)
 					trackIndex += 1;
 				else if(Yass.settings.loop)
 					trackIndex = 0;
 				else
 					return null;
-	        }
+			}
 			return selectedTrack;
-        }
-        
-        public function getPreviousTrack():Track{
-        	Console.log("model.PlayList.getPreviousTrack");
-        	if(Yass.settings.shuffle)
-        		trackIndex = getPreviousShuffledTrack();
-        	else
-        	   	if(trackIndex > 0)
-               		trackIndex -= 1;
-            	else if(Yass.settings.loop)
-                	trackIndex = length -1;
+		}
+
+		public function getPreviousTrack():Track{
+			Console.log("model.PlayList.getPreviousTrack");
+			if(Yass.settings.shuffle)
+				trackIndex = getPreviousShuffledTrack();
+			else
+			   	if(trackIndex > 0)
+			   		trackIndex -= 1;
+				else if(Yass.settings.loop)
+					trackIndex = length -1;
 				else
 					return null;
 			return selectedTrack;
-		}        
+		}
   		/**
   		 *  This will play the request track,
   		 */
-  		public function playTrack(_trackIndex:Number):void{ 
+  		public function playTrack(_trackIndex:Number):void{
 			trackIndex = _trackIndex;
   			Console.group("group.PlayList.playTrack trackIndex:"  +trackIndex+ ", playListId:"+ playListId);
 			var wasPlaying:Boolean = Yass.player.isPlaying;
 			// loads the player with the current PlayList and track
 				loadToPlayer()
 			Yass.player.playTrack(selectedTrack)
-			// If the Player is shuffling, will add the selected track to the random list 
- 	       	if(Yass.settings.shuffle){
-	       		while(shuffledTracks.length > shuffledListPosition)
-	       			shuffledTracks.removeItemAt(shuffledListPosition);
-	       		shuffledListPosition +=1;
-	      		shuffledTracks.addItem(trackIndex);
-			} 
+			// If the Player is shuffling, will add the selected track to the random list
+ 		   	if(Yass.settings.shuffle){
+		   		while(shuffledTracks.length > shuffledListPosition)
+		   			shuffledTracks.removeItemAt(shuffledListPosition);
+		   		shuffledListPosition +=1;
+		  		shuffledTracks.addItem(trackIndex);
+			}
 			Console.groupEnd();
-		}	  		
+		}	  
   		public function selectTrack(_trackIndex:Number):void{
   			Console.group("model.PlayList.selectTrack trackIndex:"  +_trackIndex+ ", playListId:"+ playListId);
   			trackIndex = _trackIndex;
@@ -162,16 +162,16 @@ package org.yass.main.model{
 		private function loadToPlayer():void{
 			Console.log("model.PlayList.loadToPlayer");
   			Yass.player.loadedPlayList = this;
-		} 
+		}
 		/**
-		 * Will dispatch a TrackEvent in order to refresh the view (Plate, PlayList) 
+		 * Will dispatch a TrackEvent in order to refresh the view (Plate, PlayList)
 		 */
 		protected function onPlayerEvent(evt:PlayerEvent):void{
 			if(Yass.player.loadedPlayList == this)
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, trackIndex, this));
 			else if (getItemIndex(Yass.player.loadedTrack) != -1)
 				dispatchEvent(new TrackEvent(TrackEvent.TRACK_SELECTED, getItemIndex(Yass.player.loadedTrack), this));
-			
+
 		}
 		public function onCollectionChange(evt:CollectionEvent):void{
 			if(evt.kind == CollectionEventKind.REFRESH){
@@ -185,7 +185,7 @@ package org.yass.main.model{
 			}
 		}
  		/**
- 		 * Called when a sort has occured, 
+ 		 * Called when a sort has occured,
  		 * The sort logic :
  		 *  - sorted by artist, group the results by albums, then track number
  		 *  - sorted by albums, group the results by artists then track number
@@ -195,55 +195,63 @@ package org.yass.main.model{
 		public function sortColumn(columnName:String):void{
 			Console.group("model.PlayList.sortColumn name:"+columnName);
 			if (columnName=="trackNr") {
-			    if(_oldColumn == "trackNr")
-			    	_sortByTrackNr.reverse();
+				if(_oldColumn == "trackNr")
+					_sortByTrackNr.reverse();
 				_sortA.fields=[_sortByTrackNr, _sortByArtist, _sortByAlbum, ];
 			} else if (columnName=="album") {
-			    if(_oldColumn == "album")
-			    	_sortByAlbum.reverse();
+				if(_oldColumn == "album")
+					_sortByAlbum.reverse();
 				_sortA.fields=[_sortByAlbum, _sortByArtist, _sortByTrackNr];
 			} else if (columnName=="artist") {
-			    if(_oldColumn == "artist")
-			    	_sortByArtist.reverse();
+				if(_oldColumn == "artist")
+					_sortByArtist.reverse();
 				_sortA.fields=[_sortByArtist, _sortByAlbum, _sortByTrackNr];
 			} else if (columnName=="genre") {
-			    if(_oldColumn == "genre")
-			    	_sortByGenre.reverse();
+				if(_oldColumn == "genre")
+					_sortByGenre.reverse();
 				_sortA.fields=[_sortByGenre,_sortByArtist, _sortByAlbum, _sortByTrackNr];
 			} else if (columnName=="title") {
-			    if(_oldColumn == "title")
-			    	_sortByTitle.reverse();
+				if(_oldColumn == "title")
+					_sortByTitle.reverse();
 			   _sortA.fields=[_sortByTitle, _sortByArtist, _sortByAlbum];
 			}else if (columnName=="lengthText") {
-			    if(_oldColumn == "lengthText")
-			    	_sortByLength.reverse();
+				if(_oldColumn == "lengthText")
+					_sortByLength.reverse();
 			   _sortA.fields=[_sortByLength, _sortByTitle, _sortByArtist, _sortByAlbum];
 			} else if (columnName=="rating") {
-			    if(_oldColumn == "rating")
-			    	_sortByRating.reverse(); 
+				if(_oldColumn == "rating")
+					_sortByRating.reverse();
 			   _sortA.fields=[_sortByRating];
 			} else if (columnName=="playCountText") {
-			    if(_oldColumn == "playCountText")
-			    	_sortByPlayCount.reverse();
+				if(_oldColumn == "playCountText")
+					_sortByPlayCount.reverse();
 			   _sortA.fields=[_sortByPlayCount];
 			} else if (columnName=="genre") {
-			    if(_oldColumn == "genre")
-			    	_sortByGenre.reverse();
+				if(_oldColumn == "genre")
+					_sortByGenre.reverse();
 			   _sortA.fields=[_sortByGenre];
 			}  else if (columnName=="bitrateText") {
-			    if(_oldColumn == "bitrateText")
-			    	_sortByBitrate.reverse();
+				if(_oldColumn == "bitrateText")
+					_sortByBitrate.reverse();
 			   _sortA.fields=[_sortByBitrate,_sortByArtist, _sortByAlbum, _sortByTrackNr];
+			}  else if (columnName=="lastPlayedText") {
+				if(_oldColumn == "lastPlayedText")
+					_sortByLastPlayed.reverse();
+			   _sortA.fields=[_sortByLastPlayed];
+			}  else if (columnName=="lastModifiedText") {
+				if(_oldColumn == "lastModifiedText")
+					_sortByLastModified.reverse();
+			   _sortA.fields=[_sortByLastModified];
 			}  else if (columnName=="yearText") {
-			    if(_oldColumn == "yearText")
-			    	_sortByYear.reverse();
+				if(_oldColumn == "yearText")
+					_sortByYear.reverse();
 			   _sortA.fields=[_sortByYear,_sortByArtist, _sortByAlbum, _sortByTrackNr];
-			} 
+			}
 			_oldColumn = columnName;
 			sort = _sortA
 			refresh()
 			sort = null
 			Console.groupEnd();
  		}
-	}    
+	}
 }

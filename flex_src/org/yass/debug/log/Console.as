@@ -1,14 +1,14 @@
 package org.yass.debug.log {
-	
+
 	import flash.external.ExternalInterface;
 	/**
-	 * Firebug adds a global variable named "console" to all web pages loaded in Firefox. 
+	 * Firebug adds a global variable named "console" to all web pages loaded in Firefox.
 	 * This object contains many methods that allow you to write to the Firebug console to expose information that is flowing through your scripts.
 	 * */
 
 	public class Console {
 		/**
-		 * Writes a message to the console. 
+		 * Writes a message to the console.
 		 * You may pass as many arguments as you'd like, and they will be
 		 * joined together in a space-delimited line.
 		 * */
@@ -16,21 +16,21 @@ package org.yass.debug.log {
 			send("log",rest);
 		}
 		/**
-		 * Writes a message to the console, including a hyperlink to the 
+		 * Writes a message to the console, including a hyperlink to the
 		 * line where it was called.
 		 * */
 		public static function debug(...rest):void{
 			send("debug",rest);
 		}
 		/**
-		 * Writes a message to the console with the visual "warning" icon and 
+		 * Writes a message to the console with the visual "warning" icon and
 		 * color coding and a hyperlink to the line where it was called.
 		 * */
 		public static function warn(...rest):void{
 			send("warn",rest);
 		}
 		/**
-		 * Writes a message to the console with the visual "info" icon and 
+		 * Writes a message to the console with the visual "info" icon and
 		 * color coding and a hyperlink to the line where it was called.
 		 * */
 		public static function info(...rest):void{
@@ -44,32 +44,32 @@ package org.yass.debug.log {
 			send("error",rest);
 		}
 		/**
-		 * Tests that an expression is true. 
+		 * Tests that an expression is true.
 		 * If not, it will write a message to the console and throw an exception.
 		 * */
 		public static function assert(...rest):void{
 			send("assert",rest);
 		}
 		/**
-		 * 	Prints an interactive listing of all properties of the object. 
+		 * 	Prints an interactive listing of all properties of the object.
 		 * 	This looks identical to the view that you would see in the DOM tab.
 		 * */
 		public static function dir(object:Object):void{
 		  send("dir", [object]);
 		}
 		/**
-		 * 	Prints the XML source tree of an HTML or XML element. 
-		 * 	This looks identical to the view that you would see in the HTML tab. 
+		 * 	Prints the XML source tree of an HTML or XML element.
+		 * 	This looks identical to the view that you would see in the HTML tab.
 		 * 	You can click on any node to inspect it in the HTML tab.
 		 * */
 		public static function dirxml(object:XML):void{
 		  send("dirxml", [object]);
 		}
 		/**
-		 * Prints an interactive stack trace of JavaScript execution at the 
+		 * Prints an interactive stack trace of JavaScript execution at the
 		 * point where it is called.
 		 * The stack trace details the functions on the stack, as well as the values
-		 * that were passed as arguments to each function. You can click each function 
+		 * that were passed as arguments to each function. You can click each function
 		 * to take you to its source in the Script tab, and click each argument value
 		 * to inspect it in the DOM or HTML tabs.
 		 * */
@@ -77,7 +77,7 @@ package org.yass.debug.log {
 		  send("trace");
 		}
 		/**
-		* Writes a message to the console and opens a nested block to indent all future messages sent to the console. 
+		* Writes a message to the console and opens a nested block to indent all future messages sent to the console.
 		* Call console.groupEnd() to close the block.
 		* */
 		public static function group(...rest):void{
@@ -90,7 +90,7 @@ package org.yass.debug.log {
 		  send("groupEnd", []);
 		}
 		/**
-		 * Creates a new timer under the given name. 
+		 * Creates a new timer under the given name.
 		 * Call console.timeEnd(name) with the same name to stop the timer and print the time elapsed..
 		 * */
 		public static function time(name:String):void{
@@ -103,7 +103,7 @@ package org.yass.debug.log {
 		  send("timeEnd", [name]);
 		}
 		/**
-		 * Turns on the JavaScript profiler. 
+		 * Turns on the JavaScript profiler.
 		 * The optional argument title would contain the text to be printed in the header of the profile report.
 		 * */
 		public static function profile(title:String):void{
@@ -128,10 +128,10 @@ package org.yass.debug.log {
 		private static function send(level:String,...rest):void{
 			try{
 				ExternalInterface.call("console."+level,rest[0]);
-				
+
 			}catch(e:Error){
-		       trace();
-				
+			   trace();
+
 			}
 		}
 	}

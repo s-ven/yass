@@ -1,18 +1,17 @@
-package org.yass.util.tree
-{
+package org.yass.util.tree{
 	import mx.collections.ArrayCollection;
-	
+
 	import org.yass.util.Visitable;
 	import org.yass.util.Visitor;
-	public class Value implements Visitable	{
-		public var childs:Array = new Array(); 
+	public class Value implements Visitable{
+		public var childs:Array = new Array();
 		public var parent:Value;
 		public var xml:XML;
 		private var _lowerCaseValue:String;
 		public function Value(node:XML):void{
 			xml=node;
 		}
-		
+
 		public function get lowerCaseValue():String{
 			if(_lowerCaseValue)
 				return _lowerCaseValue;
@@ -24,15 +23,15 @@ package org.yass.util.tree
 		public function get value():String{
 			return xml.@value;
 		}
-		
+
 		public function get id():int{
 			return xml.@id;
 		}
-		
+
 		public function addParent(parent:Value):void{
-			this.parent = parent;			
+			this.parent = parent;
 		}
-		
+
 		public function hasParent(val:Value):Boolean{
 			if(parent == val)
 				return true;
@@ -40,11 +39,11 @@ package org.yass.util.tree
 				return parent.hasParent(val);
 			return false;
 		}
-			
+
 		public function accept(visitor:Visitor):void{
 			visitor.visit(this);
 		}
-		
+
 		public function addChild(child:Value):void{
 			childs.push(child);
 			child.addParent(this);
@@ -57,10 +56,10 @@ package org.yass.util.tree
 			accept(lvlExtr);
 			return lvlExtr.extraction;
 		}
-		
+
 		public function isChildOf(val:Value):Boolean{
 			return hasParent(val)
 		}
-		
+
 	}
 }

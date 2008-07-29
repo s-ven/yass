@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
-	horizontalCenter="0" verticalCenter="0" title="Preferences" xmlns:component="org.yass.main.view.component.*" 
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	horizontalCenter="0" verticalCenter="0" title="Preferences" xmlns:component="org.yass.main.view.component.*"
 	verticalScrollPolicy="off" horizontalScrollPolicy="off" currentState="Pane1"
 	creationComplete="onCreationComplete()" width="450" height="250">
 	<mx:Script>
@@ -24,11 +24,11 @@
 				currentState = configurationPane.selectedItem.@state
 				if(preferencepane2)
 					preferencepane2.columnsDG.dataProvider = mainWindow.mainPane.playList.columns.slice(1);
-			} 
+			}
 			private function onCreationComplete():void{
 				configurationPane.selectedIndex = 0
-			} 
-		]]> 
+			}
+		]]>
 	</mx:Script>
 	<mx:XMLList id="ConfigurationPanes">
 		<node state="Pane1" label="Player"/>
@@ -49,7 +49,7 @@
 	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" right="10" left="10" bottom="5" top="30">
 	<mx:Canvas height="100%" width="130">
 		<mx:borderSkin>@Embed(source='/assets/white-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
-		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" id="configurationPane" dataProvider="{ConfigurationPanes}"  
+		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" id="configurationPane" dataProvider="{ConfigurationPanes}"
 			showHeaders="false"  itemClick="onItemClick()" borderStyle="none" left="4" right="4" top="6" bottom="5">
 			<mx:columns>
 				<mx:DataGridColumn dataField="@label" sortable="false" draggable="false" />

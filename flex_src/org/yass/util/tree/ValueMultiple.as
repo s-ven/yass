@@ -1,12 +1,10 @@
-package org.yass.util.tree
-{
+package org.yass.util.tree{
 	import org.yass.debug.log.Console;
-	
+
 	[Bindable]
-	public class ValueMultiple extends Value
-	{
+	public class ValueMultiple extends Value{
 		public var values:Array = new Array();
-		public function ValueMultiple(ex:Value)		{
+		public function ValueMultiple(ex:Value){
 			super(ex.xml);
 			values.push(ex);
 		}

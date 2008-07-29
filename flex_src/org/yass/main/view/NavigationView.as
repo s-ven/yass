@@ -1,36 +1,36 @@
-/* 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+/*
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.view{
 	import flash.events.MouseEvent;
 	import flash.utils.setTimeout;
-	
-	import mx.controls.Tree; 
+
+	import mx.controls.Tree;
 	import mx.core.ClassFactory;
 	import mx.core.UIComponent;
 	import mx.events.DragEvent;
 	import mx.events.ListEvent;
 	import mx.managers.DragManager;
 	import mx.rpc.http.HTTPService;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.MainPane;
@@ -40,17 +40,17 @@ package org.yass.main.view{
 	import org.yass.main.model.NavigationModel;
 	import org.yass.main.model.interfaces.INavigationModel;
 	import org.yass.main.renderers.NavigationViewRenderer;
-	public class NavigationView extends Tree {	 
-		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;  
- 		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;  
-		[Embed(source="/assets/small-tree-upl.png")] private var userPlIcon:Class;  
-		[Embed(source="/assets/small-tree-light.png")] private var lightPlIcon:Class;  
-		 
+	public class NavigationView extends Tree {
+		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;
+ 		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;
+		[Embed(source="/assets/small-tree-upl.png")] private var userPlIcon:Class;
+		[Embed(source="/assets/small-tree-light.png")] private var lightPlIcon:Class;
+
 		private var model:INavigationModel = new NavigationModel();
 		private var controller:NavigationController;
 
 		public var mainPane:MainPane;
-		public function NavigationView()		{
+		public function NavigationView(){
 			controller = new NavigationController(this, model);
 			model.addEventListener(PlayListEvent.REFRESH_PANE, onRefreshPane);
 			model.addEventListener(PlayListEvent.PLAYLIST_LOADED, onLoadPlayList);
@@ -65,25 +65,25 @@ package org.yass.main.view{
 			addEventListener(ListEvent.ITEM_CLICK, mouseClickHandler);
 			addEventListener(ListEvent.ITEM_EDIT_END, onEditItem);
 			dropEnabled = true;
-	        setStyle("folderClosedIcon", null);
-	        setStyle("folderOpenIcon", null); 
-	        itemRenderer = new ClassFactory(NavigationViewRenderer);
+			setStyle("folderClosedIcon", null);
+			setStyle("folderOpenIcon", null);
+			itemRenderer = new ClassFactory(NavigationViewRenderer);
 		}
 		override protected function dragEnterHandler(event:DragEvent):void{
-            DragManager.acceptDragDrop(UIComponent(event.currentTarget)); 
+			DragManager.acceptDragDrop(UIComponent(event.currentTarget));
 		}
 		override protected  function dragOverHandler(event:DragEvent):void{
-                var dropTarget:Tree = Tree(event.currentTarget);
-                var r:int = dropTarget.calculateDropIndex(event);
-                selectedIndex = r;
-                var node:XML = selectedItem as XML;
-                if( node.@type == "user" ) {
-                    DragManager.showFeedback(DragManager.COPY);
-                    return;
-                }
-                DragManager.showFeedback(DragManager.NONE);
+				var dropTarget:Tree = Tree(event.currentTarget);
+				var r:int = dropTarget.calculateDropIndex(event);
+				selectedIndex = r;
+				var node:XML = selectedItem as XML;
+				if( node.@type == "user" ) {
+					DragManager.showFeedback(DragManager.COPY);
+					return;
+				}
+				DragManager.showFeedback(DragManager.NONE);
 		}
-		
+
 		override protected  function dragDropHandler(event:DragEvent):void{
 			var uids:Array = new Array();
 			var selected:Object = (event.dragInitiator as PlayListView).selectedItems;
@@ -105,25 +105,25 @@ package org.yass.main.view{
 			setTimeout(saveItem,250, selectedItem, oldName);
 			editable = false;
 		}
-		private function saveItem(obj:Object, oldName:String):void	{	
-			if(obj.@name != oldName){			
+		private function saveItem(obj:Object, oldName:String):void{
+			if(obj.@name != oldName){
 				Console.log("view.Navigation.saveItem name=" + obj.@name + ",oldName=" +  oldName);
-				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_EDITED, obj.@id, obj.@name, obj.@type));		
+				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_EDITED, obj.@id, obj.@name, obj.@type));
 			}
 		}
 		override protected function mouseClickHandler(event:MouseEvent):void{
-			var item:Object= event.currentTarget.selectedItem		
-			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);if(item.@type == "user" || item.@type == "smart" || item.@type=="library")	{
+			var item:Object= event.currentTarget.selectedItem
+			Console.log("view.Navigation.mouseClickHandler type=" + item.@type + ", id=" +item.@id);if(item.@type == "user" || item.@type == "smart" || item.@type=="library"){
 				dispatchEvent(new NavigationEvent(NavigationEvent.PLAYLIST_CLICKED,  item.@id, null, item.@type));
 				editable = false;
-			}	
-			else if(item.@id == 0) 
+			}
+			else if(item.@id == 0)
 				editable = true;
 			else
 				event.stopImmediatePropagation();
-		}		
-		
-		public function onRefreshPane(evt:PlayListEvent):void{			
+		}
+
+		public function onRefreshPane(evt:PlayListEvent):void{
 			Console.log("view.Navigation.refreshNavigation");
 			dataProvider = evt.result;
 			if(dataProvider){
@@ -131,13 +131,13 @@ package org.yass.main.view{
 				openItems = treeData.elements();
 			}
 		}
-		public function onLoadPlayList(evt:PlayListEvent):void{		
+		public function onLoadPlayList(evt:PlayListEvent):void{
 			Console.log("view.Navigation.getSelectedPlayListsView type=" + evt.playListType);
 			if(evt.playListType == "library")
 				mainPane.currentState = null;
 			else
 				mainPane.currentState = "playListState";
 			mainPane.playList.model = evt.playlist
-		}	
+		}
 	}
 }

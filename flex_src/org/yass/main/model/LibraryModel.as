@@ -1,41 +1,41 @@
-/* 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+/*
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.model{
 	import flash.utils.Dictionary;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	import mx.events.CollectionEvent;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.LibraryEvent;
 	import org.yass.main.events.PlayerEvent;
 	import org.yass.util.tree.*;
 	public class LibraryModel extends PlayListModel{
-		public var genreArray:ArrayCollection; 
+		public var genreArray:ArrayCollection;
 		public var artistArray:ArrayCollection;
-		public var albumArray:ArrayCollection; 
+		public var albumArray:ArrayCollection;
 		public static var trackInfos:Dictionary = new Dictionary();
 		private var genreAll:ArrayCollection
 		private var artistAll:ArrayCollection;
@@ -63,9 +63,9 @@ package org.yass.main.model{
 			Yass.player.addEventListener(PlayerEvent.PLAYING, onPlayerEvent);
 			Yass.player.addEventListener(PlayerEvent.STOPPED, onPlayerEvent);
 			addEventListener(CollectionEvent.COLLECTION_CHANGE, onCollectionChange);
-		} 
+		}
    		public function set datas(value:Object):void{
-        	Console.log("model.PlayListModel.set datas");
+			Console.log("model.PlayListModel.set datas");
 			if(value is XMLList || value is ArrayCollection)
 				for(var i:Object in value){
 					var track:Track = new Track(value[i])
@@ -73,7 +73,7 @@ package org.yass.main.model{
 				}
 			else
 				addItem(_trackDictionary[track.id] = track = new Track(value as XML));
-   		} 
+   		}
    		public function getTrack(id:int):Track{
    			return _trackDictionary[id];
    		}
@@ -81,7 +81,7 @@ package org.yass.main.model{
 			Console.group("model.Library.populateTree");
 			genreArray = createArray("genre");
 			artistArray = createArray("artist");
-			albumArray = createArray("album"); 
+			albumArray = createArray("album");
 			Console.groupEnd();
 		}
 		private function createArray(type:String):ArrayCollection{
@@ -97,7 +97,7 @@ package org.yass.main.model{
 						trackInfos[array[i].id] = array[i]
 				}
 			}
-			else 
+			else
 				array = this[type+"Array"] = new ArrayCollection(this["_" + type + "Filtered"]);
 			Console.log("type:"+type+", length:"+array.length);
 			return array;
@@ -116,22 +116,22 @@ package org.yass.main.model{
 					artistArray.refresh();
 					albumArray.filterFunction = null;
 					albumArray.refresh();
-					refreshedPanes =  ["artist", "album"];			
+					refreshedPanes =  ["artist", "album"];
 				}else if(type == "artist"){
 					artistSelected = new Array();
 					albumSelected = new Array();
 					if(genreSelected.length >1)
-						filterChild(albumArray, genreSelected);	
+						filterChild(albumArray, genreSelected);
 					else{
 						albumArray.filterFunction = null;
 						albumArray.refresh();
-					}	
-					refreshedPanes = ["album"];			
+					}
+					refreshedPanes = ["album"];
 				}
 				if(type == "album")
 					albumSelected = new Array();
 			}
-			else{	
+			else{
 				if(type=="genre"){
 					genreSelected = selectedItems;
 					artistSelected = new Array();
@@ -189,7 +189,7 @@ package org.yass.main.model{
 			Console.timeEnd("model.Library.browseby");
 			Console.groupEnd();
 			if(refreshedPanes.length> 0)
-				dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, refreshedPanes));		
+				dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, refreshedPanes));
 		}
 		private function checkParent(itemsArray:Array, parentArray: Array):Boolean{
 			if(parentArray.length ==0)
@@ -300,7 +300,7 @@ package org.yass.main.model{
 				};
 			return null;
 		}
-		
+
 		public function get artistSelected():Array{
 			return Yass.settings.artistSelected
 		}

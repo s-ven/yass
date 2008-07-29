@@ -1,28 +1,28 @@
-/* 
+/*
 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.model{
 	import mx.rpc.http.HTTPService;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
@@ -33,11 +33,11 @@ package org.yass.main.model{
 		private var _album:Value;
 		private var _lengthText:String;
 		private var _bitrateText:String;
-		private var _playCountText:String;
-		public function Track(obj:XML):void		{
+		private var _lastModifiedText:String;
+		public function Track(obj:XML):void{
 				_xml = obj
 		}
-		
+
 		public  function get  id():int{
 			return _xml.@id;
 		}
@@ -53,21 +53,22 @@ package org.yass.main.model{
 		public  function get  length():int{
 			return _xml.@length
 		}
-		public  function get  lastPlayed():Date{
-			return new Date() // _xml.@lastPlayed
+		public  function get  lastPlayed():Number{
+			return _xml.@lastPlayed
+		}
+		public function get lastPlayedText():String{
+			return _xml.@lastPlayed!=0?Yass.dateFormatter.format(new Date(_xml.@lastPlayed)):"";
 		}
 		public  function get  playCount():int{
 			return _xml.@playCount;
 		}
 		public function get playCountText():String{
-			if(_playCountText)
-				return _playCountText
-			return _playCountText = _xml.@playCount == 0?"":_xml.@playCount;
+			return _xml.@playCount == 0?"":_xml.@playCount;
 		}
 		public  function set  playCount(val:int){
 			_xml.@playCount = val;
 		}
-		public  function set  lastPlayed(val:Date){
+		public  function set  lastPlayed(val:Number){
 			_xml.@lastPlayed = val;
 		}
 		private var _allFields;
@@ -97,11 +98,11 @@ package org.yass.main.model{
 		public function get lengthText(){
 			if(_lengthText)
 				return _lengthText;
-			return _lengthText = Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, _xml.@length))
+			return _lengthText = Yass.trackDurationFormatter.format(new Date(_xml.@length))
 		}
-		
+
 		public function get isLoaded():Boolean{
-			return Yass.player.loadedTrack == this 
+			return Yass.player.loadedTrack == this
 		}
 		public function get isPlaying():Boolean{
 			return Yass.player.loadedTrack == this && Yass.player.isPlaying;
@@ -116,7 +117,7 @@ package org.yass.main.model{
 			service.url = "/yass/track_save.do";
 			service.send(this);
 		}
-		
+
 		public function get rating():int{
 			return _xml.@rating;
 		}
@@ -133,6 +134,14 @@ package org.yass.main.model{
 		}
 		public function get year():int{
 			return _xml.@year;
+		}
+		public function get lastModified():Number{
+			return _xml.@lastModified;
+		}
+		public function get lastModifiedText():String{
+			if(_lastModifiedText)
+				return _lastModifiedText;
+			return _lastModifiedText = Yass.dateFormatter.format(new Date(_xml.@lastModified))
 		}
 		public function toString():String{
 			return title;

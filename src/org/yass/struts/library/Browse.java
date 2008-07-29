@@ -52,13 +52,17 @@ public class Browse extends YassAction implements YassConstants {
 						trackNode.setAttribute("bitrate", mf.getTrackInfo(YassConstants.BITRATE).getValue());
 					trackNode.setAttribute("vbr", mf.isVBR() + "");
 					trackNode.setAttribute("length", mf.getLength() + "");
+					trackNode.setAttribute("lastModified", mf.getLastModified().getTime() + "");
 					final TrackStat stat = trackStats.get(mf.getId());
 					if (stat != null) {
 						trackNode.setAttribute("rating", stat.getRating() + "");
 						trackNode.setAttribute("playCount", stat.getPlayCount() + "");
+						trackNode.setAttribute("lastPlayed", stat.getLastPlayed() != null ? stat.getLastPlayed().getTime() + ""
+								: "0");
 					} else {
 						trackNode.setAttribute("rating", "0");
 						trackNode.setAttribute("playCount", "0");
+						trackNode.setAttribute("lastPlayed", "0");
 					}
 				}
 			}

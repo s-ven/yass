@@ -1,11 +1,10 @@
-package org.yass.visualization
-{
+package org.yass.visualization{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	
+
 	import mx.controls.HSlider;
 	import mx.events.SliderEvent;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 
@@ -16,7 +15,7 @@ package org.yass.visualization
 			super();
 			addEventListener(MouseEvent.MOUSE_DOWN, sliderChange);
 			addEventListener(Event.ENTER_FRAME, onEnterFrame);
-		}		
+		}
 		private function sliderChange(event:Event):void{
 				Yass.player.skipTo(event.currentTarget.value);
 		}

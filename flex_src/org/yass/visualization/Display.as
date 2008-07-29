@@ -1,21 +1,19 @@
-package org.yass.visualization
-{
+package org.yass.visualization{
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.profiler.showRedrawRegions;
-	
+
 	import mx.containers.Canvas;
 	import mx.containers.HBox;
 	import mx.containers.VBox;
 	import mx.controls.CheckBox;
 	import mx.controls.Label;
 	import mx.core.ScrollPolicy;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 
-	public class Display extends Canvas
-	{
+	public class Display extends Canvas{
 		public var trackLabel:Label = new Label();
 		public var scrollText:ScrollingText = new ScrollingText();
 		public var progress:ProgressSlider = new ProgressSlider();
@@ -26,15 +24,15 @@ package org.yass.visualization
 		public var spectrumAnalyzer:SpectrumAnalyzer = new SpectrumAnalyzer();
 		public var vuMeters:Canvas = new Canvas();
 		public var songInfo:Canvas = new Canvas();
-		
+
 		public static var _instance:Display;
-		 
+
 		public static function get instance():Display{
 			if(!_instance)
 				_instance = new Display();
 			return _instance
 		}
-		public function Display()		{
+		public function Display(){
 			Console.log("Display : init");
 			super();
 			addEventListener(Event.ENTER_FRAME, handlerEnterFrame);
@@ -59,23 +57,23 @@ package org.yass.visualization
 			addChild(songInfo);
 			_instance = this;
 		}
-		
+
 		private function formatPos(pos:Number):String {
-			return Yass.dateFormatter.format(new Date(0, 0, 0, 0, 0, 0, pos));
-		}         
+			return Yass.trackDurationFormatter.format(new Date(0, 0, 0, 0, 0, 0, pos));
+		}
 		override protected function commitProperties():void{
 			super.commitProperties();
 			var vbox:VBox = new VBox();
 			vbox.setStyle("verticalGap", 0);
 			vbox.setStyle("verticalAlign", "middle");
 			vbox.setStyle("horizontalAlign", "center");
-			vbox.percentWidth = 100;	
-			vbox.percentHeight = 100;	
-			trackLabel.height = 15	
-			vbox.addChild(trackLabel);	
+			vbox.percentWidth = 100;
+			vbox.percentHeight = 100;
+			trackLabel.height = 15
+			vbox.addChild(trackLabel);
 			scrollText.percentWidth = 100;
 			scrollText.height=15
-			vbox.addChild(scrollText);			
+			vbox.addChild(scrollText);
 			// The progress Slide etc
 			var hbox:HBox= new HBox();
 			hbox.percentWidth=100;
@@ -94,7 +92,7 @@ package org.yass.visualization
 			loop. styleName="LoopCheckBox";
 			canv1.addChild(loop);
 			hbox.addChild(canv1);
-			// Position 
+			// Position
 			var canv2:Canvas = new Canvas();
 			canv2.height = 15;
 			canv2.percentWidth = 5;
@@ -103,20 +101,20 @@ package org.yass.visualization
 			elapsed.setStyle("right", 0);
 			canv2.addChild(elapsed);
 			hbox.addChild(canv2);
-			// Progress Slider 
+			// Progress Slider
 			var canv3:Canvas = new Canvas();
 			canv3.setStyle("borderStyle", "solid");
 			canv3.setStyle("borderColor", "#0B333C");
 			canv3.setStyle("verticalCenter", -5);
 			canv3.height = 10;
 			canv3.percentWidth = 100;
-			progress.id="ProgressSlider" 
+			progress.id="ProgressSlider"
 			progress.sliderThumbClass=ProgressThumbClass;
 			progress.percentWidth=100;
 			progress.styleName="ProgressSlider";
 			canv3.addChild(progress);
 			hbox.addChild(canv3);
-			// Remaining 
+			// Remaining
 			var canv4:Canvas = new Canvas();
 			canv4.height = 15;
 			canv4.percentWidth = 5;
@@ -124,7 +122,7 @@ package org.yass.visualization
 			remaining.setStyle("left", 0);
 			canv4.addChild(remaining);
 			canv4.minWidth=40;
-			hbox.addChild(canv4);			
+			hbox.addChild(canv4);
 			// Loop Button
 			var canv5:Canvas = new Canvas();
 			canv5.setStyle("verticalCenter", -2);
@@ -149,7 +147,7 @@ package org.yass.visualization
 		}
 
 		private function plateClick(evt:Event):void{
-			if(Yass.settings.displayMode++ >=2)  
+			if(Yass.settings.displayMode++ >=2)
 				Yass.settings.displayMode=0;
 			refresh();
 		}
@@ -186,7 +184,7 @@ package org.yass.visualization
 			evt.stopPropagation();
 			Yass.settings.shuffle = shuffle.selected;
 		}
-		private function setEventListeners():void{			
+		private function setEventListeners():void{
 			loop.addEventListener(MouseEvent.CLICK , loopClick);
 			remaining.addEventListener(MouseEvent.CLICK , remainingClick);
 			shuffle.addEventListener(MouseEvent.CLICK , shuffleClick);

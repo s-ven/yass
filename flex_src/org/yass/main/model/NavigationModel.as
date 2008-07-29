@@ -1,31 +1,31 @@
-/* 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+/*
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.model{
 	import flash.events.EventDispatcher;
-	
+
 	import mx.events.CollectionEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayListEvent;
@@ -35,13 +35,13 @@ package org.yass.main.model{
 		private var httpService:HTTPService = new HTTPService();
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
-        	Console.log("model.NavigationModel :: init");
+			Console.log("model.NavigationModel :: init");
 			httpService.url="/yass/jsp/navigation.jsp";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
 			httpService.send();
 		}
-		
+
 		public function savePlayList(id:String, name:String):void{
 			Console.log("model.Navigation.savePlayList name=" + name + ", id=" + id);
 			var svc:HTTPService = new HTTPService();
@@ -83,8 +83,8 @@ package org.yass.main.model{
 			_playlist = Yass.library
 			Console.groupEnd()
 			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
-		}	
-		
+		}
+
 		private function serviceResultHandler(event:ResultEvent):void{
 			dispatchEvent(new PlayListEvent(PlayListEvent.REFRESH_PANE, event.result));
 		}

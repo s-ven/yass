@@ -1,12 +1,11 @@
-package org.yass.visualization
-{
+package org.yass.visualization{
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.media.SoundMixer;
 	import flash.utils.ByteArray;
-	
+
 	import mx.core.UIComponent;
-	
+
 	import org.yass.debug.log.Console;
 
 	[Style(name="colorTop",type="Number",format="Color")]
@@ -17,7 +16,7 @@ package org.yass.visualization
 	[Style(name="alphaMax",type="Number")]
 	[Style(name="alphaActive",type="Number")]
 	[Style(name="alphaInactive",type="Number")]
-	
+
 	public class SpectrumAnalyzer extends UIComponent{
 
 		private var _clipMask:Shape = new Shape();
@@ -42,9 +41,9 @@ package org.yass.visualization
 		public function SpectrumAnalyzer(){
 			super();
 			Console.log("vizu.SpectrumAnalyzer :: Init");
-        }
-        
-        override protected function createChildren():void{
+		}
+
+		override protected function createChildren():void{
 			addChild(_clipMask);
 			mask = _clipMask;
 			styleName = "dimmed";
@@ -71,15 +70,15 @@ package org.yass.visualization
 			var arr:Array = new Array(_vuLevels);
 			for(var localTop:int=_vuLevels; localTop >=0 ; --localTop){
 				arr[localTop] = new Array(localTop);
-				for(var localMx:int=localTop; localMx >=0; localMx--){ 
+				for(var localMx:int=localTop; localMx >=0; localMx--){
 					arr[localTop][localMx] = new Array(_vuLevels);
 					for(var k:int=0; k< _vuLevels; k++)
 						if(k == localTop)
 							arr[localTop][localMx][k] = __top;
 						else if(k == localMx)
 							arr[localTop][localMx][k] = __max;
-						else if(k > localMx) 
-							arr[localTop][localMx][k] = __inactive; 
+						else if(k > localMx)
+							arr[localTop][localMx][k] = __inactive;
 						else if(k < localTop || k < localMx)
 							arr[localTop][localMx][k] = __active;
 					arr[localTop][localMx] = arr[localTop][localMx]
@@ -87,11 +86,11 @@ package org.yass.visualization
 			}
 			return arr;
 		}
-		
-		private var _colorArrays:Array; 
+
+		private var _colorArrays:Array;
 		private var _alphaArrays:Array
 		private var _current : Number = 0;
-		
+
 		private function onEnterFrame( event : Event ) : void{
 			if (visible){
 				_miWidth = parent.width / 2
@@ -109,18 +108,18 @@ package org.yass.visualization
 				graphics.clear();
 				graphics.beginFill(0,1)
 				for(var i:uint = 0; i < _vuCount * 2; i++){
-	                _current = 0;
-	                for (j = 0; j < _vuStep ; j++) 
-	                    _current = Math.max(_current, _spectrumArr.readFloat());
+					_current = 0;
+					for (j = 0; j < _vuStep ; j++)
+						_current = Math.max(_current, _spectrumArr.readFloat());
 					var vuMax:int = Math.min( _current, 1 )* (_vuLevels -1)
 					var localTop:int = top(i, vuMax)
 					var xVu:int = _miWidth - (i+1) * (_vuWidth+1) - 3;
-					if(i>=_vuCount) 
+					if(i>=_vuCount)
 						xVu = _miWidth + (i-_vuCount) * (_vuWidth+1) + 2;
 					for(var j:int = 0; j<_vuLevels;j++){
 						graphics.lineStyle(1, _colorArrays[localTop][vuMax][j],_alphaArrays[localTop][vuMax][j]);
 						graphics.drawRect(xVu, _bottom - j * 2,_vuWidth,0);
- 					}  
+ 					}
 				}
 				_clipMask.graphics.clear();
 				_clipMask.graphics.beginFill(0);

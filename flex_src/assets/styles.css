@@ -24,7 +24,7 @@ ProgressSlider.ProgressSlider{
 	trackSkin: Embed('progress.png');
 	verticalCenter:-4;
 	slide-easing-function: 0;
-	slide-duration:0; 
+	slide-duration:0;
 }
 CheckBox.LoopCheckBox{
 	downIcon: Embed('repeat-off.png');
@@ -35,7 +35,7 @@ CheckBox.LoopCheckBox{
 	selectedUpIcon: Embed('repeat-on.png');
 	upIcon: Embed('repeat-off.png');
 	verticalCenter:0;
-	right:0; 
+	right:0;
 }
 CheckBox.ShuffleCheckBox{
 	downIcon: Embed('shuffle-off.png');
@@ -46,7 +46,7 @@ CheckBox.ShuffleCheckBox{
 	selectedUpIcon: Embed('shuffle-on.png');
 	upIcon: Embed('shuffle-off.png');
 	verticalCenter:0;
-	left:0; 
+	left:0;
 }
 Button.ForwardButton{
 	downSkin: Embed('active-fwd.png');
@@ -74,9 +74,9 @@ HSlider.VolumeSlider{
 	dataTipPlacement: bottom;
 	verticalCenter: -5;
 	horizontalCenter: 0;
-} 
-Display.Display{  
-	 horizontal-center:0; 
+}
+Display.Display{
+	 horizontal-center:0;
 	 vertical-center:0 ;
 	 background-size:"100%";
 	backgroundImage: Embed('faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
@@ -92,7 +92,7 @@ Button.VolumeUpButton{
 	upSkin: Embed('normal-vol-up.png');
 }
 SpectrumAnalyzer.dimmed{
-	vuCount:32; 
+	vuCount:32;
 	vuLevels:23;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
@@ -102,10 +102,10 @@ SpectrumAnalyzer.dimmed{
 	alphaMax:"0.3";
 	alphaActive:"0.25";
 	alphaInactive:"0.10";
-} 
+}
 SpectrumAnalyzer.visible{
-	vuCount:32; 
-	vuLevels:23; 
+	vuCount:32;
+	vuLevels:23;
 	colorTop:"0xFFFF00";
 	colorMax:"0xFF0000";
 	colorActive:"0x222222";
@@ -115,7 +115,7 @@ SpectrumAnalyzer.visible{
 	alphaActive:"0.6";
 	alphaInactive:"0.2";
 }
-TextInput.inputText{ 
+TextInput.inputText{
 	corner-radius:8;
 	padding-top:4;
 	borderSkin: Embed('input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='260');
@@ -139,7 +139,7 @@ Application{
    color: #ffffff;
 	paddingLeft: 0;
 	paddingRight: 0;
-	paddingTop: 0; 
+	paddingTop: 0;
 	paddingBottom: 0;
 }
 Button{
@@ -397,7 +397,7 @@ TextArea{
    borderColor: #333333;
    borderThickness: 0;
    cornerRadius: 6;
-   backgroundAlpha: .9; 
+   backgroundAlpha: .9;
 }
 List{
    textRollOverColor: #333333;
@@ -468,18 +468,18 @@ HScrollBar{
 	trackOverSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
 	trackDownSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
 	trackDisabledSkin: Embed(source="hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	
+
 	thumbUpSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbOverSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbDownSkin: Embed(source="hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	
+
 	upArrowSkin: Embed(source="hscroll-right.png");
 	upArrowOverSkin: Embed(source="hscroll-right.png");
 	upArrowDownSkin: Embed(source="hscroll-right.png");
 	upArrowDisabledSkin: Embed(source="hscroll-right.png");
 	upArrowUpSkin: Embed(source="hscroll-right.png");
-	
+
 	downArrowSkin: Embed(source="hscroll-left.png");
 	downArrowOverSkin: Embed(source="hscroll-left.png");
 	downArrowDownSkin: Embed(source="hscroll-left.png");
@@ -496,18 +496,18 @@ VScrollBar{
 	trackOverSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 	trackDownSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 	trackDisabledSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
-	
+
 	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	
+
 	upArrowSkin: Embed(source="vscroll-up.png");
 	upArrowOverSkin: Embed(source="vscroll-up.png");
 	upArrowDownSkin: Embed(source="vscroll-up.png");
 	upArrowDisabledSkin: Embed(source="vscroll-up.png");
 	upArrowUpSkin: Embed(source="vscroll-up.png");
-	
+
 	downArrowSkin: Embed(source="vscroll-down.png");
 	downArrowOverSkin: Embed(source="vscroll-down.png");
 	downArrowDownSkin: Embed(source="vscroll-down.png");
@@ -515,10 +515,10 @@ VScrollBar{
 	downArrowUpSkin: Embed(source="vscroll-down.png");
 	themeColor: #000000;
 	trackColors:  #000000;
-	fillColors:  #000000; 
+	fillColors:  #000000;
 	borderColor: #000000;
 }
-DataGrid{ 
+DataGrid{
 	verticalGridLines: true;
 	verticalGridLineColor: #cccccc;
 	textRollOverColor: #333333;
@@ -574,7 +574,7 @@ ProgressBar{
 	trackHeight: 12;
 	textAlign: center;
 }
-ToolTip{ 
+ToolTip{
    backgroundAlpha: 0.92;
    cornerRadius: 10;
    backgroundColor: #333333;
@@ -584,7 +584,7 @@ ToolTip{
 	verticalScrollBarStyleName: listBaseVerticalScrollBar;
 	paddingTop: 4;
 	paddingBottom: 4;
-	
+
 }
 .listBaseVerticalScrollBar{
 }

@@ -1,33 +1,32 @@
-/* 
- Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved. 
- 
+/*
+ Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
+
  Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), 
- to deal in the Software without restriction, including without limitation 
+ of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
  the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is furnished 
- to do so, subject to the following conditions: The above copyright notice 
+ copies of the Software, and to permit persons to whom the Software is furnished
+ to do so, subject to the following conditions: The above copyright notice
  and this permission notice shall be included in all
  copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", 
- WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+
+ THE SOFTWARE IS PROVIDED "AS IS",
+ WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
  TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
- PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS 
- OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+ OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-package org.yass.main.view
-{
+package org.yass.main.view{
 	import flash.events.EventDispatcher;
 	import flash.utils.setTimeout;
-	
+
 	import mx.collections.ArrayCollection;
 	import mx.controls.DataGrid;
 	import mx.events.ListEvent;
-	
+
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.LibraryEvent;
@@ -38,7 +37,7 @@ package org.yass.main.view
 		public var model:LibraryModel;
 		private var _genre:DataGrid;
 		private var _artist:DataGrid;
-		private var _album:DataGrid; 
+		private var _album:DataGrid;
 		public function BrowserView(genre:DataGrid, artist:DataGrid, album:DataGrid, playlistView:PlayListView){
 			Console.log("view.BrowserView :: Init " + playlistView);
 			model = Yass.library;
@@ -47,7 +46,7 @@ package org.yass.main.view
 			init("album", album)
 			playlistView.model = Yass.library;
 			model.addEventListener(LibraryEvent.REFRESHED, onRefreshed);
-		} 
+		}
 		private function init(type:String, dg:DataGrid):void{
 			this["_"+type] = dg;
 			createAllRow(type);
@@ -84,7 +83,7 @@ package org.yass.main.view
 		}
 		public function onClickPlayList(type:String, val:Value):void{
 			Console.group("view.BrowserView.onClickPlayList type:"+type+  ", val:"+ val);
-			model.browseBy(type, [val])	
+			model.browseBy(type, [val])
 			createAllRow(type);
 			Console.groupEnd();
 		}
