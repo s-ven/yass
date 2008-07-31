@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Library {
 
-	protected final Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
+	public final Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
 	public String path;
 	private final Map<String, Track> paths = new LinkedHashMap<String, Track>();
 	public Date lastUpdate = new Date();

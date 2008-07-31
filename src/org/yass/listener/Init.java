@@ -18,9 +18,9 @@ import org.yass.dao.LibraryDao;
 import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackStatDao;
 import org.yass.domain.Library;
-import org.yass.domain.MetadataReader;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
+import org.yass.id3.MetadataReader;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -66,7 +66,7 @@ public class Init implements ServletContextListener, YassConstants {
 					new MetadataReader().scanLibrary((Library) servletContext.getAttribute(ALL_LIBRARY));
 				}
 			};
-			new Thread(runnable).start();
+			(initThread = new Thread(runnable)).start();
 			servletContext.setAttribute(USER_PLAYLISTS, new PlayListDao().getFromUserId(1));
 			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
 		} catch (final Exception e) {

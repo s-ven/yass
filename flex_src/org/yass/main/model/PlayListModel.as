@@ -25,7 +25,7 @@ package org.yass.main.model{
 	import mx.collections.SortField;
 	import mx.events.CollectionEvent;
 	import mx.events.CollectionEventKind;
-
+	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayerEvent;
@@ -77,10 +77,8 @@ package org.yass.main.model{
 		}
 
 		public function get selectedTrack():Track{
-			if(trackIndex !=-1 && trackIndex < length){
-				_selectedTrack = getItemAt(trackIndex) as Track
-				return _selectedTrack;
-			}
+			if(trackIndex !=-1 && trackIndex < length)
+				return _selectedTrack = getItemAt(trackIndex) as Track;
 			return null;
 		}
 
@@ -93,9 +91,14 @@ package org.yass.main.model{
 			return trackIndex;
 		}
 		private function getNextShuffledTrack():Number{
-			if(!(shuffledTracks.length > 1 && shuffledListPosition < shuffledTracks.length))
-				shuffledTracks.addItem(Math.ceil(
-				( 1 - Math.random()) * length) - 1);
+			if(!(shuffledTracks.length > 1 && shuffledListPosition < shuffledTracks.length)){
+				var shuffleIndex:int = Math.ceil(( 1 - Math.random()) * length) - 1;
+				// To avoid the selection of the currently playing index
+				while(shuffleIndex == trackIndex)
+					shuffleIndex = Math.ceil(( 1 - Math.random()) * length) - 1
+				// Add the selection to the shuffled tracks collection
+				shuffledTracks.addItem(shuffleIndex);
+			}
 			shuffledListPosition += 1;
 			return shuffledTracks.getItemAt(shuffledListPosition-1) as Number;
 		}

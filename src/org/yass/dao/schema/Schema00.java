@@ -176,5 +176,13 @@ public class Schema00 extends Schema {
 					+ ", foreign key(track_info_id) references track_info(id))");
 			LOG.info(" table 'user_browsing_context' was created successfully.");
 		}
+		// Table user_browsing_context
+		if (!tableExists(template, "album_cover_picture")) {
+			LOG.info(" table 'album_cover_picture' not found.  Creating it.");
+			template
+					.execute("create table album_cover_picture (track_info_id int not null, mime_type varchar(32) not null, description varchar(64) not null, picture_type smallint not null, picture_data blob(1M) not null"
+							+ ", foreign key(track_info_id) references track_info(id))");
+			LOG.info(" table 'album_cover_picture' was created successfully.");
+		}
 	}
 }

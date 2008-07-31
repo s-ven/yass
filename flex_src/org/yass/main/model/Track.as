@@ -38,10 +38,10 @@ package org.yass.main.model{
 				_xml = obj
 		}
 
-		public  function get  id():int{
+		public  function get  id():uint{
 			return _xml.@id;
 		}
-		public  function get  trackNr():int{
+		public  function get  trackNr():uint{
 			return _xml.@trackNr
 		}
 		public  function get  title():String{
@@ -50,25 +50,25 @@ package org.yass.main.model{
 		public  function get  track():String{
 			return _xml.@track;
 		}
-		public  function get  length():int{
+		public  function get  length():uint{
 			return _xml.@length
 		}
-		public  function get  lastPlayed():Number{
+		public  function get  lastPlayed():uint{
 			return _xml.@lastPlayed
 		}
 		public function get lastPlayedText():String{
 			return _xml.@lastPlayed!=0?Yass.dateFormatter.format(new Date(_xml.@lastPlayed)):"";
 		}
-		public  function get  playCount():int{
+		public  function get  playCount():uint{
 			return _xml.@playCount;
 		}
 		public function get playCountText():String{
 			return _xml.@playCount == 0?"":_xml.@playCount;
 		}
-		public  function set  playCount(val:int){
+		public  function set  playCount(val:uint){
 			_xml.@playCount = val;
 		}
-		public  function set  lastPlayed(val:Number){
+		public  function set  lastPlayed(val:uint){
 			_xml.@lastPlayed = val;
 		}
 		private var _allFields;
@@ -107,7 +107,7 @@ package org.yass.main.model{
 		public function get isPlaying():Boolean{
 			return Yass.player.loadedTrack == this && Yass.player.isPlaying;
 		}
-		public function set rating(value:int):void{
+		public function set rating(value:uint):void{
 			Console.log("model.Track.rating:" + value);
 			_xml.@rating = value;
 			save();
@@ -118,7 +118,7 @@ package org.yass.main.model{
 			service.send(this);
 		}
 
-		public function get rating():int{
+		public function get rating():uint{
 			return _xml.@rating;
 		}
 		public function get yearText():String{
@@ -129,10 +129,10 @@ package org.yass.main.model{
 				return _bitrateText;
 			return _bitrateText = ((_xml.@vbr == "true")?(_xml.@bitrate + " kbps (VBR)"):(_xml.@bitrate + " kbps"));
 		}
-		public function get bitrate():int{
+		public function get bitrate():uint{
 			return _xml.@bitrate;
 		}
-		public function get year():int{
+		public function get year():uint{
 			return _xml.@year;
 		}
 		public function get lastModified():Number{
