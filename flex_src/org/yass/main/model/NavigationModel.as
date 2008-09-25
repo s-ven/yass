@@ -75,7 +75,7 @@ package org.yass.main.model{
 				});
 				_playlist.setEventListeners();
 				httpSvc.send(obj);
-			Console.groupEnd()
+				Console.groupEnd();
 				return ;
 			}
 			if(_playlist && Yass.player.loadedPlayList && Yass.player.loadedPlayList.playListId != _playlist.playListId)

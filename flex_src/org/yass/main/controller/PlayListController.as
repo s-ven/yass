@@ -41,7 +41,7 @@ package org.yass.main.controller{
 		public function destroy():void{
 			view.removeEventListener(TrackEvent.TRACK_PLAY, onTrackPlay);
 			view.removeEventListener(TrackEvent.TRACK_CLICK, onTrackClick);
-
+			view.removeEventListener(DataGridEvent.HEADER_RELEASE, onHeaderRelease);
 		}
 
 		private function onTrackPlay(evt:TrackEvent):void{

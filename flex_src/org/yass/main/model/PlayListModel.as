@@ -193,7 +193,6 @@ package org.yass.main.model{
  		 *  - sorted by artist, group the results by albums, then track number
  		 *  - sorted by albums, group the results by artists then track number
  		 *  - sorted by track number, group the results by artists then album
- 		 *  TODO :: Move this to the Model
  		 */
 		public function sortColumn(columnName:String):void{
 			Console.group("model.PlayList.sortColumn name:"+columnName);
@@ -224,7 +223,7 @@ package org.yass.main.model{
 			} else if (columnName=="rating") {
 				if(_oldColumn == "rating")
 					_sortByRating.reverse();
-			   _sortA.fields=[_sortByRating];
+			   _sortA.fields=[_sortByRating, _sortByArtist, _sortByAlbum];
 			} else if (columnName=="playCountText") {
 				if(_oldColumn == "playCountText")
 					_sortByPlayCount.reverse();

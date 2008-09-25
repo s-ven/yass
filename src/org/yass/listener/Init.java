@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.commons.logging.Log;
@@ -14,6 +13,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
+import org.yass.dao.AttachedPictureDao;
 import org.yass.dao.LibraryDao;
 import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackStatDao;
@@ -28,6 +28,7 @@ import org.yass.id3.MetadataReader;
  */
 public class Init implements ServletContextListener, YassConstants {
 
+	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = new AttachedPictureDao();
 	private static Log LOG = LogFactory.getLog(Init.class);
 	static final long serialVersionUID = 1L;
 	private Thread initThread;
@@ -77,32 +78,24 @@ public class Init implements ServletContextListener, YassConstants {
 	// TODO :: LA METHODE DE LA MORT, PLUS LONGUE TU MEURS, ABSOLUMENT POURRI, A
 	// REFAIRE
 	public final static Document buildXMLDoc(final Library pl) {
-		Document doc = null;
 		try {
-			final DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-			doc = builder.newDocument();
+			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element treeNode = doc.createElement("libTree");
-			TrackInfo artist;
-			TrackInfo album;
-			TrackInfo genre;
 			for (final Track track : pl.getTracks()) {
 				boolean exists = false;
 				final NodeList genreList = treeNode.getChildNodes();
-				Element albNode;
-				Element artistNode;
-				Element genreNode;
-				artist = track.getTrackInfo(ARTIST);
-				album = track.getTrackInfo(ALBUM);
-				genre = track.getTrackInfo(GENRE);
+				final TrackInfo genre = track.getTrackInfo(GENRE);
+				final TrackInfo artist = track.getTrackInfo(ARTIST);
+				final TrackInfo album = track.getTrackInfo(ALBUM);
 				for (int i = 0; i < genreList.getLength(); i++) {
-					genreNode = (Element) genreList.item(i);
+					final Element genreNode = (Element) genreList.item(i);
 					if (genre != null && genreNode.getAttribute("value").equals(genre.getValue())) {
 						// If this genre already exists, will populate the corresponding
 						// node
 						// with
 						final NodeList artistLst = genreNode.getChildNodes();
 						for (int j = 0; j < artistLst.getLength(); j++) {
-							artistNode = (Element) artistLst.item(j);
+							final Element artistNode = (Element) artistLst.item(j);
 							if (artistNode.getAttribute("value").equals(artist.getValue())) {
 								// If this artist already exists, will populate the
 								// corresponding
@@ -114,8 +107,7 @@ public class Init implements ServletContextListener, YassConstants {
 										break;
 									}
 								if (!exists) {
-									albNode = makeNodeFromProp(doc, album);
-									artistNode.appendChild(albNode);
+									artistNode.appendChild(makeNodeFromProp(doc, album));
 									exists = true;
 								}
 							}
@@ -123,39 +115,32 @@ public class Init implements ServletContextListener, YassConstants {
 								break;
 						}
 						if (!exists) {
-							artistNode = makeNodeFromProp(doc, artist);
-							albNode = makeNodeFromProp(doc, album);
-							artistNode.appendChild(albNode);
-							genreNode.appendChild(artistNode);
+							genreNode.appendChild(makeNodeFromProp(doc, artist)).appendChild(makeNodeFromProp(doc, album));
 							exists = true;
 						}
 					}
 					if (exists)
 						break;
 				}
-				if (genre != null && !exists) {
-					artistNode = makeNodeFromProp(doc, artist);
-					albNode = makeNodeFromProp(doc, album);
-					genreNode = makeNodeFromProp(doc, genre);
-					artistNode.appendChild(albNode);
-					genreNode.appendChild(artistNode);
-					treeNode.appendChild(genreNode);
-				}
+				if (genre != null && !exists)
+					treeNode.appendChild(makeNodeFromProp(doc, genre)).appendChild(makeNodeFromProp(doc, artist)).appendChild(
+							makeNodeFromProp(doc, album));
 			}
 			doc.appendChild(treeNode);
+			return doc;
 		} catch (final Exception e) {
 			LOG.trace("Error in Library TrackInfo XML creation", e);
 		}
-		return doc;
+		return null;
 	}
 
 	private final static Element makeNodeFromProp(final Document doc, final TrackInfo album) {
-		Element albNode;
-		albNode = doc.createElement("node");
-		albNode.setAttribute("id", "" + album.getId());
-		albNode.setAttribute("value", album.getValue());
-		albNode.setAttribute("type", album.getType());
-		return albNode;
+		final Element node = doc.createElement(album.getType());
+		node.setAttribute("id", "" + album.getId());
+		node.setAttribute("value", album.getValue());
+		if (album.getType().equals(ALBUM))
+			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(album.getId()) + "");
+		return node;
 	}
 
 	public void contextDestroyed(final ServletContextEvent event) {

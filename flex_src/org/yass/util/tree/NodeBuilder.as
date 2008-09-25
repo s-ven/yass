@@ -34,7 +34,7 @@ package org.yass.util.tree{
 
 		public function visit(visitable:Visitable):void{
 			var val:Value = visitable as Value;
-			for each(var node:XML in xml.node){
+			for each(var node:XML in xml.children()){
 				var child:Value =  new Value(node);
 				val.addChild(child);
 				child.accept(new NodeBuilder(node as XML));

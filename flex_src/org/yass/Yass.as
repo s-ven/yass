@@ -20,16 +20,12 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass{
-	import flash.events.Event;
-
 	import mx.events.PropertyChangeEvent;
 	import mx.formatters.DateFormatter;
 	import mx.utils.ObjectProxy;
-
-	import org.yass.debug.log.Console;
+	
 	import org.yass.main.model.LibraryModel;
 	import org.yass.main.model.PlayerModel;
-	import org.yass.main.model.Settings;
 	import org.yass.visualization.Display;
 	public class Yass{
 		public static var library:LibraryModel;

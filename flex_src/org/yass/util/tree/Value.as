@@ -21,7 +21,7 @@
 */
 package org.yass.util.tree{
 	import mx.collections.ArrayCollection;
-
+	
 	import org.yass.util.Visitable;
 	import org.yass.util.Visitor;
 	public class Value implements Visitable{
@@ -39,7 +39,7 @@ package org.yass.util.tree{
 			return _lowerCaseValue= xml.@value.toLowerCase();
 		}
 		public function get type():String{
-			return xml.@type;
+			return (xml.name() as QName).localName;
 		}
 		public function get value():String{
 			return xml.@value;

@@ -22,7 +22,7 @@ public class AttachedPictureDao extends AbstractDao {
 
 	public void save(final AttachedPicture attPict) {
 		LOG.info("Saving attachedPicture albumId:" + attPict.getAlbumId());
-		if (getJdbcTempate().queryForList("select count(*) from album_cover_picture where 	track_info_id = ?",
+		if (getJdbcTempate().queryForList("select track_info_id from album_cover_picture where 	track_info_id = ?",
 				new Object[] { attPict.getAlbumId() }).size() == 0)
 			getJdbcTempate().update(
 					insertTrackPscf.newPreparedStatementCreator(new Object[] { attPict.getAlbumId(), attPict.getMimeType(),
@@ -31,5 +31,10 @@ public class AttachedPictureDao extends AbstractDao {
 
 	public AttachedPicture get(final int albumId) {
 		return null;
+	}
+
+	public boolean hasPicture(final int albumId) {
+		return getJdbcTempate().queryForList("select track_info_id from album_cover_picture where track_info_id = ?",
+				new Object[] { albumId }).size() != 0;
 	}
 }

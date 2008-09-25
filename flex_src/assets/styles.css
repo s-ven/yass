@@ -491,16 +491,16 @@ HScrollBar{
 	borderColor: #000000;
 }
 VScrollBar{
-	trackSkin: Embed(source="vscroll-track.png",scaleGridTop="25",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="149");
+	trackSkin: Embed(source="vscroll-track.png",scaleGridTop="32",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="149");
 	trackUpSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 	trackOverSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 	trackDownSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 	trackDisabledSkin: Embed(source="vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
 
-	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="12", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbUpSkin: Embed(source="vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbSkin: Embed(source="vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbOverSkin: Embed(source="vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbDownSkin: Embed(source="vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
 
 	upArrowSkin: Embed(source="vscroll-up.png");
 	upArrowOverSkin: Embed(source="vscroll-up.png");
@@ -610,4 +610,22 @@ PlayListView{
 HBox.PlayerPanel{
 	backgroundImage: Embed(source='top-bk.png', scaleGridTop="15", scaleGridLeft="15", scaleGridRight="1020", scaleGridBottom="16");
 	backgroundAlpha: 0.7;
+}
+RadioButton.viewCoverflow{
+	downIcon: Embed(source='/assets/view-coverflow-button-on.png');
+	icon: Embed(source='/assets/view-coverflow-button-off.png');
+	overIcon: Embed(source='/assets/view-coverflow-button-over.png');
+	upIcon: Embed(source='/assets/view-coverflow-button-off.png');
+	selectedUpIcon: Embed(source='/assets/view-coverflow-button-on.png');
+	selectedDownIcon: Embed(source='/assets/view-coverflow-button-on.png');
+	selectedOverIcon: Embed(source='/assets/view-coverflow-button-on.png');
+}
+RadioButton.viewCategories{
+	downIcon: Embed(source='/assets/view-categories-button-on.png');
+	icon: Embed(source='/assets/view-categories-button-off.png');
+	overIcon: Embed(source='/assets/view-categories-button-over.png');
+	upIcon: Embed(source='/assets/view-categories-button-off.png');
+	selectedUpIcon: Embed(source='/assets/view-categories-button-on.png');
+	selectedDownIcon: Embed(source='/assets/view-categories-button-on.png');
+	selectedOverIcon: Embed(source='/assets/view-categories-button-on.png');
 }

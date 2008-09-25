@@ -53,8 +53,8 @@ package org.yass.main.model{
 		public  function get  length():uint{
 			return _xml.@length
 		}
-		public  function get  lastPlayed():uint{
-			return _xml.@lastPlayed
+		public  function get  lastPlayed():Number{
+			return _xml.@lastPlayed;
 		}
 		public function get lastPlayedText():String{
 			return _xml.@lastPlayed!=0?Yass.dateFormatter.format(new Date(_xml.@lastPlayed)):"";
@@ -68,7 +68,7 @@ package org.yass.main.model{
 		public  function set  playCount(val:uint){
 			_xml.@playCount = val;
 		}
-		public  function set  lastPlayed(val:uint){
+		public  function set  lastPlayed(val:Number){
 			_xml.@lastPlayed = val;
 		}
 		private var _allFields;
