@@ -21,12 +21,12 @@
 */
 package org.yass.main.model{
 	import flash.utils.Dictionary;
-
+	
 	import mx.collections.ArrayCollection;
 	import mx.collections.Sort;
 	import mx.collections.SortField;
 	import mx.events.CollectionEvent;
-
+	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.LibraryEvent;
@@ -43,6 +43,7 @@ package org.yass.main.model{
 		private var _tree:Tree;
 		private var _sort:Sort = new Sort();
 		private var _filteredText:Array;
+		private var _filteredRating:int = 0;
 		private var _genreFiltered:Array;
 		private var _albumFiltered:Array;
 		private var _artistFiltered:Array;
@@ -179,10 +180,10 @@ package org.yass.main.model{
 
 			if(_filteredText != null  && _filteredText.length > 0){
 				var ffunction:Function = getTextFilterFunction();
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(Yass.settings.genreSelected, Yass.settings.artistSelected, Yass.settings.albumSelected, ffunction, _filteredText)
+				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, Yass.settings.genreSelected, Yass.settings.artistSelected, Yass.settings.albumSelected, ffunction, _filteredText)
 			}
 			else
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(Yass.settings.genreSelected, Yass.settings.artistSelected, Yass.settings.albumSelected)
+				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, Yass.settings.genreSelected, Yass.settings.artistSelected, Yass.settings.albumSelected)
 			Console.time("model.Library.refresh");
 			refresh();
 			Console.timeEnd("model.Library.refresh");
@@ -192,7 +193,7 @@ package org.yass.main.model{
 				dispatchEvent(new LibraryEvent(LibraryEvent.REFRESHED, refreshedPanes));
 		}
 		private function checkParent(itemsArray:Array, parentArray: Array):Boolean{
-			if(parentArray.length ==0)
+			if(parentArray.length == 0)
 				return true;
 			return itemsArray.every(function(item:Object, index:int, arr:Array):Boolean{
 									var toret:Boolean= parentArray.every(function(parent:Object, index1:int, arr1:Array):Boolean{
@@ -203,6 +204,13 @@ package org.yass.main.model{
 								});
 		}
 		public function set filteredText(txt:String):void{
+			var ratingMatch:Array = txt.match(/\*+/)
+			if(ratingMatch && ratingMatch.length > 0){	
+				this._filteredRating = ratingMatch[0].length;
+				txt = txt.replace("*", "");
+			}		
+			else
+				_filteredRating = 0;
 			_filteredText = txt.toLowerCase().split(/\W/).filter(function(row:Object, index:int, arr:Array):Boolean{return row && row != "";})
 			filterText();
 		}
@@ -228,7 +236,7 @@ package org.yass.main.model{
 				var genreSel:Array = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
 				var albumSel:Array = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
 				var artistSel:Array = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(genreSel, artistSel,  albumSel,ffunction, _filteredText);
+				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, genreSel, artistSel,  albumSel, ffunction, _filteredText);
 				refresh();
 				populateTree()
 				if(genreSel.length > 0)
@@ -239,7 +247,7 @@ package org.yass.main.model{
 			}
 			else {
 				_filteredText = null
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(genreSelected, artistSelected, albumSelected)
+				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, genreSelected, artistSelected, albumSelected)
 				refresh();
 				populateTree()
 				if(genreSelected.length > 0)
@@ -273,7 +281,7 @@ package org.yass.main.model{
 				}
 				else
 					items.push(item)
-			sub.filterFunction = 	function(rowVal:Value):Boolean{
+			sub.filterFunction = function(rowVal:Value):Boolean{
 									if(rowVal.id !=-1){
 										for each(var toFilter:Value in items)
 											if (rowVal.isChildOf(toFilter))

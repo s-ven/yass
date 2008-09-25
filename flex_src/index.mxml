@@ -18,7 +18,6 @@
 		<![CDATA[
 			[Embed(source="/assets/MONACO.TTF", fontName="Monaco" )]
 			private var _monacoFont:Class;
-			private function init():void{}
 		]]>
 	</mx:Script>
 	<mx:Style source="/assets/styles.css"/>
