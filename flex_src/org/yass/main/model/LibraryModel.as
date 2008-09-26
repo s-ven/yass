@@ -87,7 +87,7 @@ package org.yass.main.model{
 		}
 		private function createArray(type:String):ArrayCollection{
 			var array:ArrayCollection;
-			if(_filteredText == null){
+			if(_filteredText == null && _filteredRating == 0){
 				if(this[type+"All"])
 					return this[type+"All"]
 				else{
@@ -206,7 +206,7 @@ package org.yass.main.model{
 		public function set filteredText(txt:String):void{
 			var ratingMatch:Array = txt.match(/\*+/)
 			if(ratingMatch && ratingMatch.length > 0){	
-				this._filteredRating = ratingMatch[0].length;
+				this._filteredRating = Math.min(ratingMatch[0].length, 5);
 				txt = txt.replace("*", "");
 			}		
 			else
@@ -220,8 +220,13 @@ package org.yass.main.model{
 			_genreFiltered = new Array();
 			_artistFiltered = new Array();
 			_albumFiltered = new Array();
+			var genreSel:Array = genreSelected;
+			var albumSel:Array = albumSelected;
+			var artistSel:Array = artistSelected;
+			var ffunction:Function = null;
 			if(_filteredText != null && _filteredText.length > 0){
-				var ffunction:Function = getTextFilterFunction();
+				// Here, the Genre, Artist, Album lists are refreshed according to the text typed in search field
+				ffunction = getTextFilterFunction();
 				source.forEach(
 								function(row:Object, index:int, arr:Array):void{
 									if(_filteredText.every(ffunction, row)){
@@ -233,28 +238,37 @@ package org.yass.main.model{
 											_albumFiltered.push(row.album)
 									}
 								});
-				var genreSel:Array = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
-				var albumSel:Array = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
-				var artistSel:Array = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, genreSel, artistSel,  albumSel, ffunction, _filteredText);
-				refresh();
-				populateTree()
-				if(genreSel.length > 0)
-					filterChild(artistArray, genreSel);
-				if(artistSel.length > 0)
-					filterChild(albumArray, artistSel);
+				genreSel = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
+				albumSel = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
+				artistSel = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
 
 			}
 			else {
+				if(_filteredRating > 0){
+					source.forEach(
+									function(row:Object, index:int, arr:Array):void{
+										if(row.rating >= _filteredRating){
+											if(_genreFiltered.indexOf(row.genre) == -1)
+												_genreFiltered.push(row.genre)
+											if(_artistFiltered.indexOf(row.artist) == -1)
+												_artistFiltered.push(row.artist)
+											if(_albumFiltered.indexOf(row.album) == -1)
+												_albumFiltered.push(row.album)
+										}
+									});
+					genreSel = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
+					albumSel = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
+					artistSel = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
+				}
 				_filteredText = null
-				filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, genreSelected, artistSelected, albumSelected)
-				refresh();
-				populateTree()
-				if(genreSelected.length > 0)
-					filterChild(artistArray, genreSelected);
-				if(artistSelected.length > 0)
-					filterChild(albumArray, artistSelected);
 			}
+			filterFunction = new LibraryfilterFunctions().getFilterFunction(_filteredRating, genreSel, artistSel, albumSel, ffunction, _filteredText)
+			refresh();
+			populateTree()
+			if(genreSel.length > 0)
+				filterChild(artistArray, genreSel);
+			if(genreSel.length > 0)
+				filterChild(albumArray, genreSel);
 			Console.log("Filtered list length:" + length)
 			Console.timeEnd("model.Library.filterText");
 			Console.groupEnd();
@@ -292,20 +306,39 @@ package org.yass.main.model{
 			sub.refresh();
 		}
 		private function getTextFilterFunction():Function{
-			switch(textFilterScope){
-				case TextFilterScope.ALL :
-					return function(obj:Object, index:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1};
-					break;
-				case TextFilterScope.ARTISTS :
-					return function(obj:Object, index:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1};
-					break;
-				case TextFilterScope.ALBUMS :
-					return function(obj:Object, index:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1};
-					break;
-				case TextFilterScope.TITLE :
-					return function(obj:Object, index:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1};
-					break;
-				};
+			if(_filteredRating > 0){
+				
+				switch(textFilterScope){
+					case TextFilterScope.ALL :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						break;
+					case TextFilterScope.ARTISTS :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						break;
+					case TextFilterScope.ALBUMS :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						break;
+					case TextFilterScope.TITLE :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						break;
+					};
+			}
+			else{
+				switch(textFilterScope){
+					case TextFilterScope.ALL :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1};
+						break;
+					case TextFilterScope.ARTISTS :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1};
+						break;
+					case TextFilterScope.ALBUMS :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1};
+						break;
+					case TextFilterScope.TITLE :
+						return function(obj:Object, index:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1};
+						break;
+					};
+			}
 			return null;
 		}
 
