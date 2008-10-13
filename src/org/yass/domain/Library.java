@@ -8,17 +8,20 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Library {
 
-	private Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
+	private Map<Integer, Track> tracksMap = new LinkedHashMap<Integer, Track>();
 	private String path;
 	private Map<String, Track> paths = new LinkedHashMap<String, Track>();
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate = new Date();
 	@Id
 	private int id;
+	@OneToMany(mappedBy = "library")
+	private Collection<Track> tracks;
 
 	/**
 	 * @param path
@@ -35,10 +38,21 @@ public class Library {
 	 * @param tracks
 	 *          the tracks to set
 	 */
+	public final void setTracks(final Collection<Track> tracks) {
+		this.tracks = tracks;
+		clean();
+		for (final Track track : tracks)
+			add(track);
+	}
+
+	/**
+	 * @param tracks
+	 *          the tracks to set
+	 */
 	public final void add(final Track track) {
 		track.setLibrary(this);
 		paths.put(track.getPath(), track);
-		tracks.put(track.getId(), track);
+		tracksMap.put(track.getId(), track);
 	}
 
 	public final Track getFromPath(final String filePath) {
@@ -46,18 +60,19 @@ public class Library {
 	}
 
 	public final Track getMediaFile(final int id) {
-		return tracks.get(id);
+		return tracksMap.get(id);
 	}
 
 	public final void clean() {
-		tracks.clear();
+		tracksMap.clear();
+		paths.clear();
 	}
 
 	/**
 	 * @return the tracks
 	 */
 	public final Collection<Track> getTracks() {
-		return tracks.values();
+		return tracks;
 	}
 
 	/**

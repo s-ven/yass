@@ -74,15 +74,13 @@ public class TrackDao extends AbstractDao {
 		getJdbcTempate().execute("delete from track where id = " + track.getId());
 	}
 
+	@SuppressWarnings("unchecked")
 	public final void fillLibrary(final Library lib) {
-		final Iterator<Track> it = getJdbcTempate().query(
+		lib.setTracks(getJdbcTempate().query(
 				"select id, path, title, track_nr, length, last_modified, track_type_id, vbr from track where library_id = ?",
-				new Object[] { lib.getId() }, rowMapper).iterator();
-		while (it.hasNext()) {
-			final Track track = it.next();
-			lib.add(track);
+				new Object[] { lib.getId() }, rowMapper));
+		for (final Track track : lib.getTracks())
 			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
-		}
 	}
 
 	public final Track getFromPath(final Library lib, final String path) {

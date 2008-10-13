@@ -19,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.yass.YassConstants;
@@ -38,6 +39,8 @@ public final class Track implements YassConstants {
 	private long length;
 	@Id
 	private int id;
+	@ManyToOne
+	@JoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
 	private Library library;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
