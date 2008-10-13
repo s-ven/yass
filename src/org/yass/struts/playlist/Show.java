@@ -31,7 +31,7 @@ public class Show extends YassAction implements YassConstants {
 			final PlayList pl = getPlayLists().get(id);
 			if (pl instanceof SmartPlayList)
 				new PlayListDao().reloadSmartPlayLsit((SmartPlayList) pl);
-			final Iterator<Integer> it = pl.trackIds.iterator();
+			final Iterator<Integer> it = pl.getTrackIds().iterator();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("playlist");
 			doc.appendChild(libNode);

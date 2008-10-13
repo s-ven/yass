@@ -38,7 +38,7 @@ public class SettingsDao extends AbstractDao {
 		getJdbcTempate().update("delete from user_setting where user_id = ?", new Object[] { settings.getUserId() });
 		getJdbcTempate().update(
 				pscf.newPreparedStatementCreator(new Object[] { settings.getUserId(), settings.getLoadedTrackId(),
-						settings.getVolume(), settings.isShuffle() ? 1 : 0, settings.isLoop() ? 1 : 0,
+						settings.getVolume(), settings.isShuffle() ? 1 : 0, settings.isRepeat() ? 1 : 0,
 						settings.isShowRemaining() ? 1 : 0, settings.getDisplayMode(), settings.getStopFadeout(),
 						settings.getSkipFadeout(), settings.getNextFadeout() }));
 		getJdbcTempate().update("delete from user_browsing_context where user_id = ?",

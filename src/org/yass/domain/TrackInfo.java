@@ -1,11 +1,26 @@
 package org.yass.domain;
 
+import java.util.Collection;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import org.yass.dao.TrackInfoDao;
 
+@Entity
+@Table(name = "TRACK_INFO")
 public class TrackInfo {
 
 	public static final TrackInfoDao dao = new TrackInfoDao();
-	private final String value;
+	@ManyToMany
+	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_INFO_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_ID", referencedColumnName = "ID"))
+	private Collection<Track> tracks;
+	private String value;
+	@Id
 	private int id;
 
 	/**
@@ -16,7 +31,7 @@ public class TrackInfo {
 		this.id = id;
 	}
 
-	private final String type;
+	private String type;
 
 	public TrackInfo(final int id, final String type, final String value) {
 		this.type = type;

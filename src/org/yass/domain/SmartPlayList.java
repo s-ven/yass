@@ -4,11 +4,23 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "SMART_PLAYLIST")
+@DiscriminatorValue(value = "1")
+@AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
 public class SmartPlayList extends PlayList {
 
-	public int maxTracks = 0;
-	public String orderBy;
-	public int operator;
+	@Column(name = "MAX_TRACKS")
+	private int maxTracks = 0;
+	@Column(name = "ORDER_BY")
+	private String orderBy;
+	private int operator;
 
 	/**
 	 * @param id
@@ -40,5 +52,65 @@ public class SmartPlayList extends PlayList {
 		return buff.toString();
 	}
 
-	public Set<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
+	private Set<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
+
+	/**
+	 * @return the maxTracks
+	 */
+	public final int getMaxTracks() {
+		return maxTracks;
+	}
+
+	/**
+	 * @param maxTracks
+	 *          the maxTracks to set
+	 */
+	public final void setMaxTracks(final int maxTracks) {
+		this.maxTracks = maxTracks;
+	}
+
+	/**
+	 * @return the orderBy
+	 */
+	public final String getOrderBy() {
+		return orderBy;
+	}
+
+	/**
+	 * @param orderBy
+	 *          the orderBy to set
+	 */
+	public final void setOrderBy(final String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	/**
+	 * @return the operator
+	 */
+	public final int getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @param operator
+	 *          the operator to set
+	 */
+	public final void setOperator(final int operator) {
+		this.operator = operator;
+	}
+
+	/**
+	 * @return the conditions
+	 */
+	public final Set<SmartPlayListCondition> getConditions() {
+		return conditions;
+	}
+
+	/**
+	 * @param conditions
+	 *          the conditions to set
+	 */
+	public final void setConditions(final Set<SmartPlayListCondition> conditions) {
+		this.conditions = conditions;
+	}
 }

@@ -5,13 +5,20 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Library {
 
-	public final Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
-	public String path;
-	private final Map<String, Track> paths = new LinkedHashMap<String, Track>();
-	public Date lastUpdate = new Date();
-	public int id;
+	private Map<Integer, Track> tracks = new LinkedHashMap<Integer, Track>();
+	private String path;
+	private Map<String, Track> paths = new LinkedHashMap<String, Track>();
+	@Column(name = "LAST_UPDATE")
+	private Date lastUpdate = new Date();
+	@Id
+	private int id;
 
 	/**
 	 * @param path
@@ -51,5 +58,50 @@ public class Library {
 	 */
 	public final Collection<Track> getTracks() {
 		return tracks.values();
+	}
+
+	/**
+	 * @return the id
+	 */
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id
+	 *          the id to set
+	 */
+	public final void setId(final int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the path
+	 */
+	public final String getPath() {
+		return path;
+	}
+
+	/**
+	 * @param path
+	 *          the path to set
+	 */
+	public final void setPath(final String path) {
+		this.path = path;
+	}
+
+	/**
+	 * @return the lastUpdate
+	 */
+	public final Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	/**
+	 * @param lastUpdate
+	 *          the lastUpdate to set
+	 */
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 }

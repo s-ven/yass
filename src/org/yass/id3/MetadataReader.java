@@ -26,12 +26,13 @@ public class MetadataReader implements org.yass.YassConstants {
 
 	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = new AttachedPictureDao();
 	private static final TrackDao TRACK_DAO = new TrackDao();
-	private final static Log LOG = LogFactory.getLog(MetadataReader.class);
+	private static final Log LOG = LogFactory.getLog(MetadataReader.class);
 	private final String ext = "mp3";
 
 	public final void scanLibrary(final Library lib) {
-		LOG.info("Scanning path : " + lib.path);
-		final File root = new File(lib.path);
+		if (LOG.isInfoEnabled())
+			LOG.info("Scanning path : " + lib.getPath());
+		final File root = new File(lib.getPath());
 		final File[] files = FileUtils.getFiles(root, FileUtils.getExtensionFilter(ext)).toArray(new File[] {});
 		FileUtils.sortFiles(files);
 		final Collection<Track> toKeep = new ArrayList<Track>();
@@ -43,7 +44,8 @@ public class MetadataReader implements org.yass.YassConstants {
 				track = new Track();
 			if (file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
 				lib.add(track);
-				LOG.info(" file : " + id + "/" + files.length + " : " + file.getName());
+				if (LOG.isInfoEnabled())
+					LOG.info(" file : " + id + "/" + files.length + " : " + file.getName());
 				TRACK_DAO.save(track);
 			}
 			toKeep.add(track);
@@ -51,7 +53,7 @@ public class MetadataReader implements org.yass.YassConstants {
 		final Collection<Track> toDelete = new ArrayList<Track>(lib.getTracks());
 		toDelete.removeAll(toKeep);
 		for (final Track track : toDelete) {
-			lib.tracks.remove(track.getId());
+			lib.getTracks().remove(track.getId());
 			TRACK_DAO.delete(track);
 		}
 	}

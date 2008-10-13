@@ -52,7 +52,7 @@ public class TrackDao extends AbstractDao {
 	public void save(final Track track) {
 		if (track.getId() == 0) {
 			final PreparedStatementCreator insertPsc = insertTrackPscf.newPreparedStatementCreator(new Object[] {
-					track.getLibrary().id, track.getPath(), track.getTrackNr(), track.getTitle(), track.getLastModified(),
+					track.getLibrary().getId(), track.getPath(), track.getTrackNr(), track.getTitle(), track.getLastModified(),
 					track.getLength(), track.getTypeId(), track.isVBR() ? 1 : 0 });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(insertPsc, kh);
@@ -77,7 +77,7 @@ public class TrackDao extends AbstractDao {
 	public final void fillLibrary(final Library lib) {
 		final Iterator<Track> it = getJdbcTempate().query(
 				"select id, path, title, track_nr, length, last_modified, track_type_id, vbr from track where library_id = ?",
-				new Object[] { lib.id }, rowMapper).iterator();
+				new Object[] { lib.getId() }, rowMapper).iterator();
 		while (it.hasNext()) {
 			final Track track = it.next();
 			lib.add(track);
@@ -90,7 +90,7 @@ public class TrackDao extends AbstractDao {
 		final Iterator<Track> it = getJdbcTempate().query(
 				"select id, path, title, track_nr, length, "
 						+ "last_modified, track_type_id from track where library_id = ? and path = ?",
-				new Object[] { lib.id, path }, rowMapper).iterator();
+				new Object[] { lib.getId(), path }, rowMapper).iterator();
 		if (it.hasNext()) {
 			track = it.next();
 			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));

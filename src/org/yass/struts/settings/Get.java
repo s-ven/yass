@@ -39,7 +39,7 @@ public class Get extends YassAction implements YassConstants {
 				settingsNode.setAttribute("loadedTrackId", settings.getLoadedTrackId() + "");
 				settingsNode.setAttribute("volume", settings.getVolume() + "");
 				settingsNode.setAttribute("shuffle", settings.isShuffle() + "");
-				settingsNode.setAttribute("loop", settings.isLoop() + "");
+				settingsNode.setAttribute("loop", settings.isRepeat() + "");
 				settingsNode.setAttribute("showRemaining", settings.isShowRemaining() + "");
 				settingsNode.setAttribute("displayMode", settings.getDisplayMode() + "");
 				settingsNode.setAttribute("stopFadeout", settings.getStopFadeout() + "");

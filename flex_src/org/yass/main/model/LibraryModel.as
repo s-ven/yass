@@ -241,7 +241,6 @@ package org.yass.main.model{
 				genreSel = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
 				albumSel = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
 				artistSel = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
-
 			}
 			else {
 				if(_filteredRating > 0){

@@ -1,5 +1,11 @@
 package org.yass.domain;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.CascadeType.REMOVE;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
@@ -7,18 +13,35 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
 import org.yass.YassConstants;
 
+@Entity
+@Table(name = "TRACK")
 public final class Track implements YassConstants {
 
-	private final Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
+	private Map<String, TrackInfo> trackInfosMap = new LinkedHashMap<String, TrackInfo>();
+	@ManyToMany(cascade = { ALL, PERSIST, MERGE, REMOVE, REFRESH })
+	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID", referencedColumnName = "ID"))
+	private Collection<TrackInfo> trackInfos;
 	private String title;
+	@Column(name = "TRACK_NR")
 	private int trackNr;
 	private String path;
 	private long length;
+	@Id
 	private int id;
 	private Library library;
+	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
+	@Column(name = "TRACK_TYPE_ID")
 	private int typeId = 1;
 	private boolean VBR = false;
 
@@ -53,7 +76,7 @@ public final class Track implements YassConstants {
 	}
 
 	public void setTrackInfo(final String type, final TrackInfo trackInfo) {
-		trackInfos.put(type, trackInfo);
+		trackInfosMap.put(type, trackInfo);
 	}
 
 	/**
@@ -105,7 +128,7 @@ public final class Track implements YassConstants {
 	}
 
 	public TrackInfo getTrackInfo(final String type) {
-		return trackInfos.get(type);
+		return trackInfosMap.get(type);
 	}
 
 	/**
@@ -137,12 +160,13 @@ public final class Track implements YassConstants {
 	}
 
 	public Collection<TrackInfo> getTrackInfos() {
-		return trackInfos.values();
+		return trackInfos;
 	}
 
 	public void setTrackInfos(final Collection<TrackInfo> infos) {
+		trackInfos = infos;
 		for (final TrackInfo trackInfo : infos)
-			trackInfos.put(trackInfo.getType(), trackInfo);
+			trackInfosMap.put(trackInfo.getType(), trackInfo);
 	}
 
 	/**

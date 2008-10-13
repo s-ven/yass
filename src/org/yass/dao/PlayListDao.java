@@ -39,12 +39,12 @@ public class PlayListDao extends AbstractDao {
 
 	public void savePlaylist(final PlayList plst) {
 		LOG.info("Saving PlayList");
-		if (plst.id == 0) {
-			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { plst.typeId, plst.userId,
-					plst.getName(), plst.getLastUpdate() });
+		if (plst.getId() == 0) {
+			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { plst.getTypeId(),
+					plst.getUserId(), plst.getName(), plst.getLastUpdate() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			this.getJdbcTempate().update(pst, kh);
-			plst.id = kh.getKey().intValue();
+			plst.setId(kh.getKey().intValue());
 			LOG.info(" new PlayList created id:" + plst.getId());
 		} else {
 			getJdbcTempate().update("update playlist set name = ?, last_update = ?",
@@ -52,9 +52,9 @@ public class PlayListDao extends AbstractDao {
 			if (plst instanceof SimplePlayList) {
 				getJdbcTempate().execute("delete from simple_playlist where playlist_id = " + plst.getId());
 				int trackOrder = 0;
-				for (final int trackId : plst.trackIds)
+				for (final int trackId : plst.getTrackIds())
 					getJdbcTempate().update("insert into simple_playlist (playlist_id, track_id, track_order) values (?, ?, ?)",
-							new Object[] { plst.id, trackId, trackOrder++ });
+							new Object[] { plst.getId(), trackId, trackOrder++ });
 			}
 		}
 	}
@@ -84,7 +84,7 @@ public class PlayListDao extends AbstractDao {
 			if (typeId == 0) {
 				final PlayList pLst = new SimplePlayList(id, name, lastUpdate);
 				final List<Map> lst = DaoHelper.getInstance().getJdbcTemplate().queryForList(
-						"select track_id from simple_playlist where playlist_id = ?", new Object[] { pLst.id });
+						"select track_id from simple_playlist where playlist_id = ?", new Object[] { pLst.getId() });
 				for (final Map<String, Integer> map : lst)
 					pLst.add(map.get("TRACK_ID"));
 				return pLst;
@@ -96,7 +96,8 @@ public class PlayListDao extends AbstractDao {
 				final List<Map> lst = DaoHelper.getInstance().getJdbcTemplate().queryForList(
 						"select term, operator, value from smart_playlist_condition where playlist_id= ?", new Object[] { id });
 				for (final Map<String, String> map1 : lst)
-					pLst.conditions.add(new SmartPlayListCondition(map1.get("TERM"), map1.get("OPERATOR"), map1.get("VALUE")));
+					pLst.getConditions().add(
+							new SmartPlayListCondition(map1.get("TERM"), map1.get("OPERATOR"), map1.get("VALUE")));
 				new PlayListDao().reloadSmartPlayLsit(pLst);
 				return pLst;
 			}
@@ -105,7 +106,7 @@ public class PlayListDao extends AbstractDao {
 
 	public void reloadSmartPlayLsit(final SmartPlayList pLst) {
 		final List<Map> lst = getJdbcTempate().queryForList(pLst.getSqlStatement());
-		pLst.trackIds = new LinkedHashSet<Integer>();
+		pLst.setTrackIds(new LinkedHashSet<Integer>());
 		for (final Map<String, Integer> map1 : lst)
 			pLst.add(map1.get("TRACK_ID"));
 	}

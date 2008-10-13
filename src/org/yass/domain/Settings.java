@@ -1,16 +1,31 @@
 package org.yass.domain;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "USER_SETTING")
 public class Settings {
 
-	private final int userId;
+	@Id
+	@Column(name = "USER_ID")
+	private int userId;
+	@Column(name = "LOADED_TRACK_ID")
 	private int loadedTrackId;
 	private int volume;
 	private boolean shuffle;
-	private boolean loop;
+	private boolean repeat;
+	@Column(name = "SHOW_REMAINING")
 	private boolean showRemaining;
+	@Column(name = "DISPLAY_MODE")
 	private int displayMode;
+	@Column(name = "STOP_FADEOUT")
 	private int stopFadeout;
+	@Column(name = "NEXT_FADEOUT")
 	private int nextFadeout;
+	@Column(name = "SKIP_FADEOUT")
 	private int skipFadeout;
 	private Integer[] trackInfoIds = new Integer[] {};
 
@@ -47,7 +62,7 @@ public class Settings {
 		super();
 		this.userId = userId;
 		this.shuffle = shuffle;
-		this.loop = loop;
+		repeat = loop;
 		this.volume = volume;
 		this.displayMode = displayMode;
 		this.loadedTrackId = loadedTrackId;
@@ -121,16 +136,16 @@ public class Settings {
 	/**
 	 * @return the repeat
 	 */
-	public final boolean isLoop() {
-		return loop;
+	public final boolean isRepeat() {
+		return repeat;
 	}
 
 	/**
 	 * @param repeat
 	 *          the repeat to set
 	 */
-	public final void setLoop(final boolean repeat) {
-		loop = repeat;
+	public final void setRepeat(final boolean repeat) {
+		this.repeat = repeat;
 	}
 
 	/**

@@ -30,12 +30,14 @@ public class LibraryDao extends AbstractDao {
 
 	public void saveLibrary(final Library lib) {
 		LOG.info("Saving Library");
-		if (lib.id == 0) {
-			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { lib.path, lib.lastUpdate });
+		if (lib.getId() == 0) {
+			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { lib.getPath(),
+					lib.getLastUpdate() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			getJdbcTempate().update(pst, kh);
-			lib.id = kh.getKey().intValue();
-			LOG.info(" new Library created id:" + lib.id);
+			lib.setId(kh.getKey().intValue());
+			if (LOG.isInfoEnabled())
+				LOG.info(" new Library created id:" + lib.getId());
 		}
 	}
 
