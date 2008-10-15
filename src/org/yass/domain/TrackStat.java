@@ -2,17 +2,28 @@ package org.yass.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * @author svenduzont
  * 
  */
+@Entity
+@Table(name = "TRACK_STAT")
 public class TrackStat {
 
 	private int rating = 0;
+	@Column(name = "PLAY_COUNT")
 	private int playCount = 0;
-	private final int trackId;
-	private final int userId;
+	@EmbeddedId
+	private TrackStatPK trackStatPK;
+	@Column(name = "LAST_PLAYED")
 	private Date lastPlayed;
+	@Column(name = "LAST_SELECTED")
 	private Date lastSelected;
 
 	/**
@@ -21,8 +32,7 @@ public class TrackStat {
 	 */
 	public TrackStat(final int userId, final int trackId) {
 		super();
-		this.trackId = trackId;
-		this.userId = userId;
+		trackStatPK = new TrackStatPK(trackId, userId);
 	}
 
 	/**
@@ -35,9 +45,7 @@ public class TrackStat {
 	 */
 	public TrackStat(final int userId, final int trackId, final int rating, final Date lastPlayed, final int playCount,
 			final Date lastSelected) {
-		super();
-		this.userId = userId;
-		this.trackId = trackId;
+		this(userId, trackId);
 		this.rating = rating;
 		this.lastPlayed = lastPlayed;
 		this.playCount = playCount;
@@ -77,15 +85,15 @@ public class TrackStat {
 	/**
 	 * @return the trackTypeId
 	 */
-	public final int getTrackTypeId() {
-		return trackId;
+	public final int getTrackId() {
+		return trackStatPK.trackId;
 	}
 
 	/**
 	 * @return the userId
 	 */
 	public final int getUserId() {
-		return userId;
+		return trackStatPK.userId;
 	}
 
 	/**
@@ -116,5 +124,24 @@ public class TrackStat {
 	 */
 	public final void setPlayCount(final int playCount) {
 		this.playCount = playCount;
+	}
+
+	@Embeddable
+	private static class TrackStatPK {
+
+		/**
+		 * @param trackId
+		 * @param userId
+		 */
+		public TrackStatPK(final int trackId, final int userId) {
+			super();
+			this.trackId = trackId;
+			this.userId = userId;
+		}
+
+		@Column(name = "TRACK_ID")
+		private int trackId;
+		@Column(name = "USER_ID")
+		private int userId;
 	}
 }

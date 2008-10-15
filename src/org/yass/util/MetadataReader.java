@@ -1,4 +1,4 @@
-package org.yass.id3;
+package org.yass.util;
 
 import java.io.File;
 import java.io.InputStream;
@@ -16,11 +16,10 @@ import org.apache.commons.logging.LogFactory;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
 import org.yass.dao.AttachedPictureDao;
 import org.yass.dao.TrackDao;
-import org.yass.domain.GenresValuePair;
+import org.yass.domain.AlbumCoverPicture;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
-import org.yass.util.FileUtils;
 
 public class MetadataReader implements org.yass.YassConstants {
 
@@ -82,7 +81,7 @@ public class MetadataReader implements org.yass.YassConstants {
 				final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
 				if (id3Frames != null) {
 					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
-					final Iterator<AttachedPicture> pictures = AttachedPicture.getAttachedPictures(albumTrackInfo.getId(),
+					final Iterator<AlbumCoverPicture> pictures = AlbumCoverPicture.getAttachedPictures(albumTrackInfo.getId(),
 							tagVersion, id3Frames).iterator();
 					if (pictures.hasNext())
 						ATTACHED_PICTURE_DAO.save(pictures.next());

@@ -20,7 +20,7 @@ import org.yass.dao.TrackStatDao;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
-import org.yass.id3.MetadataReader;
+import org.yass.util.MetadataReader;
 
 /**
  * Servlet implementation class for Servlet: Init

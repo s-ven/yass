@@ -2,7 +2,6 @@ package org.yass.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,20 +80,6 @@ public class TrackDao extends AbstractDao {
 				new Object[] { lib.getId() }, rowMapper));
 		for (final Track track : lib.getTracks())
 			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
-	}
-
-	public final Track getFromPath(final Library lib, final String path) {
-		Track track = null;
-		final Iterator<Track> it = getJdbcTempate().query(
-				"select id, path, title, track_nr, length, "
-						+ "last_modified, track_type_id from track where library_id = ? and path = ?",
-				new Object[] { lib.getId(), path }, rowMapper).iterator();
-		if (it.hasNext()) {
-			track = it.next();
-			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
-			track.setLibrary(lib);
-		}
-		return track;
 	}
 
 	private class TrackRowMapper implements ParameterizedRowMapper<Track> {

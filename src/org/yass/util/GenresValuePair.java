@@ -1,4 +1,4 @@
-package org.yass.domain;
+package org.yass.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

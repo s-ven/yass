@@ -20,7 +20,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
 import org.yass.domain.SmartPlayList;
-import org.yass.domain.SmartPlayListCondition;
 
 public class PlayListDao extends AbstractDao {
 
@@ -97,7 +96,8 @@ public class PlayListDao extends AbstractDao {
 						"select term, operator, value from smart_playlist_condition where playlist_id= ?", new Object[] { id });
 				for (final Map<String, String> map1 : lst)
 					pLst.getConditions().add(
-							new SmartPlayListCondition(map1.get("TERM"), map1.get("OPERATOR"), map1.get("VALUE")));
+							new SmartPlayList.SmartPlayListCondition(pLst.getId(), map1.get("TERM"), map1.get("OPERATOR"), map1
+									.get("VALUE")));
 				new PlayListDao().reloadSmartPlayLsit(pLst);
 				return pLst;
 			}

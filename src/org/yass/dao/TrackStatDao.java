@@ -32,9 +32,9 @@ public class TrackStatDao extends AbstractDao {
 
 	public void save(final TrackStat trackStat) {
 		getJdbcTempate().update("delete from track_stat where track_id = ? and user_id = ?",
-				new Object[] { trackStat.getTrackTypeId(), trackStat.getUserId() });
+				new Object[] { trackStat.getTrackId(), trackStat.getUserId() });
 		getJdbcTempate().update(
-				pscf.newPreparedStatementCreator(new Object[] { trackStat.getUserId(), trackStat.getTrackTypeId(),
+				pscf.newPreparedStatementCreator(new Object[] { trackStat.getUserId(), trackStat.getTrackId(),
 						trackStat.getRating(), trackStat.getLastPlayed(), trackStat.getPlayCount(), trackStat.getLastSelected() }));
 	}
 
@@ -46,7 +46,7 @@ public class TrackStatDao extends AbstractDao {
 		final Map<Integer, TrackStat> map = new LinkedHashMap<Integer, TrackStat>();
 		while (it.hasNext()) {
 			final TrackStat tStat = it.next();
-			map.put(tStat.getTrackTypeId(), tStat);
+			map.put(tStat.getTrackId(), tStat);
 		}
 		return map;
 	}

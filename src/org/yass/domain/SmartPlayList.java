@@ -7,7 +7,12 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -52,6 +57,7 @@ public class SmartPlayList extends PlayList {
 		return buff.toString();
 	}
 
+	@OneToMany
 	private Set<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
 
 	/**
@@ -112,5 +118,24 @@ public class SmartPlayList extends PlayList {
 	 */
 	public final void setConditions(final Set<SmartPlayListCondition> conditions) {
 		this.conditions = conditions;
+	}
+
+	@Embeddable
+	@Table(name = "SMART_PLAYLIST_CONDITION")
+	public static class SmartPlayListCondition {
+
+		@ManyToOne
+		private SmartPlayList smartPlayList;
+		private String term;
+		private String operator;
+		private String value;
+
+		public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
+				final String value) {
+			this.smartPlayList = smartPlayList;
+			this.term = term;
+			this.operator = operator;
+			this.value = value;
+		}
 	}
 }

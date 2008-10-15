@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.SqlParameter;
-import org.yass.id3.AttachedPicture;
+import org.yass.domain.AlbumCoverPicture;
 
 public class AttachedPictureDao extends AbstractDao {
 
@@ -20,7 +20,7 @@ public class AttachedPictureDao extends AbstractDao {
 		insertTrackPscf.addParameter(new SqlParameter("picture_data", java.sql.Types.BLOB));
 	}
 
-	public void save(final AttachedPicture attPict) {
+	public void save(final AlbumCoverPicture attPict) {
 		LOG.info("Saving attachedPicture albumId:" + attPict.getAlbumId());
 		if (getJdbcTempate().queryForList("select track_info_id from album_cover_picture where 	track_info_id = ?",
 				new Object[] { attPict.getAlbumId() }).size() == 0)
@@ -29,7 +29,7 @@ public class AttachedPictureDao extends AbstractDao {
 							attPict.getDescription(), attPict.getPictureType(), attPict.getPictureData() }));
 	}
 
-	public AttachedPicture get(final int albumId) {
+	public AlbumCoverPicture get(final int albumId) {
 		return null;
 	}
 

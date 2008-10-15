@@ -1,4 +1,4 @@
-package org.yass.id3;
+package org.yass.domain;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,14 +7,26 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AttachedPicture {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private final int albumId;
-	private final int pictureType;
-	private final String mimeType;
-	private final String description;
-	private final byte[] pictureData;
-	private final static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
+@Entity
+@Table(name = "ALBUM_COVER_PICTURE")
+public class AlbumCoverPicture {
+
+	@Id
+	@Column(name = "TRACK_INFO_ID")
+	private int albumId;
+	@Column(name = "PICTURE_TYPE")
+	private int pictureType;
+	@Column(name = "MIME_TYPE")
+	private String mimeType;
+	private String description;
+	@Column(name = "PICTURE_DATA")
+	private byte[] pictureData;
+	private static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
 	static {
 		mimeTypes.put("jpg", "image/jpeg");
 		mimeTypes.put("image/jpg", "image/jpeg");
@@ -26,8 +38,8 @@ public class AttachedPicture {
 	 * @param pictureData
 	 * @param pictureType
 	 */
-	public AttachedPicture(final int albumId, final String description, final String mimeType, final byte[] pictureData,
-			final int pictureType) {
+	public AlbumCoverPicture(final int albumId, final String description, final String mimeType,
+			final byte[] pictureData, final int pictureType) {
 		super();
 		this.albumId = albumId;
 		this.description = description;
@@ -125,9 +137,9 @@ public class AttachedPicture {
 		return "Unknown";
 	}
 
-	protected static Collection<AttachedPicture> getAttachedPictures(final int albumId, final int tagVersion,
+	public static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
 			final InputStream id3Frames) throws IOException {
-		final Collection<AttachedPicture> pics = new ArrayList<AttachedPicture>();
+		final Collection<AlbumCoverPicture> pics = new ArrayList<AlbumCoverPicture>();
 		final int frameIDSize = tagVersion == 2 ? 3 : 4;
 		byte[] b;
 		int loneByte;
@@ -191,7 +203,7 @@ public class AttachedPicture {
 				// Gets the actual image
 				;
 				id3Frames.read(b = new byte[frameLength]);
-				pics.add(new AttachedPicture(albumId, description, mimeType, b, picType));
+				pics.add(new AlbumCoverPicture(albumId, description, mimeType, b, picType));
 			} else
 				id3Frames.skip(frameLength + 1);
 		}
