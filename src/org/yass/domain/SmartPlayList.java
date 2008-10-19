@@ -1,5 +1,6 @@
 package org.yass.domain;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -7,11 +8,7 @@ import java.util.Set;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -45,10 +42,10 @@ public class SmartPlayList extends PlayList {
 
 	public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
-		final StringBuffer buff = new StringBuffer("select track_id from track_stat where ");
+		final StringBuilder buff = new StringBuilder("select track_id from track_stat where ");
 		while (it.hasNext()) {
 			final SmartPlayListCondition condition = it.next();
-			buff.append(condition.term).append(condition.operator).append(condition.value);
+			buff.append(condition.getTerm()).append(condition.getOperator()).append(condition.getValue());
 			if (it.hasNext())
 				buff.append(operator == 0 ? " and " : " or ");
 		}
@@ -57,8 +54,8 @@ public class SmartPlayList extends PlayList {
 		return buff.toString();
 	}
 
-	@OneToMany
-	private Set<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
+	@OneToMany(mappedBy = "smartPlayList")
+	private Collection<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
 
 	/**
 	 * @return the maxTracks
@@ -108,7 +105,7 @@ public class SmartPlayList extends PlayList {
 	/**
 	 * @return the conditions
 	 */
-	public final Set<SmartPlayListCondition> getConditions() {
+	public final Collection<SmartPlayListCondition> getConditions() {
 		return conditions;
 	}
 
@@ -118,24 +115,5 @@ public class SmartPlayList extends PlayList {
 	 */
 	public final void setConditions(final Set<SmartPlayListCondition> conditions) {
 		this.conditions = conditions;
-	}
-
-	@Embeddable
-	@Table(name = "SMART_PLAYLIST_CONDITION")
-	public static class SmartPlayListCondition {
-
-		@ManyToOne
-		private SmartPlayList smartPlayList;
-		private String term;
-		private String operator;
-		private String value;
-
-		public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
-				final String value) {
-			this.smartPlayList = smartPlayList;
-			this.term = term;
-			this.operator = operator;
-			this.value = value;
-		}
 	}
 }

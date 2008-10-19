@@ -148,10 +148,11 @@ public class Schema00 extends Schema {
 			LOG.info(" table 'smart_playlist' was created successfully.");
 		}
 		// Table smart_playlist_condition
+		template.execute("drop table  smart_playlist_condition");
 		if (!tableExists(template, "smart_playlist_condition")) {
 			LOG.info(" table 'smart_playlist_condition' not found.  Creating it.");
 			template
-					.execute("create table smart_playlist_condition (playlist_id int not null, term varchar(50) not null, operator varchar(12) not null, value varchar(128) not null,"
+					.execute("create table smart_playlist_condition (id int not null generated always as identity, playlist_id int not null, term varchar(50) not null, operator varchar(12) not null, value varchar(128) not null,"
 							+ "foreign key(playlist_id) references smart_playlist(playlist_id))");
 			template
 					.execute("insert into smart_playlist_condition (playlist_id, term, operator, value) values (1, 'rating', '>', '0')");
