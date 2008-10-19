@@ -3,7 +3,6 @@ package org.yass.domain;
 import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -124,24 +123,5 @@ public class TrackStat {
 	 */
 	public final void setPlayCount(final int playCount) {
 		this.playCount = playCount;
-	}
-
-	@Embeddable
-	private static class TrackStatPK {
-
-		/**
-		 * @param trackId
-		 * @param userId
-		 */
-		public TrackStatPK(final int trackId, final int userId) {
-			super();
-			this.trackId = trackId;
-			this.userId = userId;
-		}
-
-		@Column(name = "TRACK_ID")
-		private int trackId;
-		@Column(name = "USER_ID")
-		private int userId;
 	}
 }

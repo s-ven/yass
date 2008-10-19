@@ -1,5 +1,8 @@
 package org.yass.domain;
 
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -20,8 +23,20 @@ public class Library {
 	private Date lastUpdate = new Date();
 	@Id
 	private int id;
-	@OneToMany(mappedBy = "library")
+	@OneToMany(mappedBy = "library", fetch = EAGER, cascade = ALL)
 	private Collection<Track> tracks;
+
+	/**
+	 * @param path
+	 * @param lastUpdate
+	 */
+	public Library(final int id, final String path, final Date lastUpdate, final Collection<Track> tracks) {
+		super();
+		this.id = id;
+		this.path = path;
+		this.lastUpdate = lastUpdate;
+		this.setTracks(tracks);
+	}
 
 	/**
 	 * @param path

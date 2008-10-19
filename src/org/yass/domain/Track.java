@@ -39,13 +39,14 @@ public final class Track implements YassConstants {
 	private long length;
 	@Id
 	private int id;
-	@ManyToOne
+	@ManyToOne(cascade = ALL)
 	@JoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
 	private Library library;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
 	@Column(name = "TRACK_TYPE_ID")
 	private int typeId = 1;
+	@Column(nullable = true)
 	private boolean VBR = false;
 
 	/**
