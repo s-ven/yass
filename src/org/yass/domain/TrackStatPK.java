@@ -7,6 +7,13 @@ import javax.persistence.Embeddable;
 public class TrackStatPK {
 
 	/**
+	 * 
+	 */
+	public TrackStatPK() {
+		super();
+	}
+
+	/**
 	 * @param trackId
 	 * @param userId
 	 */
@@ -20,4 +27,15 @@ public class TrackStatPK {
 	protected int trackId;
 	@Column(name = "USER_ID")
 	protected int userId;
+
+	@Override
+	public boolean equals(final Object obj) {
+		return obj != null && obj instanceof TrackStatPK && ((TrackStatPK) obj).trackId == trackId
+				&& ((TrackStatPK) obj).userId == userId;
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
 }

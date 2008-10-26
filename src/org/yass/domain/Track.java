@@ -1,17 +1,11 @@
 package org.yass.domain;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
-import static javax.persistence.CascadeType.REMOVE;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,18 +14,28 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.yass.YassConstants;
 
 @Entity
 @Table(name = "TRACK")
-public final class Track implements YassConstants {
+@NamedQuery(name = "getTrackByPath", query = "SELECT t FROM Track t where t.path = ?1")
+public class Track implements YassConstants {
 
-	private Map<String, TrackInfo> trackInfosMap = new LinkedHashMap<String, TrackInfo>();
-	@ManyToMany(cascade = { ALL, PERSIST, MERGE, REMOVE, REFRESH })
-	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID", referencedColumnName = "ID"))
-	private Collection<TrackInfo> trackInfos;
+	/**
+	 * 
+	 */
+	public Track() {
+		super();
+	}
+
+	@ManyToMany
+	@JoinTable(joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"), name = "TRACK_TRACK_INFO")
+	@MapKey(name = "type")
+	private Map<String, TrackInfo> trackInfos;
 	private String title;
 	@Column(name = "TRACK_NR")
 	private int trackNr;
@@ -79,18 +83,6 @@ public final class Track implements YassConstants {
 		this.typeId = typeId;
 	}
 
-	public void setTrackInfo(final String type, final TrackInfo trackInfo) {
-		trackInfosMap.put(type, trackInfo);
-	}
-
-	/**
-	 * @param library
-	 *          the library to set
-	 */
-	public final void setLibrary(final Library library) {
-		this.library = library;
-	}
-
 	/**
 	 * @return the library
 	 */
@@ -128,13 +120,6 @@ public final class Track implements YassConstants {
 		return length;
 	}
 
-	public Track(final File file) throws IOException {
-	}
-
-	public TrackInfo getTrackInfo(final String type) {
-		return trackInfosMap.get(type);
-	}
-
 	/**
 	 * @return the title
 	 */
@@ -164,13 +149,7 @@ public final class Track implements YassConstants {
 	}
 
 	public Collection<TrackInfo> getTrackInfos() {
-		return trackInfos;
-	}
-
-	public void setTrackInfos(final Collection<TrackInfo> infos) {
-		trackInfos = infos;
-		for (final TrackInfo trackInfo : infos)
-			trackInfosMap.put(trackInfo.getType(), trackInfo);
+		return trackInfos.values();
 	}
 
 	/**
@@ -190,9 +169,6 @@ public final class Track implements YassConstants {
 		this.length = length;
 		VBR = vbr;
 		lastModified = lastUpdate;
-	}
-
-	public Track() {
 	}
 
 	/**
@@ -225,5 +201,13 @@ public final class Track implements YassConstants {
 	 */
 	public final void setLastModified(final Date lastUpdate) {
 		lastModified = lastUpdate;
+	}
+
+	public TrackInfo getTrackInfo(final String trackInfoType) {
+		return trackInfos.get(trackInfoType);
+	}
+
+	public void setTrackInfo(final TrackInfo trackInfo) {
+		trackInfos.put(trackInfo.getType(), trackInfo);
 	}
 }

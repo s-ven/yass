@@ -1,5 +1,7 @@
 package org.yass.dao;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AbstractDao {
@@ -8,5 +10,9 @@ public class AbstractDao {
 
 	protected JdbcTemplate getJdbcTempate() {
 		return helper.getJdbcTemplate();
+	}
+
+	protected EntityManager getEntityManager() {
+		return helper.getEntityManager();
 	}
 }

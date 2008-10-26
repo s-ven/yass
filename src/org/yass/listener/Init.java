@@ -70,6 +70,7 @@ public class Init implements ServletContextListener, YassConstants {
 			(initThread = new Thread(runnable)).start();
 			servletContext.setAttribute(USER_PLAYLISTS, new PlayListDao().getFromUserId(1));
 			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
+			LOG.info("Init phase over");
 		} catch (final Exception e) {
 			LOG.fatal("Error in Yass init", e);
 		}

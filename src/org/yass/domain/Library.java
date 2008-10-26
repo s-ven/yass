@@ -1,8 +1,5 @@
 package org.yass.domain;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -10,21 +7,31 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQuery(name = "getLibraryById", query = "SELECT l FROM Library l where l.id = ?1")
 public class Library {
 
+	/**
+	 * 
+	 */
+	public Library() {
+		super();
+	}
+
+	@OneToMany(mappedBy = "library", fetch = FetchType.EAGER)
+	@MapKey(name = "id")
 	private Map<Integer, Track> tracksMap = new LinkedHashMap<Integer, Track>();
 	private String path;
-	private Map<String, Track> paths = new LinkedHashMap<String, Track>();
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate = new Date();
 	@Id
 	private int id;
-	@OneToMany(mappedBy = "library", fetch = EAGER, cascade = ALL)
-	private Collection<Track> tracks;
 
 	/**
 	 * @param path
@@ -54,7 +61,6 @@ public class Library {
 	 *          the tracks to set
 	 */
 	public final void setTracks(final Collection<Track> tracks) {
-		this.tracks = tracks;
 		clean();
 		for (final Track track : tracks)
 			add(track);
@@ -65,29 +71,22 @@ public class Library {
 	 *          the tracks to set
 	 */
 	public final void add(final Track track) {
-		track.setLibrary(this);
-		paths.put(track.getPath(), track);
 		tracksMap.put(track.getId(), track);
 	}
 
-	public final Track getFromPath(final String filePath) {
-		return paths.get(filePath);
-	}
-
-	public final Track getMediaFile(final int id) {
+	public final Track getTrack(final int id) {
 		return tracksMap.get(id);
 	}
 
 	public final void clean() {
 		tracksMap.clear();
-		paths.clear();
 	}
 
 	/**
 	 * @return the tracks
 	 */
 	public final Collection<Track> getTracks() {
-		return tracks;
+		return tracksMap.values();
 	}
 
 	/**

@@ -2,6 +2,9 @@ package org.yass.dao;
 
 import java.io.File;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
@@ -14,9 +17,17 @@ import org.yass.util.FileUtils;
 
 public class DaoHelper implements YassConstants {
 
+	/**
+	 * @return the entity manager
+	 */
+	public final EntityManager getEntityManager() {
+		return entytyManager;
+	}
+
 	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
 	private final DataSource dataSource;
 	private final static DaoHelper instance = new DaoHelper();
+	private final EntityManager entytyManager;
 
 	/**
 	 * @return the instance
@@ -34,6 +45,8 @@ public class DaoHelper implements YassConstants {
 		ds.setPassword("");
 		dataSource = ds;
 		checkDataBase();
+		final EntityManagerFactory emf = Persistence.createEntityManagerFactory("yass");
+		entytyManager = emf.createEntityManager();
 	}
 
 	public JdbcTemplate getJdbcTemplate() {

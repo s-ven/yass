@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
-	<persistence-unit name="yass" transaction-type="JTA">
-		<provider>org.jpox.jpa.PersistenceProviderImpl</provider>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="yass" transaction-type="RESOURCE_LOCAL">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<class>org.yass.domain.TrackStat</class>
 		<class>org.yass.domain.TrackStatPK</class>
 		<class>org.yass.domain.TrackInfo</class>
@@ -12,17 +13,13 @@
 		<class>org.yass.domain.Settings</class>
 		<class>org.yass.domain.PlayList</class>
 		<class>org.yass.domain.Library</class>
-		<class>org.yass.domain.AlbumCoverPicture</class> 
-        <properties>
-        	<property name="javax.jdo.PersistenceManagerFactoryClass" value="org.jpox.jdo.JDOPersistenceManagerFactory"/>
-            <property name="javax.jdo.option.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-            <property name="javax.jdo.option.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=false"/>
-            <property name="javax.jdo.option.ConnectionUserName" value="sa"/>
-            <property name="javax.jdo.option.ConnectionPassword" value=""/>
-            <property name="org.jpox.autoCreateSchema" value="false"/>
-            <property name="org.jpox.validateTables" value="false"/>
-            <property name="org.jpox.validateConstraints" value="false"/>
-        </properties>
+		<class>org.yass.domain.AlbumCoverPicture</class>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=false" />
+			<property name="openjpa.ConnectionUserName" value="sa" />
+			<property name="openjpa.ConnectionPassword" value="" />
+			<property name="openjpa.Multithreaded" value="true" />
+		</properties>
 	</persistence-unit>
 </persistence>
-  

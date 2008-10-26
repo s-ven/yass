@@ -24,6 +24,13 @@ import org.yass.YassConstants;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER, name = "TYPE_ID")
 public abstract class PlayList implements YassConstants {
 
+	/**
+	 * 
+	 */
+	public PlayList() {
+		super();
+	}
+
 	@Id
 	protected int id;
 	protected String name;

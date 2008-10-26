@@ -3,6 +3,8 @@ package org.yass.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.persistence.Query;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -73,13 +75,23 @@ public class TrackDao extends AbstractDao {
 		getJdbcTempate().execute("delete from track where id = " + track.getId());
 	}
 
+	public final Track getFromPath(final String path) {
+		try {
+			final Query q = getEntityManager().createNamedQuery("getTrackByPath");
+			q.setParameter(1, path);
+			return (Track) q.getSingleResult();
+		} catch (final Exception e) {
+			return null;
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	public final void fillLibrary(final Library lib) {
-		lib.setTracks(getJdbcTempate().query(
-				"select id, path, title, track_nr, length, last_modified, track_type_id, vbr from track where library_id = ?",
-				new Object[] { lib.getId() }, rowMapper));
-		for (final Track track : lib.getTracks())
-			track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
+		// lib.setTracks(getJdbcTempate().query(
+		// "select id, path, title, track_nr, length, last_modified, track_type_id, vbr from track where library_id = ?",
+		// new Object[] { lib.getId() }, rowMapper));
+		// for (final Track track : lib.getTracks())
+		// track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
 	}
 
 	private class TrackRowMapper implements ParameterizedRowMapper<Track> {

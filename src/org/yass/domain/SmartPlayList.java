@@ -18,6 +18,13 @@ import javax.persistence.Table;
 @AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
 public class SmartPlayList extends PlayList {
 
+	/**
+	 * 
+	 */
+	public SmartPlayList() {
+		super();
+	}
+
 	@Column(name = "MAX_TRACKS")
 	private int maxTracks = 0;
 	@Column(name = "ORDER_BY")

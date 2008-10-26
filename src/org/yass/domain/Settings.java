@@ -9,6 +9,13 @@ import javax.persistence.Table;
 @Table(name = "USER_SETTING")
 public class Settings {
 
+	/**
+	 * 
+	 */
+	public Settings() {
+		super();
+	}
+
 	@Id
 	@Column(name = "USER_ID")
 	private int userId;

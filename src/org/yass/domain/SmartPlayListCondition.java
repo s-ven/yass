@@ -10,6 +10,13 @@ import javax.persistence.Table;
 @Table(name = "SMART_PLAYLIST_CONDITION")
 public class SmartPlayListCondition {
 
+	/**
+	 * 
+	 */
+	public SmartPlayListCondition() {
+		super();
+	}
+
 	@Id
 	private int id;
 	@ManyToOne(targetEntity = org.yass.domain.SmartPlayList.class)

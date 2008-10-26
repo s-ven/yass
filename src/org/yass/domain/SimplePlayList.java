@@ -14,6 +14,13 @@ import javax.persistence.Table;
 @AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
 public class SimplePlayList extends PlayList {
 
+	/**
+	 * 
+	 */
+	public SimplePlayList() {
+		super();
+	}
+
 	public SimplePlayList(final int id, final String name, final Date updateDate) {
 		this.name = name;
 		this.id = id;

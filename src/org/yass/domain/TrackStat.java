@@ -35,6 +35,13 @@ public class TrackStat {
 	}
 
 	/**
+	 * 
+	 */
+	public TrackStat() {
+		super();
+	}
+
+	/**
 	 * @param userId
 	 * @param trackId
 	 * @param rating
@@ -123,5 +130,10 @@ public class TrackStat {
 	 */
 	public final void setPlayCount(final int playCount) {
 		this.playCount = playCount;
+	}
+
+	@Override
+	public int hashCode() {
+		return trackStatPK.hashCode();
 	}
 }

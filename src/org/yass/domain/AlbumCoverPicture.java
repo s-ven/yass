@@ -16,6 +16,13 @@ import javax.persistence.Table;
 @Table(name = "ALBUM_COVER_PICTURE")
 public class AlbumCoverPicture {
 
+	/**
+	 * 
+	 */
+	public AlbumCoverPicture() {
+		super();
+	}
+
 	@Id
 	@Column(name = "TRACK_INFO_ID")
 	private int albumId;
