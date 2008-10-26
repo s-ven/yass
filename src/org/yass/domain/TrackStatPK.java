@@ -30,12 +30,15 @@ public class TrackStatPK {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj != null && obj instanceof TrackStatPK && ((TrackStatPK) obj).trackId == trackId
-				&& ((TrackStatPK) obj).userId == userId;
+		if (this == obj)
+			return true;
+		if (obj == null || obj.getClass() != this.getClass())
+			return false;
+		return ((TrackStatPK) obj).trackId == trackId && ((TrackStatPK) obj).userId == userId;
 	}
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		return (32 + userId) * 31 + trackId;
 	}
 }
