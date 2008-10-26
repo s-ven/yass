@@ -13,10 +13,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
-import org.yass.dao.AttachedPictureDao;
-import org.yass.dao.LibraryDao;
-import org.yass.dao.PlayListDao;
-import org.yass.dao.TrackStatDao;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
@@ -28,8 +24,6 @@ import org.yass.util.MetadataReader;
  */
 public class Init implements ServletContextListener, YassConstants {
 
-	private static final LibraryDao LIBRARY_DAO = LibraryDao.getInstance();
-	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = AttachedPictureDao.getInstance();
 	private static Log LOG = LogFactory.getLog(Init.class);
 	static final long serialVersionUID = 1L;
 	private Thread initThread;
@@ -68,8 +62,8 @@ public class Init implements ServletContextListener, YassConstants {
 				}
 			};
 			(initThread = new Thread(runnable)).start();
-			servletContext.setAttribute(USER_PLAYLISTS, PlayListDao.getInstance().getFromUserId(1));
-			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
+			servletContext.setAttribute(USER_PLAYLISTS, PLAYLIST_DAO.getFromUserId(1));
+			servletContext.setAttribute(USER_TRACK_STATS, TRACK_STAT_DAO.getFromUserId(1));
 			LOG.info("Init phase over");
 		} catch (final Exception e) {
 			LOG.fatal("Error in Yass init", e);
@@ -137,6 +131,8 @@ public class Init implements ServletContextListener, YassConstants {
 		final Element node = doc.createElement(trackInfo.getType());
 		node.setAttribute("id", "" + trackInfo.getId());
 		node.setAttribute("value", trackInfo.getValue());
+		// If the trackIngo is an album, will try to check if it have an attached
+		// picture in the database
 		if (trackInfo.getType().equals(ALBUM))
 			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(trackInfo.getId()) + "");
 		return node;

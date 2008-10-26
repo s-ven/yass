@@ -3,7 +3,6 @@ package org.yass.struts.track;
 import java.util.Date;
 
 import org.yass.YassConstants;
-import org.yass.dao.TrackStatDao;
 import org.yass.domain.TrackStat;
 import org.yass.struts.YassAction;
 
@@ -13,7 +12,6 @@ public class Save extends YassAction implements YassConstants {
 	public int rating;
 	public int playCount;
 	public long lastPlayed;
-	private static final TrackStatDao trackStatDao = new TrackStatDao();
 	/**
 	 * 
 	 */
@@ -28,7 +26,7 @@ public class Save extends YassAction implements YassConstants {
 		trackStat.setRating(rating);
 		trackStat.setPlayCount(playCount);
 		trackStat.setLastPlayed(new Date(lastPlayed));
-		trackStatDao.save(trackStat);
+		TRACK_STAT_DAO.save(trackStat);
 		return NONE;
 	}
 }

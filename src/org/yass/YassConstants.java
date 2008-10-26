@@ -1,5 +1,12 @@
 package org.yass;
 
+import org.yass.dao.AttachedPictureDao;
+import org.yass.dao.LibraryDao;
+import org.yass.dao.PlayListDao;
+import org.yass.dao.TrackDao;
+import org.yass.dao.TrackInfoDao;
+import org.yass.dao.TrackStatDao;
+
 public interface YassConstants {
 
 	public static final String YASS_HOME = "yass";
@@ -30,4 +37,10 @@ public interface YassConstants {
 	public static final String UNKNOWN_ALBUM = "<Unknown Album>";
 	public static final String UNKNOWN_TITLE = "<Unknown Title>";
 	public static final String USER_SETTINGS = "USER_SETTINGS";
+	public static final LibraryDao LIBRARY_DAO = LibraryDao.getInstance();
+	public static final AttachedPictureDao ATTACHED_PICTURE_DAO = AttachedPictureDao.getInstance();
+	public static final TrackStatDao TRACK_STAT_DAO = TrackStatDao.getInstance();
+	public static final PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
+	public static final TrackDao TRACK_DAO = TrackDao.getInstance();
+	public static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
 }

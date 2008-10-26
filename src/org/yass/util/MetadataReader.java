@@ -16,19 +16,14 @@ import javax.sound.sampled.AudioSystem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
-import org.yass.dao.AttachedPictureDao;
-import org.yass.dao.TrackDao;
-import org.yass.dao.TrackInfoDao;
+import org.yass.YassConstants;
 import org.yass.domain.AlbumCoverPicture;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
-public class MetadataReader implements org.yass.YassConstants {
+public class MetadataReader implements YassConstants {
 
-	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = AttachedPictureDao.getInstance();
-	private static final TrackDao TRACK_DAO = TrackDao.getInstance();
-	private static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
 	private static final Log LOG = LogFactory.getLog(MetadataReader.class);
 	private final String ext = "mp3";
 	private static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
@@ -93,6 +88,7 @@ public class MetadataReader implements org.yass.YassConstants {
 					album = UNKNOWN_ALBUM;
 				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
 				track.setTrackInfo(albumTrackInfo);
+				// attached pictures
 				final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
 				if (id3Frames != null) {
 					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
@@ -105,24 +101,29 @@ public class MetadataReader implements org.yass.YassConstants {
 				final String year = (String) props.get("date");
 				if (year != null && !"".equals(year))
 					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(year, YEAR));
+				// bitrate
 				final Integer bitRate = (Integer) props.get("mp3.bitrate.nominal.bps");
 				if (bitRate != null && !"".equals(album))
 					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(bitRate / 1000 + "", BITRATE));
+				// vbr
 				final Boolean vbr = (Boolean) props.get("mp3.vbr");
 				if (vbr != null)
 					track.setVBR(vbr.booleanValue());
+				// track title
 				String title = ((String) props.get("title")).trim();
 				if (title == null || "".equals(title))
 					title = file.getName();
 				track.setTitle(title);
+				// track nr
 				String trackNr = ((String) props.get("mp3.id3tag.track")).trim();
 				int slashIndex;
 				if ((slashIndex = trackNr.indexOf('/')) > 0)
 					trackNr = trackNr.substring(0, slashIndex);
 				track.setTrackNr(Integer.parseInt(trackNr));
+				// track duration
+				track.setLength((Long) props.get("duration") / 1000);
 				track.setPath(file.getPath());
 				track.setLastModified(new Date(file.lastModified()));
-				track.setLength((Long) props.get("duration") / 1000);
 			}
 		} catch (final Exception e) {
 			LOG.error(e);

@@ -15,10 +15,11 @@ import org.yass.domain.TrackStat;
 
 public class TrackStatDao extends AbstractDao {
 
+	private final static TrackStatDao instance = new TrackStatDao();
 	private final PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
 			"insert into track_stat (user_id, track_id, rating, last_played, play_count, last_selected) values (?, ?, ?, ?, ?, ?)");
 
-	public TrackStatDao() {
+	private TrackStatDao() {
 		pscf.addParameter(new SqlParameter("track_id", java.sql.Types.INTEGER));
 		pscf.addParameter(new SqlParameter("user_id", java.sql.Types.INTEGER));
 		pscf.addParameter(new SqlParameter("rating", java.sql.Types.INTEGER));
@@ -49,6 +50,10 @@ public class TrackStatDao extends AbstractDao {
 			map.put(tStat.getTrackId(), tStat);
 		}
 		return map;
+	}
+
+	public final static TrackStatDao getInstance() {
+		return instance;
 	}
 
 	private class TrackStatRowMapper implements ParameterizedRowMapper<TrackStat> {

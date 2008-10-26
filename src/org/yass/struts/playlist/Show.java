@@ -9,7 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.yass.YassConstants;
-import org.yass.dao.PlayListDao;
 import org.yass.domain.PlayList;
 import org.yass.domain.SmartPlayList;
 import org.yass.struts.YassAction;
@@ -31,7 +30,7 @@ public class Show extends YassAction implements YassConstants {
 			LOG.info("Playlist id:" + id + " requested");
 			final PlayList playList = getPlayLists().get(id);
 			if (playList instanceof SmartPlayList)
-				PlayListDao.getInstance().reloadSmartPlayLsit((SmartPlayList) playList);
+				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Node libNode = doc.appendChild(doc.createElement("playlist"));
 			final Iterator<Integer> it = playList.getTrackIds().iterator();

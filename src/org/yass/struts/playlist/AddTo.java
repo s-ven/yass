@@ -1,14 +1,12 @@
 package org.yass.struts.playlist;
 
 import org.yass.YassConstants;
-import org.yass.dao.PlayListDao;
 import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
 import org.yass.struts.YassAction;
 
 public class AddTo extends YassAction implements YassConstants {
 
-	private final static PlayListDao playlistDao = PlayListDao.getInstance();
 	public int id;
 	public Integer[] trackIds;
 	/**
@@ -25,7 +23,7 @@ public class AddTo extends YassAction implements YassConstants {
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
 			pl.add(trackIds);
-			playlistDao.savePlaylist(pl);
+			PLAYLIST_DAO.savePlaylist(pl);
 		}
 		return NONE;
 	}

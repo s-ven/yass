@@ -3,14 +3,12 @@ package org.yass.struts.playlist;
 import java.util.Date;
 
 import org.yass.YassConstants;
-import org.yass.dao.PlayListDao;
 import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
 import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	private final static PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public String id;
 	public String name;
 	/**
