@@ -148,7 +148,6 @@ public class Schema00 extends Schema {
 			LOG.info(" table 'smart_playlist' was created successfully.");
 		}
 		// Table smart_playlist_condition
-		template.execute("drop table  smart_playlist_condition");
 		if (!tableExists(template, "smart_playlist_condition")) {
 			LOG.info(" table 'smart_playlist_condition' not found.  Creating it.");
 			template
