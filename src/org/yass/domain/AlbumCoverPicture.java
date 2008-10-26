@@ -212,8 +212,8 @@ public class AlbumCoverPicture {
 				if (mimeType.length() == 0)
 					break;
 				// normalize the mimeType
-				mimeType = mimeTypes.get(mimeType.toLowerCase()) != null ? mimeTypes.get(mimeType.toLowerCase()) : mimeType
-						.toLowerCase();
+				mimeType = mimeType.toLowerCase();
+				mimeType = mimeTypes.get(mimeType) != null ? mimeTypes.get(mimeType) : mimeType;
 				// Gets the picture type
 				final int picType = id3Frames.read();
 				frameLength--;
