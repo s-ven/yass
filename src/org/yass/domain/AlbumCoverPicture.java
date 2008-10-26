@@ -45,7 +45,7 @@ public class AlbumCoverPicture {
 	 * @param pictureData
 	 * @param pictureType
 	 */
-	public AlbumCoverPicture(final int albumId, final String description, final String mimeType,
+	private AlbumCoverPicture(final int albumId, final String description, final String mimeType,
 			final byte[] pictureData, final int pictureType) {
 		super();
 		this.albumId = albumId;
@@ -96,7 +96,13 @@ public class AlbumCoverPicture {
 				+ getPictureTypeAsString(pictureType) + "'}";
 	}
 
-	public final static String getPictureTypeAsString(final int pictureType) {
+	/**
+	 * Will translate the ID3 picture type int into a human readable type string
+	 * 
+	 * @param pictureType
+	 * @return
+	 */
+	private final static String getPictureTypeAsString(final int pictureType) {
 		switch (pictureType & 0xFF) {
 		case 0x00:
 			return "Other";
@@ -144,6 +150,16 @@ public class AlbumCoverPicture {
 		return "Unknown";
 	}
 
+	/**
+	 * Helper method that will read the id3frames and return a collection of
+	 * {@link AlbumCoverPicture} objects
+	 * 
+	 * @param albumId
+	 * @param tagVersion
+	 * @param id3Frames
+	 * @return
+	 * @throws IOException
+	 */
 	public static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
 			final InputStream id3Frames) throws IOException {
 		final Collection<AlbumCoverPicture> pics = new ArrayList<AlbumCoverPicture>();
@@ -208,7 +224,6 @@ public class AlbumCoverPicture {
 					description = description.concat(new String(new byte[] { (byte) loneByte }));
 				}
 				// Gets the actual image
-				;
 				id3Frames.read(b = new byte[frameLength]);
 				pics.add(new AlbumCoverPicture(albumId, description, mimeType, b, picType));
 			} else
