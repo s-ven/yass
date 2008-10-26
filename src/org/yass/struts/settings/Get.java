@@ -6,8 +6,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.yass.YassConstants;
-import org.yass.dao.SettingsDao;
-import org.yass.domain.Settings;
+import org.yass.domain.UserBrowsingContext;
+import org.yass.domain.UserSetting;
 import org.yass.struts.YassAction;
 
 public class Get extends YassAction implements YassConstants {
@@ -31,7 +31,7 @@ public class Get extends YassAction implements YassConstants {
 	public String execute() {
 		try {
 			LOG.info("Getting Settings ");
-			final Settings settings = new SettingsDao().getFromUserId(1);
+			final UserSetting settings = getUser().getUserSetting();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element settingsNode = doc.createElement("settings");
 			doc.appendChild(settingsNode);
@@ -47,9 +47,9 @@ public class Get extends YassAction implements YassConstants {
 				settingsNode.setAttribute("nextFadeout", settings.getNextFadeout() + "");
 				final Element tiIdsNode = doc.createElement("trackInfoIds");
 				settingsNode.appendChild(tiIdsNode);
-				for (final Integer id : settings.getTrackInfoIds()) {
+				for (final UserBrowsingContext id : getUser().getBrowsingContext()) {
 					final Element tiIdNode = doc.createElement("trackInfo");
-					tiIdNode.setAttribute("id", id.intValue() + "");
+					tiIdNode.setAttribute("id", id.getTrackInfoId() + "");
 					tiIdsNode.appendChild(tiIdNode);
 				}
 			}

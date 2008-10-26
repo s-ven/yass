@@ -10,10 +10,13 @@
 		<class>org.yass.domain.SmartPlayListCondition</class>
 		<class>org.yass.domain.SmartPlayList</class>
 		<class>org.yass.domain.SimplePlayList</class>
-		<class>org.yass.domain.Settings</class>
 		<class>org.yass.domain.PlayList</class>
 		<class>org.yass.domain.Library</class>
 		<class>org.yass.domain.AlbumCoverPicture</class>
+		<class>org.yass.domain.User</class>
+		<class>org.yass.domain.UserSetting</class>
+		<class>org.yass.domain.UserBrowsingContext</class>
+		<class>org.yass.domain.UserBrowsingContextPK</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
 			<property name="openjpa.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=false" />

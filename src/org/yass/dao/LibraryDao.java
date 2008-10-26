@@ -50,4 +50,11 @@ public class LibraryDao extends AbstractDao {
 		q.setParameter(1, id);
 		return (Library) q.getSingleResult();
 	}
+
+	public Library getFromUserId(final int id) {
+		LOG.info("Loading Library user_id:" + id);
+		final Query q = getEntityManager().createNamedQuery("getLibraryByUSerId");
+		q.setParameter(1, id);
+		return (Library) q.getSingleResult();
+	}
 }

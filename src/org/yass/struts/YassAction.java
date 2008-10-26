@@ -22,6 +22,7 @@ import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.PlayList;
 import org.yass.domain.TrackStat;
+import org.yass.domain.User;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -53,6 +54,10 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	protected Map<Integer, PlayList> getPlayLists() {
 		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
+	}
+
+	protected User getUser() {
+		return (User) ActionContext.getContext().getApplication().get(USER);
 	}
 
 	/**

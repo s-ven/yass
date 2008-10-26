@@ -1,8 +1,8 @@
 package org.yass.struts.settings;
 
 import org.yass.YassConstants;
-import org.yass.dao.SettingsDao;
-import org.yass.domain.Settings;
+import org.yass.domain.User;
+import org.yass.domain.UserSetting;
 import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
@@ -13,7 +13,7 @@ public class Save extends YassAction implements YassConstants {
 	public boolean shuffle;
 	public boolean loop;
 	public boolean showRemaining;
-	public int displayMode;
+	public short displayMode;
 	public int stopFadeout;
 	public int nextFadeout;
 	public int skipFadeout;
@@ -25,10 +25,22 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		LOG.info("Saving Settings for user id:");
-		final Settings settings = new Settings(1, loadedTrackId, volume, shuffle, loop, showRemaining, displayMode,
-				stopFadeout, skipFadeout, nextFadeout, trackInfoIds);
-		new SettingsDao().save(settings);
+		final User user = getUser();
+		if (LOG.isInfoEnabled())
+			LOG.info("Saving Settings for user id:" + user.getId());
+		UserSetting settings = user.getUserSetting();
+		if (settings == null)
+			user.setUserSetting(settings = new UserSetting());
+		settings.setDisplayMode(displayMode);
+		settings.setLoadedTrackId(loadedTrackId);
+		settings.setShuffle(shuffle);
+		settings.setRepeat(loop);
+		settings.setShowRemaining(showRemaining);
+		settings.setNextFadeout(nextFadeout);
+		settings.setStopFadeout(stopFadeout);
+		settings.setSkipFadeout(skipFadeout);
+		settings.setVolume(volume);
+		// new SettingsDao().save(settings);
 		return NONE;
 	}
 }

@@ -6,6 +6,7 @@ import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackDao;
 import org.yass.dao.TrackInfoDao;
 import org.yass.dao.TrackStatDao;
+import org.yass.dao.YassUserDao;
 
 public interface YassConstants {
 
@@ -13,6 +14,7 @@ public interface YassConstants {
 	public static final String INDEX_MANAGER = "INDEX_MANAGER";
 	public static final String BROWSING_CONTEXT = "BROWSING_CONTEXT";
 	public static final String CURRENT_PLAYLIST = "CURRENT_PLAYLIST";
+	public static final String USER = "USER";
 	public static final String USER_PLAYLISTS = "USER_PLAYLISTS";
 	public static final String SMART_PLAYLISTS = "SMART_PLAYLIST";
 	public static final String ALL_LIBRARY = "ALL_LIBRARY";
@@ -43,4 +45,5 @@ public interface YassConstants {
 	public static final PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public static final TrackDao TRACK_DAO = TrackDao.getInstance();
 	public static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
+	public static final YassUserDao YASS_USER_DAO = YassUserDao.getInstance();
 }

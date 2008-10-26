@@ -16,6 +16,7 @@ import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
+import org.yass.domain.User;
 import org.yass.util.MetadataReader;
 
 /**
@@ -48,7 +49,10 @@ public class Init implements ServletContextListener, YassConstants {
 		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
 		try {
 			LOG.info("Loading Library from DB");
-			Library lib = LIBRARY_DAO.getFromId(1);
+			final User user = YASS_USER_DAO.getFromId(1);
+			System.out.println(user);
+			LOG.info("Loading Library from DB");
+			Library lib = LIBRARY_DAO.getFromUserId(user.getId());
 			if (lib == null) {
 				LOG.info("No Library found, creating new one");
 				LIBRARY_DAO.saveLibrary(lib = new Library(0, trackroot, new Date()));
@@ -62,8 +66,9 @@ public class Init implements ServletContextListener, YassConstants {
 				}
 			};
 			(initThread = new Thread(runnable)).start();
-			servletContext.setAttribute(USER_PLAYLISTS, PLAYLIST_DAO.getFromUserId(1));
-			servletContext.setAttribute(USER_TRACK_STATS, TRACK_STAT_DAO.getFromUserId(1));
+			servletContext.setAttribute(USER, user);
+			servletContext.setAttribute(USER_PLAYLISTS, PLAYLIST_DAO.getFromUserId(user.getId()));
+			servletContext.setAttribute(USER_TRACK_STATS, TRACK_STAT_DAO.getFromUserId(user.getId()));
 			LOG.info("Init phase over");
 		} catch (final Exception e) {
 			LOG.fatal("Error in Yass init", e);

@@ -10,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.MapKey;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(name = "getLibraryById", query = "SELECT l FROM Library l where l.id = ?1")
+@NamedQueries( { @NamedQuery(name = "getLibraryById", query = "SELECT l FROM Library l where l.id = ?1"),
+		@NamedQuery(name = "getLibraryByUserId", query = "SELECT l FROM Library l where l.user.id = ?1") })
 public class Library {
 
 	/**
