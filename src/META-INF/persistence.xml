@@ -20,6 +20,7 @@
 			<property name="openjpa.ConnectionUserName" value="sa" />
 			<property name="openjpa.ConnectionPassword" value="" />
 			<property name="openjpa.Multithreaded" value="true" />
+			<property name="openjpa.Log" value="log4j" />
 		</properties>
 	</persistence-unit>
 </persistence>
