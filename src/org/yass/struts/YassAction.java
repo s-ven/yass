@@ -26,6 +26,7 @@ import org.yass.domain.TrackStat;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+@SuppressWarnings("all")
 public class YassAction extends ActionSupport implements YassConstants {
 
 	public static final Log LOG = LogFactory.getLog(YassAction.class);

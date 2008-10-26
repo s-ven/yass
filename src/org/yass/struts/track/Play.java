@@ -23,8 +23,8 @@ public class Play extends YassAction implements YassConstants {
 	@Override
 	public String execute() {
 		LOG.info("Playing track id:" + id);
-		final Track mf = getLibrary().getTrack(id);
-		final File toPlayr = new File(mf.getPath());
+		final Track track = getLibrary().getTrack(id);
+		final File toPlayr = new File(track.getPath());
 		OutputStream out = null;
 		InputStream fis = null;
 		try {

@@ -8,7 +8,7 @@ import org.yass.struts.YassAction;
 
 public class AddTo extends YassAction implements YassConstants {
 
-	private final PlayListDao playlistDao = new PlayListDao();
+	private final static PlayListDao playlistDao = PlayListDao.getInstance();
 	public int id;
 	public Integer[] trackIds;
 	/**
@@ -24,7 +24,7 @@ public class AddTo extends YassAction implements YassConstants {
 		LOG.info("Adding trackis to playlist " + id);
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
-			(pl).add(trackIds);
+			pl.add(trackIds);
 			playlistDao.savePlaylist(pl);
 		}
 		return NONE;

@@ -8,11 +8,19 @@ import org.yass.domain.AlbumCoverPicture;
 
 public class AttachedPictureDao extends AbstractDao {
 
+	/**
+	 * @return the instance
+	 */
+	public static final AttachedPictureDao getInstance() {
+		return instance;
+	}
+
+	private static final AttachedPictureDao instance = new AttachedPictureDao();
 	private static final Log LOG = LogFactory.getLog(AttachedPictureDao.class);
 	private final PreparedStatementCreatorFactory insertTrackPscf = new PreparedStatementCreatorFactory(
 			"insert into album_cover_picture (track_info_id, mime_type, description, picture_type, picture_data) values (?, ?, ?, ?, ?)");
 
-	public AttachedPictureDao() {
+	private AttachedPictureDao() {
 		insertTrackPscf.addParameter(new SqlParameter("track_info_id", java.sql.Types.INTEGER));
 		insertTrackPscf.addParameter(new SqlParameter("mime_type", java.sql.Types.VARCHAR));
 		insertTrackPscf.addParameter(new SqlParameter("description", java.sql.Types.VARCHAR));

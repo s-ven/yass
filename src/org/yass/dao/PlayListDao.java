@@ -24,12 +24,20 @@ import org.yass.domain.SmartPlayListCondition;
 
 public class PlayListDao extends AbstractDao {
 
+	/**
+	 * @return the instance
+	 */
+	public static final PlayListDao getInstance() {
+		return instance;
+	}
+
+	private static final PlayListDao instance = new PlayListDao();
 	private static final Log LOG = LogFactory.getLog(PlayListDao.class);
 	private final PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
 			"insert into playlist (type_id, user_id, name, last_update) values (?, ?, ?, ?) ");
 	private final PlayListRowMapper rowMapper = new PlayListRowMapper();
 
-	public PlayListDao() {
+	private PlayListDao() {
 		pscf.addParameter(new SqlParameter("type_id", java.sql.Types.INTEGER));
 		pscf.addParameter(new SqlParameter("user_id", java.sql.Types.INTEGER));
 		pscf.addParameter(new SqlParameter("name", java.sql.Types.VARCHAR));

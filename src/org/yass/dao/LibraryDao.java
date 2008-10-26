@@ -13,12 +13,19 @@ import org.yass.domain.Library;
 
 public class LibraryDao extends AbstractDao {
 
-	private static final TrackDao trackDao = new TrackDao();
+	/**
+	 * @return the instance
+	 */
+	public static final LibraryDao getInstance() {
+		return instance;
+	}
+
+	private static final LibraryDao instance = new LibraryDao();
 	private static final Log LOG = LogFactory.getLog(LibraryDao.class);
 	private final PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
 			"insert into library (path, last_update) values (?, ?) ");
 
-	public LibraryDao() {
+	private LibraryDao() {
 		pscf.addParameter(new SqlParameter("path", java.sql.Types.VARCHAR));
 		pscf.addParameter(new SqlParameter("last_update", java.sql.Types.TIMESTAMP));
 		pscf.setReturnGeneratedKeys(true);

@@ -1,12 +1,5 @@
 package org.yass.domain;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -33,11 +26,6 @@ public class AlbumCoverPicture {
 	private String description;
 	@Column(name = "PICTURE_DATA")
 	private byte[] pictureData;
-	private static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
-	static {
-		mimeTypes.put("jpg", "image/jpeg");
-		mimeTypes.put("image/jpg", "image/jpeg");
-	}
 
 	/**
 	 * @param description
@@ -45,7 +33,7 @@ public class AlbumCoverPicture {
 	 * @param pictureData
 	 * @param pictureType
 	 */
-	private AlbumCoverPicture(final int albumId, final String description, final String mimeType,
+	public AlbumCoverPicture(final int albumId, final String description, final String mimeType,
 			final byte[] pictureData, final int pictureType) {
 		super();
 		this.albumId = albumId;
@@ -148,87 +136,5 @@ public class AlbumCoverPicture {
 			return "Publisher/Studio logotype";
 		}
 		return "Unknown";
-	}
-
-	/**
-	 * Helper method that will read the id3frames and return a collection of
-	 * {@link AlbumCoverPicture} objects
-	 * 
-	 * @param albumId
-	 * @param tagVersion
-	 * @param id3Frames
-	 * @return
-	 * @throws IOException
-	 */
-	public static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
-			final InputStream id3Frames) throws IOException {
-		final Collection<AlbumCoverPicture> pics = new ArrayList<AlbumCoverPicture>();
-		final int frameIDSize = tagVersion == 2 ? 3 : 4;
-		byte[] b;
-		int loneByte;
-		id3Frames.skip(10);
-		while (id3Frames.available() > frameIDSize) {
-			id3Frames.read(b = new byte[frameIDSize]);
-			// corrupted frames
-			if (b[0] == 0)
-				break;
-			final String frameID = new String(b);
-			int frameLength = 0;
-			if (tagVersion == 4) {
-				frameLength += (id3Frames.read() & 0xFF) << 21;
-				frameLength += (id3Frames.read() & 0xFF) << 14;
-				frameLength += (id3Frames.read() & 0xFF) << 7;
-				frameLength += id3Frames.read() & 0xFF;
-			} else {
-				if (tagVersion == 3)
-					frameLength += (id3Frames.read() & 0xFF) << 24;
-				frameLength += (id3Frames.read() & 0xFF) << 16;
-				frameLength += (id3Frames.read() & 0xFF) << 8;
-				frameLength += id3Frames.read() & 0xFF;
-			}
-			// if corrupted frames
-			if (frameLength > id3Frames.available() || frameLength <= 0)
-				break;
-			// Skips the next two bytes if needed (useless flags and text
-			// encoding)
-			if (tagVersion != 2)
-				id3Frames.skip(1);
-			if (frameID.startsWith("APIC") || frameID.startsWith("PIC")) {
-				id3Frames.skip(2);
-				frameLength -= 2;
-				// gets the mime type
-				String mimeType;
-				if (tagVersion == 2) {
-					id3Frames.read(b = new byte[3]);
-					mimeType = new String(b);
-					frameLength -= 3;
-				} else {
-					mimeType = "";
-					while ((loneByte = id3Frames.read()) != 0) {
-						frameLength--;
-						mimeType = mimeType.concat(new String(new byte[] { (byte) loneByte }));
-					}
-				}
-				if (mimeType.length() == 0)
-					break;
-				// normalize the mimeType
-				mimeType = mimeType.toLowerCase();
-				mimeType = mimeTypes.get(mimeType) != null ? mimeTypes.get(mimeType) : mimeType;
-				// Gets the picture type
-				final int picType = id3Frames.read();
-				frameLength--;
-				// Gets the description
-				String description = "";
-				while ((loneByte = id3Frames.read()) != 0) {
-					frameLength--;
-					description = description.concat(new String(new byte[] { (byte) loneByte }));
-				}
-				// Gets the actual image
-				id3Frames.read(b = new byte[frameLength]);
-				pics.add(new AlbumCoverPicture(albumId, description, mimeType, b, picType));
-			} else
-				id3Frames.skip(frameLength + 1);
-		}
-		return pics;
 	}
 }

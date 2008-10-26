@@ -17,6 +17,14 @@ import org.yass.domain.TrackInfo;
 
 public class TrackInfoDao extends AbstractDao {
 
+	/**
+	 * @return the instance
+	 */
+	public static final TrackInfoDao getInstance() {
+		return instance;
+	}
+
+	private static final TrackInfoDao instance = new TrackInfoDao();
 	private static final Log LOG = LogFactory.getLog(TrackInfoDao.class);
 	private final TrackInfoRowMapper rowMapper = new TrackInfoRowMapper();
 	private final PreparedStatementCreatorFactory insertPscf = new PreparedStatementCreatorFactory(
@@ -24,7 +32,7 @@ public class TrackInfoDao extends AbstractDao {
 	private final PreparedStatementCreatorFactory getFromIdPscf = new PreparedStatementCreatorFactory(
 			"select id, type, value from track_info, track_track_info where track_id = ? and track_info_id = id");
 
-	public TrackInfoDao() {
+	private TrackInfoDao() {
 		getFromIdPscf.addParameter(new SqlParameter("track_id", java.sql.Types.INTEGER));
 		insertPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
 		insertPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
@@ -41,7 +49,8 @@ public class TrackInfoDao extends AbstractDao {
 		}
 	}
 
-	public TrackInfo getFromValue(final String value, final String type) {
+	public TrackInfo getFromValue(String value, final String type) {
+		value = value.trim();
 		final Iterator<TrackInfo> it = getJdbcTempate().query(
 				"select id, type, value from track_info where value = ? and type = ?",
 				new Object[] { value, type.toLowerCase() }, rowMapper).iterator();

@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.yass.YassConstants;
 import org.yass.dao.PlayListDao;
 import org.yass.domain.PlayList;
@@ -28,16 +29,14 @@ public class Show extends YassAction implements YassConstants {
 	public String execute() {
 		try {
 			LOG.info("Playlist id:" + id + " requested");
-			final PlayList pl = getPlayLists().get(id);
-			if (pl instanceof SmartPlayList)
-				new PlayListDao().reloadSmartPlayLsit((SmartPlayList) pl);
-			final Iterator<Integer> it = pl.getTrackIds().iterator();
+			final PlayList playList = getPlayLists().get(id);
+			if (playList instanceof SmartPlayList)
+				PlayListDao.getInstance().reloadSmartPlayLsit((SmartPlayList) playList);
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-			final Element libNode = doc.createElement("playlist");
-			doc.appendChild(libNode);
+			final Node libNode = doc.appendChild(doc.createElement("playlist"));
+			final Iterator<Integer> it = playList.getTrackIds().iterator();
 			while (it.hasNext()) {
-				final Element trackNode = doc.createElement("track");
-				libNode.appendChild(trackNode);
+				final Element trackNode = (Element) libNode.appendChild(doc.createElement("track"));
 				trackNode.setAttribute("id", it.next().toString());
 			}
 			return outputDocument(doc);

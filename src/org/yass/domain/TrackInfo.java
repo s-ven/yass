@@ -40,12 +40,6 @@ public class TrackInfo {
 		this.id = id;
 	}
 
-	public static TrackInfo getFromValue(final String value, final String type) {
-		if (dao == null)
-			dao = new TrackInfoDao();
-		return dao.getFromValue(value.trim(), type);
-	}
-
 	@Override
 	public final String toString() {
 		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";

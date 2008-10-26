@@ -28,7 +28,8 @@ import org.yass.util.MetadataReader;
  */
 public class Init implements ServletContextListener, YassConstants {
 
-	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = new AttachedPictureDao();
+	private static final LibraryDao LIBRARY_DAO = LibraryDao.getInstance();
+	private static final AttachedPictureDao ATTACHED_PICTURE_DAO = AttachedPictureDao.getInstance();
 	private static Log LOG = LogFactory.getLog(Init.class);
 	static final long serialVersionUID = 1L;
 	private Thread initThread;
@@ -53,11 +54,10 @@ public class Init implements ServletContextListener, YassConstants {
 		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
 		try {
 			LOG.info("Loading Library from DB");
-			final LibraryDao libDao = new LibraryDao();
-			Library lib = libDao.getFromId(1);
+			Library lib = LIBRARY_DAO.getFromId(1);
 			if (lib == null) {
 				LOG.info("No Library found, creating new one");
-				libDao.saveLibrary(lib = new Library(0, trackroot, new Date()));
+				LIBRARY_DAO.saveLibrary(lib = new Library(0, trackroot, new Date()));
 			}
 			servletContext.setAttribute(ALL_LIBRARY, lib);
 			final Runnable runnable = new Runnable() {
@@ -68,7 +68,7 @@ public class Init implements ServletContextListener, YassConstants {
 				}
 			};
 			(initThread = new Thread(runnable)).start();
-			servletContext.setAttribute(USER_PLAYLISTS, new PlayListDao().getFromUserId(1));
+			servletContext.setAttribute(USER_PLAYLISTS, PlayListDao.getInstance().getFromUserId(1));
 			servletContext.setAttribute(USER_TRACK_STATS, new TrackStatDao().getFromUserId(1));
 			LOG.info("Init phase over");
 		} catch (final Exception e) {

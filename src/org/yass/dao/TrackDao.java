@@ -1,8 +1,5 @@
 package org.yass.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
@@ -10,26 +7,21 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
 public class TrackDao extends AbstractDao {
 
+	private static final TrackDao instance = new TrackDao();
 	private static final Log LOG = LogFactory.getLog(TrackDao.class);
 	private final PreparedStatementCreatorFactory insertTrackPscf = new PreparedStatementCreatorFactory(
 			"insert into track (library_id, path, track_nr, title, last_modified, length, track_type_id, vbr) values (?, ?, ?, ?, ?, ?, ?, ?) ");
 	private final PreparedStatementCreatorFactory updateTrackPscf = new PreparedStatementCreatorFactory(
 			"update track set track_nr = ?, title = ?, last_modified = ?, vbr = ? where id = ? ");
-	private final PreparedStatementCreatorFactory insertTrackInfoPscf = new PreparedStatementCreatorFactory(
-			"insert into track_info (type, value) values (?, ?) ");
-	private final static TrackInfoDao trackInfoDao = new TrackInfoDao();
-	private final TrackRowMapper rowMapper = new TrackRowMapper();
 
-	public TrackDao() {
+	private TrackDao() {
 		insertTrackPscf.addParameter(new SqlParameter("library_id", java.sql.Types.INTEGER));
 		insertTrackPscf.addParameter(new SqlParameter("path", java.sql.Types.VARCHAR));
 		insertTrackPscf.addParameter(new SqlParameter("track_nr", java.sql.Types.INTEGER));
@@ -44,10 +36,6 @@ public class TrackDao extends AbstractDao {
 		updateTrackPscf.addParameter(new SqlParameter("last_modified", java.sql.Types.TIMESTAMP));
 		updateTrackPscf.addParameter(new SqlParameter("vbr", java.sql.Types.INTEGER));
 		updateTrackPscf.addParameter(new SqlParameter("id", java.sql.Types.INTEGER));
-		insertTrackPscf.setReturnGeneratedKeys(true);
-		insertTrackInfoPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
-		insertTrackInfoPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
-		insertTrackInfoPscf.setReturnGeneratedKeys(true);
 	}
 
 	public void save(final Track track) {
@@ -69,6 +57,8 @@ public class TrackDao extends AbstractDao {
 	}
 
 	public void delete(final Track track) {
+		if (LOG.isDebugEnabled())
+			LOG.debug("Deleting track " + track + " from database");
 		getJdbcTempate().execute("delete from track_stat where track_id = " + track.getId());
 		getJdbcTempate().execute("delete from simple_playlist where track_id = " + track.getId());
 		getJdbcTempate().execute("delete from track_track_info where track_id = " + track.getId());
@@ -77,6 +67,8 @@ public class TrackDao extends AbstractDao {
 
 	public final Track getFromPath(final String path) {
 		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Trying to load track path " + path + " from database");
 			final Query q = getEntityManager().createNamedQuery("getTrackByPath");
 			q.setParameter(1, path);
 			return (Track) q.getSingleResult();
@@ -85,20 +77,10 @@ public class TrackDao extends AbstractDao {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public final void fillLibrary(final Library lib) {
-		// lib.setTracks(getJdbcTempate().query(
-		// "select id, path, title, track_nr, length, last_modified, track_type_id, vbr from track where library_id = ?",
-		// new Object[] { lib.getId() }, rowMapper));
-		// for (final Track track : lib.getTracks())
-		// track.setTrackInfos(trackInfoDao.getFromTrackId(track.getId()));
-	}
-
-	private class TrackRowMapper implements ParameterizedRowMapper<Track> {
-
-		public Track mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new Track(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getTimestamp(6),
-					rs.getInt(7), rs.getInt(8) == 1);
-		}
+	/**
+	 * @return the instance
+	 */
+	public static final TrackDao getInstance() {
+		return instance;
 	}
 }

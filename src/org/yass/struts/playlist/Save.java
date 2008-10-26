@@ -10,7 +10,7 @@ import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	private final PlayListDao playlistDao = new PlayListDao();
+	private final static PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public String id;
 	public String name;
 	/**
@@ -27,7 +27,7 @@ public class Save extends YassAction implements YassConstants {
 		PlayList pl = getPlayLists().get(id);
 		if (pl == null)
 			pl = new SimplePlayList(0, name, new Date());
-		playlistDao.savePlaylist(pl);
+		PLAYLIST_DAO.savePlaylist(pl);
 		getPlayLists().put(pl.getId(), pl);
 		return NONE;
 	}
