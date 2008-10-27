@@ -26,20 +26,20 @@ public class Schema00 extends Schema {
 			template.execute("insert into role (name) values ('playlist')");
 			LOG.info(" table 'role' successfully created");
 		}
-		// Table 'yass_user'
+		// Table 'user'
 		if (!tableExists(template, "yass_user")) {
-			LOG.info(" table 'yass_user' not found.  Creating it.");
+			LOG.info(" table 'user' not found.  Creating it.");
 			template
 					.execute("create table yass_user (id int not null generated always as identity, user_name varchar(25) not null, password varchar(25) not null,"
 							+ " role_id int not null, primary key (id), foreign key (role_id) references role(id))");
 			template.execute("insert  into yass_user (user_name, password, role_id) values ('admin', 'admin', 1)");
-			LOG.info(" table 'yass_user' was created successfully.");
+			LOG.info(" table 'user' was created successfully.");
 		}
 		// Table 'library'
 		if (!tableExists(template, "library")) {
 			LOG.info(" table 'library' not found.  Creating it.");
 			template
-					.execute("create table library (id int not null generated always as identity, path varchar(512) not null, last_update timestamp not null, primary key(id))");
+					.execute("create table library (id int not null generated always as identity, user_id int not null, path varchar(512) not null, last_update timestamp not null, foreign key(user_id) references yass_user(id), primary key(id))");
 			LOG.info(" table 'library' was created successfully.");
 		}
 		// Table track_type
@@ -160,7 +160,6 @@ public class Schema00 extends Schema {
 			LOG.info(" table 'smart_playlist_condition' was created successfully.");
 		}
 		// Table user_setting
-		template.execute("drop table user_setting");
 		if (!tableExists(template, "user_setting")) {
 			LOG.info(" table 'user_setting' not found.  Creating it.");
 			template
@@ -170,7 +169,6 @@ public class Schema00 extends Schema {
 			LOG.info(" table 'user_setting' was created successfully.");
 		}
 		// Table user_browsing_context
-		template.execute("drop table user_browsing_context");
 		if (!tableExists(template, "user_browsing_context")) {
 			LOG.info(" table 'user_browsing_context' not found.  Creating it.");
 			template.execute("create table user_browsing_context (user_id int not null, track_info_id int not null"

@@ -4,17 +4,19 @@ import static javax.persistence.CascadeType.ALL;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKey;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -22,30 +24,29 @@ import org.yass.YassConstants;
 
 @Entity
 @Table(name = "TRACK")
-@NamedQuery(name = "getTrackByPath", query = "SELECT t FROM Track t where t.path = ?1")
+@NamedQueries( { @NamedQuery(name = "getTrackByPath", query = "SELECT t FROM Track t where t.path = ?1"),
+		@NamedQuery(name = "getTrackById", query = "SELECT t FROM Track t where t.id = ?1") })
 public class Track implements YassConstants {
 
-	/**
-	 * 
-	 */
+	public final void setLibrary(final Library library) {
+	}
+
 	public Track() {
 		super();
 	}
 
-	@ManyToMany
+	@ManyToMany(cascade = ALL)
 	@JoinTable(joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"), name = "TRACK_TRACK_INFO")
 	@MapKey(name = "type")
-	private Map<String, TrackInfo> trackInfos;
+	private Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
 	private String title;
 	@Column(name = "TRACK_NR")
 	private int trackNr;
 	private String path;
 	private long length;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@ManyToOne(cascade = ALL)
-	@JoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
-	private Library library;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
 	@Column(name = "TRACK_TYPE_ID")
@@ -81,13 +82,6 @@ public class Track implements YassConstants {
 	 */
 	public final void setTypeId(final int typeId) {
 		this.typeId = typeId;
-	}
-
-	/**
-	 * @return the library
-	 */
-	public final Library getLibrary() {
-		return library;
 	}
 
 	/**

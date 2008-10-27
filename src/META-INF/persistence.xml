@@ -24,6 +24,7 @@
 			<property name="openjpa.ConnectionPassword" value="" />
 			<property name="openjpa.Multithreaded" value="true" />
 			<property name="openjpa.Log" value="log4j" />
+			<property name="openjpa.RuntimeUnenhancedClasses" value="unsupported"/>
 		</properties>
 	</persistence-unit>
 </persistence>

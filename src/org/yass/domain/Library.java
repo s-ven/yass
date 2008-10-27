@@ -2,17 +2,21 @@ package org.yass.domain;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MapKey;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
 @Entity
 @NamedQueries( { @NamedQuery(name = "getLibraryById", query = "SELECT l FROM Library l where l.id = ?1"),
@@ -26,26 +30,17 @@ public class Library {
 		super();
 	}
 
-	@OneToMany(mappedBy = "library", fetch = FetchType.EAGER)
-	@MapKey(name = "id")
-	private Map<Integer, Track> tracksMap = new LinkedHashMap<Integer, Track>();
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.LAZY)
+	@ElementJoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
+	private Collection<Track> tracks = new LinkedHashSet<Track>();
 	private String path;
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate = new Date();
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	/**
-	 * @param path
-	 * @param lastUpdate
-	 */
-	public Library(final int id, final String path, final Date lastUpdate, final Collection<Track> tracks) {
-		super();
-		this.id = id;
-		this.path = path;
-		this.lastUpdate = lastUpdate;
-		this.setTracks(tracks);
-	}
+	@OneToOne
+	private User user;
 
 	/**
 	 * @param path
@@ -62,33 +57,16 @@ public class Library {
 	 * @param tracks
 	 *          the tracks to set
 	 */
-	public final void setTracks(final Collection<Track> tracks) {
-		clean();
-		for (final Track track : tracks)
-			add(track);
-	}
-
-	/**
-	 * @param tracks
-	 *          the tracks to set
-	 */
 	public final void add(final Track track) {
-		tracksMap.put(track.getId(), track);
-	}
-
-	public final Track getTrack(final int id) {
-		return tracksMap.get(id);
-	}
-
-	public final void clean() {
-		tracksMap.clear();
+		tracks.add(track);
+		track.setLibrary(this);
 	}
 
 	/**
 	 * @return the tracks
 	 */
 	public final Collection<Track> getTracks() {
-		return tracksMap.values();
+		return tracks;
 	}
 
 	/**
@@ -134,5 +112,20 @@ public class Library {
 	 */
 	public final void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
+	}
+
+	/**
+	 * @param user
+	 *          the user to set
+	 */
+	public void setUser(final User user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
 	}
 }

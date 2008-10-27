@@ -48,23 +48,21 @@ public class MetadataReader implements YassConstants {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Scanning track : " + file.getPath());
 			id += 1;
-			Track track = TRACK_DAO.getFromPath(file.getPath());
+			Track track = TRACK_DAO.getByPath(file.getPath());
 			if (track == null)
 				track = new Track();
 			if (file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
 				library.add(track);
-				if (LOG.isInfoEnabled())
-					LOG.info(" New file inserted : " + id + "/" + files.length + " : " + file.getName());
-				TRACK_DAO.save(track);
+				if (LOG.isTraceEnabled())
+					LOG.trace(" New file added : " + id + "/" + files.length + " : " + file.getName());
 			}
 			toKeep.add(track);
 		}
 		final Collection<Track> toDelete = new ArrayList<Track>(library.getTracks());
 		toDelete.removeAll(toKeep);
-		for (final Track track : toDelete) {
-			library.getTracks().remove(track.getId());
-			TRACK_DAO.delete(track);
-		}
+		for (final Track track : toDelete)
+			library.getTracks().remove(track);
+		LIBRARY_DAO.saveLibrary(library);
 	}
 
 	private final static boolean parseFile(final File file, final Track track) {
@@ -94,8 +92,8 @@ public class MetadataReader implements YassConstants {
 					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
 					final Iterator<AlbumCoverPicture> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
 							id3Frames).iterator();
-					if (pictures.hasNext())
-						ATTACHED_PICTURE_DAO.save(pictures.next());
+					// if (pictures.hasNext())
+					// ATTACHED_PICTURE_DAO.save(pictures.next());
 				}
 				// year
 				final String year = (String) props.get("date");

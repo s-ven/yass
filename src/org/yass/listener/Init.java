@@ -1,7 +1,5 @@
 package org.yass.listener;
 
-import java.util.Date;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -50,14 +48,16 @@ public class Init implements ServletContextListener, YassConstants {
 		try {
 			LOG.info("Loading Library from DB");
 			final User user = YASS_USER_DAO.getFromId(1);
-			System.out.println(user);
 			LOG.info("Loading Library from DB");
-			Library lib = LIBRARY_DAO.getFromUserId(user.getId());
-			if (lib == null) {
+			Library library = LIBRARY_DAO.getFromUserId(user.getId());
+			if (library == null) {
 				LOG.info("No Library found, creating new one");
-				LIBRARY_DAO.saveLibrary(lib = new Library(0, trackroot, new Date()));
+				library = new Library();
+				library.setPath(trackroot);
+				user.setLibrary(library);
+				LIBRARY_DAO.saveLibrary(library);
 			}
-			servletContext.setAttribute(ALL_LIBRARY, lib);
+			servletContext.setAttribute(ALL_LIBRARY, library);
 			final Runnable runnable = new Runnable() {
 
 				public void run() {

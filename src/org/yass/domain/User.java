@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "YASS_USER")
-@NamedQuery(name = "getYassUserById", query = "SELECT u FROM YassUser u where u.id = ?1")
+@NamedQuery(name = "getUserById", query = "SELECT u FROM User u where u.id = ?1")
 public class User implements Serializable {
 
 	@Id
@@ -28,6 +28,8 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user")
 	private UserSetting userSetting;
 	private static final long serialVersionUID = 1L;
+	@OneToOne(mappedBy = "user")
+	private Library library;
 
 	public User() {
 		super();
@@ -80,5 +82,21 @@ public class User implements Serializable {
 	public void setUserSetting(final UserSetting userSetting) {
 		this.userSetting = userSetting;
 		userSetting.setUser(this);
+	}
+
+	/**
+	 * @param library
+	 *          the library to set
+	 */
+	public void setLibrary(final Library library) {
+		this.library = library;
+		library.setUser(this);
+	}
+
+	/**
+	 * @return the library
+	 */
+	public Library getLibrary() {
+		return library;
 	}
 }

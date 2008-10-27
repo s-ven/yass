@@ -4,11 +4,8 @@ import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.yass.domain.Library;
 
 public class LibraryDao extends AbstractDao {
@@ -33,28 +30,37 @@ public class LibraryDao extends AbstractDao {
 
 	public void saveLibrary(final Library lib) {
 		LOG.info("Saving Library");
-		if (lib.getId() == 0) {
-			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { lib.getPath(),
-					lib.getLastUpdate() });
-			final KeyHolder kh = new GeneratedKeyHolder();
-			getJdbcTempate().update(pst, kh);
-			lib.setId(kh.getKey().intValue());
+		try {
+			getEntityManager().getTransaction().begin();
+			getEntityManager().persist(lib);
+			getEntityManager().getTransaction().commit();
 			if (LOG.isInfoEnabled())
-				LOG.info(" new Library created id:" + lib.getId());
+				LOG.info(" Library saved id:" + lib.getId());
+		} catch (final Exception e) {
+			LOG.error("Error while persisting library", e);
+		} finally {
 		}
 	}
 
 	public Library getFromId(final int id) {
-		LOG.info("Loading Library id:" + id);
-		final Query q = getEntityManager().createNamedQuery("getLibraryById");
-		q.setParameter(1, id);
-		return (Library) q.getSingleResult();
+		try {
+			if (LOG.isInfoEnabled())
+				LOG.info("Loading Library id:" + id);
+			final Query q = getEntityManager().createNamedQuery("getLibraryById").setParameter(1, id);
+			return (Library) q.getSingleResult();
+		} catch (final Exception e) {
+			return null;
+		}
 	}
 
 	public Library getFromUserId(final int id) {
-		LOG.info("Loading Library user_id:" + id);
-		final Query q = getEntityManager().createNamedQuery("getLibraryByUSerId");
-		q.setParameter(1, id);
-		return (Library) q.getSingleResult();
+		try {
+			if (LOG.isInfoEnabled())
+				LOG.info("Loading Library user_id:" + id);
+			final Query q = getEntityManager().createNamedQuery("getLibraryByUserId").setParameter(1, id);
+			return (Library) q.getSingleResult();
+		} catch (final Exception e) {
+			return null;
+		}
 	}
 }

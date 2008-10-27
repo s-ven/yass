@@ -1,18 +1,9 @@
 package org.yass.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Iterator;
+import javax.persistence.Query;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.yass.domain.TrackInfo;
 
 public class TrackInfoDao extends AbstractDao {
@@ -26,61 +17,18 @@ public class TrackInfoDao extends AbstractDao {
 
 	private static final TrackInfoDao instance = new TrackInfoDao();
 	private static final Log LOG = LogFactory.getLog(TrackInfoDao.class);
-	private final TrackInfoRowMapper rowMapper = new TrackInfoRowMapper();
-	private final PreparedStatementCreatorFactory insertPscf = new PreparedStatementCreatorFactory(
-			"insert into track_info (type, value) values (?, ?) ");
-	private final PreparedStatementCreatorFactory getFromIdPscf = new PreparedStatementCreatorFactory(
-			"select id, type, value from track_info, track_track_info where track_id = ? and track_info_id = id");
 
-	private TrackInfoDao() {
-		getFromIdPscf.addParameter(new SqlParameter("track_id", java.sql.Types.INTEGER));
-		insertPscf.addParameter(new SqlParameter("type", java.sql.Types.VARCHAR));
-		insertPscf.addParameter(new SqlParameter("value", java.sql.Types.VARCHAR));
-		insertPscf.setReturnGeneratedKeys(true);
-	}
-
-	public void save(final TrackInfo trackInfo) {
-		if (trackInfo.getId() == 0) {
-			final PreparedStatementCreator psc = insertPscf.newPreparedStatementCreator(new Object[] { trackInfo.getType(),
-					trackInfo.getValue() });
-			final KeyHolder kh = new GeneratedKeyHolder();
-			getJdbcTempate().update(psc, kh);
-			trackInfo.setId(kh.getKey().intValue());
-		}
-	}
-
-	public TrackInfo getFromValue(String value, final String type) {
-		value = value.trim();
-		final Iterator<TrackInfo> it = getJdbcTempate().query(
-				"select id, type, value from track_info where value = ? and type = ?",
-				new Object[] { value, type.toLowerCase() }, rowMapper).iterator();
-		TrackInfo trackInfo = null;
-		if (it.hasNext())
-			trackInfo = it.next();
-		else {
-			trackInfo = new TrackInfo(0, type, value);
-			save(trackInfo);
-		}
-		return trackInfo;
-	}
-
-	public TrackInfo getFromId(final int id) {
-		final Iterator<TrackInfo> it = getJdbcTempate().query("select id, type, value from track_info where id = ?",
-				new Object[] { id }, rowMapper).iterator();
-		TrackInfo trackInfo = null;
-		if (it.hasNext())
-			trackInfo = it.next();
-		return trackInfo;
-	}
-
-	public Collection<TrackInfo> getFromTrackId(final int trackId) {
-		return getJdbcTempate().query(getFromIdPscf.newPreparedStatementCreator(new Object[] { trackId }), rowMapper);
-	}
-
-	private static class TrackInfoRowMapper implements ParameterizedRowMapper<TrackInfo> {
-
-		public TrackInfo mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new TrackInfo(rs.getInt(1), rs.getString(2).toLowerCase(), rs.getString(3));
+	public TrackInfo getFromValue(final String value, final String type) {
+		try {
+			final Query q = getEntityManager().createNamedQuery("getFromTypeAndValue").setParameter(1, type).setParameter(2,
+					value);
+			return (TrackInfo) q.getSingleResult();
+		} catch (final Exception e) {
+			final TrackInfo trackInfo = new TrackInfo(0, type, value);
+			getEntityManager().getTransaction().begin();
+			getEntityManager().persist(trackInfo);
+			getEntityManager().getTransaction().commit();
+			return trackInfo;
 		}
 	}
 }

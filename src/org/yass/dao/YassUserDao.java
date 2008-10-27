@@ -18,8 +18,7 @@ public class YassUserDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Trying to load yass user " + id + " from database");
-			final Query q = getEntityManager().createNamedQuery("getYassUserById");
-			q.setParameter(1, id);
+			final Query q = getEntityManager().createNamedQuery("getUserById").setParameter(1, id);
 			return (User) q.getSingleResult();
 		} catch (final Exception e) {
 			return null;
