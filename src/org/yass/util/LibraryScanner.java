@@ -119,16 +119,19 @@ public class LibraryScanner implements YassConstants, Runnable {
 				if (vbr != null)
 					track.setVBR(vbr.booleanValue());
 				// track title
-				String title = ((String) props.get("title")).trim();
-				if (title == null || "".equals(title))
+				String title = (String) props.get("title");
+				if (title == null || "".equals(title = title.trim()))
 					title = file.getName();
 				track.setTitle(title);
 				// track nr
-				String trackNr = ((String) props.get("mp3.id3tag.track")).trim();
-				int slashIndex;
-				if ((slashIndex = trackNr.indexOf('/')) > 0)
-					trackNr = trackNr.substring(0, slashIndex);
-				track.setTrackNr(Integer.parseInt(trackNr));
+				String trackNr = (String) props.get("mp3.id3tag.track");
+				if (trackNr != null) {
+					trackNr = trackNr.trim();
+					int slashIndex;
+					if ((slashIndex = trackNr.indexOf('/')) > 0)
+						trackNr = trackNr.substring(0, slashIndex);
+					track.setTrackNr(Integer.parseInt(trackNr));
+				}
 				// track duration
 				track.setLength((Long) props.get("duration") / 1000);
 				track.setPath(file.getPath());
@@ -136,7 +139,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 			}
 		} catch (final Exception e) {
 			if (LOG.isWarnEnabled())
-				LOG.warn("Exception while scanning file " + file.getPath(), e);
+				LOG.warn("Error while scanning file " + file.getPath() + " : " + e);
 			return false;
 		}
 		return true;
