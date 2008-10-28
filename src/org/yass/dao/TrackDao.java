@@ -1,7 +1,5 @@
 package org.yass.dao;
 
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.Track;
@@ -22,7 +20,7 @@ public class TrackDao extends AbstractDao {
 			getEntityManager().persist(track);
 			getEntityManager().getTransaction().commit();
 		} catch (final Exception e) {
-			LOG.error(e);
+			LOG.fatal("Error while saving track", e);
 		}
 	}
 
@@ -30,8 +28,7 @@ public class TrackDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Trying to load track by path:" + path + " from database");
-			final Query q = getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path);
-			return (Track) q.getSingleResult();
+			return (Track) getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path).getSingleResult();
 		} catch (final Exception e) {
 			return null;
 		}
@@ -41,8 +38,7 @@ public class TrackDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Trying to load track by id:" + id + " from database");
-			final Query q = getEntityManager().createNamedQuery("getTrackById").setParameter(1, id);
-			return (Track) q.getSingleResult();
+			return (Track) getEntityManager().createNamedQuery("getTrackById").setParameter(1, id).getSingleResult();
 		} catch (final Exception e) {
 			LOG.error("Error while trying to get Track id:" + id, e);
 			return null;

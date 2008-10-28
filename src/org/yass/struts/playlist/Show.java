@@ -1,7 +1,5 @@
 package org.yass.struts.playlist;
 
-import java.util.Iterator;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -27,17 +25,15 @@ public class Show extends YassAction implements YassConstants {
 	@Override
 	public String execute() {
 		try {
-			LOG.info("Playlist id:" + id + " requested");
+			if (LOG.isInfoEnabled())
+				LOG.info("Playlist id:" + id + " requested");
 			final PlayList playList = getPlayLists().get(id);
 			if (playList instanceof SmartPlayList)
 				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Node libNode = doc.appendChild(doc.createElement("playlist"));
-			final Iterator<Integer> it = playList.getTrackIds().iterator();
-			while (it.hasNext()) {
-				final Element trackNode = (Element) libNode.appendChild(doc.createElement("track"));
-				trackNode.setAttribute("id", it.next().toString());
-			}
+			for (final Integer trackId : playList.getTrackIds())
+				((Element) libNode.appendChild(doc.createElement("track"))).setAttribute("id", trackId.toString());
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {
 			LOG.error("", e);

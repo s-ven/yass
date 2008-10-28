@@ -30,7 +30,7 @@ public class Library {
 		super();
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.EAGER)
 	@ElementJoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
 	private Collection<Track> tracks = new LinkedHashSet<Track>();
 	private String path;
@@ -41,17 +41,6 @@ public class Library {
 	private int id;
 	@OneToOne
 	private User user;
-
-	/**
-	 * @param path
-	 * @param lastUpdate
-	 */
-	public Library(final int id, final String path, final Date lastUpdate) {
-		super();
-		this.id = id;
-		this.path = path;
-		this.lastUpdate = lastUpdate;
-	}
 
 	/**
 	 * @param tracks

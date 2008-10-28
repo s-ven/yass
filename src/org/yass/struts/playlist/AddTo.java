@@ -23,7 +23,7 @@ public class AddTo extends YassAction implements YassConstants {
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
 			pl.add(trackIds);
-			PLAYLIST_DAO.savePlaylist(pl);
+			PLAYLIST_DAO.save(pl);
 		}
 		return NONE;
 	}

@@ -99,8 +99,9 @@ public class Schema00 extends Schema {
 		// Table track_track¡info
 		if (!tableExists(template, "track_track_info")) {
 			LOG.info(" table 'track_track_info' not found.  Creating it.");
-			template.execute("create table track_track_info (track_id int not null, track_info_id int not null,"
-					+ " foreign key(track_id) references track(id), " + " foreign key(track_info_id) references track_info(id))");
+			template
+					.execute("create table track_track_info (track_id int not null, track_info_id int not null,"
+							+ " foreign key(track_id) references track(id),  foreign key(track_info_id) references track_info(id) , primary key(track_id, track_info_id))");
 			LOG.info(" table 'track_track_info' was created successfully.");
 		}
 		// Index IDX_track_track_info_01

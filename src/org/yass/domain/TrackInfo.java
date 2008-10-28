@@ -8,14 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.yass.dao.TrackInfoDao;
-
 @Entity
 @Table(name = "TRACK_INFO")
 @NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
 public class TrackInfo {
 
-	public static TrackInfoDao dao = null;
 	private String value;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,10 +36,9 @@ public class TrackInfo {
 		super();
 	}
 
-	public TrackInfo(final int id, final String type, final String value) {
+	public TrackInfo(final String type, final String value) {
 		this.type = type;
 		this.value = value;
-		this.id = id;
 	}
 
 	@Override

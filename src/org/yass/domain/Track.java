@@ -1,14 +1,14 @@
 package org.yass.domain;
 
-import static javax.persistence.CascadeType.ALL;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,8 +35,8 @@ public class Track implements YassConstants {
 		super();
 	}
 
-	@ManyToMany(cascade = ALL)
-	@JoinTable(joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"), name = "TRACK_TRACK_INFO")
+	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"))
 	@MapKey(name = "type")
 	private Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
 	private String title;
@@ -144,25 +144,6 @@ public class Track implements YassConstants {
 
 	public Collection<TrackInfo> getTrackInfos() {
 		return trackInfos.values();
-	}
-
-	/**
-	 * @param id
-	 * @param path
-	 * @param title
-	 * @param trackNr
-	 * @param length
-	 * @param lastUpdate
-	 */
-	public Track(final int id, final String path, final String title, final int trackNr, final int length,
-			final Date lastUpdate, final int typeId, final boolean vbr) {
-		this.id = id;
-		this.path = path;
-		this.title = title;
-		this.trackNr = trackNr;
-		this.length = length;
-		VBR = vbr;
-		lastModified = lastUpdate;
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package org.yass.dao;
 
-import javax.persistence.Query;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.User;
@@ -18,8 +16,7 @@ public class YassUserDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Trying to load yass user " + id + " from database");
-			final Query q = getEntityManager().createNamedQuery("getUserById").setParameter(1, id);
-			return (User) q.getSingleResult();
+			return (User) getEntityManager().createNamedQuery("getUserById").setParameter(1, id).getSingleResult();
 		} catch (final Exception e) {
 			return null;
 		}

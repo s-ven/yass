@@ -3,11 +3,6 @@
 	<display-name>yass : Yet Another Streaming Server</display-name>
 	<description>Yet Another Streaming Server</description>
 	<context-param>
-		<description>Lucene Metadata Root</description>
-		<param-name>org.yass.metadataIndexRoot</param-name>
-		<param-value>METADATA_INDEX</param-value>
-	</context-param>
-	<context-param>
 		<description>Media Files Root</description>
 		<param-name>org.yass.mediaFilesRoot</param-name>
 		<param-value>/Volumes/Arc - 1/Music</param-value>

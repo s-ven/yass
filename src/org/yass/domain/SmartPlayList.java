@@ -49,16 +49,16 @@ public class SmartPlayList extends PlayList {
 
 	public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
-		final StringBuilder buff = new StringBuilder("select track_id from track_stat where ");
+		final StringBuilder sBuilder = new StringBuilder("select track_id from track_stat where ");
 		while (it.hasNext()) {
 			final SmartPlayListCondition condition = it.next();
-			buff.append(condition.getTerm()).append(condition.getOperator()).append(condition.getValue());
+			sBuilder.append(condition.getTerm()).append(condition.getOperator()).append(condition.getValue());
 			if (it.hasNext())
-				buff.append(operator == 0 ? " and " : " or ");
+				sBuilder.append(operator == 0 ? " and " : " or ");
 		}
 		if (orderBy != null)
-			buff.append(" order by ").append(orderBy);
-		return buff.toString();
+			sBuilder.append(" order by ").append(orderBy);
+		return sBuilder.toString();
 	}
 
 	@OneToMany(mappedBy = "smartPlayList")

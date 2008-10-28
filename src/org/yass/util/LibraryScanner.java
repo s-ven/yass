@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,47 +22,55 @@ import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
 
-public class MetadataReader implements YassConstants {
+public class LibraryScanner implements YassConstants, Runnable {
 
-	private static final Log LOG = LogFactory.getLog(MetadataReader.class);
+	private static final Log LOG = LogFactory.getLog(LibraryScanner.class);
 	private final String ext = "mp3";
 	private static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
 	static {
 		mimeTypes.put("jpg", "image/jpeg");
 		mimeTypes.put("image/jpg", "image/jpeg");
 	}
+	private final Library library;
+
+	/**
+	 * @param library
+	 */
+	public LibraryScanner(final Library library) {
+		super();
+		this.library = library;
+	}
 
 	/**
 	 * 
 	 * @param library
 	 */
-	public final void scanLibrary(final Library library) {
+	public final void run() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Scanning path : " + library.getPath());
-		final File root = new File(library.getPath());
-		final File[] files = FileUtils.getFiles(root, FileUtils.getExtensionFilter(ext)).toArray(new File[] {});
+		final File[] files = FileUtils.getFiles(new File(library.getPath()), FileUtils.getExtensionFilter(ext)).toArray(
+				new File[] {});
 		FileUtils.sortFiles(files);
-		final Collection<Track> toKeep = new ArrayList<Track>();
+		final Collection<Track> toKeep = new HashSet<Track>(files.length);
 		int id = 0;
 		for (final File file : files) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Scanning track : " + file.getPath());
 			id += 1;
 			Track track = TRACK_DAO.getByPath(file.getPath());
-			if (track == null)
-				track = new Track();
-			if (file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
+			if (track == null && parseFile(file, track = new Track())
+					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
 				library.add(track);
-				if (LOG.isTraceEnabled())
-					LOG.trace(" New file added : " + id + "/" + files.length + " : " + file.getName());
-			}
-			toKeep.add(track);
+				TRACK_DAO.save(track);
+				toKeep.add(track);
+				if (LOG.isInfoEnabled())
+					LOG.info("New file added : " + id + "/" + files.length + " : " + file.getName());
+			} else if (track != null)
+				toKeep.add(track);
 		}
-		final Collection<Track> toDelete = new ArrayList<Track>(library.getTracks());
-		toDelete.removeAll(toKeep);
-		for (final Track track : toDelete)
-			library.getTracks().remove(track);
-		LIBRARY_DAO.saveLibrary(library);
+		library.getTracks().retainAll(toKeep);
+		LIBRARY_DAO.save(library);
+		LOG.info("Scanning Library over");
 	}
 
 	private final static boolean parseFile(final File file, final Track track) {
@@ -87,14 +95,17 @@ public class MetadataReader implements YassConstants {
 				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
 				track.setTrackInfo(albumTrackInfo);
 				// attached pictures
-				final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
-				if (id3Frames != null) {
-					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
-					final Iterator<AlbumCoverPicture> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
-							id3Frames).iterator();
-					// if (pictures.hasNext())
-					// ATTACHED_PICTURE_DAO.save(pictures.next());
-				}
+				// final InputStream id3Frames = (InputStream)
+				// props.get("mp3.id3tag.v2");
+				// if (id3Frames != null) {
+				// final int tagVersion = Integer.parseInt((String)
+				// props.get("mp3.id3tag.v2.version"));
+				// final Iterator<AlbumCoverPicture> pictures =
+				// getAttachedPictures(albumTrackInfo.getId(), tagVersion,
+				// id3Frames).iterator();
+				// if (pictures.hasNext())
+				// ATTACHED_PICTURE_DAO.save(pictures.next());
+				// }
 				// year
 				final String year = (String) props.get("date");
 				if (year != null && !"".equals(year))
@@ -124,7 +135,8 @@ public class MetadataReader implements YassConstants {
 				track.setLastModified(new Date(file.lastModified()));
 			}
 		} catch (final Exception e) {
-			LOG.error(e);
+			if (LOG.isWarnEnabled())
+				LOG.warn("Exception while scanning file " + file.getPath(), e);
 			return false;
 		}
 		return true;

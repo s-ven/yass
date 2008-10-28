@@ -45,7 +45,7 @@ public class PlayListDao extends AbstractDao {
 		pscf.setReturnGeneratedKeys(true);
 	}
 
-	public void savePlaylist(final PlayList plst) {
+	public void save(final PlayList plst) {
 		LOG.info("Saving PlayList");
 		if (plst.getId() == 0) {
 			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { plst.getTypeId(),

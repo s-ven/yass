@@ -25,7 +25,7 @@ public class Save extends YassAction implements YassConstants {
 		PlayList pl = getPlayLists().get(id);
 		if (pl == null)
 			pl = new SimplePlayList(0, name, new Date());
-		PLAYLIST_DAO.savePlaylist(pl);
+		PLAYLIST_DAO.save(pl);
 		getPlayLists().put(pl.getId(), pl);
 		return NONE;
 	}
