@@ -41,7 +41,7 @@ public class Init implements ServletContextListener, YassConstants {
 		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
 		try {
 			LOG.info("Yass Initalization phase starting...");
-			final User user = YASS_USER_DAO.getFromId(1);
+			final User user = USER_DAO.getFromId(1);
 			Library library = LIBRARY_DAO.getFromUserId(user.getId());
 			if (library == null) {
 				LOG.warn("No Library found, creating new one");

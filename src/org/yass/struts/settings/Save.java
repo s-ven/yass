@@ -40,7 +40,7 @@ public class Save extends YassAction implements YassConstants {
 		settings.setStopFadeout(stopFadeout);
 		settings.setSkipFadeout(skipFadeout);
 		settings.setVolume(volume);
-		// new SettingsDao().save(settings);
+		USER_DAO.save(user);
 		return NONE;
 	}
 }

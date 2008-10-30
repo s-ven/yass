@@ -35,25 +35,25 @@ public class Browse extends YassAction implements YassConstants {
 			final Map<Integer, TrackStat> trackStats = (Map<Integer, TrackStat>) ActionContext.getContext().getApplication()
 					.get(USER_TRACK_STATS);
 			while (it.hasNext()) {
-				final Track mf = it.next();
-				if (mf.getTrackInfo(YassConstants.ARTIST) != null && mf.getTrackInfo(YassConstants.ALBUM) != null
-						&& mf.getTrackInfo(YassConstants.GENRE) != null) {
+				final Track track = it.next();
+				if (track.getTrackInfo(YassConstants.ARTIST) != null && track.getTrackInfo(YassConstants.ALBUM) != null
+						&& track.getTrackInfo(YassConstants.GENRE) != null) {
 					final Element trackNode = doc.createElement("track");
 					libNode.appendChild(trackNode);
-					trackNode.setAttribute("id", mf.getId() + "");
-					trackNode.setAttribute("trackNr", mf.getTrackNr() + "");
-					trackNode.setAttribute("title", mf.getTitle());
-					trackNode.setAttribute("artist", mf.getTrackInfo(YassConstants.ARTIST).getId() + "");
-					trackNode.setAttribute("album", mf.getTrackInfo(YassConstants.ALBUM).getId() + "");
-					trackNode.setAttribute("genre", mf.getTrackInfo(YassConstants.GENRE).getId() + "");
-					if (mf.getTrackInfo(YassConstants.YEAR) != null)
-						trackNode.setAttribute("year", mf.getTrackInfo(YassConstants.YEAR).getValue());
-					if (mf.getTrackInfo(YassConstants.BITRATE) != null)
-						trackNode.setAttribute("bitrate", mf.getTrackInfo(YassConstants.BITRATE).getValue());
-					trackNode.setAttribute("vbr", mf.isVBR() + "");
-					trackNode.setAttribute("length", mf.getLength() + "");
-					trackNode.setAttribute("lastModified", mf.getLastModified().getTime() + "");
-					final TrackStat stat = trackStats.get(mf.getId());
+					trackNode.setAttribute("id", track.getId() + "");
+					trackNode.setAttribute("trackNr", track.getTrackNr() + "");
+					trackNode.setAttribute("title", track.getTitle());
+					trackNode.setAttribute("artist", track.getTrackInfo(YassConstants.ARTIST).getId() + "");
+					trackNode.setAttribute("album", track.getTrackInfo(YassConstants.ALBUM).getId() + "");
+					trackNode.setAttribute("genre", track.getTrackInfo(YassConstants.GENRE).getId() + "");
+					if (track.getTrackInfo(YassConstants.YEAR) != null)
+						trackNode.setAttribute("year", track.getTrackInfo(YassConstants.YEAR).getValue());
+					if (track.getTrackInfo(YassConstants.BITRATE) != null)
+						trackNode.setAttribute("bitrate", track.getTrackInfo(YassConstants.BITRATE).getValue());
+					trackNode.setAttribute("vbr", track.isVBR() + "");
+					trackNode.setAttribute("length", track.getLength() + "");
+					trackNode.setAttribute("lastModified", track.getLastModified().getTime() + "");
+					final TrackStat stat = trackStats.get(track.getId());
 					if (stat != null) {
 						trackNode.setAttribute("rating", stat.getRating() + "");
 						trackNode.setAttribute("playCount", stat.getPlayCount() + "");

@@ -45,5 +45,5 @@ public interface YassConstants {
 	public static final PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public static final TrackDao TRACK_DAO = TrackDao.getInstance();
 	public static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
-	public static final UserDao YASS_USER_DAO = UserDao.getInstance();
+	public static final UserDao USER_DAO = UserDao.getInstance();
 }

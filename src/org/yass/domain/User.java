@@ -3,6 +3,7 @@ package org.yass.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,9 +24,9 @@ public class User implements Serializable {
 	private String password;
 	@Column(name = "ROLE_ID")
 	private int roleId;
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<UserBrowsingContext> browsingContext;
-	@OneToOne(mappedBy = "user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserSetting userSetting;
 	private static final long serialVersionUID = 1L;
 	@OneToOne(mappedBy = "user")
