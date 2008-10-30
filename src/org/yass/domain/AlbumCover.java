@@ -3,16 +3,15 @@ package org.yass.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ALBUM_COVER_PICTURE")
-public class AlbumCoverPicture {
+@Table(name = "ALBUM_COVER")
+@NamedQuery(name = "getAlbumCoverIdFromAlbumId", query = "select ac.albumId from AlbumCover ac where ac.albumId = ?1")
+public class AlbumCover {
 
-	/**
-	 * 
-	 */
-	public AlbumCoverPicture() {
+	public AlbumCover() {
 		super();
 	}
 
@@ -33,8 +32,8 @@ public class AlbumCoverPicture {
 	 * @param pictureData
 	 * @param pictureType
 	 */
-	public AlbumCoverPicture(final int albumId, final String description, final String mimeType,
-			final byte[] pictureData, final int pictureType) {
+	public AlbumCover(final int albumId, final String description, final String mimeType, final byte[] pictureData,
+			final int pictureType) {
 		super();
 		this.albumId = albumId;
 		this.description = description;

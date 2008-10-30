@@ -32,16 +32,16 @@ public class TrackStatDao extends AbstractDao {
 	private final TrackStatRowMapper rowMapper = new TrackStatRowMapper();
 
 	public void save(final TrackStat trackStat) {
-		getJdbcTempate().update("delete from track_stat where track_id = ? and user_id = ?",
+		getJdbcTemplate().update("delete from track_stat where track_id = ? and user_id = ?",
 				new Object[] { trackStat.getTrackId(), trackStat.getUserId() });
-		getJdbcTempate().update(
+		getJdbcTemplate().update(
 				pscf.newPreparedStatementCreator(new Object[] { trackStat.getUserId(), trackStat.getTrackId(),
 						trackStat.getRating(), trackStat.getLastPlayed(), trackStat.getPlayCount(), trackStat.getLastSelected() }));
 	}
 
 	public final Map<Integer, TrackStat> getFromUserId(final int id) {
 		LOG.info("Loading Track Stats from User id:" + id);
-		final Iterator<TrackStat> it = getJdbcTempate().query(
+		final Iterator<TrackStat> it = getJdbcTemplate().query(
 				"select user_id, track_id, rating, last_played, play_count, last_selected from track_stat where user_id = ?",
 				new Object[] { id }, rowMapper).iterator();
 		final Map<Integer, TrackStat> map = new LinkedHashMap<Integer, TrackStat>();

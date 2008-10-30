@@ -8,7 +8,7 @@ public class AbstractDao {
 
 	private final DaoHelper helper = DaoHelper.getInstance();
 
-	protected JdbcTemplate getJdbcTempate() {
+	protected JdbcTemplate getJdbcTemplate() {
 		return helper.getJdbcTemplate();
 	}
 

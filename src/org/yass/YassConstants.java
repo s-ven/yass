@@ -1,6 +1,6 @@
 package org.yass;
 
-import org.yass.dao.AttachedPictureDao;
+import org.yass.dao.AlbumCoverDao;
 import org.yass.dao.LibraryDao;
 import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackDao;
@@ -40,7 +40,7 @@ public interface YassConstants {
 	public static final String UNKNOWN_TITLE = "<Unknown Title>";
 	public static final String USER_SETTINGS = "USER_SETTINGS";
 	public static final LibraryDao LIBRARY_DAO = LibraryDao.getInstance();
-	public static final AttachedPictureDao ATTACHED_PICTURE_DAO = AttachedPictureDao.getInstance();
+	public static final AlbumCoverDao ATTACHED_PICTURE_DAO = AlbumCoverDao.getInstance();
 	public static final TrackStatDao TRACK_STAT_DAO = TrackStatDao.getInstance();
 	public static final PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public static final TrackDao TRACK_DAO = TrackDao.getInstance();

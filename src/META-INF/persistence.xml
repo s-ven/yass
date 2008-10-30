@@ -12,7 +12,7 @@
 		<class>org.yass.domain.SimplePlayList</class>
 		<class>org.yass.domain.PlayList</class>
 		<class>org.yass.domain.Library</class>
-		<class>org.yass.domain.AlbumCoverPicture</class>
+		<class>org.yass.domain.AlbumCover</class>
 		<class>org.yass.domain.User</class>
 		<class>org.yass.domain.UserSetting</class>
 		<class>org.yass.domain.UserBrowsingContext</class>

@@ -31,7 +31,8 @@ public class TrackDao extends AbstractDao {
 				LOG.debug("Get Track path:" + path);
 			return (Track) getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path).getSingleResult();
 		} catch (final Exception e) {
-			LOG.warn("Error getting Track path:" + path, e);
+			if (LOG.isDebugEnabled())
+				LOG.debug("Error getting Track path:" + path, e);
 			return null;
 		}
 	}
@@ -42,7 +43,8 @@ public class TrackDao extends AbstractDao {
 				LOG.debug("Get Track id:" + id);
 			return (Track) getEntityManager().createNamedQuery("getTrackById").setParameter(1, id).getSingleResult();
 		} catch (final Exception e) {
-			LOG.error("Error getting Track id:" + id, e);
+			if (LOG.isDebugEnabled())
+				LOG.error("Error getting Track id:" + id, e);
 			return null;
 		}
 	}

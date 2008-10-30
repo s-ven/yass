@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.tritonus.share.sampled.file.TAudioFileFormat;
 import org.yass.YassConstants;
-import org.yass.domain.AlbumCoverPicture;
+import org.yass.domain.AlbumCover;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
@@ -104,13 +104,15 @@ public class LibraryScanner implements YassConstants, Runnable {
 				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
 				track.setTrackInfo(albumTrackInfo);
 				// attached pictures
-				final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
-				if (id3Frames != null) {
-					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
-					final Iterator<AlbumCoverPicture> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
-							id3Frames).iterator();
-					if (pictures.hasNext())
-						ATTACHED_PICTURE_DAO.save(pictures.next());
+				if (!ATTACHED_PICTURE_DAO.hasPicture(albumTrackInfo.getId())) {
+					final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
+					if (id3Frames != null) {
+						final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
+						final Iterator<AlbumCover> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
+								id3Frames).iterator();
+						if (pictures.hasNext())
+							ATTACHED_PICTURE_DAO.save(pictures.next());
+					}
 				}
 				// year
 				final String year = (String) props.get("date");
@@ -152,7 +154,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 
 	/**
 	 * Helper method that will read the id3frames and return a collection of
-	 * {@link AlbumCoverPicture} objects
+	 * {@link AlbumCover} objects
 	 * 
 	 * @param albumId
 	 * @param tagVersion
@@ -160,9 +162,9 @@ public class LibraryScanner implements YassConstants, Runnable {
 	 * @return
 	 * @throws IOException
 	 */
-	private static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
+	private static Collection<AlbumCover> getAttachedPictures(final int albumId, final int tagVersion,
 			final InputStream id3Frames) throws IOException {
-		final Collection<AlbumCoverPicture> pics = new ArrayList<AlbumCoverPicture>();
+		final Collection<AlbumCover> pics = new ArrayList<AlbumCover>();
 		final int frameIDSize = tagVersion == 2 ? 3 : 4;
 		byte[] pictureDatas;
 		int loneByte;
@@ -226,7 +228,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 				}
 				// Gets the actual image
 				id3Frames.read(pictureDatas = new byte[frameLength]);
-				pics.add(new AlbumCoverPicture(albumId, description, pictureMimeType, pictureDatas, pictureType));
+				pics.add(new AlbumCover(albumId, description, pictureMimeType, pictureDatas, pictureType));
 			} else
 				id3Frames.skip(frameLength + 1);
 		}

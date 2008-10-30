@@ -36,10 +36,10 @@ public class LibraryDao extends AbstractDao {
 	public Library getFromId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Loading Library id:" + id);
+				LOG.debug("Loading Library id:" + id);
 			return (Library) getEntityManager().createNamedQuery("getLibraryById").setParameter(1, id).getSingleResult();
 		} catch (final Exception e) {
-			LOG.error("Error while getting library", e);
+			LOG.debug("Error while getting library", e);
 			return null;
 		}
 	}
@@ -47,10 +47,10 @@ public class LibraryDao extends AbstractDao {
 	public Library getFromUserId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Loading Library user_id:" + id);
+				LOG.debug("Loading Library user_id:" + id);
 			return (Library) getEntityManager().createNamedQuery("getLibraryByUserId").setParameter(1, id).getSingleResult();
 		} catch (final Exception e) {
-			LOG.error("Error while getting library", e);
+			LOG.debug("Error while getting library", e);
 			return null;
 		}
 	}

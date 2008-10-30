@@ -51,17 +51,17 @@ public class PlayListDao extends AbstractDao {
 			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { plst.getTypeId(),
 					plst.getUserId(), plst.getName(), plst.getLastUpdate() });
 			final KeyHolder kh = new GeneratedKeyHolder();
-			this.getJdbcTempate().update(pst, kh);
+			this.getJdbcTemplate().update(pst, kh);
 			plst.setId(kh.getKey().intValue());
 			LOG.info(" new PlayList created id:" + plst.getId());
 		} else {
-			getJdbcTempate().update("update playlist set name = ?, last_update = ?",
+			getJdbcTemplate().update("update playlist set name = ?, last_update = ?",
 					new Object[] { plst.getName(), new Date() });
 			if (plst instanceof SimplePlayList) {
-				getJdbcTempate().execute("delete from simple_playlist where playlist_id = " + plst.getId());
+				getJdbcTemplate().execute("delete from simple_playlist where playlist_id = " + plst.getId());
 				int trackOrder = 0;
 				for (final int trackId : plst.getTrackIds())
-					getJdbcTempate().update("insert into simple_playlist (playlist_id, track_id, track_order) values (?, ?, ?)",
+					getJdbcTemplate().update("insert into simple_playlist (playlist_id, track_id, track_order) values (?, ?, ?)",
 							new Object[] { plst.getId(), trackId, trackOrder++ });
 			}
 		}
@@ -70,7 +70,7 @@ public class PlayListDao extends AbstractDao {
 	public Map<Integer, PlayList> getFromUserId(final int userId) {
 		LOG.info("Loading Playlist from user_id:" + userId);
 		final Map<Integer, PlayList> plsts = new LinkedHashMap<Integer, PlayList>();
-		final Iterator<PlayList> it = getJdbcTempate().query(
+		final Iterator<PlayList> it = getJdbcTemplate().query(
 				"select id, type_id, name, last_update from playlist where user_id = ?", new Object[] { userId }, rowMapper)
 				.iterator();
 		while (it.hasNext()) {
@@ -113,7 +113,7 @@ public class PlayListDao extends AbstractDao {
 	}
 
 	public void reloadSmartPlayLsit(final SmartPlayList pLst) {
-		final List<Map> lst = getJdbcTempate().queryForList(pLst.getSqlStatement());
+		final List<Map> lst = getJdbcTemplate().queryForList(pLst.getSqlStatement());
 		pLst.setTrackIds(new LinkedHashSet<Integer>());
 		for (final Map<String, Integer> map1 : lst)
 			pLst.add(map1.get("TRACK_ID"));

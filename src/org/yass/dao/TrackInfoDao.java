@@ -38,7 +38,8 @@ public class TrackInfoDao extends AbstractDao {
 			getEntityManager().persist(trackInfo);
 			getEntityManager().getTransaction().commit();
 		} catch (final Exception e) {
-			LOG.debug("Error saving TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
+			if (LOG.isDebugEnabled())
+				LOG.debug("Error saving TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
 		}
 		return trackInfo;
 	}
