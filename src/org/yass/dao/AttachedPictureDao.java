@@ -16,16 +16,17 @@ public class AttachedPictureDao extends AbstractDao {
 	private static final AttachedPictureDao instance = new AttachedPictureDao();
 	private static final Log LOG = LogFactory.getLog(AttachedPictureDao.class);
 
-	public void save(final AlbumCoverPicture attPict) {
+	public AlbumCoverPicture save(final AlbumCoverPicture albumPict) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Saving attachedPicture albumId:" + attPict.getAlbumId());
+				LOG.info("Save attachedPicture albumId:" + albumPict.getAlbumId());
 			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(attPict);
+			getEntityManager().persist(albumPict);
 			getEntityManager().getTransaction().commit();
 		} catch (final Exception e) {
-			LOG.error("Error while saving AlbumCoverPicture, albumId:" + attPict.getAlbumId());
+			LOG.error("Error saving AlbumCoverPicture, albumId:" + albumPict.getAlbumId());
 		}
+		return albumPict;
 	}
 
 	public AlbumCoverPicture get(final int albumId) {

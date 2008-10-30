@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -25,11 +26,11 @@ import org.yass.domain.TrackInfo;
 public class LibraryScanner implements YassConstants, Runnable {
 
 	private static final Log LOG = LogFactory.getLog(LibraryScanner.class);
-	private final String ext = "mp3";
-	private static Map<String, String> mimeTypes = new LinkedHashMap<String, String>();
+	private final String extensions = "mp3";
+	private static Map<String, String> pictureMimeTypes = new LinkedHashMap<String, String>();
 	static {
-		mimeTypes.put("jpg", "image/jpeg");
-		mimeTypes.put("image/jpg", "image/jpeg");
+		pictureMimeTypes.put("jpg", "image/jpeg");
+		pictureMimeTypes.put("image/jpg", "image/jpeg");
 	}
 	private final Library library;
 
@@ -47,34 +48,42 @@ public class LibraryScanner implements YassConstants, Runnable {
 	 */
 	public final void run() {
 		if (LOG.isInfoEnabled())
-			LOG.info("Scanning path : " + library.getPath());
-		final File[] files = FileUtils.getFiles(new File(library.getPath()), FileUtils.getExtensionFilter(ext)).toArray(
-				new File[] {});
+			LOG.info("Scanning Library path:" + library.getPath());
+		// Recursively get all files matching the extensions contained into the
+		// extensions String
+		final File[] files = FileUtils.getFiles(new File(library.getPath()), FileUtils.getExtensionFilter(extensions))
+				.toArray(new File[] {});
 		FileUtils.sortFiles(files);
+		// Will serve to remove the tracks that doesn't exist anymore into the
+		// persistent store
 		final Collection<Track> toKeep = new HashSet<Track>(files.length);
-		int id = 0;
+		int fileIndex = 0;
 		for (final File file : files) {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Scanning track : " + file.getPath());
-			id += 1;
+			fileIndex += 1;
 			Track track = TRACK_DAO.getByPath(file.getPath());
+			// If the track doesn't already exists into the persistent store or have
+			// been modified, will parse it and store it
 			if (track == null && parseFile(file, track = new Track())
 					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
 				library.add(track);
-				TRACK_DAO.save(track);
-				toKeep.add(track);
+				toKeep.add(TRACK_DAO.save(track));
 				if (LOG.isInfoEnabled())
-					LOG.info("New file added : " + id + "/" + files.length + " : " + file.getName());
+					LOG.info("Added new Track : " + fileIndex + "/" + files.length + " path:" + track.getPath());
 			} else if (track != null)
 				toKeep.add(track);
 		}
+		// Keeps only the tracks that are on disk
 		library.getTracks().retainAll(toKeep);
 		LIBRARY_DAO.save(library);
-		LOG.info("Scanning Library over");
+		LOG.info("Scanning Library path over");
 	}
 
 	private final static boolean parseFile(final File file, final Track track) {
 		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Parsing File path:" + file.getPath());
+			track.setPath(file.getPath());
+			track.setLastModified(new Date(file.lastModified()));
 			final AudioFileFormat audioFormat = AudioSystem.getAudioFileFormat(file);
 			if (audioFormat instanceof TAudioFileFormat) {
 				final Map props = ((TAudioFileFormat) audioFormat).properties();
@@ -95,17 +104,14 @@ public class LibraryScanner implements YassConstants, Runnable {
 				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
 				track.setTrackInfo(albumTrackInfo);
 				// attached pictures
-				// final InputStream id3Frames = (InputStream)
-				// props.get("mp3.id3tag.v2");
-				// if (id3Frames != null) {
-				// final int tagVersion = Integer.parseInt((String)
-				// props.get("mp3.id3tag.v2.version"));
-				// final Iterator<AlbumCoverPicture> pictures =
-				// getAttachedPictures(albumTrackInfo.getId(), tagVersion,
-				// id3Frames).iterator();
-				// if (pictures.hasNext())
-				// ATTACHED_PICTURE_DAO.save(pictures.next());
-				// }
+				final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
+				if (id3Frames != null) {
+					final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
+					final Iterator<AlbumCoverPicture> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
+							id3Frames).iterator();
+					if (pictures.hasNext())
+						ATTACHED_PICTURE_DAO.save(pictures.next());
+				}
 				// year
 				final String year = (String) props.get("date");
 				if (year != null && !"".equals(year))
@@ -134,12 +140,11 @@ public class LibraryScanner implements YassConstants, Runnable {
 				}
 				// track duration
 				track.setLength((Long) props.get("duration") / 1000);
-				track.setPath(file.getPath());
-				track.setLastModified(new Date(file.lastModified()));
-			}
+			} else
+				throw new RuntimeException("File is not a recognized audio file.");
 		} catch (final Exception e) {
 			if (LOG.isWarnEnabled())
-				LOG.warn("Error while scanning file " + file.getPath() + " : " + e);
+				LOG.warn("Error parsing File path:" + file.getPath() + " : " + e);
 			return false;
 		}
 		return true;
@@ -155,7 +160,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
+	private static Collection<AlbumCoverPicture> getAttachedPictures(final int albumId, final int tagVersion,
 			final InputStream id3Frames) throws IOException {
 		final Collection<AlbumCoverPicture> pics = new ArrayList<AlbumCoverPicture>();
 		final int frameIDSize = tagVersion == 2 ? 3 : 4;
@@ -192,23 +197,24 @@ public class LibraryScanner implements YassConstants, Runnable {
 				id3Frames.skip(2);
 				frameLength -= 2;
 				// gets the mime type
-				String mimeType;
+				String pictureMimeType;
 				if (tagVersion == 2) {
 					id3Frames.read(pictureDatas = new byte[3]);
-					mimeType = new String(pictureDatas);
+					pictureMimeType = new String(pictureDatas);
 					frameLength -= 3;
 				} else {
-					mimeType = "";
+					pictureMimeType = "";
 					while ((loneByte = id3Frames.read()) != 0) {
 						frameLength--;
-						mimeType = mimeType.concat(new String(new byte[] { (byte) loneByte }));
+						pictureMimeType = pictureMimeType.concat(new String(new byte[] { (byte) loneByte }));
 					}
 				}
-				if (mimeType.length() == 0)
+				if (pictureMimeType.length() == 0)
 					break;
 				// normalize the mimeType
-				mimeType = mimeType.toLowerCase();
-				mimeType = mimeTypes.get(mimeType) != null ? mimeTypes.get(mimeType) : mimeType;
+				pictureMimeType = pictureMimeType.toLowerCase();
+				pictureMimeType = pictureMimeTypes.get(pictureMimeType) != null ? pictureMimeTypes.get(pictureMimeType)
+						: pictureMimeType;
 				// Gets the picture type
 				final int pictureType = id3Frames.read();
 				frameLength--;
@@ -220,7 +226,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 				}
 				// Gets the actual image
 				id3Frames.read(pictureDatas = new byte[frameLength]);
-				pics.add(new AlbumCoverPicture(albumId, description, mimeType, pictureDatas, pictureType));
+				pics.add(new AlbumCoverPicture(albumId, description, pictureMimeType, pictureDatas, pictureType));
 			} else
 				id3Frames.skip(frameLength + 1);
 		}

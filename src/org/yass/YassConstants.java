@@ -6,7 +6,7 @@ import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackDao;
 import org.yass.dao.TrackInfoDao;
 import org.yass.dao.TrackStatDao;
-import org.yass.dao.YassUserDao;
+import org.yass.dao.UserDao;
 
 public interface YassConstants {
 
@@ -45,5 +45,5 @@ public interface YassConstants {
 	public static final PlayListDao PLAYLIST_DAO = PlayListDao.getInstance();
 	public static final TrackDao TRACK_DAO = TrackDao.getInstance();
 	public static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
-	public static final YassUserDao YASS_USER_DAO = YassUserDao.getInstance();
+	public static final UserDao YASS_USER_DAO = UserDao.getInstance();
 }

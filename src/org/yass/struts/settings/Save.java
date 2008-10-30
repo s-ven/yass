@@ -27,7 +27,7 @@ public class Save extends YassAction implements YassConstants {
 	public String execute() {
 		final User user = getUser();
 		if (LOG.isInfoEnabled())
-			LOG.info("Saving Settings for user id:" + user.getId());
+			LOG.info("Saving Settings User id:" + user.getId());
 		UserSetting settings = user.getUserSetting();
 		if (settings == null)
 			user.setUserSetting(settings = new UserSetting());

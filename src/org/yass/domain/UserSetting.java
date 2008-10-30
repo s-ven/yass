@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -12,9 +13,6 @@ import javax.persistence.Table;
 @Table(name = "USER_SETTING")
 public class UserSetting implements Serializable {
 
-	@Id
-	@Column(name = "USER_ID", insertable = false, updatable = false)
-	private int userId;
 	@Column(name = "LOADED_TRACK_ID")
 	private int loadedTrackId;
 	private int volume;
@@ -31,19 +29,13 @@ public class UserSetting implements Serializable {
 	@Column(name = "NEXT_FADEOUT")
 	private int nextFadeout;
 	@OneToOne
+	@Id
+	@JoinColumn(name = "USER_ID")
 	private User user;
 	private static final long serialVersionUID = 1L;
 
 	public UserSetting() {
 		super();
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(final int userId) {
-		this.userId = userId;
 	}
 
 	public int getLoadedTrackId() {
@@ -116,10 +108,6 @@ public class UserSetting implements Serializable {
 
 	public void setNextFadeout(final int nextFadeout) {
 		this.nextFadeout = nextFadeout;
-	}
-
-	public User getUser() {
-		return user;
 	}
 
 	public void setUser(final User user) {

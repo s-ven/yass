@@ -19,7 +19,7 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		LOG.info("Saving track id:" + id);
+		LOG.info("Saving TrackStat for Track id:" + id);
 		TrackStat trackStat = getTrackStats().get(id);
 		if (trackStat == null)
 			getTrackStats().put(id, trackStat = new TrackStat(1, id));

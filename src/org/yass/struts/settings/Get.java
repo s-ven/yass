@@ -13,25 +13,15 @@ import org.yass.struts.YassAction;
 public class Get extends YassAction implements YassConstants {
 
 	public int userId;
-	public int loadedTrackId;
-	public int volume;
-	public boolean shuffle;
-	public boolean repeat;
-	public boolean showRemaining;
-	public int displayMode;
-	public int stopFadeout;
-	public int nextFadeout;
-	public int skipFadeout;
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3411435373847531163L;
 
 	@Override
 	public String execute() {
 		try {
-			LOG.info("Getting Settings ");
+			if (LOG.isInfoEnabled())
+				LOG.info("Getting Settings userId:" + userId);
 			final UserSetting settings = getUser().getUserSetting();
+			// Creation of the XML Document
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element settingsNode = doc.createElement("settings");
 			doc.appendChild(settingsNode);
@@ -55,7 +45,7 @@ public class Get extends YassAction implements YassConstants {
 			}
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {
-			LOG.error("", e);
+			LOG.error("Error getting Settings userId:" + userId, e);
 		}
 		return NONE;
 	}

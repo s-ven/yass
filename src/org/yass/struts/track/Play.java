@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.yass.YassConstants;
 import org.yass.domain.Track;
@@ -22,21 +24,27 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		LOG.info("Playing track id:" + id);
 		final Track track = TRACK_DAO.getById(id);
-		final File toPlayr = new File(track.getPath());
+		if (track == null) {
+			LOG.error("The Track id:" + id + " cannot be found in persistent store");
+			return ERROR;
+		}
+		final File trackFile = new File(track.getPath());
 		OutputStream out = null;
 		InputStream fis = null;
 		try {
-			ServletActionContext.getResponse().setContentType("audio/mpeg");
-			ServletActionContext.getResponse().setContentLength(new Long(toPlayr.length()).intValue());
-			fis = new FileInputStream(toPlayr);
-			out = ServletActionContext.getResponse().getOutputStream();
+			final HttpServletResponse response = ServletActionContext.getResponse();
+			response.setContentType("audio/mpeg");
+			response.setContentLength(new Long(trackFile.length()).intValue());
+			if (LOG.isInfoEnabled())
+				LOG.info("Straming Track id:" + id + ", path:" + track.getPath());
+			fis = new FileInputStream(trackFile);
+			out = response.getOutputStream();
 			final byte[] buf = new byte[4 * 1024]; // 4K buffer
 			int bytesRead;
 			while ((bytesRead = fis.read(buf)) != -1)
 				out.write(buf, 0, bytesRead);
-			ServletActionContext.getResponse().flushBuffer();
+			response.flushBuffer();
 		} catch (final FileNotFoundException e) {
 			LOG.error("", e);
 			return ERROR;

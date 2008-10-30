@@ -39,11 +39,11 @@ public class TrackStatDao extends AbstractDao {
 						trackStat.getRating(), trackStat.getLastPlayed(), trackStat.getPlayCount(), trackStat.getLastSelected() }));
 	}
 
-	public final Map<Integer, TrackStat> getFromUserId(final int usrId) {
-		LOG.info("Loading Track Stats from User id:" + usrId);
+	public final Map<Integer, TrackStat> getFromUserId(final int id) {
+		LOG.info("Loading Track Stats from User id:" + id);
 		final Iterator<TrackStat> it = getJdbcTempate().query(
 				"select user_id, track_id, rating, last_played, play_count, last_selected from track_stat where user_id = ?",
-				new Object[] { usrId }, rowMapper).iterator();
+				new Object[] { id }, rowMapper).iterator();
 		final Map<Integer, TrackStat> map = new LinkedHashMap<Integer, TrackStat>();
 		while (it.hasNext()) {
 			final TrackStat tStat = it.next();
