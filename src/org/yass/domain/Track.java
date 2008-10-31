@@ -60,7 +60,7 @@ public class Track implements YassConstants {
 	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"))
 	@MapKey(name = "type")
-	private final Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
+	private Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
 	@Column(name = "TRACK_NR")
 	private int trackNr;
 	@Column(name = "TRACK_TYPE_ID")

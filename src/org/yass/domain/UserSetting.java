@@ -25,6 +25,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -46,6 +49,10 @@ public class UserSetting implements Serializable {
 	private int skipFadeout;
 	@Column(name = "STOP_FADEOUT")
 	private int stopFadeout;
+	@OneToOne
+	@Id
+	@JoinColumn(name = "USER_ID")
+	private User user;
 	private int volume;
 
 	public UserSetting() {

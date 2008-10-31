@@ -52,7 +52,7 @@ public class Library {
 	private String path;
 	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.EAGER)
 	@ElementJoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
-	private final Collection<Track> tracks = new LinkedHashSet<Track>();
+	private Collection<Track> tracks = new LinkedHashSet<Track>();
 	@OneToOne
 	private User user;
 
@@ -67,9 +67,8 @@ public class Library {
 	 * @param tracks
 	 *          the tracks to set
 	 */
-	public final void add(final Track track) {
+	public final void addTrack(final Track track) {
 		tracks.add(track);
-		track.setLibrary(this);
 	}
 
 	/**

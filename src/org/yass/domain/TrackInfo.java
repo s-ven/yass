@@ -21,7 +21,6 @@
  */
 package org.yass.domain;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +36,6 @@ public class TrackInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Basic
 	private String type;
 	private String value;
 
