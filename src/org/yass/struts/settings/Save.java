@@ -1,7 +1,11 @@
 package org.yass.struts.settings;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.yass.YassConstants;
 import org.yass.domain.User;
+import org.yass.domain.UserBrowsingContext;
 import org.yass.domain.UserSetting;
 import org.yass.struts.YassAction;
 
@@ -40,6 +44,14 @@ public class Save extends YassAction implements YassConstants {
 		settings.setStopFadeout(stopFadeout);
 		settings.setSkipFadeout(skipFadeout);
 		settings.setVolume(volume);
+		final Set<UserBrowsingContext> browsingContext = new LinkedHashSet<UserBrowsingContext>();
+		for (final Integer trackInfoId : trackInfoIds) {
+			final UserBrowsingContext context = new UserBrowsingContext(user);
+			context.setTrackInfoId(trackInfoId);
+			browsingContext.add(context);
+		}
+		USER_DAO.cleanBrowsingContext(user);
+		user.setBrowsingContext(browsingContext);
 		USER_DAO.save(user);
 		return NONE;
 	}

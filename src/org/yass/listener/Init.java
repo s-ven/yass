@@ -39,6 +39,8 @@ public class Init implements ServletContextListener, YassConstants {
 	public void contextInitialized(final ServletContextEvent event) {
 		final ServletContext servletContext = event.getServletContext();
 		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
+		boolean rescanOnStartup = servletContext.getInitParameter("org.yass.rescanOnStartup") != null
+				&& servletContext.getInitParameter("org.yass.rescanOnStartup").equals("true");
 		try {
 			LOG.info("Yass Initalization phase starting...");
 			final User user = USER_DAO.getFromId(1);
@@ -49,10 +51,13 @@ public class Init implements ServletContextListener, YassConstants {
 				library.setPath(trackroot);
 				user.setLibrary(library);
 				LIBRARY_DAO.save(library);
+				rescanOnStartup = true;
 			}
 			servletContext.setAttribute(ALL_LIBRARY, library);
-			final LibraryScanner scanner = new LibraryScanner(library);
-			(initThread = new Thread(scanner, "Yass-LibraryScanner:" + library.getId())).start();
+			if (rescanOnStartup) {
+				final LibraryScanner scanner = new LibraryScanner(library);
+				(initThread = new Thread(scanner, "Yass-LibraryScanner:" + library.getId())).start();
+			}
 			servletContext.setAttribute(USER, user);
 			servletContext.setAttribute(USER_PLAYLISTS, PLAYLIST_DAO.getFromUserId(user.getId()));
 			servletContext.setAttribute(USER_TRACK_STATS, TRACK_STAT_DAO.getFromUserId(user.getId()));

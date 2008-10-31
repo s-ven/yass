@@ -5,6 +5,7 @@ import javax.persistence.EntityTransaction;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.User;
+import org.yass.domain.UserBrowsingContext;
 
 public class UserDao extends AbstractDao {
 
@@ -35,7 +36,7 @@ public class UserDao extends AbstractDao {
 			getEntityManager().persist(user);
 			transaction.commit();
 		} catch (final Exception e) {
-			LOG.error("Error saving loading User id:" + user.getId(), e);
+			LOG.error("Error saving User id:" + user.getId(), e);
 			if (transaction != null)
 				transaction.rollback();
 		}
@@ -47,5 +48,24 @@ public class UserDao extends AbstractDao {
 	 */
 	public static final UserDao getInstance() {
 		return instance;
+	}
+
+	public void cleanBrowsingContext(final User user) {
+		for (final UserBrowsingContext ctx : user.getBrowsingContext()) {
+			EntityTransaction transaction = null;
+			try {
+				if (LOG.isDebugEnabled())
+					LOG.debug("Delete BrowsingContext id:" + user.getId());
+				transaction = getEntityManager().getTransaction();
+				transaction.begin();
+				getEntityManager().remove(ctx);
+				transaction.commit();
+			} catch (final Exception e) {
+				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
+				if (transaction != null)
+					transaction.rollback();
+			}
+		}
+		// TODO Auto-generated method stub
 	}
 }

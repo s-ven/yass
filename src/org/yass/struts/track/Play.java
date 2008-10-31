@@ -37,7 +37,7 @@ public class Play extends YassAction implements YassConstants {
 			response.setContentType("audio/mpeg");
 			response.setContentLength(new Long(trackFile.length()).intValue());
 			if (LOG.isInfoEnabled())
-				LOG.info("Straming Track id:" + id + ", path:" + track.getPath());
+				LOG.info("Streaming Track id:" + id + ", path:" + track.getPath());
 			fis = new FileInputStream(trackFile);
 			out = response.getOutputStream();
 			final byte[] buf = new byte[4 * 1024]; // 4K buffer

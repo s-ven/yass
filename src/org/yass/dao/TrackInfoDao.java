@@ -43,4 +43,16 @@ public class TrackInfoDao extends AbstractDao {
 		}
 		return trackInfo;
 	}
+
+	public TrackInfo getFromId(final Integer id) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Get TrackInfo id:" + id);
+			return (TrackInfo) getEntityManager().createNamedQuery("getFromId").setParameter(1, id);
+		} catch (final Exception e) {
+			if (LOG.isDebugEnabled())
+				LOG.debug("TrackInfo id:" + id);
+		}
+		return null;
+	}
 }
