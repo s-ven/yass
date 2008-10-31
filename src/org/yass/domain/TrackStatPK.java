@@ -27,6 +27,11 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class TrackStatPK {
 
+	@Column(name = "TRACK_ID")
+	protected int trackId;
+	@Column(name = "USER_ID")
+	protected int userId;
+
 	/**
 	 * 
 	 */
@@ -43,11 +48,6 @@ public class TrackStatPK {
 		this.trackId = trackId;
 		this.userId = userId;
 	}
-
-	@Column(name = "TRACK_ID")
-	protected int trackId;
-	@Column(name = "USER_ID")
-	protected int userId;
 
 	@Override
 	public boolean equals(final Object obj) {

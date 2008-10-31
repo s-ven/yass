@@ -26,130 +26,10 @@ import org.yass.domain.TrackInfo;
 public class LibraryScanner implements YassConstants, Runnable {
 
 	private static final Log LOG = LogFactory.getLog(LibraryScanner.class);
-	private final String extensions = "mp3";
 	private static Map<String, String> pictureMimeTypes = new LinkedHashMap<String, String>();
 	static {
 		pictureMimeTypes.put("jpg", "image/jpeg");
 		pictureMimeTypes.put("image/jpg", "image/jpeg");
-	}
-	private final Library library;
-
-	/**
-	 * @param library
-	 */
-	public LibraryScanner(final Library library) {
-		super();
-		this.library = library;
-	}
-
-	/**
-	 * 
-	 * @param library
-	 */
-	public final void run() {
-		if (LOG.isInfoEnabled())
-			LOG.info("Scanning Library path:" + library.getPath());
-		// Recursively get all files matching the extensions contained into the
-		// extensions String
-		final File[] files = FileUtils.getFiles(new File(library.getPath()), FileUtils.getExtensionFilter(extensions))
-				.toArray(new File[] {});
-		FileUtils.sortFiles(files);
-		// Will serve to remove the tracks that doesn't exist anymore into the
-		// persistent store
-		final Collection<Track> toKeep = new HashSet<Track>(files.length);
-		int fileIndex = 0;
-		for (final File file : files) {
-			fileIndex += 1;
-			Track track = TRACK_DAO.getByPath(file.getPath());
-			// If the track doesn't already exists into the persistent store or have
-			// been modified, will parse it and store it
-			if (track == null && parseFile(file, track = new Track())
-					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
-				library.add(track);
-				toKeep.add(TRACK_DAO.save(track));
-				if (LOG.isInfoEnabled())
-					LOG.info("Added new Track : " + fileIndex + "/" + files.length + " path:" + track.getPath());
-			} else if (track != null)
-				toKeep.add(track);
-		}
-		// Keeps only the tracks that are on disk
-		library.getTracks().retainAll(toKeep);
-		LIBRARY_DAO.save(library);
-		LOG.info("Scanning Library path over");
-	}
-
-	private final static boolean parseFile(final File file, final Track track) {
-		try {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Parsing File path:" + file.getPath());
-			track.setPath(file.getPath());
-			track.setLastModified(new Date(file.lastModified()));
-			final AudioFileFormat audioFormat = AudioSystem.getAudioFileFormat(file);
-			if (audioFormat instanceof TAudioFileFormat) {
-				final Map props = ((TAudioFileFormat) audioFormat).properties();
-				// artist
-				String artist = (String) props.get("author");
-				if (artist == null || "".equals(artist))
-					artist = UNKNOWN_ARTIST;
-				track.setTrackInfo(TRACK_INFO_DAO.getFromValue(artist, ARTIST));
-				// genre
-				String genre = (String) props.get("mp3.id3tag.genre");
-				if (genre == null || "".equals(genre))
-					genre = UNKNOWN_GENRE;
-				track.setTrackInfo(TRACK_INFO_DAO.getFromValue(GenresValuePair.getInstance().getValue(genre), GENRE));
-				// album
-				String album = (String) props.get("album");
-				if (album == null || "".equals(album))
-					album = UNKNOWN_ALBUM;
-				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
-				track.setTrackInfo(albumTrackInfo);
-				// attached pictures
-				if (!ATTACHED_PICTURE_DAO.hasPicture(albumTrackInfo.getId())) {
-					final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
-					if (id3Frames != null) {
-						final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
-						final Iterator<AlbumCover> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion,
-								id3Frames).iterator();
-						if (pictures.hasNext())
-							ATTACHED_PICTURE_DAO.save(pictures.next());
-					}
-				}
-				// year
-				final String year = (String) props.get("date");
-				if (year != null && !"".equals(year))
-					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(year, YEAR));
-				// bitrate
-				final Integer bitRate = (Integer) props.get("mp3.bitrate.nominal.bps");
-				if (bitRate != null && !"".equals(album))
-					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(bitRate / 1000 + "", BITRATE));
-				// vbr
-				final Boolean vbr = (Boolean) props.get("mp3.vbr");
-				if (vbr != null)
-					track.setVBR(vbr.booleanValue());
-				// track title
-				String title = (String) props.get("title");
-				if (title == null || "".equals(title = title.trim()))
-					title = file.getName();
-				track.setTitle(title);
-				// track nr
-				String trackNr = (String) props.get("mp3.id3tag.track");
-				if (trackNr != null) {
-					trackNr = trackNr.trim();
-					int slashIndex;
-					if ((slashIndex = trackNr.indexOf('/')) > 0)
-						trackNr = trackNr.substring(0, slashIndex);
-					track.setTrackNr(Integer.parseInt(trackNr));
-				}
-				// track duration
-				track.setLength((Long) props.get("duration") / 1000);
-			} else
-				throw new RuntimeException("File is not a recognized audio file.");
-		} catch (final Exception e) {
-			if (LOG.isWarnEnabled())
-				LOG.warn("Error parsing File path:" + file.getPath() + " : " + e);
-			return false;
-		}
-		return true;
 	}
 
 	/**
@@ -233,5 +113,126 @@ public class LibraryScanner implements YassConstants, Runnable {
 				id3Frames.skip(frameLength + 1);
 		}
 		return pics;
+	}
+
+	private final static boolean parseFile(final File file, final Track track) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Parsing File path:" + file.getPath());
+			track.setPath(file.getPath());
+			track.setLastModified(new Date(file.lastModified()));
+			final AudioFileFormat audioFormat = AudioSystem.getAudioFileFormat(file);
+			if (audioFormat instanceof TAudioFileFormat) {
+				final Map props = ((TAudioFileFormat) audioFormat).properties();
+				// artist
+				String artist = (String) props.get("author");
+				if (artist == null || "".equals(artist))
+					artist = UNKNOWN_ARTIST;
+				track.setTrackInfo(TRACK_INFO_DAO.getFromValue(artist, ARTIST));
+				// genre
+				String genre = (String) props.get("mp3.id3tag.genre");
+				if (genre == null || "".equals(genre))
+					genre = UNKNOWN_GENRE;
+				track.setTrackInfo(TRACK_INFO_DAO.getFromValue(GenresValuePair.getInstance().getValue(genre), GENRE));
+				// album
+				String album = (String) props.get("album");
+				if (album == null || "".equals(album))
+					album = UNKNOWN_ALBUM;
+				final TrackInfo albumTrackInfo = TRACK_INFO_DAO.getFromValue(album, ALBUM);
+				track.setTrackInfo(albumTrackInfo);
+				// attached pictures
+				if (!ATTACHED_PICTURE_DAO.hasPicture(albumTrackInfo.getId())) {
+					final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
+					if (id3Frames != null) {
+						final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
+						final Iterator<AlbumCover> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion, id3Frames)
+								.iterator();
+						if (pictures.hasNext())
+							ATTACHED_PICTURE_DAO.save(pictures.next());
+					}
+				}
+				// year
+				final String year = (String) props.get("date");
+				if (year != null && !"".equals(year))
+					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(year, YEAR));
+				// bitrate
+				final Integer bitRate = (Integer) props.get("mp3.bitrate.nominal.bps");
+				if (bitRate != null && !"".equals(album))
+					track.setTrackInfo(TRACK_INFO_DAO.getFromValue(bitRate / 1000 + "", BITRATE));
+				// vbr
+				final Boolean vbr = (Boolean) props.get("mp3.vbr");
+				if (vbr != null)
+					track.setVBR(vbr.booleanValue());
+				// track title
+				String title = (String) props.get("title");
+				if (title == null || "".equals(title = title.trim()))
+					title = file.getName();
+				track.setTitle(title);
+				// track nr
+				String trackNr = (String) props.get("mp3.id3tag.track");
+				if (trackNr != null) {
+					trackNr = trackNr.trim();
+					int slashIndex;
+					if ((slashIndex = trackNr.indexOf('/')) > 0)
+						trackNr = trackNr.substring(0, slashIndex);
+					track.setTrackNr(Integer.parseInt(trackNr));
+				}
+				// track duration
+				track.setLength((Long) props.get("duration") / 1000);
+			} else
+				throw new RuntimeException("File is not a recognized audio file.");
+		} catch (final Exception e) {
+			if (LOG.isWarnEnabled())
+				LOG.warn("Error parsing File path:" + file.getPath() + " : " + e);
+			return false;
+		}
+		return true;
+	}
+
+	private final String extensions = "mp3";
+	private final Library library;
+
+	/**
+	 * @param library
+	 */
+	public LibraryScanner(final Library library) {
+		super();
+		this.library = library;
+	}
+
+	/**
+	 * 
+	 * @param library
+	 */
+	public final void run() {
+		if (LOG.isInfoEnabled())
+			LOG.info("Scanning Library path:" + library.getPath());
+		// Recursively get all files matching the extensions contained into the
+		// extensions String
+		final File[] files = FileUtils.getFiles(new File(library.getPath()), FileUtils.getExtensionFilter(extensions))
+				.toArray(new File[] {});
+		FileUtils.sortFiles(files);
+		// Will serve to remove the tracks that doesn't exist anymore into the
+		// persistent store
+		final Collection<Track> toKeep = new HashSet<Track>(files.length);
+		int fileIndex = 0;
+		for (final File file : files) {
+			fileIndex += 1;
+			Track track = TRACK_DAO.getByPath(file.getPath());
+			// If the track doesn't already exists into the persistent store or have
+			// been modified, will parse it and store it
+			if (track == null && parseFile(file, track = new Track())
+					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
+				library.add(track);
+				toKeep.add(TRACK_DAO.save(track));
+				if (LOG.isInfoEnabled())
+					LOG.info("Added new Track : " + fileIndex + "/" + files.length + " path:" + track.getPath());
+			} else if (track != null)
+				toKeep.add(track);
+		}
+		// Keeps only the tracks that are on disk
+		library.getTracks().retainAll(toKeep);
+		LIBRARY_DAO.save(library);
+		LOG.info("Scanning Library path over");
 	}
 }

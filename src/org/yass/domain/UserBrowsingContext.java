@@ -32,11 +32,11 @@ import javax.persistence.Table;
 @Table(name = "USER_BROWSING_CONTEXT")
 public class UserBrowsingContext implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	@EmbeddedId
 	private UserBrowsingContextPK pk;
 	@ManyToOne
 	private User user;
-	private static final long serialVersionUID = 1L;
 
 	public UserBrowsingContext() {
 		super();
@@ -48,19 +48,19 @@ public class UserBrowsingContext implements Serializable {
 		pk.setUserId(user.getId());
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(final User user) {
-		this.user = user;
-	}
-
 	public int getTrackInfoId() {
 		return pk.getTrackInfoId();
 	}
 
+	public User getUser() {
+		return user;
+	}
+
 	public void setTrackInfoId(final Integer trackInfoId) {
 		pk.setTrackInfoId(trackInfoId);
+	}
+
+	public void setUser(final User user) {
+		this.user = user;
 	}
 }

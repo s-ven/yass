@@ -25,113 +25,105 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER_SETTING")
 public class UserSetting implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	@Column(name = "DISPLAY_MODE")
+	private short displayMode;
 	@Column(name = "LOADED_TRACK_ID")
 	private int loadedTrackId;
-	private int volume;
-	private boolean shuffle;
+	@Column(name = "NEXT_FADEOUT")
+	private int nextFadeout;
 	private boolean repeat;
 	@Column(name = "SHOW_REMAINING")
 	private boolean showRemaining;
-	@Column(name = "DISPLAY_MODE")
-	private short displayMode;
-	@Column(name = "STOP_FADEOUT")
-	private int stopFadeout;
+	private boolean shuffle;
 	@Column(name = "SKIP_FADEOUT")
 	private int skipFadeout;
-	@Column(name = "NEXT_FADEOUT")
-	private int nextFadeout;
-	@OneToOne
-	@Id
-	@JoinColumn(name = "USER_ID")
-	private User user;
-	private static final long serialVersionUID = 1L;
+	@Column(name = "STOP_FADEOUT")
+	private int stopFadeout;
+	private int volume;
 
 	public UserSetting() {
 		super();
-	}
-
-	public int getLoadedTrackId() {
-		return loadedTrackId;
-	}
-
-	public void setLoadedTrackId(final int loadedTrackId) {
-		this.loadedTrackId = loadedTrackId;
-	}
-
-	public int getVolume() {
-		return volume;
-	}
-
-	public void setVolume(final int volume) {
-		this.volume = volume;
-	}
-
-	public boolean isShuffle() {
-		return shuffle;
-	}
-
-	public void setShuffle(final boolean shuffle) {
-		this.shuffle = shuffle;
-	}
-
-	public boolean isRepeat() {
-		return repeat;
-	}
-
-	public void setRepeat(final boolean repeat) {
-		this.repeat = repeat;
-	}
-
-	public boolean isShowRemaining() {
-		return showRemaining;
-	}
-
-	public void setShowRemaining(final boolean showRemaining) {
-		this.showRemaining = showRemaining;
 	}
 
 	public short getDisplayMode() {
 		return displayMode;
 	}
 
-	public void setDisplayMode(final short displayMode) {
-		this.displayMode = displayMode;
-	}
-
-	public int getStopFadeout() {
-		return stopFadeout;
-	}
-
-	public void setStopFadeout(final int stopFadeout) {
-		this.stopFadeout = stopFadeout;
-	}
-
-	public int getSkipFadeout() {
-		return skipFadeout;
-	}
-
-	public void setSkipFadeout(final int skipFadeout) {
-		this.skipFadeout = skipFadeout;
+	public int getLoadedTrackId() {
+		return loadedTrackId;
 	}
 
 	public int getNextFadeout() {
 		return nextFadeout;
 	}
 
+	public int getSkipFadeout() {
+		return skipFadeout;
+	}
+
+	public int getStopFadeout() {
+		return stopFadeout;
+	}
+
+	public int getVolume() {
+		return volume;
+	}
+
+	public boolean isRepeat() {
+		return repeat;
+	}
+
+	public boolean isShowRemaining() {
+		return showRemaining;
+	}
+
+	public boolean isShuffle() {
+		return shuffle;
+	}
+
+	public void setDisplayMode(final short displayMode) {
+		this.displayMode = displayMode;
+	}
+
+	public void setLoadedTrackId(final int loadedTrackId) {
+		this.loadedTrackId = loadedTrackId;
+	}
+
 	public void setNextFadeout(final int nextFadeout) {
 		this.nextFadeout = nextFadeout;
 	}
 
+	public void setRepeat(final boolean repeat) {
+		this.repeat = repeat;
+	}
+
+	public void setShowRemaining(final boolean showRemaining) {
+		this.showRemaining = showRemaining;
+	}
+
+	public void setShuffle(final boolean shuffle) {
+		this.shuffle = shuffle;
+	}
+
+	public void setSkipFadeout(final int skipFadeout) {
+		this.skipFadeout = skipFadeout;
+	}
+
+	public void setStopFadeout(final int stopFadeout) {
+		this.stopFadeout = stopFadeout;
+	}
+
 	public void setUser(final User user) {
-		this.user = user;
+	}
+
+	public void setVolume(final int volume) {
+		this.volume = volume;
 	}
 }

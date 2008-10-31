@@ -30,15 +30,12 @@ import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	public String id;
-	public String name;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
-
-	public void setRefresh(final boolean refresh) {
-	}
+	public String id;
+	public String name;
 
 	@Override
 	public String execute() {
@@ -49,5 +46,8 @@ public class Save extends YassAction implements YassConstants {
 		PLAYLIST_DAO.save(pl);
 		getPlayLists().put(pl.getId(), pl);
 		return NONE;
+	}
+
+	public void setRefresh(final boolean refresh) {
 	}
 }

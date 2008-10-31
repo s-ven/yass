@@ -32,21 +32,21 @@ import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	public int userId;
-	public int loadedTrackId;
-	public int volume;
-	public boolean shuffle;
-	public boolean loop;
-	public boolean showRemaining;
-	public short displayMode;
-	public int stopFadeout;
-	public int nextFadeout;
-	public int skipFadeout;
-	public Integer[] trackInfoIds;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
+	public short displayMode;
+	public int loadedTrackId;
+	public boolean loop;
+	public int nextFadeout;
+	public boolean showRemaining;
+	public boolean shuffle;
+	public int skipFadeout;
+	public int stopFadeout;
+	public Integer[] trackInfoIds;
+	public int userId;
+	public int volume;
 
 	@Override
 	public String execute() {

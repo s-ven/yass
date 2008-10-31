@@ -34,14 +34,11 @@ import org.yass.struts.YassAction;
 
 public class Show extends YassAction implements YassConstants {
 
-	public int id;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
-
-	public void setRefresh(final boolean refresh) {
-	}
+	public int id;
 
 	@Override
 	public String execute() {
@@ -60,5 +57,8 @@ public class Show extends YassAction implements YassConstants {
 			LOG.error("", e);
 		}
 		return NONE;
+	}
+
+	public void setRefresh(final boolean refresh) {
 	}
 }

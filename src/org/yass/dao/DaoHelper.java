@@ -38,17 +38,8 @@ import org.yass.util.FileUtils;
 
 public class DaoHelper implements YassConstants {
 
-	/**
-	 * @return the entity manager
-	 */
-	public final EntityManager getEntityManager() {
-		return entytyManager;
-	}
-
-	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
-	private final DataSource dataSource;
 	private final static DaoHelper instance = new DaoHelper();
-	private final EntityManager entytyManager;
+	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
 
 	/**
 	 * @return the instance
@@ -56,6 +47,9 @@ public class DaoHelper implements YassConstants {
 	public static final DaoHelper getInstance() {
 		return instance;
 	}
+
+	private final DataSource dataSource;
+	private final EntityManager entytyManager;
 
 	private DaoHelper() {
 		final File home = FileUtils.createFolder(YASS_HOME);
@@ -70,15 +64,22 @@ public class DaoHelper implements YassConstants {
 		entytyManager = emf.createEntityManager();
 	}
 
-	public JdbcTemplate getJdbcTemplate() {
-		return new JdbcTemplate(dataSource);
-	}
-
 	private void checkDataBase() {
 		try {
 			new Schema00().execute(getJdbcTemplate());
 		} catch (final Exception e) {
 			LOG.fatal(e);
 		}
+	}
+
+	/**
+	 * @return the entity manager
+	 */
+	public final EntityManager getEntityManager() {
+		return entytyManager;
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return new JdbcTemplate(dataSource);
 	}
 }

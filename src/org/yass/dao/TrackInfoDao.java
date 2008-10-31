@@ -27,6 +27,7 @@ import org.yass.domain.TrackInfo;
 
 public class TrackInfoDao extends AbstractDao {
 
+	private static final TrackInfoDao instance = new TrackInfoDao();
 	private static final Log LOG = LogFactory.getLog(TrackInfoDao.class);
 
 	/**
@@ -36,7 +37,17 @@ public class TrackInfoDao extends AbstractDao {
 		return instance;
 	}
 
-	private static final TrackInfoDao instance = new TrackInfoDao();
+	public TrackInfo getFromId(final Integer id) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Get TrackInfo id:" + id);
+			return (TrackInfo) getEntityManager().createNamedQuery("getFromId").setParameter(1, id);
+		} catch (final Exception e) {
+			if (LOG.isDebugEnabled())
+				LOG.debug("TrackInfo id:" + id);
+		}
+		return null;
+	}
 
 	public TrackInfo getFromValue(final String value, final String type) {
 		try {
@@ -63,17 +74,5 @@ public class TrackInfoDao extends AbstractDao {
 				LOG.debug("Error saving TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
 		}
 		return trackInfo;
-	}
-
-	public TrackInfo getFromId(final Integer id) {
-		try {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Get TrackInfo id:" + id);
-			return (TrackInfo) getEntityManager().createNamedQuery("getFromId").setParameter(1, id);
-		} catch (final Exception e) {
-			if (LOG.isDebugEnabled())
-				LOG.debug("TrackInfo id:" + id);
-		}
-		return null;
 	}
 }

@@ -29,14 +29,14 @@ import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	public int id;
-	public int rating;
-	public int playCount;
-	public long lastPlayed;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
+	public int id;
+	public long lastPlayed;
+	public int playCount;
+	public int rating;
 
 	@Override
 	public String execute() {

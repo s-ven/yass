@@ -39,18 +39,20 @@ import javax.persistence.Table;
 @AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
 public class SmartPlayList extends PlayList {
 
+	@OneToMany(mappedBy = "smartPlayList")
+	private Collection<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
+	@Column(name = "MAX_TRACKS")
+	private int maxTracks = 0;
+	private int operator;
+	@Column(name = "ORDER_BY")
+	private String orderBy;
+
 	/**
 	 * 
 	 */
 	public SmartPlayList() {
 		super();
 	}
-
-	@Column(name = "MAX_TRACKS")
-	private int maxTracks = 0;
-	@Column(name = "ORDER_BY")
-	private String orderBy;
-	private int operator;
 
 	/**
 	 * @param id
@@ -68,6 +70,34 @@ public class SmartPlayList extends PlayList {
 		this.orderBy = orderBy;
 	}
 
+	/**
+	 * @return the conditions
+	 */
+	public final Collection<SmartPlayListCondition> getConditions() {
+		return conditions;
+	}
+
+	/**
+	 * @return the maxTracks
+	 */
+	public final int getMaxTracks() {
+		return maxTracks;
+	}
+
+	/**
+	 * @return the operator
+	 */
+	public final int getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @return the orderBy
+	 */
+	public final String getOrderBy() {
+		return orderBy;
+	}
+
 	public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
 		final StringBuilder sBuilder = new StringBuilder("select track_id from track_stat where ");
@@ -82,14 +112,12 @@ public class SmartPlayList extends PlayList {
 		return sBuilder.toString();
 	}
 
-	@OneToMany(mappedBy = "smartPlayList")
-	private Collection<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
-
 	/**
-	 * @return the maxTracks
+	 * @param conditions
+	 *          the conditions to set
 	 */
-	public final int getMaxTracks() {
-		return maxTracks;
+	public final void setConditions(final Set<SmartPlayListCondition> conditions) {
+		this.conditions = conditions;
 	}
 
 	/**
@@ -101,28 +129,6 @@ public class SmartPlayList extends PlayList {
 	}
 
 	/**
-	 * @return the orderBy
-	 */
-	public final String getOrderBy() {
-		return orderBy;
-	}
-
-	/**
-	 * @param orderBy
-	 *          the orderBy to set
-	 */
-	public final void setOrderBy(final String orderBy) {
-		this.orderBy = orderBy;
-	}
-
-	/**
-	 * @return the operator
-	 */
-	public final int getOperator() {
-		return operator;
-	}
-
-	/**
 	 * @param operator
 	 *          the operator to set
 	 */
@@ -131,17 +137,10 @@ public class SmartPlayList extends PlayList {
 	}
 
 	/**
-	 * @return the conditions
+	 * @param orderBy
+	 *          the orderBy to set
 	 */
-	public final Collection<SmartPlayListCondition> getConditions() {
-		return conditions;
-	}
-
-	/**
-	 * @param conditions
-	 *          the conditions to set
-	 */
-	public final void setConditions(final Set<SmartPlayListCondition> conditions) {
-		this.conditions = conditions;
+	public final void setOrderBy(final String orderBy) {
+		this.orderBy = orderBy;
 	}
 }

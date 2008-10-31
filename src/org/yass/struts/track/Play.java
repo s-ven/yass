@@ -37,11 +37,11 @@ import org.yass.struts.YassAction;
 
 public class Play extends YassAction implements YassConstants {
 
-	private int id;
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3411435373847531163L;
+	private int id;
 
 	@Override
 	public String execute() {

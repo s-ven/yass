@@ -33,7 +33,33 @@ public class UserDao extends AbstractDao {
 	private static final UserDao instance = new UserDao();
 	private static final Log LOG = LogFactory.getLog(UserDao.class);
 
+	/**
+	 * @return the instance
+	 */
+	public static final UserDao getInstance() {
+		return instance;
+	}
+
 	private UserDao() {
+	}
+
+	public void cleanBrowsingContext(final User user) {
+		for (final UserBrowsingContext ctx : user.getBrowsingContext()) {
+			EntityTransaction transaction = null;
+			try {
+				if (LOG.isDebugEnabled())
+					LOG.debug("Delete BrowsingContext id:" + user.getId());
+				transaction = getEntityManager().getTransaction();
+				transaction.begin();
+				getEntityManager().remove(ctx);
+				transaction.commit();
+			} catch (final Exception e) {
+				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
+				if (transaction != null)
+					transaction.rollback();
+			}
+		}
+		// TODO Auto-generated method stub
 	}
 
 	public final User getFromId(final int id) {
@@ -62,31 +88,5 @@ public class UserDao extends AbstractDao {
 				transaction.rollback();
 		}
 		return user;
-	}
-
-	/**
-	 * @return the instance
-	 */
-	public static final UserDao getInstance() {
-		return instance;
-	}
-
-	public void cleanBrowsingContext(final User user) {
-		for (final UserBrowsingContext ctx : user.getBrowsingContext()) {
-			EntityTransaction transaction = null;
-			try {
-				if (LOG.isDebugEnabled())
-					LOG.debug("Delete BrowsingContext id:" + user.getId());
-				transaction = getEntityManager().getTransaction();
-				transaction.begin();
-				getEntityManager().remove(ctx);
-				transaction.commit();
-			} catch (final Exception e) {
-				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
-				if (transaction != null)
-					transaction.rollback();
-			}
-		}
-		// TODO Auto-generated method stub
 	}
 }

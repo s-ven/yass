@@ -51,6 +51,10 @@ public class Init implements ServletContextListener, YassConstants {
 		super();
 	}
 
+	public void contextDestroyed(final ServletContextEvent event) {
+		initThread.interrupt();
+	}
+
 	/**
 	 * This method will create an instance of the {@link IndexManager} and set it
 	 * in the ServletContext
@@ -86,9 +90,5 @@ public class Init implements ServletContextListener, YassConstants {
 		} catch (final Exception e) {
 			LOG.fatal("Error during Yass initialization", e);
 		}
-	}
-
-	public void contextDestroyed(final ServletContextEvent event) {
-		initThread.interrupt();
 	}
 }

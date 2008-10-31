@@ -29,11 +29,11 @@ public class AbstractDao {
 
 	private final DaoHelper helper = DaoHelper.getInstance();
 
-	protected JdbcTemplate getJdbcTemplate() {
-		return helper.getJdbcTemplate();
-	}
-
 	protected EntityManager getEntityManager() {
 		return helper.getEntityManager();
+	}
+
+	protected JdbcTemplate getJdbcTemplate() {
+		return helper.getJdbcTemplate();
 	}
 }

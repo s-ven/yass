@@ -57,24 +57,20 @@ public class YassAction extends ActionSupport implements YassConstants {
 	 */
 	private static final long serialVersionUID = -4592155945099982999L;
 
-	protected PlayList getPlayList(final String plId) {
-		return (PlayList) ActionContext.getContext().getSession().get(plId);
-	}
-
 	protected Library getLibrary() {
 		return (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
 	}
 
-	protected Map<Integer, TrackStat> getTrackStats() {
-		return (Map<Integer, TrackStat>) ActionContext.getContext().getApplication().get(USER_TRACK_STATS);
-	}
-
-	protected void setPlayList(final String playListId, final PlayList search) {
-		ActionContext.getContext().getSession().put(playListId, search);
+	protected PlayList getPlayList(final String plId) {
+		return (PlayList) ActionContext.getContext().getSession().get(plId);
 	}
 
 	protected Map<Integer, PlayList> getPlayLists() {
 		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
+	}
+
+	protected Map<Integer, TrackStat> getTrackStats() {
+		return (Map<Integer, TrackStat>) ActionContext.getContext().getApplication().get(USER_TRACK_STATS);
 	}
 
 	protected User getUser() {
@@ -113,5 +109,9 @@ public class YassAction extends ActionSupport implements YassConstants {
 			return ERROR;
 		}
 		return NONE;
+	}
+
+	protected void setPlayList(final String playListId, final PlayList search) {
+		ActionContext.getContext().getSession().put(playListId, search);
 	}
 }

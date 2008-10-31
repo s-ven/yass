@@ -36,9 +36,24 @@ import org.yass.domain.TrackStat;
 
 public class TrackStatDao extends AbstractDao {
 
+	private class TrackStatRowMapper implements ParameterizedRowMapper<TrackStat> {
+
+		public TrackStat mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+			return new TrackStat(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getInt(5), rs
+					.getTimestamp(6));
+		}
+	}
+
 	private final static TrackStatDao instance = new TrackStatDao();
+	private static final Log LOG = LogFactory.getLog(TrackStatDao.class);
+
+	public final static TrackStatDao getInstance() {
+		return instance;
+	}
+
 	private final PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
 			"insert into track_stat (user_id, track_id, rating, last_played, play_count, last_selected) values (?, ?, ?, ?, ?, ?)");
+	private final TrackStatRowMapper rowMapper = new TrackStatRowMapper();
 
 	private TrackStatDao() {
 		pscf.addParameter(new SqlParameter("track_id", java.sql.Types.INTEGER));
@@ -47,17 +62,6 @@ public class TrackStatDao extends AbstractDao {
 		pscf.addParameter(new SqlParameter("last_played", java.sql.Types.TIMESTAMP));
 		pscf.addParameter(new SqlParameter("play_count", java.sql.Types.INTEGER));
 		pscf.addParameter(new SqlParameter("last_selected", java.sql.Types.TIMESTAMP));
-	}
-
-	private static final Log LOG = LogFactory.getLog(TrackStatDao.class);
-	private final TrackStatRowMapper rowMapper = new TrackStatRowMapper();
-
-	public void save(final TrackStat trackStat) {
-		getJdbcTemplate().update("delete from track_stat where track_id = ? and user_id = ?",
-				new Object[] { trackStat.getTrackId(), trackStat.getUserId() });
-		getJdbcTemplate().update(
-				pscf.newPreparedStatementCreator(new Object[] { trackStat.getUserId(), trackStat.getTrackId(),
-						trackStat.getRating(), trackStat.getLastPlayed(), trackStat.getPlayCount(), trackStat.getLastSelected() }));
 	}
 
 	public final Map<Integer, TrackStat> getFromUserId(final int id) {
@@ -73,15 +77,11 @@ public class TrackStatDao extends AbstractDao {
 		return map;
 	}
 
-	public final static TrackStatDao getInstance() {
-		return instance;
-	}
-
-	private class TrackStatRowMapper implements ParameterizedRowMapper<TrackStat> {
-
-		public TrackStat mapRow(final ResultSet rs, final int rowNum) throws SQLException {
-			return new TrackStat(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getInt(5), rs
-					.getTimestamp(6));
-		}
+	public void save(final TrackStat trackStat) {
+		getJdbcTemplate().update("delete from track_stat where track_id = ? and user_id = ?",
+				new Object[] { trackStat.getTrackId(), trackStat.getUserId() });
+		getJdbcTemplate().update(
+				pscf.newPreparedStatementCreator(new Object[] { trackStat.getUserId(), trackStat.getTrackId(),
+						trackStat.getRating(), trackStat.getLastPlayed(), trackStat.getPlayCount(), trackStat.getLastSelected() }));
 	}
 }

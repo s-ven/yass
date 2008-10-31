@@ -30,32 +30,14 @@ public class TrackDao extends AbstractDao {
 	private static final TrackDao instance = new TrackDao();
 	private static final Log LOG = LogFactory.getLog(TrackDao.class);
 
+	/**
+	 * @return the instance
+	 */
+	public static final TrackDao getInstance() {
+		return instance;
+	}
+
 	private TrackDao() {
-	}
-
-	public Track save(final Track track) {
-		try {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Save Track path:" + track.getPath());
-			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(track);
-			getEntityManager().getTransaction().commit();
-		} catch (final Exception e) {
-			LOG.fatal("Error saving Track path:" + track.getPath(), e);
-		}
-		return track;
-	}
-
-	public final Track getByPath(final String path) {
-		try {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Get Track path:" + path);
-			return (Track) getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path).getSingleResult();
-		} catch (final Exception e) {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Error getting Track path:" + path, e);
-			return null;
-		}
 	}
 
 	public final Track getById(final int id) {
@@ -70,10 +52,28 @@ public class TrackDao extends AbstractDao {
 		}
 	}
 
-	/**
-	 * @return the instance
-	 */
-	public static final TrackDao getInstance() {
-		return instance;
+	public final Track getByPath(final String path) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Get Track path:" + path);
+			return (Track) getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path).getSingleResult();
+		} catch (final Exception e) {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Error getting Track path:" + path, e);
+			return null;
+		}
+	}
+
+	public Track save(final Track track) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Save Track path:" + track.getPath());
+			getEntityManager().getTransaction().begin();
+			getEntityManager().persist(track);
+			getEntityManager().getTransaction().commit();
+		} catch (final Exception e) {
+			LOG.fatal("Error saving Track path:" + track.getPath(), e);
+		}
+		return track;
 	}
 }

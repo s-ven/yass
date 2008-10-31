@@ -18,6 +18,25 @@ public class FileUtils {
 
 	/**
 	 * 
+	 * @param extensions
+	 * @return a {@link FileFilter} that will make the match for the specified
+	 *         extensions
+	 */
+	public final static FileFilter getExtensionFilter(final String extensions) {
+		final String[] exts = extensions.split(",");
+		return new FileFilter() {
+
+			public boolean accept(final File file) {
+				for (final String ext : exts)
+					if (file.getName().endsWith(".".concat(ext)))
+						return true;
+				return false;
+			}
+		};
+	}
+
+	/**
+	 * 
 	 * @param root
 	 * @param filter
 	 * @return a collection containing all the files matching the specified filter
@@ -25,7 +44,7 @@ public class FileUtils {
 	public final static Collection<File> getFiles(final File root, final FileFilter filter) {
 		final FileFilter folderFilter = new FileFilter() {
 
-			public boolean accept(File pathname) {
+			public boolean accept(final File pathname) {
 				return pathname.isDirectory();
 			}
 		};
@@ -46,24 +65,5 @@ public class FileUtils {
 				return ((File) o1).getPath().compareTo(((File) o2).getPath());
 			}
 		});
-	}
-
-	/**
-	 * 
-	 * @param extensions
-	 * @return a {@link FileFilter} that will make the match for the specified
-	 *         extensions
-	 */
-	public final static FileFilter getExtensionFilter(final String extensions) {
-		final String[] exts = extensions.split(",");
-		return new FileFilter() {
-
-			public boolean accept(final File file) {
-				for (final String ext : exts)
-					if (file.getName().endsWith(".".concat(ext)))
-						return true;
-				return false;
-			}
-		};
 	}
 }

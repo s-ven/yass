@@ -36,15 +36,22 @@ import javax.persistence.Table;
 @Table(name = "TRACK_STAT")
 public class TrackStat {
 
-	private int rating = 0;
-	@Column(name = "PLAY_COUNT")
-	private int playCount = 0;
-	@EmbeddedId
-	private TrackStatPK trackStatPK;
 	@Column(name = "LAST_PLAYED")
 	private Date lastPlayed;
 	@Column(name = "LAST_SELECTED")
 	private Date lastSelected;
+	@Column(name = "PLAY_COUNT")
+	private int playCount = 0;
+	private int rating = 0;
+	@EmbeddedId
+	private TrackStatPK trackStatPK;
+
+	/**
+	 * 
+	 */
+	public TrackStat() {
+		super();
+	}
 
 	/**
 	 * @param trackTypeId
@@ -53,13 +60,6 @@ public class TrackStat {
 	public TrackStat(final int userId, final int trackId) {
 		super();
 		trackStatPK = new TrackStatPK(trackId, userId);
-	}
-
-	/**
-	 * 
-	 */
-	public TrackStat() {
-		super();
 	}
 
 	/**
@@ -87,14 +87,6 @@ public class TrackStat {
 	}
 
 	/**
-	 * @param lastPlayed
-	 *          the lastPlayed to set
-	 */
-	public final void setLastPlayed(final Date lastPlayed) {
-		this.lastPlayed = lastPlayed;
-	}
-
-	/**
 	 * @return the lastSelected
 	 */
 	public final Date getLastSelected() {
@@ -102,11 +94,17 @@ public class TrackStat {
 	}
 
 	/**
-	 * @param lastSelected
-	 *          the lastSelected to set
+	 * @return the playCount
 	 */
-	public final void setLastSelected(final Date lastSelected) {
-		this.lastSelected = lastSelected;
+	public final int getPlayCount() {
+		return playCount;
+	}
+
+	/**
+	 * @return the rating
+	 */
+	public final int getRating() {
+		return rating;
 	}
 
 	/**
@@ -123,26 +121,25 @@ public class TrackStat {
 		return trackStatPK.userId;
 	}
 
-	/**
-	 * @return the rating
-	 */
-	public final int getRating() {
-		return rating;
+	@Override
+	public int hashCode() {
+		return trackStatPK.hashCode();
 	}
 
 	/**
-	 * @param rating
-	 *          the rating to set
+	 * @param lastPlayed
+	 *          the lastPlayed to set
 	 */
-	public final void setRating(final int rating) {
-		this.rating = rating;
+	public final void setLastPlayed(final Date lastPlayed) {
+		this.lastPlayed = lastPlayed;
 	}
 
 	/**
-	 * @return the playCount
+	 * @param lastSelected
+	 *          the lastSelected to set
 	 */
-	public final int getPlayCount() {
-		return playCount;
+	public final void setLastSelected(final Date lastSelected) {
+		this.lastSelected = lastSelected;
 	}
 
 	/**
@@ -153,8 +150,11 @@ public class TrackStat {
 		this.playCount = playCount;
 	}
 
-	@Override
-	public int hashCode() {
-		return trackStatPK.hashCode();
+	/**
+	 * @param rating
+	 *          the rating to set
+	 */
+	public final void setRating(final int rating) {
+		this.rating = rating;
 	}
 }

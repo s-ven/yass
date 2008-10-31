@@ -32,78 +32,6 @@ import javax.persistence.Table;
 @NamedQuery(name = "getAlbumCoverIdFromAlbumId", query = "select ac.albumId from AlbumCover ac where ac.albumId = ?1")
 public class AlbumCover {
 
-	public AlbumCover() {
-		super();
-	}
-
-	@Id
-	@Column(name = "TRACK_INFO_ID")
-	private int albumId;
-	@Column(name = "PICTURE_TYPE")
-	private int pictureType;
-	@Column(name = "MIME_TYPE")
-	private String mimeType;
-	private String description;
-	@Column(name = "PICTURE_DATA")
-	private byte[] pictureData;
-
-	/**
-	 * @param description
-	 * @param mimeType
-	 * @param pictureData
-	 * @param pictureType
-	 */
-	public AlbumCover(final int albumId, final String description, final String mimeType, final byte[] pictureData,
-			final int pictureType) {
-		super();
-		this.albumId = albumId;
-		this.description = description;
-		this.mimeType = mimeType;
-		this.pictureData = pictureData;
-		this.pictureType = pictureType;
-	}
-
-	/**
-	 * @return the albumId
-	 */
-	public final int getAlbumId() {
-		return albumId;
-	}
-
-	/**
-	 * @return the pictureType
-	 */
-	public final int getPictureType() {
-		return pictureType;
-	}
-
-	/**
-	 * @return the mimeType
-	 */
-	public final String getMimeType() {
-		return mimeType;
-	}
-
-	/**
-	 * @return the description
-	 */
-	public final String getDescription() {
-		return description;
-	}
-
-	/**
-	 * @return the pictureData
-	 */
-	public final byte[] getPictureData() {
-		return pictureData;
-	}
-
-	@Override
-	public String toString() {
-		return "{mimeType:'" + mimeType + "', description:'" + description + ", pictureType:'"
-				+ getPictureTypeAsString(pictureType) + "'}";
-	}
-
 	/**
 	 * Will translate the ID3 picture type int into a human readable type string
 	 * 
@@ -156,5 +84,77 @@ public class AlbumCover {
 			return "Publisher/Studio logotype";
 		}
 		return "Unknown";
+	}
+
+	@Id
+	@Column(name = "TRACK_INFO_ID")
+	private int albumId;
+	private String description;
+	@Column(name = "MIME_TYPE")
+	private String mimeType;
+	@Column(name = "PICTURE_DATA")
+	private byte[] pictureData;
+	@Column(name = "PICTURE_TYPE")
+	private int pictureType;
+
+	public AlbumCover() {
+		super();
+	}
+
+	/**
+	 * @param description
+	 * @param mimeType
+	 * @param pictureData
+	 * @param pictureType
+	 */
+	public AlbumCover(final int albumId, final String description, final String mimeType, final byte[] pictureData,
+			final int pictureType) {
+		super();
+		this.albumId = albumId;
+		this.description = description;
+		this.mimeType = mimeType;
+		this.pictureData = pictureData;
+		this.pictureType = pictureType;
+	}
+
+	/**
+	 * @return the albumId
+	 */
+	public final int getAlbumId() {
+		return albumId;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public final String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @return the mimeType
+	 */
+	public final String getMimeType() {
+		return mimeType;
+	}
+
+	/**
+	 * @return the pictureData
+	 */
+	public final byte[] getPictureData() {
+		return pictureData;
+	}
+
+	/**
+	 * @return the pictureType
+	 */
+	public final int getPictureType() {
+		return pictureType;
+	}
+
+	@Override
+	public String toString() {
+		return "{mimeType:'" + mimeType + "', description:'" + description + ", pictureType:'"
+				+ getPictureTypeAsString(pictureType) + "'}";
 	}
 }

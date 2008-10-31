@@ -44,72 +44,62 @@ import javax.persistence.Table;
 @NamedQuery(name = "getUserById", query = "SELECT u FROM User u where u.id = ?1")
 public class User implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private Set<UserBrowsingContext> browsingContext;
 	@Id
 	private int id;
-	@Column(name = "USER_NAME")
-	private String userName;
+	@OneToOne(mappedBy = "user")
+	private Library library;
 	private String password;
 	@Column(name = "ROLE_ID")
 	private int roleId;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<UserBrowsingContext> browsingContext;
+	@Column(name = "USER_NAME")
+	private String userName;
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private UserSetting userSetting;
-	private static final long serialVersionUID = 1L;
-	@OneToOne(mappedBy = "user")
-	private Library library;
 
 	public User() {
 		super();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(final int id) {
-		this.id = id;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(final String userName) {
-		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
-	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(final int roleId) {
-		this.roleId = roleId;
 	}
 
 	public Set<UserBrowsingContext> getBrowsingContext() {
 		return browsingContext;
 	}
 
-	public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
-		this.browsingContext = browsingContext;
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the library
+	 */
+	public Library getLibrary() {
+		return library;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public String getUserName() {
+		return userName;
 	}
 
 	public UserSetting getUserSetting() {
 		return userSetting;
 	}
 
-	public void setUserSetting(final UserSetting userSetting) {
-		this.userSetting = userSetting;
-		userSetting.setUser(this);
+	public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
+		this.browsingContext = browsingContext;
+	}
+
+	public void setId(final int id) {
+		this.id = id;
 	}
 
 	/**
@@ -121,10 +111,20 @@ public class User implements Serializable {
 		library.setUser(this);
 	}
 
-	/**
-	 * @return the library
-	 */
-	public Library getLibrary() {
-		return library;
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
+	public void setRoleId(final int roleId) {
+		this.roleId = roleId;
+	}
+
+	public void setUserName(final String userName) {
+		this.userName = userName;
+	}
+
+	public void setUserSetting(final UserSetting userSetting) {
+		this.userSetting = userSetting;
+		userSetting.setUser(this);
 	}
 }

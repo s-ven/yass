@@ -40,20 +40,6 @@ public class LibraryDao extends AbstractDao {
 	private LibraryDao() {
 	}
 
-	public void save(final Library lib) {
-		LOG.info("Saving Library...");
-		try {
-			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(lib);
-			getEntityManager().getTransaction().commit();
-			if (LOG.isInfoEnabled())
-				LOG.info("Library saved id:" + lib.getId());
-		} catch (final Exception e) {
-			LOG.error("Error while persisting library", e);
-		} finally {
-		}
-	}
-
 	public Library getFromId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
@@ -73,6 +59,20 @@ public class LibraryDao extends AbstractDao {
 		} catch (final Exception e) {
 			LOG.debug("Error while getting library", e);
 			return null;
+		}
+	}
+
+	public void save(final Library lib) {
+		LOG.info("Saving Library...");
+		try {
+			getEntityManager().getTransaction().begin();
+			getEntityManager().persist(lib);
+			getEntityManager().getTransaction().commit();
+			if (LOG.isInfoEnabled())
+				LOG.info("Library saved id:" + lib.getId());
+		} catch (final Exception e) {
+			LOG.error("Error while persisting library", e);
+		} finally {
 		}
 	}
 }

@@ -33,8 +33,8 @@ import org.yass.struts.YassAction;
 
 public class Get extends YassAction implements YassConstants {
 
-	public int userId;
 	private static final long serialVersionUID = 3411435373847531163L;
+	public int userId;
 
 	@Override
 	public String execute() {

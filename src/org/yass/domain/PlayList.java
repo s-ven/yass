@@ -45,78 +45,34 @@ import org.yass.YassConstants;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER, name = "TYPE_ID")
 public abstract class PlayList implements YassConstants {
 
+	@Id
+	protected int id;
+	@Column(name = "LAST_UPDATE")
+	protected Date lastUpdate = new Date();
+	protected String name;
+	private Set<Integer> trackIds = new LinkedHashSet<Integer>();
+	@Column(name = "TYPE_ID")
+	protected int typeId;
+	@Column(name = "USER_ID")
+	protected int userId = 1;
+
 	/**
-	 * 
+	 * Empty constructor
 	 */
 	public PlayList() {
 		super();
 	}
 
-	@Id
-	protected int id;
-	protected String name;
-
 	/**
-	 * @param id
-	 *          the id to set
+	 * 
+	 * @param track
 	 */
-	public final void setId(final int id) {
-		this.id = id;
+	public void addTrack(final Integer track) {
+		trackIds.add(track);
 	}
 
-	@Column(name = "TYPE_ID")
-	protected int typeId;
-
-	/**
-	 * @return the typeId
-	 */
-	public final int getTypeId() {
-		return typeId;
-	}
-
-	/**
-	 * @param typeId
-	 *          the typeId to set
-	 */
-	public final void setTypeId(final int typeId) {
-		this.typeId = typeId;
-	}
-
-	@Column(name = "USER_ID")
-	protected int userId = 1;
-
-	/**
-	 * @return the userId
-	 */
-	public final int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId
-	 *          the userId to set
-	 */
-	public final void setUserId(final int userId) {
-		this.userId = userId;
-	}
-
-	@Column(name = "LAST_UPDATE")
-	protected Date lastUpdate = new Date();
-	private Set<Integer> trackIds = new LinkedHashSet<Integer>();
-
-	/**
-	 * @return the trackIds
-	 */
-	public final Set<Integer> getTrackIds() {
-		return trackIds;
-	}
-
-	/**
-	 * @param trackIds
-	 *          the trackIds to set
-	 */
-	public final void setTrackIds(final Set<Integer> trackIds) {
-		this.trackIds = trackIds;
+	public void addTracks(final Integer[] tracks) {
+		trackIds.addAll(Arrays.asList(tracks));
 	}
 
 	/**
@@ -140,11 +96,56 @@ public abstract class PlayList implements YassConstants {
 		return name;
 	}
 
-	public void add(final Integer[] toAdd) {
-		trackIds.addAll(Arrays.asList(toAdd));
+	/**
+	 * @return the trackIds
+	 */
+	public final Set<Integer> getTrackIds() {
+		return trackIds;
 	}
 
-	public void add(final Integer toAdd) {
-		trackIds.add(toAdd);
+	/**
+	 * @return the typeId
+	 */
+	public final int getTypeId() {
+		return typeId;
+	}
+
+	/**
+	 * @return the userId
+	 */
+	public final int getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param id
+	 *          the id to set
+	 */
+	public final void setId(final int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @param trackIds
+	 *          the trackIds to set
+	 */
+	public final void setTrackIds(final Set<Integer> trackIds) {
+		this.trackIds = trackIds;
+	}
+
+	/**
+	 * @param typeId
+	 *          the typeId to set
+	 */
+	public final void setTypeId(final int typeId) {
+		this.typeId = typeId;
+	}
+
+	/**
+	 * @param userId
+	 *          the userId to set
+	 */
+	public final void setUserId(final int userId) {
+		this.userId = userId;
 	}
 }

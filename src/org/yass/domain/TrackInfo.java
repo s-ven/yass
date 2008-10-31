@@ -34,21 +34,12 @@ import javax.persistence.Table;
 @NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
 public class TrackInfo {
 
-	private String value;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
-	/**
-	 * @param id
-	 *          the id to set
-	 */
-	public final void setId(final int id) {
-		this.id = id;
-	}
-
 	@Basic
 	private String type;
+	private String value;
 
 	/**
 	 * 
@@ -60,18 +51,6 @@ public class TrackInfo {
 	public TrackInfo(final String type, final String value) {
 		this.type = type;
 		this.value = value;
-	}
-
-	@Override
-	public final String toString() {
-		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
-	}
-
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
 	}
 
 	/**
@@ -86,5 +65,25 @@ public class TrackInfo {
 	 */
 	public String getType() {
 		return type;
+	}
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @param id
+	 *          the id to set
+	 */
+	public final void setId(final int id) {
+		this.id = id;
+	}
+
+	@Override
+	public final String toString() {
+		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
 	}
 }

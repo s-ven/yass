@@ -44,24 +44,24 @@ import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 		@NamedQuery(name = "getLibraryByUserId", query = "SELECT l FROM Library l where l.user.id = ?1") })
 public class Library {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name = "LAST_UPDATE")
+	private Date lastUpdate = new Date();
+	private String path;
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.EAGER)
+	@ElementJoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
+	private final Collection<Track> tracks = new LinkedHashSet<Track>();
+	@OneToOne
+	private User user;
+
 	/**
 	 * 
 	 */
 	public Library() {
 		super();
 	}
-
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Track.class, fetch = FetchType.EAGER)
-	@ElementJoinColumn(name = "LIBRARY_ID", referencedColumnName = "ID")
-	private Collection<Track> tracks = new LinkedHashSet<Track>();
-	private String path;
-	@Column(name = "LAST_UPDATE")
-	private Date lastUpdate = new Date();
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	@OneToOne
-	private User user;
 
 	/**
 	 * @param tracks
@@ -73,6 +73,27 @@ public class Library {
 	}
 
 	/**
+	 * @return the id
+	 */
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the lastUpdate
+	 */
+	public final Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	/**
+	 * @return the path
+	 */
+	public final String getPath() {
+		return path;
+	}
+
+	/**
 	 * @return the tracks
 	 */
 	public final Collection<Track> getTracks() {
@@ -80,10 +101,10 @@ public class Library {
 	}
 
 	/**
-	 * @return the id
+	 * @return the user
 	 */
-	public final int getId() {
-		return id;
+	public User getUser() {
+		return user;
 	}
 
 	/**
@@ -95,10 +116,11 @@ public class Library {
 	}
 
 	/**
-	 * @return the path
+	 * @param lastUpdate
+	 *          the lastUpdate to set
 	 */
-	public final String getPath() {
-		return path;
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
 	}
 
 	/**
@@ -110,32 +132,10 @@ public class Library {
 	}
 
 	/**
-	 * @return the lastUpdate
-	 */
-	public final Date getLastUpdate() {
-		return lastUpdate;
-	}
-
-	/**
-	 * @param lastUpdate
-	 *          the lastUpdate to set
-	 */
-	public final void setLastUpdate(final Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	/**
 	 * @param user
 	 *          the user to set
 	 */
 	public void setUser(final User user) {
 		this.user = user;
-	}
-
-	/**
-	 * @return the user
-	 */
-	public User getUser() {
-		return user;
 	}
 }

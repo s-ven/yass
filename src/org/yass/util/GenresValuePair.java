@@ -5,8 +5,13 @@ import java.util.Map;
 
 public class GenresValuePair {
 
-	private final Map<Integer, String> idToValue = new LinkedHashMap<Integer, String>();
 	private final static GenresValuePair instance = new GenresValuePair();
+
+	public static GenresValuePair getInstance() {
+		return instance;
+	}
+
+	private final Map<Integer, String> idToValue = new LinkedHashMap<Integer, String>();
 
 	private GenresValuePair() {
 		idToValue.put(0, "Blues");
@@ -157,10 +162,6 @@ public class GenresValuePair {
 		idToValue.put(145, "Anime");
 		idToValue.put(146, "JPop");
 		idToValue.put(147, "SynthPop");
-	}
-
-	public static GenresValuePair getInstance() {
-		return instance;
 	}
 
 	public String getValue(final String str) {

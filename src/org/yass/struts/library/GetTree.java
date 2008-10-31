@@ -37,6 +37,17 @@ public class GetTree extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
 
+	private final static Element makeNodeFromProp(final Document doc, final TrackInfo trackInfo) {
+		final Element node = doc.createElement(trackInfo.getType());
+		node.setAttribute("id", "" + trackInfo.getId());
+		node.setAttribute("value", trackInfo.getValue());
+		// If the trackIngo is an album, will try to check if it have an attached
+		// picture in the database
+		if (trackInfo.getType().equals(ALBUM))
+			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(trackInfo.getId()) + "");
+		return node;
+	}
+
 	@Override
 	public String execute() {
 		LOG.info("Library trackInfos requested");
@@ -93,16 +104,5 @@ public class GetTree extends YassAction implements YassConstants {
 			LOG.fatal("Error during Library TrackInfo XML creation", e);
 		}
 		return NONE;
-	}
-
-	private final static Element makeNodeFromProp(final Document doc, final TrackInfo trackInfo) {
-		final Element node = doc.createElement(trackInfo.getType());
-		node.setAttribute("id", "" + trackInfo.getId());
-		node.setAttribute("value", trackInfo.getValue());
-		// If the trackIngo is an album, will try to check if it have an attached
-		// picture in the database
-		if (trackInfo.getType().equals(ALBUM))
-			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(trackInfo.getId()) + "");
-		return node;
 	}
 }

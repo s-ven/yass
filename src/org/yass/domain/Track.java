@@ -49,45 +49,77 @@ import org.yass.YassConstants;
 		@NamedQuery(name = "getTrackById", query = "SELECT t FROM Track t where t.id = ?1") })
 public class Track implements YassConstants {
 
-	public final void setLibrary(final Library library) {
-	}
-
-	public Track() {
-		super();
-	}
-
-	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"))
-	@MapKey(name = "type")
-	private Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
-	private String title;
-	@Column(name = "TRACK_NR")
-	private int trackNr;
-	private String path;
-	private long length;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
+	private long length;
+	private String path;
+	private String title;
+	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "TRACK_TRACK_INFO", joinColumns = @JoinColumn(name = "TRACK_ID"), inverseJoinColumns = @JoinColumn(name = "TRACK_INFO_ID"))
+	@MapKey(name = "type")
+	private final Map<String, TrackInfo> trackInfos = new LinkedHashMap<String, TrackInfo>();
+	@Column(name = "TRACK_NR")
+	private int trackNr;
 	@Column(name = "TRACK_TYPE_ID")
 	private int typeId = 1;
 	@Column(nullable = true)
 	private boolean VBR = false;
 
-	/**
-	 * @param vbr
-	 *          the vBR to set
-	 */
-	public final void setVBR(final boolean vbr) {
-		VBR = vbr;
+	public Track() {
+		super();
 	}
 
 	/**
-	 * @return the vBR
+	 * @return the id
 	 */
-	public final boolean isVBR() {
-		return VBR;
+	public final int getId() {
+		return id;
+	}
+
+	/**
+	 * @return the lastUpdate
+	 */
+	public final Date getLastModified() {
+		return lastModified;
+	}
+
+	/**
+	 * @return the length
+	 */
+	public final long getLength() {
+		return length;
+	}
+
+	/**
+	 * @return the path
+	 */
+	public final String getPath() {
+		return path;
+	}
+
+	/**
+	 * @return the title
+	 */
+	public final String getTitle() {
+		return title;
+	}
+
+	public TrackInfo getTrackInfo(final String trackInfoType) {
+		return trackInfos.get(trackInfoType);
+	}
+
+	public Collection<TrackInfo> getTrackInfos() {
+		return trackInfos.values();
+	}
+
+	/**
+	 * @return the trackNr
+	 */
+	public final int getTrackNr() {
+		return trackNr;
 	}
 
 	/**
@@ -98,18 +130,10 @@ public class Track implements YassConstants {
 	}
 
 	/**
-	 * @param typeId
-	 *          the typeId to set
+	 * @return the vBR
 	 */
-	public final void setTypeId(final int typeId) {
-		this.typeId = typeId;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public final int getId() {
-		return id;
+	public final boolean isVBR() {
+		return VBR;
 	}
 
 	/**
@@ -121,58 +145,22 @@ public class Track implements YassConstants {
 	}
 
 	/**
-	 * @param title
-	 *          the title to set
+	 * @param lastUpdate
+	 *          the lastUpdate to set
 	 */
-	public final void setTitle(final String title) {
-		this.title = title;
+	public final void setLastModified(final Date lastUpdate) {
+		lastModified = lastUpdate;
 	}
 
 	/**
-	 * @return the length
+	 * @param length
+	 *          the length to set
 	 */
-	public final long getLength() {
-		return length;
+	public final void setLength(final long length) {
+		this.length = length;
 	}
 
-	/**
-	 * @return the title
-	 */
-	public final String getTitle() {
-		return title;
-	}
-
-	/**
-	 * @return the trackNr
-	 */
-	public final int getTrackNr() {
-		return trackNr;
-	}
-
-	/**
-	 * @return the lastUpdate
-	 */
-	public final Date getLastModified() {
-		return lastModified;
-	}
-
-	/**
-	 * @return the path
-	 */
-	public final String getPath() {
-		return path;
-	}
-
-	public Collection<TrackInfo> getTrackInfos() {
-		return trackInfos.values();
-	}
-
-	/**
-	 * @param trackNr
-	 *          the trackNr to set
-	 */
-	public final void setTrackNr(final int trackNr) {
-		this.trackNr = trackNr;
+	public final void setLibrary(final Library library) {
 	}
 
 	/**
@@ -184,26 +172,38 @@ public class Track implements YassConstants {
 	}
 
 	/**
-	 * @param length
-	 *          the length to set
+	 * @param title
+	 *          the title to set
 	 */
-	public final void setLength(final long length) {
-		this.length = length;
-	}
-
-	/**
-	 * @param lastUpdate
-	 *          the lastUpdate to set
-	 */
-	public final void setLastModified(final Date lastUpdate) {
-		lastModified = lastUpdate;
-	}
-
-	public TrackInfo getTrackInfo(final String trackInfoType) {
-		return trackInfos.get(trackInfoType);
+	public final void setTitle(final String title) {
+		this.title = title;
 	}
 
 	public void setTrackInfo(final TrackInfo trackInfo) {
 		trackInfos.put(trackInfo.getType(), trackInfo);
+	}
+
+	/**
+	 * @param trackNr
+	 *          the trackNr to set
+	 */
+	public final void setTrackNr(final int trackNr) {
+		this.trackNr = trackNr;
+	}
+
+	/**
+	 * @param typeId
+	 *          the typeId to set
+	 */
+	public final void setTypeId(final int typeId) {
+		this.typeId = typeId;
+	}
+
+	/**
+	 * @param vbr
+	 *          the vBR to set
+	 */
+	public final void setVBR(final boolean vbr) {
+		VBR = vbr;
 	}
 }
