@@ -44,7 +44,7 @@ public class Show extends YassAction implements YassConstants {
 	public String execute() {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Playlist id:" + id + " requested");
+				LOG.info("Getting Playlist id:" + id);
 			final PlayList playList = getPlayLists().get(id);
 			if (playList instanceof SmartPlayList)
 				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);

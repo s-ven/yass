@@ -21,13 +21,11 @@
  */
 package org.yass.dao;
 
-import javax.persistence.EntityTransaction;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.AlbumCover;
 
-public class AlbumCoverDao extends AbstractDao {
+public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 
 	private static final AlbumCoverDao instance = new AlbumCoverDao();
 	private static final Log LOG = LogFactory.getLog(AlbumCoverDao.class);
@@ -45,26 +43,22 @@ public class AlbumCoverDao extends AbstractDao {
 
 	public boolean hasPicture(final int albumId) {
 		try {
-			return getEntityManager().createNamedQuery("getAlbumCoverIdFromAlbumId").setParameter(1, albumId)
-					.getSingleResult() != null;
+			return getSingleResult(createNamedQuery("getAlbumCoverIdFromAlbumId").setParameter(1, albumId)) != null;
 		} catch (final Exception e) {
 			return false;
 		}
 	}
 
 	public AlbumCover save(final AlbumCover albumPict) {
-		EntityTransaction transaction = null;
+		beginTransaction();
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Save attachedPicture albumId:" + albumPict.getAlbumId());
-			transaction = getEntityManager().getTransaction();
-			transaction.begin();
-			getEntityManager().persist(albumPict);
-			transaction.commit();
+			persist(albumPict);
+			commitTransaction();
 		} catch (final Exception e) {
+			rollbackTransaction();
 			LOG.error("Error saving AlbumCover, albumId:" + albumPict.getAlbumId(), e);
-			if (transaction != null)
-				transaction.rollback();
 		}
 		return albumPict;
 	}

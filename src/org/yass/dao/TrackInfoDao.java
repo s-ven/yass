@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.TrackInfo;
 
-public class TrackInfoDao extends AbstractDao {
+public class TrackInfoDao extends AbstractDao<TrackInfo> {
 
 	private static final TrackInfoDao instance = new TrackInfoDao();
 	private static final Log LOG = LogFactory.getLog(TrackInfoDao.class);
@@ -41,7 +41,7 @@ public class TrackInfoDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get TrackInfo id:" + id);
-			return (TrackInfo) getEntityManager().createNamedQuery("getFromId").setParameter(1, id);
+			return (TrackInfo) createNamedQuery("getFromId").setParameter(1, id);
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("TrackInfo id:" + id);
@@ -53,8 +53,7 @@ public class TrackInfoDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get TrackInfo type:" + type + ", value:" + value);
-			return (TrackInfo) getEntityManager().createNamedQuery("getFromTypeAndValue").setParameter(1, type).setParameter(
-					2, value).getSingleResult();
+			return getSingleResult(createNamedQuery("getFromTypeAndValue").setParameter(1, type).setParameter(2, value));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("TrackInfo type:" + type + ", value:" + value + " doesn't exist, persisting it...");
@@ -63,13 +62,14 @@ public class TrackInfoDao extends AbstractDao {
 	}
 
 	private TrackInfo save(final TrackInfo trackInfo) {
+		beginTransaction();
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Save TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
-			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(trackInfo);
-			getEntityManager().getTransaction().commit();
+			persist(trackInfo);
+			commitTransaction();
 		} catch (final Exception e) {
+			rollbackTransaction();
 			if (LOG.isDebugEnabled())
 				LOG.debug("Error saving TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
 		}

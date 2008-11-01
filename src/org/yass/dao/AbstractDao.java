@@ -22,12 +22,29 @@
 package org.yass.dao;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class AbstractDao {
+public class AbstractDao<T> {
 
 	private final DaoHelper helper = DaoHelper.getInstance();
+
+	protected void beginTransaction() {
+		getTransaction().begin();
+	}
+
+	protected void commitTransaction() {
+		getTransaction().commit();
+	}
+
+	/**
+	 * @return
+	 */
+	protected Query createNamedQuery(final String namedQuery) {
+		return getEntityManager().createNamedQuery(namedQuery);
+	}
 
 	protected EntityManager getEntityManager() {
 		return helper.getEntityManager();
@@ -35,5 +52,35 @@ public class AbstractDao {
 
 	protected JdbcTemplate getJdbcTemplate() {
 		return helper.getJdbcTemplate();
+	}
+
+	/**
+	 * @param setParameter
+	 * @return
+	 */
+	protected T getSingleResult(final Query setParameter) {
+		return (T) setParameter.getSingleResult();
+	}
+
+	protected EntityTransaction getTransaction() {
+		return getEntityManager().getTransaction();
+	}
+
+	/**
+	 * @param object
+	 */
+	protected void persist(final Object object) {
+		getEntityManager().persist(object);
+	}
+
+	/**
+	 * @param ctx
+	 */
+	protected void remove(final Object object) {
+		getEntityManager().remove(object);
+	}
+
+	protected void rollbackTransaction() {
+		getTransaction().rollback();
 	}
 }

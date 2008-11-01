@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.Library;
 
-public class LibraryDao extends AbstractDao {
+public class LibraryDao extends AbstractDao<Library> {
 
 	private static final LibraryDao instance = new LibraryDao();
 	private static final Log LOG = LogFactory.getLog(LibraryDao.class);
@@ -44,35 +44,36 @@ public class LibraryDao extends AbstractDao {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.debug("Loading Library id:" + id);
-			return (Library) getEntityManager().createNamedQuery("getLibraryById").setParameter(1, id).getSingleResult();
+			return getSingleResult(createNamedQuery("getLibraryById").setParameter(1, id));
 		} catch (final Exception e) {
 			LOG.debug("Error while getting library", e);
-			return null;
 		}
+		return null;
 	}
 
 	public Library getFromUserId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.debug("Loading Library user_id:" + id);
-			return (Library) getEntityManager().createNamedQuery("getLibraryByUserId").setParameter(1, id).getSingleResult();
+			return getSingleResult(createNamedQuery("getLibraryByUserId").setParameter(1, id));
 		} catch (final Exception e) {
 			LOG.debug("Error while getting library", e);
-			return null;
 		}
+		return null;
 	}
 
-	public void save(final Library lib) {
+	public Library save(final Library library) {
 		LOG.info("Saving Library...");
+		beginTransaction();
 		try {
-			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(lib);
-			getEntityManager().getTransaction().commit();
+			persist(library);
+			commitTransaction();
 			if (LOG.isInfoEnabled())
-				LOG.info("Library saved id:" + lib.getId());
+				LOG.info("Library saved id:" + library.getId());
 		} catch (final Exception e) {
+			rollbackTransaction();
 			LOG.error("Error while persisting library", e);
-		} finally {
 		}
+		return library;
 	}
 }

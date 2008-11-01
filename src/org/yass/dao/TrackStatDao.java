@@ -34,7 +34,7 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.yass.domain.TrackStat;
 
-public class TrackStatDao extends AbstractDao {
+public class TrackStatDao extends AbstractDao<TrackStat> {
 
 	private class TrackStatRowMapper implements ParameterizedRowMapper<TrackStat> {
 

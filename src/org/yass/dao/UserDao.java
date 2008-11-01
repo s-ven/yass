@@ -1,4 +1,6 @@
 /*
+ * 
+ * 
  Copyright (c) 2008 Sven Duzont sven.duzont@gmail.com> All rights reserved.
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,14 +23,12 @@
  */
 package org.yass.dao;
 
-import javax.persistence.EntityTransaction;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.User;
 import org.yass.domain.UserBrowsingContext;
 
-public class UserDao extends AbstractDao {
+public class UserDao extends AbstractDao<User> {
 
 	private static final UserDao instance = new UserDao();
 	private static final Log LOG = LogFactory.getLog(UserDao.class);
@@ -45,28 +45,24 @@ public class UserDao extends AbstractDao {
 
 	public void cleanBrowsingContext(final User user) {
 		for (final UserBrowsingContext ctx : user.getBrowsingContext()) {
-			EntityTransaction transaction = null;
+			beginTransaction();
 			try {
 				if (LOG.isDebugEnabled())
 					LOG.debug("Delete BrowsingContext id:" + user.getId());
-				transaction = getEntityManager().getTransaction();
-				transaction.begin();
-				getEntityManager().remove(ctx);
-				transaction.commit();
+				remove(ctx);
+				commitTransaction();
 			} catch (final Exception e) {
 				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
-				if (transaction != null)
-					transaction.rollback();
+				rollbackTransaction();
 			}
 		}
-		// TODO Auto-generated method stub
 	}
 
 	public final User getFromId(final int id) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get User id:" + id);
-			return (User) getEntityManager().createNamedQuery("getUserById").setParameter(1, id).getSingleResult();
+			return getSingleResult(createNamedQuery("getUserById").setParameter(1, id));
 		} catch (final Exception e) {
 			LOG.error("Error getting User id:" + id, e);
 			return null;
@@ -74,18 +70,15 @@ public class UserDao extends AbstractDao {
 	}
 
 	public final User save(final User user) {
-		EntityTransaction transaction = null;
+		beginTransaction();
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Save User id:" + user.getId());
-			transaction = getEntityManager().getTransaction();
-			transaction.begin();
-			getEntityManager().persist(user);
-			transaction.commit();
+			persist(user);
+			commitTransaction();
 		} catch (final Exception e) {
+			rollbackTransaction();
 			LOG.error("Error saving User id:" + user.getId(), e);
-			if (transaction != null)
-				transaction.rollback();
 		}
 		return user;
 	}

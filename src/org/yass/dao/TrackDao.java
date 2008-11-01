@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.Track;
 
-public class TrackDao extends AbstractDao {
+public class TrackDao extends AbstractDao<Track> {
 
 	private static final TrackDao instance = new TrackDao();
 	private static final Log LOG = LogFactory.getLog(TrackDao.class);
@@ -44,34 +44,35 @@ public class TrackDao extends AbstractDao {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track id:" + id);
-			return (Track) getEntityManager().createNamedQuery("getTrackById").setParameter(1, id).getSingleResult();
+			return getSingleResult(createNamedQuery("getTrackById").setParameter(1, id));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.error("Error getting Track id:" + id, e);
-			return null;
 		}
+		return null;
 	}
 
 	public final Track getByPath(final String path) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track path:" + path);
-			return (Track) getEntityManager().createNamedQuery("getTrackByPath").setParameter(1, path).getSingleResult();
+			return getSingleResult(createNamedQuery("getTrackByPath").setParameter(1, path));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Error getting Track path:" + path, e);
-			return null;
 		}
+		return null;
 	}
 
 	public Track save(final Track track) {
+		beginTransaction();
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Save Track path:" + track.getPath());
-			getEntityManager().getTransaction().begin();
-			getEntityManager().persist(track);
-			getEntityManager().getTransaction().commit();
+			persist(track);
+			commitTransaction();
 		} catch (final Exception e) {
+			rollbackTransaction();
 			LOG.fatal("Error saving Track path:" + track.getPath(), e);
 		}
 		return track;
