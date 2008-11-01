@@ -57,22 +57,18 @@ public abstract class PlayList implements YassConstants {
 	protected int userId = 1;
 
 	/**
-	 * Empty constructor
+	 * 
 	 */
 	public PlayList() {
 		super();
 	}
 
-	/**
-	 * 
-	 * @param track
-	 */
-	public void addTrack(final Integer track) {
-		trackIds.add(track);
+	public void add(final Integer toAdd) {
+		trackIds.add(toAdd);
 	}
 
-	public void addTracks(final Integer[] tracks) {
-		trackIds.addAll(Arrays.asList(tracks));
+	public void add(final Integer[] toAdd) {
+		trackIds.addAll(Arrays.asList(toAdd));
 	}
 
 	/**
@@ -131,5 +127,21 @@ public abstract class PlayList implements YassConstants {
 	 */
 	public final void setTrackIds(final Set<Integer> trackIds) {
 		this.trackIds = trackIds;
+	}
+
+	/**
+	 * @param typeId
+	 *          the typeId to set
+	 */
+	public final void setTypeId(final int typeId) {
+		this.typeId = typeId;
+	}
+
+	/**
+	 * @param userId
+	 *          the userId to set
+	 */
+	public final void setUserId(final int userId) {
+		this.userId = userId;
 	}
 }

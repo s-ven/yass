@@ -21,59 +21,56 @@
  */
 package org.yass.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-@Entity
-@Table(name = "TRACK_INFO")
-@NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
-public class TrackInfo {
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String type;
-	private String value;
+@Embeddable
+public class UserBrowsingContextPK implements Serializable {
 
-	/**
-	 * 
-	 */
-	public TrackInfo() {
+	private static final long serialVersionUID = 1L;
+	@Column(name = "TRACK_INFO_ID")
+	private int trackInfoId;
+	@Column(name = "USER_ID")
+	private int userId;
+
+	public UserBrowsingContextPK() {
 		super();
 	}
 
-	public TrackInfo(final String type, final String value) {
-		this.type = type;
-		this.value = value;
+	@Override
+	public boolean equals(final Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof UserBrowsingContextPK))
+			return false;
+		final UserBrowsingContextPK other = (UserBrowsingContextPK) o;
+		return userId == other.userId && trackInfoId == other.trackInfoId;
 	}
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
+	public int getTrackInfoId() {
+		return trackInfoId;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
+	public int getUserId() {
+		return userId;
 	}
 
 	@Override
-	public final String toString() {
-		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + userId;
+		hash = hash * prime + trackInfoId;
+		return hash;
+	}
+
+	public void setTrackInfoId(final int trackInfoId) {
+		this.trackInfoId = trackInfoId;
+	}
+
+	public void setUserId(final int userId) {
+		this.userId = userId;
 	}
 }

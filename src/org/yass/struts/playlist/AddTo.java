@@ -26,6 +26,8 @@ import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
 import org.yass.struts.YassAction;
 
+import com.opensymphony.xwork2.Action;
+
 public class AddTo extends YassAction implements YassConstants {
 
 	/**
@@ -37,13 +39,13 @@ public class AddTo extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		LOG.info("Adding trackis to playlist " + id);
+		YassAction.LOG.info("Adding trackis to playlist " + id);
 		final PlayList pl = getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
 			pl.addTracks(trackIds);
 			PLAYLIST_DAO.save(pl);
 		}
-		return NONE;
+		return Action.NONE;
 	}
 
 	public void setRefresh(final boolean refresh) {

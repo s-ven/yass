@@ -98,6 +98,10 @@ public class User implements Serializable {
 		this.browsingContext = browsingContext;
 	}
 
+	public void setId(final int id) {
+		this.id = id;
+	}
+
 	/**
 	 * @param library
 	 *          the library to set

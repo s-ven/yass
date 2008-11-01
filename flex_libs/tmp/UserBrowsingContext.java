@@ -21,59 +21,46 @@
  */
 package org.yass.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TRACK_INFO")
-@NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
-public class TrackInfo {
+@Table(name = "USER_BROWSING_CONTEXT")
+public class UserBrowsingContext implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String type;
-	private String value;
+	private static final long serialVersionUID = 1L;
+	@EmbeddedId
+	private UserBrowsingContextPK pk;
+	@ManyToOne
+	private User user;
 
-	/**
-	 * 
-	 */
-	public TrackInfo() {
+	public UserBrowsingContext() {
 		super();
 	}
 
-	public TrackInfo(final String type, final String value) {
-		this.type = type;
-		this.value = value;
+	public UserBrowsingContext(final User user) {
+		super();
+		pk = new UserBrowsingContextPK();
+		pk.setUserId(user.getId());
 	}
 
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
+	public int getTrackInfoId() {
+		return pk.getTrackInfoId();
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
+	public User getUser() {
+		return user;
 	}
 
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
+	public void setTrackInfoId(final Integer trackInfoId) {
+		pk.setTrackInfoId(trackInfoId);
 	}
 
-	@Override
-	public final String toString() {
-		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	public void setUser(final User user) {
+		this.user = user;
 	}
 }

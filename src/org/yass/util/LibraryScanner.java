@@ -3,11 +3,9 @@ package org.yass.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,9 +40,8 @@ public class LibraryScanner implements YassConstants, Runnable {
 	 * @return
 	 * @throws IOException
 	 */
-	private static Collection<AlbumCover> getAttachedPictures(final int albumId, final int tagVersion,
-			final InputStream id3Frames) throws IOException {
-		final Collection<AlbumCover> pics = new ArrayList<AlbumCover>();
+	private static AlbumCover getAlbumCover(final int albumId, final int tagVersion, final InputStream id3Frames)
+			throws IOException {
 		final int frameIDSize = tagVersion == 2 ? 3 : 4;
 		byte[] pictureDatas;
 		int loneByte;
@@ -108,11 +105,11 @@ public class LibraryScanner implements YassConstants, Runnable {
 				}
 				// Gets the actual image
 				id3Frames.read(pictureDatas = new byte[frameLength]);
-				pics.add(new AlbumCover(albumId, description, pictureMimeType, pictureDatas, pictureType));
+				return new AlbumCover(albumId, description, pictureMimeType, pictureDatas, pictureType);
 			} else
 				id3Frames.skip(frameLength + 1);
 		}
-		return pics;
+		return null;
 	}
 
 	private final static boolean parseFile(final File file, final Track track) {
@@ -145,10 +142,9 @@ public class LibraryScanner implements YassConstants, Runnable {
 					final InputStream id3Frames = (InputStream) props.get("mp3.id3tag.v2");
 					if (id3Frames != null) {
 						final int tagVersion = Integer.parseInt((String) props.get("mp3.id3tag.v2.version"));
-						final Iterator<AlbumCover> pictures = getAttachedPictures(albumTrackInfo.getId(), tagVersion, id3Frames)
-								.iterator();
-						if (pictures.hasNext())
-							ATTACHED_PICTURE_DAO.save(pictures.next());
+						final AlbumCover cover = getAlbumCover(albumTrackInfo.getId(), tagVersion, id3Frames);
+						if (cover != null)
+							ATTACHED_PICTURE_DAO.save(cover);
 					}
 				}
 				// year
@@ -223,7 +219,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 			// been modified, will parse it and store it
 			if (track == null && parseFile(file, track = new Track())
 					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
-				library.add(track);
+				library.addTrack(track);
 				toKeep.add(TRACK_DAO.save(track));
 				if (LOG.isInfoEnabled())
 					LOG.info("Added new Track : " + fileIndex + "/" + files.length + " path:" + track.getPath());

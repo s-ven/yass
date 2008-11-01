@@ -21,59 +21,30 @@
  */
 package org.yass.domain;
 
+import java.util.Date;
+
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TRACK_INFO")
-@NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
-public class TrackInfo {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String type;
-	private String value;
+@Table(name = "SIMPLE_PLAYLIST")
+@DiscriminatorValue(value = "0")
+@AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
+public class SimplePlayList extends PlayList {
 
 	/**
 	 * 
 	 */
-	public TrackInfo() {
+	public SimplePlayList() {
 		super();
 	}
 
-	public TrackInfo(final String type, final String value) {
-		this.type = type;
-		this.value = value;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-		return id;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public final String toString() {
-		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	public SimplePlayList(final int id, final String name, final Date updateDate) {
+		this.name = name;
+		this.id = id;
+		lastUpdate = updateDate;
 	}
 }

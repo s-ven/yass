@@ -52,7 +52,7 @@ public class PlayListDao extends AbstractDao {
 			final int typeId = rs.getInt(2);
 			final String name = rs.getString(3);
 			final Date lastUpdate = rs.getDate(4);
-			LOG.info("Loading playlist id:" + id + " type:" + typeId);
+			PlayListDao.LOG.info("Loading playlist id:" + id + " type:" + typeId);
 			if (typeId == 0) {
 				final PlayList pLst = new SimplePlayList(id, name, lastUpdate);
 				final List<Map> lst = DaoHelper.getInstance().getJdbcTemplate().queryForList(
@@ -83,7 +83,7 @@ public class PlayListDao extends AbstractDao {
 	 * @return the instance
 	 */
 	public static final PlayListDao getInstance() {
-		return instance;
+		return PlayListDao.instance;
 	}
 
 	private final PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
@@ -99,7 +99,7 @@ public class PlayListDao extends AbstractDao {
 	}
 
 	public Map<Integer, PlayList> getFromUserId(final int userId) {
-		LOG.info("Loading Playlist from user_id:" + userId);
+		PlayListDao.LOG.info("Loading Playlist from user_id:" + userId);
 		final Map<Integer, PlayList> plsts = new LinkedHashMap<Integer, PlayList>();
 		final Iterator<PlayList> it = getJdbcTemplate().query(
 				"select id, type_id, name, last_update from playlist where user_id = ?", new Object[] { userId }, rowMapper)
@@ -108,7 +108,7 @@ public class PlayListDao extends AbstractDao {
 			final PlayList plst = it.next();
 			plsts.put(plst.getId(), plst);
 		}
-		LOG.info("Playlists succefuly loaded " + plsts.size());
+		PlayListDao.LOG.info("Playlists succefuly loaded " + plsts.size());
 		return plsts;
 	}
 
@@ -120,14 +120,14 @@ public class PlayListDao extends AbstractDao {
 	}
 
 	public void save(final PlayList plst) {
-		LOG.info("Saving PlayList");
+		PlayListDao.LOG.info("Saving PlayList");
 		if (plst.getId() == 0) {
 			final PreparedStatementCreator pst = pscf.newPreparedStatementCreator(new Object[] { plst.getTypeId(),
 					plst.getUserId(), plst.getName(), plst.getLastUpdate() });
 			final KeyHolder kh = new GeneratedKeyHolder();
 			this.getJdbcTemplate().update(pst, kh);
 			plst.setId(kh.getKey().intValue());
-			LOG.info(" new PlayList created id:" + plst.getId());
+			PlayListDao.LOG.info(" new PlayList created id:" + plst.getId());
 		} else {
 			getJdbcTemplate().update("update playlist set name = ?, last_update = ?",
 					new Object[] { plst.getName(), new Date() });

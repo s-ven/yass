@@ -22,58 +22,72 @@
 package org.yass.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TRACK_INFO")
-@NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
-public class TrackInfo {
+@Table(name = "SMART_PLAYLIST_CONDITION")
+public class SmartPlayListCondition {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String type;
+	private String operator;
+	@ManyToOne(targetEntity = org.yass.domain.SmartPlayList.class)
+	@JoinColumn(name = "PLAYLIST_ID", referencedColumnName = "PLAYLIST_ID")
+	private SmartPlayList smartPlayList;
+	private String term;
 	private String value;
 
 	/**
 	 * 
 	 */
-	public TrackInfo() {
+	public SmartPlayListCondition() {
 		super();
 	}
 
-	public TrackInfo(final String type, final String value) {
-		this.type = type;
+	public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
+			final String value) {
+		this.smartPlayList = smartPlayList;
+		this.term = term;
+		this.operator = operator;
 		this.value = value;
 	}
 
-	/**
-	 * @return the id
-	 */
 	public int getId() {
 		return id;
 	}
 
 	/**
-	 * @return the type
+	 * @return the operator
 	 */
-	public String getType() {
-		return type;
+	public final String getOperator() {
+		return operator;
+	}
+
+	/**
+	 * @return the smartPlayList
+	 */
+	public final SmartPlayList getSmartPlayList() {
+		return smartPlayList;
+	}
+
+	/**
+	 * @return the term
+	 */
+	public final String getTerm() {
+		return term;
 	}
 
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
+	public final String getValue() {
 		return value;
 	}
 
-	@Override
-	public final String toString() {
-		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	public void setId(final int id) {
+		this.id = id;
 	}
 }

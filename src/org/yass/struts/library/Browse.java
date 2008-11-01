@@ -48,7 +48,7 @@ public class Browse extends YassAction implements YassConstants {
 	public String execute() {
 		try {
 			LOG.info("Library requested");
-			final Library lib = (Library) ActionContext.getContext().getApplication().get(YassConstants.ALL_LIBRARY);
+			final Library lib = (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
 			final Iterator<Track> it = lib.getTracks().iterator();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("library");
@@ -57,20 +57,20 @@ public class Browse extends YassAction implements YassConstants {
 					.get(USER_TRACK_STATS);
 			while (it.hasNext()) {
 				final Track track = it.next();
-				if (track.getTrackInfo(YassConstants.ARTIST) != null && track.getTrackInfo(YassConstants.ALBUM) != null
-						&& track.getTrackInfo(YassConstants.GENRE) != null) {
+				if (track.getTrackInfo(ARTIST) != null && track.getTrackInfo(ALBUM) != null
+						&& track.getTrackInfo(GENRE) != null) {
 					final Element trackNode = doc.createElement("track");
 					libNode.appendChild(trackNode);
 					trackNode.setAttribute("id", track.getId() + "");
 					trackNode.setAttribute("trackNr", track.getTrackNr() + "");
 					trackNode.setAttribute("title", track.getTitle());
-					trackNode.setAttribute("artist", track.getTrackInfo(YassConstants.ARTIST).getId() + "");
-					trackNode.setAttribute("album", track.getTrackInfo(YassConstants.ALBUM).getId() + "");
-					trackNode.setAttribute("genre", track.getTrackInfo(YassConstants.GENRE).getId() + "");
-					if (track.getTrackInfo(YassConstants.YEAR) != null)
-						trackNode.setAttribute("year", track.getTrackInfo(YassConstants.YEAR).getValue());
-					if (track.getTrackInfo(YassConstants.BITRATE) != null)
-						trackNode.setAttribute("bitrate", track.getTrackInfo(YassConstants.BITRATE).getValue());
+					trackNode.setAttribute("artist", track.getTrackInfo(ARTIST).getId() + "");
+					trackNode.setAttribute("album", track.getTrackInfo(ALBUM).getId() + "");
+					trackNode.setAttribute("genre", track.getTrackInfo(GENRE).getId() + "");
+					if (track.getTrackInfo(YEAR) != null)
+						trackNode.setAttribute("year", track.getTrackInfo(YEAR).getValue());
+					if (track.getTrackInfo(BITRATE) != null)
+						trackNode.setAttribute("bitrate", track.getTrackInfo(BITRATE).getValue());
 					trackNode.setAttribute("vbr", track.isVBR() + "");
 					trackNode.setAttribute("length", track.getLength() + "");
 					trackNode.setAttribute("lastModified", track.getLastModified().getTime() + "");
