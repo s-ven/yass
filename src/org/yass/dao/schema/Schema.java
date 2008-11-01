@@ -23,8 +23,12 @@ package org.yass.dao.schema;
 
 import javax.persistence.EntityManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public abstract class Schema {
 
+	protected final static Log LOG = LogFactory.getLog(Schema.class);
 	private final EntityManager entityManager;
 
 	/**
@@ -46,13 +50,14 @@ public abstract class Schema {
 
 	public abstract void execute();
 
-	protected void executeQuery(final String query) {
+	protected void executeUpdate(final String query) {
 		try {
 			entityManager.getTransaction().begin();
 			entityManager.createNativeQuery(query).executeUpdate();
 			entityManager.getTransaction().commit();
 		} catch (final Exception e) {
-			System.out.println(e);
+			LOG.debug("Error executing update " + query, e);
+			entityManager.getTransaction().rollback();
 		}
 	}
 

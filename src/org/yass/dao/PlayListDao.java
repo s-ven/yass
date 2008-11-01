@@ -62,6 +62,7 @@ public class PlayListDao extends AbstractDao<PlayList> {
 		return plsts;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void reloadSmartPlayLsit(final SmartPlayList pLst) {
 		final List<Integer> lst = getEntityManager().createNativeQuery(pLst.getSqlStatement()).getResultList();
 		pLst.setTrackIds(new LinkedHashSet<Integer>());
