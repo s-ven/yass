@@ -26,6 +26,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -34,6 +37,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TRACK_STAT")
+@NamedQuery(name = "getTrackStatByUserId", query = "SELECT ts FROM TrackStat ts where ts.userId = ?1")
 public class TrackStat {
 
 	@Column(name = "LAST_PLAYED")
@@ -43,8 +47,13 @@ public class TrackStat {
 	@Column(name = "PLAY_COUNT")
 	private int playCount = 0;
 	private int rating = 0;
+	@Column(name = "TRACK_ID")
+	private int trackId;
 	@EmbeddedId
 	private TrackStatPK trackStatPK;
+	@ManyToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
 	/**
 	 * 
@@ -57,26 +66,11 @@ public class TrackStat {
 	 * @param trackTypeId
 	 * @param userId
 	 */
-	public TrackStat(final int userId, final int trackId) {
+	public TrackStat(final User user, final int trackId) {
 		super();
-		trackStatPK = new TrackStatPK(trackId, userId);
-	}
-
-	/**
-	 * @param userId
-	 * @param trackId
-	 * @param rating
-	 * @param lastPlayed
-	 * @param playCount
-	 * @param lastSelected
-	 */
-	public TrackStat(final int userId, final int trackId, final int rating, final Date lastPlayed, final int playCount,
-			final Date lastSelected) {
-		this(userId, trackId);
-		this.rating = rating;
-		this.lastPlayed = lastPlayed;
-		this.playCount = playCount;
-		this.lastSelected = lastSelected;
+		this.user = user;
+		this.trackId = trackId;
+		trackStatPK = new TrackStatPK(trackId, user.getId());
 	}
 
 	/**

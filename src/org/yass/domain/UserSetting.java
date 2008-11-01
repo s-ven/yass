@@ -107,7 +107,7 @@ public class UserSetting implements Serializable {
 		this.nextFadeout = nextFadeout;
 	}
 
-	public void setRepeat(final boolean repeat) {
+	public void setLoop(final boolean repeat) {
 		this.repeat = repeat;
 	}
 
@@ -128,6 +128,7 @@ public class UserSetting implements Serializable {
 	}
 
 	public void setUser(final User user) {
+		this.user = user;
 	}
 
 	public void setVolume(final int volume) {

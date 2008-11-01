@@ -28,12 +28,17 @@ h, distribute, sublicense, and/or sell
 package org.yass.domain;
 
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -54,9 +59,12 @@ public class User implements Serializable {
 	private String password;
 	@Column(name = "ROLE_ID")
 	private int roleId;
+	@ManyToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@MapKey(name = "trackId")
+	private Map<Integer, TrackStat> tracksStats = new LinkedHashMap<Integer, TrackStat>();
 	@Column(name = "USER_NAME")
 	private String userName;
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private UserSetting userSetting;
 
 	public User() {
@@ -84,6 +92,13 @@ public class User implements Serializable {
 
 	public int getRoleId() {
 		return roleId;
+	}
+
+	/**
+	 * @return the tracksStats
+	 */
+	public final Map<Integer, TrackStat> getTracksStats() {
+		return tracksStats;
 	}
 
 	public String getUserName() {

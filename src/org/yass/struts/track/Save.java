@@ -25,6 +25,7 @@ import java.util.Date;
 
 import org.yass.YassConstants;
 import org.yass.domain.TrackStat;
+import org.yass.domain.User;
 import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
@@ -39,13 +40,14 @@ public class Save extends YassAction implements YassConstants {
 	public String execute() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Saving TrackStat for Track id:" + id);
-		TrackStat trackStat = getTrackStats().get(id);
+		final User user = getUser();
+		TrackStat trackStat = user.getTracksStats().get(id);
 		if (trackStat == null)
-			getTrackStats().put(id, trackStat = new TrackStat(1, id));
+			user.getTracksStats().put(id, trackStat = new TrackStat(user, id));
 		trackStat.setRating(rating);
 		trackStat.setPlayCount(playCount);
 		trackStat.setLastPlayed(new Date(lastPlayed));
-		TRACK_STAT_DAO.save(trackStat);
+		USER_DAO.save(user);
 		return NONE;
 	}
 }

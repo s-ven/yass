@@ -26,7 +26,6 @@ import org.yass.dao.LibraryDao;
 import org.yass.dao.PlayListDao;
 import org.yass.dao.TrackDao;
 import org.yass.dao.TrackInfoDao;
-import org.yass.dao.TrackStatDao;
 import org.yass.dao.UserDao;
 
 public interface YassConstants {
@@ -54,7 +53,6 @@ public interface YassConstants {
 	public static final String TRACK = "TRACK";
 	public static final TrackDao TRACK_DAO = TrackDao.getInstance();
 	public static final TrackInfoDao TRACK_INFO_DAO = TrackInfoDao.getInstance();
-	public static final TrackStatDao TRACK_STAT_DAO = TrackStatDao.getInstance();
 	public static final String UNKNOWN_ALBUM = "<Unknown Album>";
 	public static final String UNKNOWN_ARTIST = "<Unknown Artist>";
 	public static final String UNKNOWN_GENRE = "<Unknown Genre>";
@@ -63,7 +61,6 @@ public interface YassConstants {
 	public static final UserDao USER_DAO = UserDao.getInstance();
 	public static final String USER_PLAYLISTS = "USER_PLAYLISTS";
 	public static final String USER_SETTINGS = "USER_SETTINGS";
-	public static final String USER_TRACK_STATS = "USER_TRACK_STATS";
 	public static final String UUID = "UUID";
 	public static final String YASS_HOME = "yass";
 	public static final String YEAR = "year";

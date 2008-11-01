@@ -56,7 +56,7 @@ public class Save extends YassAction implements YassConstants {
 		settings.setDisplayMode(displayMode);
 		settings.setLoadedTrackId(loadedTrackId);
 		settings.setShuffle(shuffle);
-		settings.setRepeat(loop);
+		settings.setLoop(loop);
 		settings.setShowRemaining(showRemaining);
 		settings.setNextFadeout(nextFadeout);
 		settings.setStopFadeout(stopFadeout);

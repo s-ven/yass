@@ -77,8 +77,8 @@ public class UserDao extends AbstractDao<User> {
 			persist(user);
 			commitTransaction();
 		} catch (final Exception e) {
-			rollbackTransaction();
 			LOG.error("Error saving User id:" + user.getId(), e);
+			rollbackTransaction();
 		}
 		return user;
 	}

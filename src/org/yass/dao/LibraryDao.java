@@ -51,13 +51,13 @@ public class LibraryDao extends AbstractDao<Library> {
 		return null;
 	}
 
-	public Library getFromUserId(final int id) {
+	public Library getFromUserId(final int userId) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Get Library userId:" + id);
-			return getSingleResult(createNamedQuery("getLibraryByUserId").setParameter(1, id));
+				LOG.info("Get Library userId:" + userId);
+			return getSingleResult(createNamedQuery("getLibraryByUserId").setParameter(1, userId));
 		} catch (final Exception e) {
-			LOG.debug("Error getting Library userId:" + id, e);
+			LOG.debug("Error getting Library userId:" + userId, e);
 		}
 		return null;
 	}

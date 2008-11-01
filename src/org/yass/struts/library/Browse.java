@@ -50,8 +50,7 @@ public class Browse extends YassAction implements YassConstants {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("library");
 			doc.appendChild(libNode);
-			final Map<Integer, TrackStat> trackStats = (Map<Integer, TrackStat>) ActionContext.getContext().getApplication()
-					.get(USER_TRACK_STATS);
+			final Map<Integer, TrackStat> trackStats = getUser().getTracksStats();
 			for (final Track track : tracks)
 				if (track.getTrackInfo(ARTIST) != null && track.getTrackInfo(ALBUM) != null
 						&& track.getTrackInfo(GENRE) != null) {
