@@ -43,10 +43,10 @@ public class LibraryDao extends AbstractDao<Library> {
 	public Library getFromId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.debug("Loading Library id:" + id);
+				LOG.info("Get Library id:" + id);
 			return getSingleResult(createNamedQuery("getLibraryById").setParameter(1, id));
 		} catch (final Exception e) {
-			LOG.debug("Error while getting library", e);
+			LOG.debug("Error getting library id:" + id, e);
 		}
 		return null;
 	}
@@ -54,16 +54,17 @@ public class LibraryDao extends AbstractDao<Library> {
 	public Library getFromUserId(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.debug("Loading Library user_id:" + id);
+				LOG.info("Get Library userId:" + id);
 			return getSingleResult(createNamedQuery("getLibraryByUserId").setParameter(1, id));
 		} catch (final Exception e) {
-			LOG.debug("Error while getting library", e);
+			LOG.debug("Error getting Library userId:" + id, e);
 		}
 		return null;
 	}
 
 	public Library save(final Library library) {
-		LOG.info("Saving Library...");
+		if (LOG.isInfoEnabled())
+			LOG.info("Save Library id:" + library.getId());
 		beginTransaction();
 		try {
 			persist(library);
@@ -72,7 +73,7 @@ public class LibraryDao extends AbstractDao<Library> {
 				LOG.info("Library saved id:" + library.getId());
 		} catch (final Exception e) {
 			rollbackTransaction();
-			LOG.error("Error while persisting library", e);
+			LOG.error("Error saving library id:" + library.getId(), e);
 		}
 		return library;
 	}

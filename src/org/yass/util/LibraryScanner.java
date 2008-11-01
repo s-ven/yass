@@ -15,7 +15,10 @@ public class LibraryScanner implements YassConstants, Runnable {
 
 	private static final Log LOG = LogFactory.getLog(LibraryScanner.class);
 	private final String extensions = "mp3";
+	private int fileIndex;
+	private int length;
 	private final Library library;
+	private Collection<Track> toKeep;
 
 	/**
 	 * @param library
@@ -23,6 +26,25 @@ public class LibraryScanner implements YassConstants, Runnable {
 	public LibraryScanner(final Library library) {
 		super();
 		this.library = library;
+	}
+
+	/**
+	 * @param files
+	 * @param file
+	 */
+	private void parseFile(final File file) {
+		fileIndex += 1;
+		Track track = TRACK_DAO.getByPath(file.getPath());
+		// If the track doesn't already exists into the persistent store or have
+		// been modified, will parse it and store it
+		if (track == null && parseFile(file, track = new Track())
+				|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
+			library.addTrack(track);
+			toKeep.add(TRACK_DAO.save(track));
+			if (LOG.isInfoEnabled())
+				LOG.info("Added new Track : " + fileIndex + "/" + length + " path:" + track.getPath());
+		} else if (track != null)
+			toKeep.add(track);
 	}
 
 	private boolean parseFile(final File file, final Track track) {
@@ -42,12 +64,12 @@ public class LibraryScanner implements YassConstants, Runnable {
 			track.setTrackInfo(audioFile.getBitRateTrackInfo());
 			track.setTrackInfo(audioFile.getAlbumTrackInfo());
 			ATTACHED_PICTURE_DAO.save(audioFile.getAlbumCover());
+			return true;
 		} catch (final Exception e) {
 			if (LOG.isWarnEnabled())
 				LOG.warn("Error parsing File path:" + file.getPath() + " : " + e);
-			return false;
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -64,25 +86,15 @@ public class LibraryScanner implements YassConstants, Runnable {
 		FileUtils.sortFiles(files);
 		// Will serve to remove the tracks that doesn't exist anymore into the
 		// persistent store
-		final Collection<Track> toKeep = new HashSet<Track>(files.length);
-		int fileIndex = 0;
-		for (final File file : files) {
-			fileIndex += 1;
-			Track track = TRACK_DAO.getByPath(file.getPath());
-			// If the track doesn't already exists into the persistent store or have
-			// been modified, will parse it and store it
-			if (track == null && parseFile(file, track = new Track())
-					|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
-				library.addTrack(track);
-				toKeep.add(TRACK_DAO.save(track));
-				if (LOG.isInfoEnabled())
-					LOG.info("Added new Track : " + fileIndex + "/" + files.length + " path:" + track.getPath());
-			} else if (track != null)
-				toKeep.add(track);
-		}
+		toKeep = new HashSet<Track>(files.length);
+		fileIndex = 0;
+		length = files.length;
+		final long startTime = System.currentTimeMillis();
+		for (final File file : files)
+			parseFile(file);
 		// Keeps only the tracks that are on disk
 		library.getTracks().retainAll(toKeep);
 		LIBRARY_DAO.save(library);
-		LOG.info("Scanning Library path over");
+		LOG.info("Scanning Library path over, duration:" + (System.currentTimeMillis() - startTime) / 1000 + " seconds");
 	}
 }
