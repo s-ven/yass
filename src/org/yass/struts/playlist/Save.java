@@ -30,9 +30,6 @@ import org.yass.struts.YassAction;
 
 public class Save extends YassAction implements YassConstants {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3411435373847531163L;
 	public String id;
 	public String name;

@@ -52,9 +52,6 @@ import com.opensymphony.xwork2.ActionSupport;
 public class YassAction extends ActionSupport implements YassConstants {
 
 	public static final Log LOG = LogFactory.getLog(YassAction.class);
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -4592155945099982999L;
 
 	protected Library getLibrary() {

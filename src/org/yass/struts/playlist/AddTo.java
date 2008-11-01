@@ -30,9 +30,6 @@ import com.opensymphony.xwork2.Action;
 
 public class AddTo extends YassAction implements YassConstants {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3411435373847531163L;
 	public int id;
 	public Integer[] trackIds;

@@ -50,7 +50,7 @@ public class GetTree extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		LOG.info("Library trackInfos requested");
+		LOG.info("Getting Library TrackInfos");
 		try {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element treeNode = doc.createElement("libTree");

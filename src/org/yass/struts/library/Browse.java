@@ -21,7 +21,7 @@
  */
 package org.yass.struts.library;
 
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -39,24 +39,20 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class Browse extends YassAction implements YassConstants {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3411435373847531163L;
 
 	@Override
 	public String execute() {
 		try {
-			LOG.info("Library requested");
+			LOG.info("Getting Library");
 			final Library lib = (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
-			final Iterator<Track> it = lib.getTracks().iterator();
+			final Collection<Track> tracks = lib.getTracks();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("library");
 			doc.appendChild(libNode);
 			final Map<Integer, TrackStat> trackStats = (Map<Integer, TrackStat>) ActionContext.getContext().getApplication()
 					.get(USER_TRACK_STATS);
-			while (it.hasNext()) {
-				final Track track = it.next();
+			for (final Track track : tracks)
 				if (track.getTrackInfo(ARTIST) != null && track.getTrackInfo(ALBUM) != null
 						&& track.getTrackInfo(GENRE) != null) {
 					final Element trackNode = doc.createElement("track");
@@ -86,10 +82,9 @@ public class Browse extends YassAction implements YassConstants {
 						trackNode.setAttribute("lastPlayed", "0");
 					}
 				}
-			}
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {
-			LOG.error("", e);
+			LOG.error("Error getting Library", e);
 		}
 		return ERROR;
 	}
