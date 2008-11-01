@@ -38,11 +38,11 @@ public class Save extends YassAction implements YassConstants {
 	public String execute() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Saving playlist " + id);
-		PlayList pl = getPlayLists().get(id);
+		PlayList pl = getUser().getPlayLists().get(id);
 		if (pl == null)
 			pl = new SimplePlayList(0, name, new Date());
+		getUser().getPlayLists().put(pl.getId(), pl);
 		PLAYLIST_DAO.save(pl);
-		getPlayLists().put(pl.getId(), pl);
 		return NONE;
 	}
 

@@ -19,7 +19,7 @@
 		<class>org.yass.domain.UserBrowsingContextPK</class>
 		<properties>
 			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-			<property name="openjpa.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=false" />
+			<property name="openjpa.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=true" />
 			<property name="openjpa.ConnectionUserName" value="sa" />
 			<property name="openjpa.ConnectionPassword" value="" />
 			<property name="openjpa.Multithreaded" value="true" />

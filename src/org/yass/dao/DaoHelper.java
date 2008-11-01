@@ -21,20 +21,14 @@
  */
 package org.yass.dao;
 
-import java.io.File;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.yass.YassConstants;
 import org.yass.dao.schema.Schema00;
-import org.yass.util.FileUtils;
 
 public class DaoHelper implements YassConstants {
 
@@ -48,25 +42,17 @@ public class DaoHelper implements YassConstants {
 		return instance;
 	}
 
-	private final DataSource dataSource;
-	private final EntityManager entytyManager;
+	private final EntityManager entityManager;
 
 	private DaoHelper() {
-		final File home = FileUtils.createFolder(YASS_HOME);
-		final DriverManagerDataSource ds = new DriverManagerDataSource();
-		ds.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
-		ds.setUrl("jdbc:derby:directory:" + home.getPath() + "/db/yass;create=true");
-		ds.setUsername("sa");
-		ds.setPassword("");
-		dataSource = ds;
-		checkDataBase();
 		final EntityManagerFactory emf = Persistence.createEntityManagerFactory("yass");
-		entytyManager = emf.createEntityManager();
+		entityManager = emf.createEntityManager();
+		checkDataBase();
 	}
 
 	private void checkDataBase() {
 		try {
-			new Schema00().execute(getJdbcTemplate());
+			new Schema00(entityManager).execute();
 		} catch (final Exception e) {
 			LOG.fatal(e);
 		}
@@ -76,10 +62,6 @@ public class DaoHelper implements YassConstants {
 	 * @return the entity manager
 	 */
 	public final EntityManager getEntityManager() {
-		return entytyManager;
-	}
-
-	public JdbcTemplate getJdbcTemplate() {
-		return new JdbcTemplate(dataSource);
+		return entityManager;
 	}
 }

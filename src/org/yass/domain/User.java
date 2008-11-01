@@ -57,6 +57,9 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user")
 	private Library library;
 	private String password;
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@MapKey(name = "id")
+	private Map<Integer, PlayList> playLists = new LinkedHashMap<Integer, PlayList>();
 	@Column(name = "ROLE_ID")
 	private int roleId;
 	@ManyToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -88,6 +91,13 @@ public class User implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	/**
+	 * @return the playLists
+	 */
+	public final Map<Integer, PlayList> getPlayLists() {
+		return playLists;
 	}
 
 	public int getRoleId() {

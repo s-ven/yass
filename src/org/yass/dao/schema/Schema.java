@@ -21,33 +21,53 @@
  */
 package org.yass.dao.schema;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import javax.persistence.EntityManager;
 
 public abstract class Schema {
 
-	protected boolean columnExists(final JdbcTemplate template, final String table, final String column) {
+	private final EntityManager entityManager;
+
+	/**
+	 * @param entityManager
+	 */
+	public Schema(final EntityManager entityManager) {
+		super();
+		this.entityManager = entityManager;
+	}
+
+	protected boolean columnExists(final String table, final String column) {
 		try {
-			template.execute("select " + column + " from " + table + " where 0 = 1");
+			entityManager.createNativeQuery("select " + column + " from " + table + " where 0 = 1").getSingleResult();
 		} catch (final Exception e) {
 			return false;
 		}
 		return true;
 	}
 
-	public abstract void execute(JdbcTemplate template);
+	public abstract void execute();
 
-	protected boolean indexExists(final JdbcTemplate template, final String indexName) {
+	protected void executeQuery(final String query) {
 		try {
-			return template.queryForList("select count(*) from SYS.SYSCONGLOMERATES where 	CONGLOMERATENAME = ?",
-					new Object[] { indexName }).size() != 0;
+			entityManager.getTransaction().begin();
+			entityManager.createNativeQuery(query).executeUpdate();
+			entityManager.getTransaction().commit();
+		} catch (final Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	protected boolean indexExists(final String indexName) {
+		try {
+			return entityManager.createNativeQuery("select count(*) from SYS.SYSCONGLOMERATES where 	CONGLOMERATENAME = ?1")
+					.setParameter(1, indexName).getResultList().size() != 0;
 		} catch (final Exception e) {
 			return false;
 		}
 	}
 
-	protected boolean tableExists(final JdbcTemplate template, final String table) {
+	protected boolean tableExists(final String table) {
 		try {
-			template.execute("select 1 from " + table);
+			entityManager.createNativeQuery("select 1 from " + table).getResultList();
 		} catch (final Exception e) {
 			return false;
 		}

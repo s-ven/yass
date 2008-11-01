@@ -24,7 +24,6 @@ package org.yass.struts;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.transform.OutputKeys;
@@ -59,10 +58,6 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	protected PlayList getPlayList(final String plId) {
 		return (PlayList) ActionContext.getContext().getSession().get(plId);
-	}
-
-	protected Map<Integer, PlayList> getPlayLists() {
-		return (Map<Integer, PlayList>) ActionContext.getContext().getApplication().get(USER_PLAYLISTS);
 	}
 
 	protected User getUser() {

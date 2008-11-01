@@ -71,9 +71,9 @@ public class TrackInfoDao extends AbstractDao<TrackInfo> {
 			persist(trackInfo);
 			commitTransaction();
 		} catch (final Exception e) {
-			rollbackTransaction();
 			if (LOG.isDebugEnabled())
 				LOG.debug("Error saving TrackInfo type:" + trackInfo.getType() + ", value:" + trackInfo.getValue());
+			rollbackTransaction();
 		}
 		return trackInfo;
 	}

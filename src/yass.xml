@@ -7,6 +7,7 @@
 		<action name="playlist_show" class="org.yass.struts.playlist.Show" />
 		<action name="track_play" class="org.yass.struts.track.Play" />
 		<action name="track_save" class="org.yass.struts.track.Save" />
+		<action name="playlist_browse" class="org.yass.struts.playlist.Browse" />
 		<action name="playlist_addto" class="org.yass.struts.playlist.AddTo" />
 		<action name="playlist_save" class="org.yass.struts.playlist.Save" />
 		<action name="settings_save" class="org.yass.struts.settings.Save" />

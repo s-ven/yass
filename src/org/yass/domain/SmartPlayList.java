@@ -26,20 +26,22 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "SMART_PLAYLIST")
-@DiscriminatorValue(value = "1")
-@AttributeOverride(name = "id", column = @Column(name = "PLAYLIST_ID"))
+@DiscriminatorValue("1")
+@PrimaryKeyJoinColumn(name = "PLAYLIST_ID", referencedColumnName = "ID")
 public class SmartPlayList extends PlayList {
 
-	@OneToMany(mappedBy = "smartPlayList")
+	@OneToMany(mappedBy = "smartPlayList", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Collection<SmartPlayListCondition> conditions = new LinkedHashSet<SmartPlayListCondition>();
 	@Column(name = "MAX_TRACKS")
 	private int maxTracks = 0;
@@ -52,22 +54,6 @@ public class SmartPlayList extends PlayList {
 	 */
 	public SmartPlayList() {
 		super();
-	}
-
-	/**
-	 * @param id
-	 * @param maxTracks
-	 * @param operator
-	 * @param orderBy
-	 */
-	public SmartPlayList(final int id, final String name, final int maxTracks, final int operator, final String orderBy) {
-		super();
-		typeId = 1;
-		this.name = name;
-		this.id = id;
-		this.maxTracks = maxTracks;
-		this.operator = operator;
-		this.orderBy = orderBy;
 	}
 
 	/**

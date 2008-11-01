@@ -33,16 +33,20 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.yass.YassConstants;
 
 @Entity
-@Table(name = "PLAYLIST")
+@Table(name = "PLAYLIST", schema = "SA")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER, name = "TYPE_ID")
+@NamedQuery(name = "getPlayListFromUserId", query = "select plsts from PlayList plst where plst.userId = ?1")
 public abstract class PlayList implements YassConstants {
 
 	@Id
@@ -53,8 +57,9 @@ public abstract class PlayList implements YassConstants {
 	private Set<Integer> trackIds = new LinkedHashSet<Integer>();
 	@Column(name = "TYPE_ID")
 	protected int typeId;
-	@Column(name = "USER_ID")
-	protected int userId = 1;
+	@ManyToOne
+	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+	protected User user;
 
 	/**
 	 * Empty constructor
@@ -108,21 +113,6 @@ public abstract class PlayList implements YassConstants {
 	 */
 	public final int getTypeId() {
 		return typeId;
-	}
-
-	/**
-	 * @return the userId
-	 */
-	public final int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param id
-	 *          the id to set
-	 */
-	public final void setId(final int id) {
-		this.id = id;
 	}
 
 	/**

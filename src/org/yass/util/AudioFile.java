@@ -43,6 +43,9 @@ import org.yass.domain.TrackInfo;
 public class AudioFile implements YassConstants {
 
 	private static Map<String, String> pictureMimeTypes = new LinkedHashMap<String, String>();
+	private static final String UNKNOWN_ALBUM = "<Unknown Album>";
+	private static final String UNKNOWN_ARTIST = "<Unknown Artist>";
+	private static final String UNKNOWN_GENRE = "<Unknown Genre>";
 	static {
 		pictureMimeTypes.put("jpg", "image/jpeg");
 		pictureMimeTypes.put("image/jpg", "image/jpeg");

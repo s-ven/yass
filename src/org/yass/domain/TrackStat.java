@@ -52,7 +52,7 @@ public class TrackStat {
 	@EmbeddedId
 	private TrackStatPK trackStatPK;
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
 	private User user;
 
 	/**

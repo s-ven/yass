@@ -84,7 +84,6 @@ public class Init implements ServletContextListener, YassConstants {
 				(initThread = new Thread(scanner, "Yass-LibraryScanner:" + library.getId())).start();
 			}
 			servletContext.setAttribute(USER, user);
-			servletContext.setAttribute(USER_PLAYLISTS, PLAYLIST_DAO.getFromUserId(user.getId()));
 			LOG.info("Initalization phase over");
 		} catch (final Exception e) {
 			LOG.fatal("Error during Yass initialization", e);

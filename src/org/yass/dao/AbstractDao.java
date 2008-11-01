@@ -21,11 +21,11 @@
  */
 package org.yass.dao;
 
+import java.util.Collection;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
-
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class AbstractDao<T> {
 
@@ -36,7 +36,8 @@ public class AbstractDao<T> {
 	}
 
 	protected void commitTransaction() {
-		getTransaction().commit();
+		if (getTransaction().isActive())
+			getTransaction().commit();
 	}
 
 	/**
@@ -50,8 +51,12 @@ public class AbstractDao<T> {
 		return helper.getEntityManager();
 	}
 
-	protected JdbcTemplate getJdbcTemplate() {
-		return helper.getJdbcTemplate();
+	/**
+	 * @param setParameter
+	 * @return
+	 */
+	protected Collection<T> getResultList(final Query setParameter) {
+		return setParameter.getResultList();
 	}
 
 	/**
@@ -81,6 +86,7 @@ public class AbstractDao<T> {
 	}
 
 	protected void rollbackTransaction() {
-		getTransaction().rollback();
+		if (getTransaction().isActive())
+			getTransaction().rollback();
 	}
 }

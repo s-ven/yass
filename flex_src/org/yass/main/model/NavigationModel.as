@@ -36,7 +36,7 @@ package org.yass.main.model{
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
 			Console.log("model.NavigationModel :: init");
-			httpService.url="/yass/jsp/navigation.jsp";
+			httpService.url="/yass/playlist_browse.do";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
 			httpService.send();
