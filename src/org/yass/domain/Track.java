@@ -54,7 +54,7 @@ public class Track implements YassConstants {
 	private int id;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
-	private long length;
+	private long duration;
 	private String path;
 	private String title;
 	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -87,10 +87,10 @@ public class Track implements YassConstants {
 	}
 
 	/**
-	 * @return the length
+	 * @return the duration
 	 */
-	public final long getLength() {
-		return length;
+	public final long getDuration() {
+		return duration;
 	}
 
 	/**
@@ -137,19 +137,19 @@ public class Track implements YassConstants {
 	}
 
 	/**
+	 * @param duration
+	 *          the duration to set
+	 */
+	public final void setDuration(final long length) {
+		this.duration = length;
+	}
+
+	/**
 	 * @param lastUpdate
 	 *          the lastUpdate to set
 	 */
 	public final void setLastModified(final Date lastUpdate) {
 		lastModified = lastUpdate;
-	}
-
-	/**
-	 * @param length
-	 *          the length to set
-	 */
-	public final void setLength(final long length) {
-		this.length = length;
 	}
 
 	/**
@@ -169,7 +169,8 @@ public class Track implements YassConstants {
 	}
 
 	public void setTrackInfo(final TrackInfo trackInfo) {
-		trackInfos.put(trackInfo.getType(), trackInfo);
+		if (trackInfo != null)
+			trackInfos.put(trackInfo.getType(), trackInfo);
 	}
 
 	/**

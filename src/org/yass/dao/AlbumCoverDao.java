@@ -49,17 +49,19 @@ public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 		}
 	}
 
-	public AlbumCover save(final AlbumCover albumPict) {
+	public AlbumCover save(final AlbumCover cover) {
+		if (cover == null)
+			return null;
 		beginTransaction();
 		try {
 			if (LOG.isInfoEnabled())
-				LOG.info("Save attachedPicture albumId:" + albumPict.getAlbumId());
-			persist(albumPict);
+				LOG.info("Save attachedPicture albumId:" + cover.getAlbumId());
+			persist(cover);
 			commitTransaction();
 		} catch (final Exception e) {
 			rollbackTransaction();
-			LOG.error("Error saving AlbumCover, albumId:" + albumPict.getAlbumId(), e);
+			LOG.error("Error saving AlbumCover, albumId:" + cover.getAlbumId(), e);
 		}
-		return albumPict;
+		return cover;
 	}
 }

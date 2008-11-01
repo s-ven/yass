@@ -52,8 +52,8 @@ public class UserDao extends AbstractDao<User> {
 				remove(ctx);
 				commitTransaction();
 			} catch (final Exception e) {
-				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
 				rollbackTransaction();
+				LOG.error("Error deleting BrowsingContext id:" + user.getId(), e);
 			}
 		}
 	}

@@ -68,7 +68,7 @@ public class Browse extends YassAction implements YassConstants {
 					if (track.getTrackInfo(BITRATE) != null)
 						trackNode.setAttribute("bitrate", track.getTrackInfo(BITRATE).getValue());
 					trackNode.setAttribute("vbr", track.isVBR() + "");
-					trackNode.setAttribute("length", track.getLength() + "");
+					trackNode.setAttribute("length", track.getDuration() + "");
 					trackNode.setAttribute("lastModified", track.getLastModified().getTime() + "");
 					final TrackStat stat = trackStats.get(track.getId());
 					if (stat != null) {

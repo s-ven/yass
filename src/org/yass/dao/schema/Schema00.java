@@ -78,7 +78,7 @@ public class Schema00 extends Schema {
 			template
 					.execute("create table track (id  int not null generated always as identity, library_id int not null, track_type_id integer not null, "
 							+ "path varchar(512) not null, track_nr int, title varchar(256) not null,"
-							+ "last_modified timestamp not null, length int not null,vbr int not null,"
+							+ "last_modified timestamp not null, duration int not null,vbr int not null,"
 							+ "primary key(id), foreign key(library_id) references library(id), "
 							+ "foreign key(track_type_id) references track_type(id))");
 			LOG.info(" table 'track' was created successfully.");

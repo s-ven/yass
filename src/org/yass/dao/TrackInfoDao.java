@@ -50,6 +50,8 @@ public class TrackInfoDao extends AbstractDao<TrackInfo> {
 	}
 
 	public TrackInfo getFromValue(final String value, final String type) {
+		if (value == null || value.equals(""))
+			return null;
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get TrackInfo type:" + type + ", value:" + value);
