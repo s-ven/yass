@@ -9,13 +9,6 @@ import java.util.HashSet;
 
 public class FileUtils {
 
-	public final static File createFolder(final String path) {
-		final File file = new File(path);
-		if (!file.exists())
-			file.mkdir();
-		return file;
-	}
-
 	/**
 	 * 
 	 * @param extensions
@@ -49,11 +42,10 @@ public class FileUtils {
 			}
 		};
 		final Collection<File> files = new HashSet<File>();
-		File[] rootFiles = root.listFiles(folderFilter);
+		final File[] rootFiles = root.listFiles(folderFilter);
 		for (final File folder : rootFiles)
 			files.addAll(getFiles(folder, filter));
-		rootFiles = root.listFiles(filter);
-		files.addAll(Arrays.asList(rootFiles));
+		files.addAll(Arrays.asList(root.listFiles(filter)));
 		return files;
 	}
 

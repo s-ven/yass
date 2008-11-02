@@ -29,7 +29,6 @@ public class LibraryScanner implements YassConstants, Runnable {
 	}
 
 	/**
-	 * @param files
 	 * @param file
 	 */
 	private void parseFile(final File file) {
@@ -37,8 +36,8 @@ public class LibraryScanner implements YassConstants, Runnable {
 		Track track = TRACK_DAO.getByPath(file.getPath());
 		// If the track doesn't already exists into the persistent store or have
 		// been modified, will parse it and store it
-		if (track == null && parseFile(file, track = new Track())
-				|| file.lastModified() > track.getLastModified().getTime() && parseFile(file, track)) {
+		if (track == null && parseFileMetaData(file, track = new Track())
+				|| file.lastModified() > track.getLastModified().getTime() && parseFileMetaData(file, track)) {
 			library.addTrack(track);
 			toKeep.add(TRACK_DAO.save(track));
 			if (LOG.isInfoEnabled())
@@ -47,7 +46,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 			toKeep.add(track);
 	}
 
-	private boolean parseFile(final File file, final Track track) {
+	private boolean parseFileMetaData(final File file, final Track track) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Parsing File path:" + file.getPath());
@@ -74,7 +73,6 @@ public class LibraryScanner implements YassConstants, Runnable {
 
 	/**
 	 * 
-	 * @param library
 	 */
 	public final void run() {
 		if (LOG.isInfoEnabled())

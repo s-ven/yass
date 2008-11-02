@@ -69,7 +69,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public String getAlbum() {
@@ -80,9 +79,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
-	 * @param albumTrackInfo
-	 * @param cover
 	 * @return
 	 * @throws IOException
 	 */
@@ -181,7 +177,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param audioFile
 	 * @return
 	 */
 	public TrackInfo getAlbumTrackInfo() {
@@ -189,7 +184,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public String getArtist() {
@@ -204,7 +198,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public String getBitRate() {
@@ -215,7 +208,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param audioFile
 	 * @return
 	 */
 	public TrackInfo getBitRateTrackInfo() {
@@ -223,7 +215,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public long getDuration() {
@@ -231,7 +222,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public String getGenre() {
@@ -242,7 +232,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param audioFile
 	 * @return
 	 */
 	public TrackInfo getGenreTrackInfo() {
@@ -250,8 +239,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param file
-	 * @param props
 	 * @return
 	 */
 	public String getTitle() {
@@ -262,7 +249,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public int getTrackNr() {
@@ -278,7 +264,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public boolean getVBR() {
@@ -289,7 +274,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param props
 	 * @return
 	 */
 	public String getYear() {
@@ -297,7 +281,6 @@ public class AudioFile implements YassConstants {
 	}
 
 	/**
-	 * @param audioFile
 	 * @return
 	 */
 	public TrackInfo getYearTrackInfo() {

@@ -54,7 +54,7 @@ public class GetTree extends YassAction implements YassConstants {
 		try {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element treeNode = doc.createElement("libTree");
-			final Collection<Track> tracks = getLibrary().getTracks();
+			final Collection<Track> tracks = getUser().getLibrary().getTracks();
 			for (final Track track : tracks) {
 				boolean exists = false;
 				final NodeList genreList = treeNode.getChildNodes();

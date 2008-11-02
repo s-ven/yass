@@ -55,7 +55,4 @@ public class Show extends YassAction implements YassConstants {
 		}
 		return NONE;
 	}
-
-	public void setRefresh(final boolean refresh) {
-	}
 }

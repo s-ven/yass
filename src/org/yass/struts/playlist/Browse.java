@@ -50,7 +50,7 @@ public class Browse extends YassAction implements YassConstants {
 			Element plstNode = (Element) libraryNode.appendChild(doc.createElement("playlist"));
 			plstNode.setAttribute("name", "Music");
 			plstNode.setAttribute("type", "library");
-			plstNode.setAttribute("id", getLibrary().getId() + "");
+			plstNode.setAttribute("id", getUser().getLibrary().getId() + "");
 			final Element smartPlNode = (Element) playListsNode.appendChild(doc.createElement("smart"));
 			smartPlNode.setAttribute("name", "SMART PLAYLISTS");
 			smartPlNode.setAttribute("type", "void");

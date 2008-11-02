@@ -56,14 +56,11 @@ public class Init implements ServletContextListener, YassConstants {
 	}
 
 	/**
-	 * This method will create an instance of the {@link IndexManager} and set it
-	 * in the ServletContext
 	 * 
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
 		final ServletContext servletContext = event.getServletContext();
-		final String trackroot = servletContext.getInitParameter("org.yass.mediaFilesRoot");
 		boolean rescanOnStartup = servletContext.getInitParameter("org.yass.rescanOnStartup") != null
 				&& servletContext.getInitParameter("org.yass.rescanOnStartup").equals("true");
 		try {
@@ -73,16 +70,14 @@ public class Init implements ServletContextListener, YassConstants {
 			if (library == null) {
 				LOG.warn("No Library found, creating new one");
 				library = new Library();
-				library.setPath(trackroot);
+				library.setPath(servletContext.getInitParameter("org.yass.mediaFilesRoot"));
 				user.setLibrary(library);
 				LIBRARY_DAO.save(library);
 				rescanOnStartup = true;
 			}
-			servletContext.setAttribute(ALL_LIBRARY, library);
-			if (rescanOnStartup) {
-				final LibraryScanner scanner = new LibraryScanner(library);
-				(initThread = new Thread(scanner, "Yass-LibraryScanner:" + library.getId())).start();
-			}
+			initThread = new Thread(new LibraryScanner(library), "Yass-LibraryScanner:" + library.getId());
+			if (rescanOnStartup)
+				initThread.start();
 			servletContext.setAttribute(USER, user);
 			LOG.info("Initalization phase over");
 		} catch (final Exception e) {

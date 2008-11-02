@@ -31,7 +31,6 @@ import org.yass.dao.UserDao;
 public interface YassConstants {
 
 	public static final String ALBUM = "album";
-	public static final String ALL_LIBRARY = "ALL_LIBRARY";
 	public static final String ARTIST = "artist";
 	public static final AlbumCoverDao ATTACHED_PICTURE_DAO = AlbumCoverDao.getInstance();
 	public static final String BITRATE = "bitrate";

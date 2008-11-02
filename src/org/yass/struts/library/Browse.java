@@ -35,8 +35,6 @@ import org.yass.domain.Track;
 import org.yass.domain.TrackStat;
 import org.yass.struts.YassAction;
 
-import com.opensymphony.xwork2.ActionContext;
-
 public class Browse extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
@@ -45,7 +43,7 @@ public class Browse extends YassAction implements YassConstants {
 	public String execute() {
 		try {
 			LOG.info("Getting Library");
-			final Library lib = (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
+			final Library lib = getUser().getLibrary();
 			final Collection<Track> tracks = lib.getTracks();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element libNode = doc.createElement("library");

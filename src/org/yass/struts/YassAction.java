@@ -39,8 +39,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
 import org.yass.YassConstants;
-import org.yass.domain.Library;
-import org.yass.domain.PlayList;
 import org.yass.domain.User;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -51,14 +49,6 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	public static final Log LOG = LogFactory.getLog(YassAction.class);
 	private static final long serialVersionUID = -4592155945099982999L;
-
-	protected Library getLibrary() {
-		return (Library) ActionContext.getContext().getApplication().get(ALL_LIBRARY);
-	}
-
-	protected PlayList getPlayList(final String plId) {
-		return (PlayList) ActionContext.getContext().getSession().get(plId);
-	}
 
 	protected User getUser() {
 		return (User) ActionContext.getContext().getApplication().get(USER);
@@ -94,9 +84,5 @@ public class YassAction extends ActionSupport implements YassConstants {
 			return ERROR;
 		}
 		return NONE;
-	}
-
-	protected void setPlayList(final String playListId, final PlayList search) {
-		ActionContext.getContext().getSession().put(playListId, search);
 	}
 }
