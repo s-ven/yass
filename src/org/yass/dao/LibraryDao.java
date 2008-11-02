@@ -72,8 +72,8 @@ public class LibraryDao extends AbstractDao<Library> {
 			if (LOG.isInfoEnabled())
 				LOG.info("Library saved id:" + library.getId());
 		} catch (final Exception e) {
-			rollbackTransaction();
 			LOG.error("Error saving library id:" + library.getId(), e);
+			rollbackTransaction();
 		}
 		return library;
 	}
