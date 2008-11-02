@@ -45,16 +45,16 @@ import org.yass.YassConstants;
 
 @Entity
 @Table(name = "TRACK")
-@NamedQueries( { @NamedQuery(name = "getTrackByPath", query = "SELECT t FROM Track t where t.path = ?1"),
-		@NamedQuery(name = "getTrackById", query = "SELECT t FROM Track t where t.id = ?1") })
+@NamedQueries( { @NamedQuery(name = "getTrackByPath", query = "select t from Track t where t.path = ?1"),
+		@NamedQuery(name = "getTrackById", query = "select t from Track t where t.id = ?1") })
 public class Track implements YassConstants {
 
+	private long duration;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "LAST_MODIFIED")
 	private Date lastModified = new Date(0);
-	private long duration;
 	private String path;
 	private String title;
 	@ManyToMany(targetEntity = TrackInfo.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -73,6 +73,13 @@ public class Track implements YassConstants {
 	}
 
 	/**
+	 * @return the duration
+	 */
+	public final long getDuration() {
+		return duration;
+	}
+
+	/**
 	 * @return the id
 	 */
 	public final int getId() {
@@ -84,13 +91,6 @@ public class Track implements YassConstants {
 	 */
 	public final Date getLastModified() {
 		return lastModified;
-	}
-
-	/**
-	 * @return the duration
-	 */
-	public final long getDuration() {
-		return duration;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Track implements YassConstants {
 	 *          the duration to set
 	 */
 	public final void setDuration(final long length) {
-		this.duration = length;
+		duration = length;
 	}
 
 	/**
