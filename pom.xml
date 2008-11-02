@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>yass</groupId>
 	<artifactId>yass</artifactId>
-	<packaging>pom</packaging>
+	<packaging>war</packaging>
 	<name> Yass</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
