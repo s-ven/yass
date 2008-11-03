@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="yass" transaction-type="RESOURCE_LOCAL">
+		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
+		<class>org.yass.domain.TrackStat</class>
+		<class>org.yass.domain.TrackStatPK</class>
+		<class>org.yass.domain.TrackInfo</class>
+		<class>org.yass.domain.Track</class>
+		<class>org.yass.domain.SmartPlayListCondition</class>
+		<class>org.yass.domain.SmartPlayList</class>
+		<class>org.yass.domain.SimplePlayList</class>
+		<class>org.yass.domain.PlayList</class>
+		<class>org.yass.domain.Library</class>
+		<class>org.yass.domain.AlbumCover</class>
+		<class>org.yass.domain.User</class>
+		<class>org.yass.domain.UserSetting</class>
+		<class>org.yass.domain.UserBrowsingContext</class>
+		<class>org.yass.domain.UserBrowsingContextPK</class>
+		<properties>
+			<property name="openjpa.ConnectionDriverName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+			<property name="openjpa.ConnectionURL" value="jdbc:derby:directory:yass/db/yass;create=true" />
+			<property name="openjpa.ConnectionUserName" value="sa" />
+			<property name="openjpa.ConnectionPassword" value="" />
+			<property name="openjpa.Multithreaded" value="true" />
+			<property name="openjpa.Log" value="log4j" />
+			<property name="openjpa.jdbc.MappingDefaults" value="ForeignKeyDeleteAction=restrict, JoinForeignKeyDeleteAction=restrict"/>
+			<property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)"/>
+			<property name="openjpa.RuntimeUnenhancedClasses" value="unsupported"/>
+		</properties>
+	</persistence-unit>
+</persistence>
