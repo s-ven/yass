@@ -27,6 +27,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
+@SuppressWarnings("all")
 public class AbstractDao<T> {
 
 	private final DaoHelper helper = DaoHelper.getInstance();

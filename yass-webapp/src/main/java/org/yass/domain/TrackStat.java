@@ -38,6 +38,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "TRACK_STAT")
 @NamedQuery(name = "getTrackStatByUserId", query = "SELECT ts FROM TrackStat ts where ts.userId = ?1")
+@SuppressWarnings("all")
 public class TrackStat {
 
 	@Column(name = "LAST_PLAYED")

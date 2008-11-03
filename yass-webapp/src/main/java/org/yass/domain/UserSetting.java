@@ -32,6 +32,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "USER_SETTING")
+@SuppressWarnings("all")
 public class UserSetting implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -103,12 +104,12 @@ public class UserSetting implements Serializable {
 		this.loadedTrackId = loadedTrackId;
 	}
 
-	public void setNextFadeout(final int nextFadeout) {
-		this.nextFadeout = nextFadeout;
-	}
-
 	public void setLoop(final boolean repeat) {
 		this.repeat = repeat;
+	}
+
+	public void setNextFadeout(final int nextFadeout) {
+		this.nextFadeout = nextFadeout;
 	}
 
 	public void setShowRemaining(final boolean showRemaining) {
