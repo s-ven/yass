@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" xmlns:local="*" xmlns:view="org.yass.main.view.*" xmlns:main="org.yass.main.*">
+	<mx:states>
+		<mx:State name="playListState">
+			<mx:SetProperty target="{hbox1}" name="visible" value="false"/>
+			<mx:SetProperty target="{hbox1}" name="minHeight" value="0"/>
+			<mx:SetProperty target="{hbox1}" name="height" value="0"/>
+			<mx:SetStyle target="{vdividedbox1}" name="verticalGap" value="0"/>
+		</mx:State>
+	</mx:states>
+		<mx:borderSkin>@Embed(source='/assets/black-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
+	<mx:VDividedBox left="5" right="5" top="6" bottom="5"   verticalGap="5" horizontalAlign="center" verticalAlign="middle"  width="100%" height="100%"  creationComplete="init()" id="vdividedbox1">
+	<mx:Script>
+		<![CDATA[
+			import org.yass.main.view.BrowserView;
+			[Bindable]
+			public var browserView:BrowserView;
+			private function  init():void{
+				browserView = new BrowserView(genre, artist, album, playList);
+			} //
+		]]>
+	</mx:Script>
+		<mx:HBox   height="245" minHeight="200" width="100%"  id="hbox1" verticalGap="1" horizontalGap="1">
+			<mx:DataGrid id="genre" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%" rowHeight="15">
+				<mx:columns>
+					<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" dataField="value" headerText="Genres" draggable="false" sortable="false" />
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:DataGrid id="artist" doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%" rowHeight="15">
+				<mx:columns>
+					<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" dataField="value" headerText="Artists" draggable="false" sortable="false" />
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:DataGrid id="album"  doubleClickEnabled="true" allowMultipleSelection="true" verticalScrollPolicy = "on" styleName="FilterPane" width="100%" height="100%" rowHeight="15">
+				<mx:columns>
+					<mx:DataGridColumn  headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" dataField="value" headerText="Albums" draggable="false" sortable="false" />
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:HBox>
+		<view:PlayListView left="5"  right="5" top="6" bottom="5" showScrollTips="false"  horizontalScrollPolicy="auto" verticalScrollPolicy="on"  id="playList" rowHeight="15" width="100%" height="100%">
+  			<view:columns>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" width="14" minWidth="14" resizable="false" sortable="false" draggable="false" itemRenderer="org.yass.main.renderers.PlayingNowRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Track" dataField="trackNr" width="40" resizable="false" draggable="false" textAlign="right"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Title" dataField="title" width="260" minWidth="200" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Duration" dataField="lengthText" resizable="false" textAlign="right" minWidth="58" width="58" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Artist" dataField="artist" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Album" dataField="album" minWidth="150" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Genre"  dataField="genre" minWidth="65" visible="true" width="80" itemRenderer="org.yass.main.renderers.TrackInfoRenderer" />
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Year"  dataField="yearText" visible="true" minWidth="40" resizable="false" width="40" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Bitrate"  dataField="bitrateText" visible="false" minWidth="90" resizable="false" width="90" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Play Count"  dataField="playCountText" visible="false" minWidth="70" resizable="false" width="70" textAlign="right" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Last Played"  dataField="lastPlayedText" visible="false" minWidth="115" resizable="false" width="115" itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Last Modified"  dataField="lastModifiedText" visible="false" minWidth="115" resizable="false" width="115"  itemRenderer="org.yass.main.renderers.TrackRenderer"/>
+				<mx:DataGridColumn headerRenderer="org.yass.main.renderers.DataGridHeaderRenderer" showDataTips="false" headerText="Rating"  dataField="rating" minWidth="80" resizable="false" width="80" itemRenderer="org.yass.main.renderers.RatingRenderer" />
+			</view:columns>
+		</view:PlayListView>
+</mx:VDividedBox>
+</mx:Canvas>

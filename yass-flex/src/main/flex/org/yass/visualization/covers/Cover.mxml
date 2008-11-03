@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:display="flash.display.*" width="150" height="180" horizontalAlign="center" verticalAlign="middle">
+<mx:Image source="assets/coverflow.png" height="150" width="150"/>
+<mx:Script>
+	<![CDATA[
+		public var albumTitle:String = "ABLUM"
+	]]>
+</mx:Script>
+<mx:Label text="{albumTitle}" id="albumLabel"/>
+</mx:VBox>
