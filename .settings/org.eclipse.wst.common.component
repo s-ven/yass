@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
 	<wb-module deploy-name="yass">
-		<wb-resource source-path="src/main/webapp" deploy-path="/"/>
-		<wb-resource source-path="target/flex" deploy-path="/"/>
+		<wb-resource deploy-path="/" source-path="src/main/webapp"/>
+		<wb-resource deploy-path="/" source-path="target/flex"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/yass-webapp/src/main/java"/>
+<wb-resource deploy-path="/WEB-INF/classes" source-path="/yass-webapp/src/main/resources"/>
 		<property name="context-root" value="/yass"/>
 	</wb-module>
 </project-modules>
- 
