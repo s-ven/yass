@@ -25,10 +25,10 @@
 	import mx.controls.treeClasses.*;
 
 	public class NavigationViewRenderer extends TreeItemRenderer {
-		[Embed(source="assets/small-tree-lib.png")] private var libIcon:Class;
-		[Embed(source="assets/small-tree-spl.png")] private var smartPlIcon:Class;
-		[Embed(source="assets/small-tree-upl.png")] private var userPlIcon:Class;
-		[Embed(source="assets/small-tree-light.png")] private var lightPlIcon:Class;
+		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;
+		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;
+		[Embed(source="/assets/small-tree-upl.png")] private var userPlIcon:Class;
+		[Embed(source="/assets/small-tree-light.png")] private var lightPlIcon:Class;
 
 		public function NavigationViewRenderer(){
 			 super();
