@@ -33,7 +33,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 	 */
 	private void parseFile(final File file) {
 		fileIndex += 1;
-		Track track = TRACK_DAO.getByPath(file.getPath());
+		Track track = TRACK_DAO.findByPath(file.getPath());
 		// If the track doesn't already exists into the persistent store or have
 		// been modified, will parse it and store it
 		if (track == null && parseFileMetaData(file, track = new Track())

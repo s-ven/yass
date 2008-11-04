@@ -42,7 +42,7 @@ public class Play extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final Track track = TRACK_DAO.getById(id);
+		final Track track = TRACK_DAO.findById(id);
 		if (track == null) {
 			LOG.error("The Track id:" + id + " cannot be found in persistent store");
 			return ERROR;

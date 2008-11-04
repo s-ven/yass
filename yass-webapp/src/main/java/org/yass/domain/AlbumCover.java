@@ -29,7 +29,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "ALBUM_COVER")
-@NamedQuery(name = "getAlbumCoverIdFromAlbumId", query = "select ac.albumId from AlbumCover ac where ac.albumId = ?1")
+@NamedQuery(name = "findAlbumCoverIdByAlbumId", query = "select ac.albumId from AlbumCover ac where ac.albumId = ?1")
 public class AlbumCover {
 
 	/**

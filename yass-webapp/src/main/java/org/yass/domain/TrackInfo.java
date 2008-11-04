@@ -30,7 +30,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TRACK_INFO")
-@NamedQuery(name = "getFromTypeAndValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
+@NamedQuery(name = "findTrackInfoByValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
 public class TrackInfo {
 
 	@Id

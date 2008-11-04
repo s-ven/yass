@@ -40,11 +40,11 @@ public class TrackDao extends AbstractDao<Track> {
 	private TrackDao() {
 	}
 
-	public final Track getById(final int id) {
+	public final Track findById(final int id) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track id:" + id);
-			return getSingleResult(createNamedQuery("getTrackById").setParameter(1, id));
+			return getSingleResult(createNamedQuery("findTrackById").setParameter(1, id));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.error("Error getting Track id:" + id, e);
@@ -52,11 +52,11 @@ public class TrackDao extends AbstractDao<Track> {
 		return null;
 	}
 
-	public final Track getByPath(final String path) {
+	public final Track findByPath(final String path) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track path:" + path);
-			return getSingleResult(createNamedQuery("getTrackByPath").setParameter(1, path));
+			return getSingleResult(createNamedQuery("findTrackByPath").setParameter(1, path));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Error getting Track path:" + path, e);

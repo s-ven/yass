@@ -65,8 +65,8 @@ public class Init implements ServletContextListener, YassConstants {
 				&& servletContext.getInitParameter("org.yass.rescanOnStartup").equals("true");
 		try {
 			LOG.info("Yass Initalization phase starting...");
-			final User user = USER_DAO.getFromId(1);
-			Library library = LIBRARY_DAO.getFromUserId(user.getId());
+			final User user = USER_DAO.findById(1);
+			Library library = LIBRARY_DAO.findByUserId(user.getId());
 			if (library == null) {
 				LOG.warn("No Library found, creating new one");
 				library = new Library();

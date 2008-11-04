@@ -180,7 +180,7 @@ public class AudioFile implements YassConstants {
 	 * @return
 	 */
 	public TrackInfo getAlbumTrackInfo() {
-		return TRACK_INFO_DAO.getFromValue(getAlbum(), ALBUM);
+		return TRACK_INFO_DAO.findByValue(getAlbum(), ALBUM);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public class AudioFile implements YassConstants {
 	}
 
 	public TrackInfo getArtistTrackInfo() {
-		return TRACK_INFO_DAO.getFromValue(getArtist(), ARTIST);
+		return TRACK_INFO_DAO.findByValue(getArtist(), ARTIST);
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class AudioFile implements YassConstants {
 	 * @return
 	 */
 	public TrackInfo getBitRateTrackInfo() {
-		return TRACK_INFO_DAO.getFromValue(getBitRate(), BITRATE);
+		return TRACK_INFO_DAO.findByValue(getBitRate(), BITRATE);
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class AudioFile implements YassConstants {
 	 * @return
 	 */
 	public TrackInfo getGenreTrackInfo() {
-		return TRACK_INFO_DAO.getFromValue(getGenre(), GENRE);
+		return TRACK_INFO_DAO.findByValue(getGenre(), GENRE);
 	}
 
 	/**
@@ -284,6 +284,6 @@ public class AudioFile implements YassConstants {
 	 * @return
 	 */
 	public TrackInfo getYearTrackInfo() {
-		return TRACK_INFO_DAO.getFromValue(getYear(), YEAR);
+		return TRACK_INFO_DAO.findByValue(getYear(), YEAR);
 	}
 }

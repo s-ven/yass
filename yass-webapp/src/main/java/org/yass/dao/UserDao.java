@@ -58,7 +58,7 @@ public class UserDao extends AbstractDao<User> {
 		}
 	}
 
-	public final User getFromId(final int id) {
+	public final User findById(final int id) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get User id:" + id);

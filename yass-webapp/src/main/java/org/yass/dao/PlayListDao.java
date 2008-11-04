@@ -48,10 +48,9 @@ public class PlayListDao extends AbstractDao<PlayList> {
 	private PlayListDao() {
 	}
 
-	public Map<Integer, PlayList> getFromUserId(final int userId) {
+	public Map<Integer, PlayList> findByUserId(final int userId) {
 		PlayListDao.LOG.info("Loading Playlist from user_id:" + userId);
-		final Collection<PlayList> plstLst = getResultList(createNamedQuery("getPlayListFromUserId")
-				.setParameter(1, userId));
+		final Collection<PlayList> plstLst = getResultList(createNamedQuery("findPlayListByUserId").setParameter(1, userId));
 		final Map<Integer, PlayList> plsts = new LinkedHashMap<Integer, PlayList>();
 		final Iterator<PlayList> it = plstLst.iterator();
 		while (it.hasNext()) {

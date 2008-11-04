@@ -40,8 +40,8 @@ import javax.persistence.OneToOne;
 import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
 @Entity
-@NamedQueries( { @NamedQuery(name = "getLibraryById", query = "SELECT l FROM Library l where l.id = ?1"),
-		@NamedQuery(name = "getLibraryByUserId", query = "SELECT l FROM Library l where l.user.id = ?1") })
+@NamedQueries( { @NamedQuery(name = "findLibraryById", query = "SELECT l FROM Library l where l.id = ?1"),
+		@NamedQuery(name = "findLibraryByUserId", query = "SELECT l FROM Library l where l.user.id = ?1") })
 public class Library {
 
 	@Id

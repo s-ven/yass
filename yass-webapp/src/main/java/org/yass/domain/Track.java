@@ -45,8 +45,8 @@ import org.yass.YassConstants;
 
 @Entity
 @Table(name = "TRACK")
-@NamedQueries( { @NamedQuery(name = "getTrackByPath", query = "select t from Track t where t.path = ?1"),
-		@NamedQuery(name = "getTrackById", query = "select t from Track t where t.id = ?1") })
+@NamedQueries( { @NamedQuery(name = "findTrackByPath", query = "select t from Track t where t.path = ?1"),
+		@NamedQuery(name = "findTrackById", query = "select t from Track t where t.id = ?1") })
 public class Track implements YassConstants {
 
 	private long duration;

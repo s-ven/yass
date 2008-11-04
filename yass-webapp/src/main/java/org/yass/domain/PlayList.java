@@ -46,7 +46,7 @@ import org.yass.YassConstants;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER, name = "TYPE_ID")
-@NamedQuery(name = "getPlayListFromUserId", query = "select plsts from PlayList plst where plst.userId = ?1")
+@NamedQuery(name = "findPlayListByUserId", query = "select plsts from PlayList plst where plst.userId = ?1")
 public abstract class PlayList implements YassConstants {
 
 	@Id

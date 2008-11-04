@@ -37,25 +37,13 @@ public class TrackInfoDao extends AbstractDao<TrackInfo> {
 		return instance;
 	}
 
-	public TrackInfo getFromId(final Integer id) {
-		try {
-			if (LOG.isDebugEnabled())
-				LOG.debug("Get TrackInfo id:" + id);
-			return (TrackInfo) createNamedQuery("getFromId").setParameter(1, id);
-		} catch (final Exception e) {
-			if (LOG.isDebugEnabled())
-				LOG.debug("TrackInfo id:" + id);
-		}
-		return null;
-	}
-
-	public TrackInfo getFromValue(final String value, final String type) {
+	public TrackInfo findByValue(final String value, final String type) {
 		if (value == null || value.equals(""))
 			return null;
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get TrackInfo type:" + type + ", value:" + value);
-			return getSingleResult(createNamedQuery("getFromTypeAndValue").setParameter(1, type).setParameter(2, value));
+			return getSingleResult(createNamedQuery("findTrackInfoByValue").setParameter(1, type).setParameter(2, value));
 		} catch (final Exception e) {
 			if (LOG.isDebugEnabled())
 				LOG.debug("TrackInfo type:" + type + ", value:" + value + " doesn't exist, persisting it...");

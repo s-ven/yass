@@ -40,7 +40,7 @@ public class LibraryDao extends AbstractDao<Library> {
 	private LibraryDao() {
 	}
 
-	public Library getFromId(final int id) {
+	public Library findById(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library id:" + id);
@@ -51,7 +51,7 @@ public class LibraryDao extends AbstractDao<Library> {
 		return null;
 	}
 
-	public Library getFromUserId(final int userId) {
+	public Library findByUserId(final int userId) {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library userId:" + userId);

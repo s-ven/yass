@@ -43,7 +43,7 @@ public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 
 	public boolean hasPicture(final int albumId) {
 		try {
-			return getSingleResult(createNamedQuery("getAlbumCoverIdFromAlbumId").setParameter(1, albumId)) != null;
+			return getSingleResult(createNamedQuery("findAlbumCoverIdByAlbumId").setParameter(1, albumId)) != null;
 		} catch (final Exception e) {
 			return false;
 		}
