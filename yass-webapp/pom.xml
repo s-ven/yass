@@ -138,15 +138,10 @@
 			<artifactId>struts2-core</artifactId>
 			<version>2.1.2</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-fileupload</artifactId>
 					<groupId>commons-fileupload</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>tools</artifactId>
-					<groupId>com.sun</groupId>
 				</exclusion>
 			</exclusions> 
 		</dependency>
@@ -188,7 +183,6 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>

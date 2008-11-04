@@ -161,6 +161,8 @@
 		<!-- Illogical comparison with null. -->
 		<warn-bad-null-comparison>false</warn-bad-null-comparison>
 
+
+
 		<!-- Illogical comparison with undefined. Only untyped variables (or variables of type *) can be undefined. -->
 		<warn-bad-undefined-comparison>false</warn-bad-undefined-comparison>
 		<!--

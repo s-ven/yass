@@ -11,6 +11,10 @@
 		<module>yass-webapp</module>
 		<module>yass-flex</module>
 	</modules>
+	<organization>
+		<name>Sven Duzont</name>
+		<url>http://yaass-project.sourceforge.net</url>
+	</organization>
 	<build>
 		<plugins>
 			<plugin>
