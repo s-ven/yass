@@ -9,6 +9,7 @@
 	<url>http://yaass-project.sourceforge.net</url>
 	<modules>
 		<module>yass-webapp</module>
+		<module>yass-flex</module>
 	</modules>
 	<build>
 		<plugins>
@@ -21,4 +22,49 @@
 			</plugin>
 		</plugins>
 	</build>
-</project>
+  <repositories>
+    <repository>
+      <id>flex-mojos-repository</id>
+      <url>http://svn.sonatype.org/flexmojos/repository/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>epseelon-repository</id>
+      <url>http://m2repo.epseelon.org/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>  
+  <pluginRepositories>
+    <pluginRepository>
+      <id>flex-mojos-repository</id>
+      <url>http://svn.sonatype.org/flexmojos/repository/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>epseelon-repository</id>
+      <url>http://m2repo.epseelon.org/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+</project> 
