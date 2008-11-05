@@ -7,15 +7,11 @@
 	<name>Yass Webapp</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
-    <parent>
-        <groupId>org.yass</groupId>
-        <artifactId>yass</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
-    </parent>
-	
-	
-	
-	
+	<parent>
+		<groupId>org.yass</groupId>
+		<artifactId>yass</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
+	</parent>
 	<build>
 		<plugins>
 			<plugin>
@@ -24,6 +20,30 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<configuration>
+							<tasks>
+								<taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
+									<classpath refid="maven.compile.classpath" />
+								</taskdef>
+								<openjpac  directory="${basedir}/target/classes">
+									<classpath refid="maven.compile.classpath" />
+									<fileset  dir="${basedir}/target/classes">
+										<include name="**/domain/*.class" />
+									</fileset>
+								</openjpac>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -143,7 +163,7 @@
 					<artifactId>commons-fileupload</artifactId>
 					<groupId>commons-fileupload</groupId>
 				</exclusion>
-			</exclusions> 
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.transaction</groupId>

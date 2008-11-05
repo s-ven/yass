@@ -23,7 +23,7 @@
 
 		<!-- Run the AS3 compiler in a mode that detects legal but potentially incorrect -->
 		<!-- code.                                                                       -->
-		<show-actionscript-warnings>true</show-actionscript-warnings>
+		<show-actionscript-warnings>false</show-actionscript-warnings>
 
 		<!-- Turn on generation of debuggable SWFs. False by default for mxmlc, -->
 		<!-- but true by default for compc. -->
@@ -242,7 +242,7 @@
 		<warn-slow-text-field-addition>false</warn-slow-text-field-addition>
 
 		<!-- Possible missing parentheses. -->
-		<warn-unlikely-function-value>true</warn-unlikely-function-value>
+		<warn-unlikely-function-value>false</warn-unlikely-function-value>
 
 		<!-- Possible usage of the ActionScript 2.0 XML class. -->
 		<warn-xml-class-has-changed>false</warn-xml-class-has-changed>

@@ -1,17 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<version>0.0.2-SNAPSHOT</version>
-	<url>http://yaass-project.sourceforge.net</url>
 	<parent>
 		<groupId>org.yass</groupId>
 		<artifactId>yass</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-	<groupId>org.yass</groupId>
 	<artifactId>yass-flex</artifactId>
 	<packaging>swf</packaging>
-	<name>Yass Flex</name>
+	<name>Yass</name>
 	<dependencies>
 		<dependency>
 			<groupId>com.adobe.flex.sdk</groupId>
@@ -59,12 +56,29 @@
 			<type>swc</type>
 		</dependency>
 	</dependencies>
-	<organization>
-		<name>Sven Duzont</name>
-		<url>http://yaass-project.sourceforge.net</url>
-	</organization>
+	<repositories>
+		<repository>
+			<id>flex-mojos-repository</id>
+			<url>http://svn.sonatype.org/flexmojos/repository/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>epseelon-repository</id>
+			<url>http://m2repo.epseelon.org/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 	<build>
-		<finalName>index</finalName>
 		<sourceDirectory>src/main/flex</sourceDirectory>
 		<outputDirectory> ${project.build.directory}/flex-compiler</outputDirectory>
 		<plugins>
@@ -85,7 +99,7 @@
 			<plugin>
 				<groupId>info.rvin.mojo</groupId>
 				<artifactId>flex-compiler-mojo</artifactId>
-				<version>1.0</version>
+				<version>1.0-beta8</version>
 				<extensions>true</extensions>
 				<executions>
 					<execution>
