@@ -99,19 +99,20 @@
 			<plugin>
 				<groupId>info.rvin.mojo</groupId>
 				<artifactId>flex-compiler-mojo</artifactId>
-				<version>1.0-beta8</version>
+				<version>1.0</version>
 				<extensions>true</extensions>
 				<executions>
 					<execution>
 						<goals>
-							<goal>compile-swf</goal>
+							<goal>compile-swf</goal> 
 						</goals>
 						<configuration>
+							<output>index.swf</output>
 							<configFile>fdk-cfg.xml</configFile>
 							<locales>
 								<param>en_US</param>
 							</locales>
-							<contextRoot>${project.parent.artifactId}-web-${project.version} </contextRoot>
+							<contextRoot>index</contextRoot>
 						</configuration>
 					</execution>
 				</executions>

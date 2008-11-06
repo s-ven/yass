@@ -28,12 +28,21 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<tasks>
+								<!-- OpenJPA enhancing Task, launched after the classes have been compiled (phase process-classes)  -->
 								<taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
-									<classpath refid="maven.compile.classpath" />
+									<classpath>
+										<path refid="maven.runtime.classpath" />
+										<path refid="maven.compile.classpath" />
+									</classpath>
 								</taskdef>
-								<openjpac  directory="${basedir}/target/classes">
+								<!--
+									>
+									-javaagent:/Users/svenduzont/Documents/Developpement/libs/apache-openjpa-1.2.0/openjpa-1.2.0.jar=directory=${workspace_loc}/yass/target/classes,addDefaultConstructor=false,scanDevPath=false,tmpClassLoader=false
+									-Xmx256m"/>
+								-->
+								<openjpac directory="${basedir}/target/classes">
 									<classpath refid="maven.compile.classpath" />
-									<fileset  dir="${basedir}/target/classes">
+									<fileset dir="${basedir}/target/classes">
 										<include name="**/domain/*.class" />
 									</fileset>
 								</openjpac>
@@ -48,6 +57,7 @@
 		</plugins>
 	</build>
 	<repositories>
+		<!-- Repository for JavaZoom and Tritonus mp3 handling APIs  -->
 		<repository>
 			<id>ppnetmedia</id>
 			<name>ppnetmedia</name>
@@ -59,12 +69,14 @@
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
 			<version>10.4.2.0</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.15</version>
 			<type>jar</type>
+			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>jmxtools</artifactId>
@@ -86,37 +98,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
-			<artifactId>openjpa-jdbc</artifactId>
-			<version>1.2.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>jaxb-api</artifactId>
-					<groupId>javax.xml.bind</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>hsqldb</artifactId>
-					<groupId>hsqldb</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>postgresql</artifactId>
-					<groupId>postgresql</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openjpa</groupId>
-			<artifactId>openjpa-kernel</artifactId>
-			<version>1.2.0</version>
-			<type>jar</type>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa-lib</artifactId>
 			<version>1.2.0</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<scope>runtime</scope>
 			<exclusions>
 				<exclusion>
 					<artifactId>commons-logging</artifactId>
@@ -134,43 +119,35 @@
 		</dependency>
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
-			<artifactId>openjpa-persistence</artifactId>
-			<version>1.2.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa-persistence-jdbc</artifactId>
 			<version>1.2.0</version>
 			<type>jar</type>
-			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>jaxb-api</artifactId>
+					<groupId>javax.xml.bind</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hsqldb</artifactId>
+					<groupId>hsqldb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>postgresql</artifactId>
+					<groupId>postgresql</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>javax.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<version>1.0</version>
 			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.struts</groupId>
 			<artifactId>struts2-core</artifactId>
 			<version>2.1.2</version>
 			<type>jar</type>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-fileupload</artifactId>
-					<groupId>commons-fileupload</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-			<version>1.1</version>
-			<type>jar</type>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.javazoom</groupId>
@@ -203,6 +180,13 @@
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>

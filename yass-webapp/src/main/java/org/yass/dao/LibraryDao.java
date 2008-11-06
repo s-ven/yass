@@ -44,7 +44,7 @@ public class LibraryDao extends AbstractDao<Library> {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library id:" + id);
-			return getSingleResult(createNamedQuery("getLibraryById").setParameter(1, id));
+			return getSingleResult(createNamedQuery("findLibraryById").setParameter(1, id));
 		} catch (final Exception e) {
 			LOG.debug("Error getting library id:" + id, e);
 		}
@@ -55,7 +55,7 @@ public class LibraryDao extends AbstractDao<Library> {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library userId:" + userId);
-			return getSingleResult(createNamedQuery("getLibraryByUserId").setParameter(1, userId));
+			return getSingleResult(createNamedQuery("findLibraryByUserId").setParameter(1, userId));
 		} catch (final Exception e) {
 			LOG.debug("Error getting Library userId:" + userId, e);
 		}

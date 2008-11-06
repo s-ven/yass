@@ -52,7 +52,8 @@ public class Init implements ServletContextListener, YassConstants {
 	}
 
 	public void contextDestroyed(final ServletContextEvent event) {
-		initThread.interrupt();
+		if (initThread != null)
+			initThread.interrupt();
 	}
 
 	/**
