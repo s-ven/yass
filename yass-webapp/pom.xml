@@ -7,63 +7,15 @@
 	<name>Yass Webapp</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
+	<organization>
+		<name>Sven Duzont</name>
+		<url>http://yaass-project.sourceforge.net</url>
+	</organization>
 	<parent>
 		<groupId>org.yass</groupId>
 		<artifactId>yass</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<configuration>
-							<tasks>
-								<!-- OpenJPA enhancing Task, launched after the classes have been compiled (phase process-classes)  -->
-								<taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
-									<classpath>
-										<path refid="maven.runtime.classpath" />
-										<path refid="maven.compile.classpath" />
-									</classpath>
-								</taskdef>
-								<!--
-									>
-									-javaagent:/Users/svenduzont/Documents/Developpement/libs/apache-openjpa-1.2.0/openjpa-1.2.0.jar=directory=${workspace_loc}/yass/target/classes,addDefaultConstructor=false,scanDevPath=false,tmpClassLoader=false
-									-Xmx256m"/>
-								-->
-								<openjpac directory="${basedir}/target/classes">
-									<classpath refid="maven.compile.classpath" />
-									<fileset dir="${basedir}/target/classes">
-										<include name="**/domain/*.class" />
-									</fileset>
-								</openjpac>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-	<repositories>
-		<!-- Repository for JavaZoom and Tritonus mp3 handling APIs  -->
-		<repository>
-			<id>ppnetmedia</id>
-			<name>ppnetmedia</name>
-			<url>http://ppnetmedia.com/repository</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.derby</groupId>
@@ -189,4 +141,51 @@
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>process-classes</phase>
+						<configuration>
+							<tasks>
+								<!-- OpenJPA enhancing Task, launched after the classes have been compiled (phase process-classes)  -->
+								<taskdef name="openjpac" classname="org.apache.openjpa.ant.PCEnhancerTask">
+									<classpath>
+										<path refid="maven.runtime.classpath" />
+										<path refid="maven.compile.classpath" />
+									</classpath>
+								</taskdef>
+								<openjpac directory="${basedir}/target/classes">
+									<classpath refid="maven.compile.classpath" />
+									<fileset dir="${basedir}/target/classes">
+										<include name="**/domain/*.class" />
+									</fileset>
+								</openjpac>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<!-- Repository for JavaZoom and Tritonus mp3 handling APIs  -->
+		<repository>
+			<id>ppnetmedia</id>
+			<name>ppnetmedia</name>
+			<url>http://ppnetmedia.com/repository</url>
+		</repository>
+	</repositories>
 </project>
