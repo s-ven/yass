@@ -20,55 +20,10 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.5</source>
+					<target>1.5</target>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-  <repositories>
-    <repository>
-      <id>flex-mojos-repository</id>
-      <url>http://svn.sonatype.org/flexmojos/repository/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>epseelon-repository</id>
-      <url>http://m2repo.epseelon.org/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-  </repositories>  
-  <pluginRepositories>
-    <pluginRepository>
-      <id>flex-mojos-repository</id>
-      <url>http://svn.sonatype.org/flexmojos/repository/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>epseelon-repository</id>
-      <url>http://m2repo.epseelon.org/</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
-
-</project> 
+</project>
