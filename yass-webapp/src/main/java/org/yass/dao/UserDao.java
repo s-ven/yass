@@ -62,9 +62,25 @@ public class UserDao extends AbstractDao<User> {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get User id:" + id);
-			return getSingleResult(createNamedQuery("getUserById").setParameter(1, id));
+			return getSingleResult(createNamedQuery("findUserById").setParameter(1, id));
 		} catch (final Exception e) {
 			LOG.error("Error getting User id:" + id, e);
+			return null;
+		}
+	}
+
+	/**
+	 * @param name
+	 * @param valueOf
+	 * @return
+	 */
+	public User findByNamePassword(final String name, final String password) {
+		try {
+			if (LOG.isDebugEnabled())
+				LOG.debug("Get User name:" + name);
+			return getSingleResult(createNamedQuery("findUserByNamePassword").setParameter(1, name).setParameter(2, password));
+		} catch (final Exception e) {
+			LOG.error("Error getting User name:" + name, e);
 			return null;
 		}
 	}

@@ -46,7 +46,7 @@ public class Schema00 extends Schema {
 			LOG.info(" table 'role' not found...");
 			executeUpdate("create table role (id int not null generated always as identity,name varchar(25) not null,primary key(id))");
 			executeUpdate("insert  into role (name) values ('admin')");
-			executeUpdate("insert into role (name) values ('playlist')");
+			executeUpdate("insert into role (name) values ('user')");
 			LOG.info(" table 'role' successfully created");
 		}
 		// Table 'user'

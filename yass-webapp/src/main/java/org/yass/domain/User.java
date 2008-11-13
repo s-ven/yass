@@ -39,6 +39,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -46,7 +47,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "YASS_USER")
-@NamedQuery(name = "getUserById", query = "SELECT u FROM User u where u.id = ?1")
+@NamedQueries( { @NamedQuery(name = "findUserById", query = "SELECT u FROM User u where u.id = ?1"),
+		@NamedQuery(name = "findUserByNamePassword", query = "SELECT u FROM User u WHERE u.name = ?1 AND u.password = ?2") })
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -56,6 +58,8 @@ public class User implements Serializable {
 	private int id;
 	@OneToOne(mappedBy = "user")
 	private Library library;
+	@Column(name = "USER_NAME")
+	private String name;
 	private String password;
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@MapKey(name = "id")
@@ -65,8 +69,6 @@ public class User implements Serializable {
 	@ManyToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@MapKey(name = "trackId")
 	private Map<Integer, TrackStat> tracksStats = new LinkedHashMap<Integer, TrackStat>();
-	@Column(name = "USER_NAME")
-	private String userName;
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private UserSetting userSetting;
 
@@ -87,6 +89,10 @@ public class User implements Serializable {
 	 */
 	public Library getLibrary() {
 		return library;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public String getPassword() {
@@ -111,10 +117,6 @@ public class User implements Serializable {
 		return tracksStats;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
-
 	public UserSetting getUserSetting() {
 		return userSetting;
 	}
@@ -132,16 +134,16 @@ public class User implements Serializable {
 		library.setUser(this);
 	}
 
+	public void setName(final String userName) {
+		name = userName;
+	}
+
 	public void setPassword(final String password) {
 		this.password = password;
 	}
 
 	public void setRoleId(final int roleId) {
 		this.roleId = roleId;
-	}
-
-	public void setUserName(final String userName) {
-		this.userName = userName;
 	}
 
 	public void setUserSetting(final UserSetting userSetting) {
