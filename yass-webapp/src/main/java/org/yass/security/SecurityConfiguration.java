@@ -21,17 +21,42 @@
  */
 package org.yass.security;
 
+import java.util.HashMap;
+
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class UserPrincipal extends BasePrincipal {
+public class SecurityConfiguration extends Configuration {
 
-	/**
-	 * @param name
+	static public void init() {
+		Configuration.setConfiguration(new SecurityConfiguration());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * javax.security.auth.login.Configuration#getAppConfigurationEntry(java.lang
+	 * .String)
 	 */
-	public UserPrincipal() {
-		super("user");
+	@SuppressWarnings("unchecked")
+	@Override
+	public AppConfigurationEntry[] getAppConfigurationEntry(final String appName) {
+		final AppConfigurationEntry[] toreturn = { new AppConfigurationEntry("org.yass.security.YassLoginModule",
+				AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap()) };
+		return toreturn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.security.auth.login.Configuration#refresh()
+	 */
+	@Override
+	public void refresh() {
 	}
 }

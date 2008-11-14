@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.User;
+import org.yass.security.SecurityConfiguration;
 import org.yass.util.LibraryScanner;
 
 /**
@@ -61,6 +62,7 @@ public class Init implements ServletContextListener, YassConstants {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
+		SecurityConfiguration.init();
 		final ServletContext servletContext = event.getServletContext();
 		boolean rescanOnStartup = servletContext.getInitParameter("org.yass.rescanOnStartup") != null
 				&& servletContext.getInitParameter("org.yass.rescanOnStartup").equals("true");

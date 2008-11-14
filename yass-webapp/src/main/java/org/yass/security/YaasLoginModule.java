@@ -22,6 +22,7 @@
 package org.yass.security;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Map;
 
 import javax.security.auth.Subject;
@@ -59,22 +60,31 @@ public class YaasLoginModule implements LoginModule, YassConstants {
 		return true;
 	}
 
+	/**
+	 * @param principal
+	 * @return
+	 */
+	private void assignPrincipal(final Principal principal) {
+		if (!subject.getPrincipals().contains(principal))
+			subject.getPrincipals().add(principal);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.security.auth.spi.LoginModule#commit()
 	 */
 	public boolean commit() throws LoginException {
-		switch (user.getRoleId()) {
-		case 0:
-			subject.getPrincipals().add(new AdminPrincipal());
-			subject.getPrincipals().add(new UserPrincipal());
-			break;
-		default:
-			subject.getPrincipals().add(new UserPrincipal());
-			break;
-		}
-		// TODO fill in roles from database
+		if (user != null)
+			switch (user.getRoleId()) {
+			case 0:
+				assignPrincipal(new AdminPrincipal());
+				assignPrincipal(new UserPrincipal());
+				return true;
+			default:
+				assignPrincipal(new UserPrincipal());
+				return true;
+			}
 		return false;
 	}
 

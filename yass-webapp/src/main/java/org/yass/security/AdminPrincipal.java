@@ -21,20 +21,16 @@
  */
 package org.yass.security;
 
-import java.security.Principal;
-
 /**
  * @author Sven Duzont
  * 
  */
-public class AdminPrincipal implements Principal {
+public class AdminPrincipal extends BasePrincipal {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.security.Principal#getName()
+	/**
+	 * @param name
 	 */
-	public String getName() {
-		return "admin";
+	public AdminPrincipal() {
+		super("admin");
 	}
 }

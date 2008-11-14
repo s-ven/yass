@@ -26,6 +26,5 @@
 		<nature>com.adobe.flexbuilder.project.flexnature</nature>
 		<nature>com.adobe.flexbuilder.project.actionscriptnature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.apache.derby.ui.derbyEngine</nature>
 	</natures>
 </projectDescription>
