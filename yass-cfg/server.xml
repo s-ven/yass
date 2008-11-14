@@ -107,7 +107,7 @@
 					suffix=".txt" pattern="common" resolveHosts="false"/>
 				-->
 				<Context docBase="yass" path="/yass" reloadable="true" source="org.eclipse.jst.jee.server:yass">
-					<Realm className="org.apache.catalina.realm.JAASRealm" # appName="yass"
+					<Realm className="org.apache.catalina.realm.JAASRealm"  appName="yass"
 						userClassNames="org.yass.security.UserPrincipal,org.yass.security.AdminPrincipal" roleClassNames="org.yass.security.UserPrincipal,org.yass.security.AdminPrincipal"
 						useContextClassLoader="false" />
 				</Context>
