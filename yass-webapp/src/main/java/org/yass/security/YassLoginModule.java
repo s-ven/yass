@@ -31,6 +31,7 @@ import javax.security.auth.callback.CallbackHandler;
 import javax.security.auth.callback.NameCallback;
 import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.callback.UnsupportedCallbackException;
+import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
@@ -43,9 +44,9 @@ import org.yass.domain.User;
  * @author Sven Duzont
  * 
  */
-public class YaasLoginModule implements LoginModule, YassConstants {
+public class YassLoginModule implements LoginModule, YassConstants {
 
-	private static Log LOG = LogFactory.getLog(YaasLoginModule.class);
+	private static Log LOG = LogFactory.getLog(YassLoginModule.class);
 	private CallbackHandler callbackHandler;
 	private Subject subject;
 	private User user;
@@ -120,7 +121,13 @@ public class YaasLoginModule implements LoginModule, YassConstants {
 			throw (LoginException) new LoginException(e.getCallback().getClass().getName() + " is not a supported Callback.")
 					.initCause(e);
 		}
-		return (user = USER_DAO.findByNamePassword(nameCB.getName(), String.valueOf(passwordCB.getPassword()))) != null;
+		if ((user = USER_DAO.findByName(nameCB.getName())) == null)
+			throw new FailedLoginException("User not found");
+		else if (!user.getPassword().equals(String.valueOf(passwordCB.getPassword()))) {
+			user = null;
+			throw new FailedLoginException("User password mismatch");
+		}
+		return true;
 	}
 
 	/*
@@ -130,6 +137,7 @@ public class YaasLoginModule implements LoginModule, YassConstants {
 	 */
 	public boolean logout() throws LoginException {
 		user = null;
+		subject = null;
 		return true;
 	}
 }

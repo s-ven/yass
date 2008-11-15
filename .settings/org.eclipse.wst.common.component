@@ -2,7 +2,8 @@
 <project-modules id="moduleCoreId" project-version="1.5.0">
 	<wb-module deploy-name="yass">
 		<wb-resource deploy-path="/" source-path="yass-webapp/src/main/webapp"/>
-		<wb-resource deploy-path="/" source-path="yass-flex/target"/>
+		<wb-resource deploy-path="/" source-path="yass-flex/yass-flex-login/target"/>
+		<wb-resource deploy-path="/" source-path="yass-flex/yass-flex-main/target"/>
 		<property name="context-root" value="/yass"/>
 	</wb-module>
 </project-modules>

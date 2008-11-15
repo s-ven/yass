@@ -10,14 +10,30 @@ body {
 	margin: 0px;
 	overflow: hidden;
 	background-color: #222222;
-	vertical-align: center;
+}
+
+#global {
+	position: absolute;
+	width: 300px;
+	height: 110px;
+	left: 50%;
+	top: 50%;
+	margin-top: -55px; /* moitié de la hauteur */
+	margin-left: -150px; /* moitié de la largeur */
+	border: 1px solid #000;
+	text-align: center;
+	color: #ffffff;
+	font-family: Arial;
+	font-size: 12px;
 }
 </style>
 </head>
 <body>
+<div id="global">
 <form method="POST" action="j_security_check">
 <p>Username: <input type="text" name="j_username" /></p>
 <p>Password: <input type="password" name="j_password" /></p>
 <input type="submit" value="Login" /></form>
+</div>
 </body>
 </html>

@@ -3,62 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.yass</groupId>
 	<artifactId>yass-flex</artifactId>
-	<packaging>swf</packaging>
+	<packaging>pom</packaging>
 	<name>Yass Flex</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
+	<modules>
+		<module>yass-flex-login</module>
+		<module>yass-flex-main</module>
+	</modules>
 	<organization>
 		<name>Sven Duzont</name>
 		<url>http://yaass-project.sourceforge.net</url>
 	</organization>
-	<parent>
-		<groupId>org.yass</groupId>
-		<artifactId>yass</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
-	</parent>
-	<dependencies>
-		<!-- Flex SDK dependencies -->
-		<dependency>
-			<groupId>com.adobe.flex.framework</groupId>
-			<artifactId>flex-framework</artifactId>
-			<version>3.1.0.2710</version>
-			<type>pom</type>
-		</dependency>
-	</dependencies>
-	<repositories>
-		<repository>
-			<id>flex-mojos-repository</id>
-			<url>http://svn.sonatype.org/flexmojos/repository</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>flex-mojos-repository</id>
-			<url>http://svn.sonatype.org/flexmojos/repository/</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<build>
-		<sourceDirectory>src/main/flex</sourceDirectory>
-		<outputDirectory> ${project.build.directory}/flex-compiler</outputDirectory>
-		<plugins>
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>flex-compiler-mojo</artifactId>
-				<version>2.0M8</version>
-				<extensions>true</extensions>
-				<configuration>
-					<locales>
-						<locale>en_US</locale>
-					</locales>
-					<output>index.swf</output>
-					<configFile>fdk-cfg.xml</configFile>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>info.flex-mojos</groupId>
-				<artifactId>asdoc-mojo</artifactId>
-				<version>2.0M8</version>
-			</plugin>
-		</plugins>
-	</build>
 </project>

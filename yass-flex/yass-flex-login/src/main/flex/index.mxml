@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application frameRate="20" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" minWidth="800"
+	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
+	backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222">
+	<mx:Script>
+<![CDATA[
+var j_username:String;
+var j_password:String;
+function submitLogin() {
+j_username = username.text;
+j_password = password.text;
+// getURL( "j_security_check" , "_self" , "POST" );
+}
+]]>
+	</mx:Script>
+	<mx:Form>
+		<mx:FormItem>
+			<mx:Label text="Username"/>
+				<mx:TextInput id="username" />
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Label text="Password" />
+			<mx:TextInput id="password" displayAsPassword="true" />
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:VBox horizontalAlign="center">
+				<mx:Button label="Login" click="submitLogin();" />
+			</mx:VBox>
+		</mx:FormItem>
+	</mx:Form>
+</mx:Application>

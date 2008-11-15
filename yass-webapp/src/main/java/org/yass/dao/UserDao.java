@@ -74,11 +74,11 @@ public class UserDao extends AbstractDao<User> {
 	 * @param valueOf
 	 * @return
 	 */
-	public User findByNamePassword(final String name, final String password) {
+	public User findByName(final String name) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get User name:" + name);
-			return getSingleResult(createNamedQuery("findUserByNamePassword").setParameter(1, name).setParameter(2, password));
+			return getSingleResult(createNamedQuery("findUserByNamePassword").setParameter(1, name));
 		} catch (final Exception e) {
 			LOG.error("Error getting User name:" + name, e);
 			return null;
