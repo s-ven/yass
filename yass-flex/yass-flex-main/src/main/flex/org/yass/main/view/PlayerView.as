@@ -44,10 +44,8 @@ package org.yass.main.view{
 		public var volumeUpBtn : Button = new Button();
 		public var volumeSlider : HSlider = new HSlider();
 		private var controller:PlayerController;
-		[Embed(source="/assets/volume-track-left.png")]
-		private var leftImgCl:Class;
-		[Embed(source="/assets/volume-track-right.png")]
-		private var rightImgCl:Class;
+		public var leftImgCl:Class;
+		public var rightImgCl:Class;
 
 		public function PlayerView(){
 			controller = new PlayerController(this, Yass.player as IPlayerModel);

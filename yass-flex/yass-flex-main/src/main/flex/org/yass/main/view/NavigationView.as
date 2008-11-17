@@ -41,10 +41,6 @@ package org.yass.main.view{
 	import org.yass.main.model.interfaces.INavigationModel;
 	import org.yass.main.renderers.NavigationViewRenderer;
 	public class NavigationView extends Tree {
-		[Embed(source="/assets/small-tree-lib.png")] private var libIcon:Class;
- 		[Embed(source="/assets/small-tree-spl.png")] private var smartPlIcon:Class;
-		[Embed(source="/assets/small-tree-upl.png")] private var userPlIcon:Class;
-		[Embed(source="/assets/small-tree-light.png")] private var lightPlIcon:Class;
 
 		private var model:INavigationModel = new NavigationModel();
 		private var controller:NavigationController;

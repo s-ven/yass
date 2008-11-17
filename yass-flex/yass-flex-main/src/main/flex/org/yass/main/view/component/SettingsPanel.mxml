@@ -47,8 +47,7 @@
 		</mx:State>
 	</mx:states>
 	<mx:HBox id="hbox1" paddingLeft="5" paddingBottom="15" right="10" left="10" bottom="5" top="30">
-	<mx:Canvas height="100%" width="130">
-		<mx:borderSkin>@Embed(source='/assets/white-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
+	<mx:Canvas height="100%" width="130"  styleName="threeCanvas">
 		<mx:DataGrid rowHeight="16" alternatingItemColors="[#FFFFFF, #FFFFFF]" id="configurationPane" dataProvider="{ConfigurationPanes}"
 			showHeaders="false"  itemClick="onItemClick()" borderStyle="none" left="4" right="4" top="6" bottom="5">
 			<mx:columns>

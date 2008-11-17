@@ -4,6 +4,7 @@
 		<wb-resource deploy-path="/" source-path="yass-webapp/src/main/webapp"/>
 		<wb-resource deploy-path="/" source-path="yass-flex/yass-flex-login/target"/>
 		<wb-resource deploy-path="/" source-path="yass-flex/yass-flex-main/target"/>
+		<wb-resource deploy-path="/" source-path="yass-flex/yass-flex-resources/target"/>
 		<property name="context-root" value="/yass"/>
 	</wb-module>
 </project-modules>

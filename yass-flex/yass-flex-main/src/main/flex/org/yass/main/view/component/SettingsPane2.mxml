@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
-		<mx:borderSkin>@Embed(source='/assets/white-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
+<mx:Canvas xmlns="*" xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" styleName="threeCanvas">
 <mx:DataGrid
 	id="columnsDG"
 	showHeaders="false"

@@ -25,15 +25,11 @@ package org.yass.main.renderers{
 	import flash.events.MouseEvent;
 
 	import mx.controls.DataGrid;
-	import mx.managers.CursorManager;
 
 	import org.yass.Yass;
 	import org.yass.main.MainPane;
 
 	public class TrackInfoRenderer  extends TrackRenderer{
-		[Embed(source="/assets/cursor-hand.png")]
-		[Bindable]
-		private static var handCursor:Class;
 
 		public function TrackInfoRenderer(){
 			addEventListener(MouseEvent.MOUSE_OVER, over);
@@ -49,12 +45,10 @@ package org.yass.main.renderers{
 		protected function over(evt:Event) : void{
 			setStyle("textDecoration", "underline");
 			setStyle("fontThickness", 200);
-			CursorManager.setCursor(handCursor, 2, -6)
 		}
 		protected function out(evt:Event) : void{
 			setStyle("textDecoration", "none");
 			setStyle("fontThickness", data.isLoaded?200:0);
-			CursorManager.removeAllCursors();
 		}
 	}
 }

@@ -8,6 +8,7 @@
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
 	<modules>
+		<module>yass-flex-resources</module>
 		<module>yass-flex-login</module>
 		<module>yass-flex-main</module>
 	</modules>

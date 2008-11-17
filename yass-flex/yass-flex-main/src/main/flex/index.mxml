@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application frameRate="20" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" minWidth="800"
 	currentState="ProgressLoader" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
-	borderSkin="AppBackground" backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222">
+	 backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222" initialize="initializeHandler(event)">
+	<mx:Script>
+		<![CDATA[
+			private function initializeHandler(event:Event):void{
+				StyleManager.loadStyleDeclarations("style.swf", true);
+			}
+		]]>
+	</mx:Script>
 	<mx:states>
 		<mx:State name="MainWindow">
 			<mx:AddChild  position="lastChild">
@@ -14,11 +21,4 @@
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>
-	<mx:Script>
-		<![CDATA[
-			[Embed(source="/assets/MONACO.TTF", fontName="Monaco" )]
-			private var _monacoFont:Class;
-		]]>
-	</mx:Script>
-	<mx:Style source="/assets/styles.css"/>
 </mx:Application> 

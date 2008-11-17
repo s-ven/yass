@@ -29,18 +29,12 @@ package org.yass.main.renderers{
 	import mx.events.FlexEvent;
 
 	public class RatingRenderer extends UIComponent implements IListItemRenderer{
-		[Embed(source="/assets/rating_0.png")]
-		private static const rating0:Class;
-		[Embed(source="/assets/rating_1.png")]
-		private static const rating1:Class;
-		[Embed(source="/assets/rating_2.png")]
-		private static const rating2:Class;
-		[Embed(source="/assets/rating_3.png")]
-		private static const rating3:Class;
-		[Embed(source="/assets/rating_4.png")]
-		private static const rating4:Class;
-		[Embed(source="/assets/rating_5.png")]
-		private static const rating5:Class;
+		public static const rating0:Class;
+		public static const rating1:Class;
+		public static const rating2:Class;
+		public static const rating3:Class;
+		public static const rating4:Class;
+		public static const rating5:Class;
 
 		private var img:Image = new Image();
 		private var _data:Object;

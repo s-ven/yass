@@ -2,9 +2,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.yass.flex</groupId>
-	<artifactId>yass-flex-login</artifactId>
+	<artifactId>yass-flex-resources</artifactId>
 	<packaging>swf</packaging>
-	<name>Yass Flex Login Module</name>
+	<name>Yass Flex Resources</name>
 	<version>0.0.2-SNAPSHOT</version>
 	<url>http://yaass-project.sourceforge.net</url>
 	<organization>
@@ -38,7 +38,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<build>
-		<sourceDirectory>src/main/flex</sourceDirectory>
+		<sourceDirectory>src/main/resources</sourceDirectory>
 		<outputDirectory> ${project.build.directory}/flex-compiler</outputDirectory>
 		<plugins>
 			<plugin>
@@ -47,10 +47,11 @@
 				<version>2.0M8</version>
 				<extensions>true</extensions>
 				<configuration>
+                    <sourceFile>style.css</sourceFile> 
 					<locales>
 						<locale>en_US</locale>
 					</locales>
-					<output>login.swf</output>
+					<output>style.swf</output>
 					<configFile>fdk-cfg.xml</configFile>
 				</configuration>
 			</plugin>

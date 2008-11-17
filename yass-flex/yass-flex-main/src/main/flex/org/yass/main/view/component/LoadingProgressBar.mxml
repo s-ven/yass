@@ -3,7 +3,6 @@
 	 creationComplete="init()"
 	  xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="55" styleName="Display" hideEffect="{fadeout}" showEffect="{fadein}" visible="true" xmlns:display="flash.display.*">
 	<mx:ProgressBar id = "loadingProgress" labelPlacement="top" indeterminate="false" enabled="true" horizontalCenter="0" verticalCenter="0" borderColor="#000000"
-		barSkin="@Embed('/assets/progress-highlight.png')"
 			trackHeight="12" color="#000000" fontWeight="normal"
 			label="Loading %3%"
 			mode="manual"  barColor="#000000"/>

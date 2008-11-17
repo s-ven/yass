@@ -30,10 +30,8 @@ package org.yass.main.renderers{
 	import org.yass.debug.log.Console;
 
 	public class PlayingNowRenderer extends UIComponent implements IListItemRenderer{
-		[Embed(source="/assets/playlist_loaded.png")]
-		private static const loadedSource:Class;
-		[Embed(source="/assets/playlist_play.png")]
-		private static const playSource:Class;
+		public static const loadedSource:Class;
+		public static const playSource:Class;
 		private var imgPlay:Image = new Image();
 		private var imgLoaded:Image = new Image();
 		private var _data:Object;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" xmlns:local="*" xmlns:view="org.yass.main.view.*" xmlns:main="org.yass.main.*">
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" xmlns:local="*" xmlns:view="org.yass.main.view.*" xmlns:main="org.yass.main.*" styleName="threeCanvas">
 	<mx:states>
 		<mx:State name="playListState">
 			<mx:SetProperty target="{hbox1}" name="visible" value="false"/>
@@ -8,7 +8,6 @@
 			<mx:SetStyle target="{vdividedbox1}" name="verticalGap" value="0"/>
 		</mx:State>
 	</mx:states>
-		<mx:borderSkin>@Embed(source='/assets/black-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60')</mx:borderSkin>
 	<mx:VDividedBox left="5" right="5" top="6" bottom="5"   verticalGap="5" horizontalAlign="center" verticalAlign="middle"  width="100%" height="100%"  creationComplete="init()" id="vdividedbox1">
 	<mx:Script>
 		<![CDATA[
