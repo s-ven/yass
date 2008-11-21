@@ -2,7 +2,7 @@
 <actionScriptProperties mainApplicationPath="index.mxml" version="3">
 <compiler additionalCompilerArguments="-managers=flash.fonts.AFEFontManager -debug=true -optimize=false" copyDependentFiles="false" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="false" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="false" outputFolderPath="yass-flex/yass-flex-main/target/flex" rootURL="http://sven.yi.org/yass/" sourceFolderPath="yass-flex/yass-flex-main/src/main/flex" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
 <compilerSourcePath>
-<compilerSourcePathEntry kind="1" linkType="1" path="yass-flex/yass-fles-resources/src/main/resources"/>
+<compilerSourcePathEntry kind="1" linkType="1" path="yass-flex/yass-flex-resources/src/main/resources"/>
 <compilerSourcePathEntry kind="1" linkType="1" path="yass-flex/yass-flex-login/src/main/flex"/>
 </compilerSourcePath>
 <libraryPath defaultLinkType="1">
@@ -12,6 +12,8 @@
 </compiler>
 <applications>
 <application path="index.mxml"/>
+<application path="login.mxml"/>
+<application path="style.css"/>
 </applications>
 <modules/>
 <buildCSSFiles/>
