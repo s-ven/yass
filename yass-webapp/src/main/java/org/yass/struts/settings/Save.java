@@ -47,7 +47,7 @@ public class Save extends YassAction implements YassConstants {
 
 	@Override
 	public String execute() {
-		final User user = getUser();
+		final User user = USER_DAO.findById(userId);
 		if (LOG.isInfoEnabled())
 			LOG.info("Saving Settings User id:" + user.getId());
 		UserSetting settings = user.getUserSetting();

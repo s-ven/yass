@@ -33,15 +33,16 @@ public class Save extends YassAction implements YassConstants {
 	private static final long serialVersionUID = 3411435373847531163L;
 	public String id;
 	public String name;
+	public int userId;
 
 	@Override
 	public String execute() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Saving playlist " + id);
-		PlayList pl = getUser().getPlayLists().get(id);
+		PlayList pl = USER_DAO.findById(userId).getPlayLists().get(id);
 		if (pl == null)
 			pl = new SimplePlayList(0, name, new Date());
-		getUser().getPlayLists().put(pl.getId(), pl);
+		USER_DAO.findById(userId).getPlayLists().put(pl.getId(), pl);
 		PLAYLIST_DAO.save(pl);
 		return NONE;
 	}

@@ -36,13 +36,14 @@ public class Show extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
 	public int id;
+	public int userId;
 
 	@Override
 	public String execute() {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Getting Playlist id:" + id);
-			final PlayList playList = getUser().getPlayLists().get(id);
+			final PlayList playList = USER_DAO.findById(userId).getPlayLists().get(id);
 			if (playList instanceof SmartPlayList)
 				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();

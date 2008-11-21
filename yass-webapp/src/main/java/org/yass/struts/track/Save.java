@@ -35,12 +35,13 @@ public class Save extends YassAction implements YassConstants {
 	public long lastPlayed;
 	public int playCount;
 	public int rating;
+	public int userId;
 
 	@Override
 	public String execute() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Saving TrackStat for Track id:" + id);
-		final User user = getUser();
+		final User user = USER_DAO.findById(userId);
 		TrackStat trackStat = user.getTracksStats().get(id);
 		if (trackStat == null)
 			user.getTracksStats().put(id, trackStat = new TrackStat(user, id));

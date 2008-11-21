@@ -32,16 +32,19 @@ import org.w3c.dom.Node;
 import org.yass.YassConstants;
 import org.yass.domain.PlayList;
 import org.yass.domain.SmartPlayList;
+import org.yass.domain.User;
 import org.yass.struts.YassAction;
 
 public class Browse extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
+	public int userId;
 
 	@Override
 	public String execute() {
 		try {
-			final Map<Integer, PlayList> playLists = getUser().getPlayLists();
+			final User user = USER_DAO.findById(userId);
+			final Map<Integer, PlayList> playLists = user.getPlayLists();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Node playListsNode = doc.appendChild(doc.createElement("playlists"));
 			final Element libraryNode = (Element) playListsNode.appendChild(doc.createElement("library"));
@@ -50,7 +53,7 @@ public class Browse extends YassAction implements YassConstants {
 			Element plstNode = (Element) libraryNode.appendChild(doc.createElement("playlist"));
 			plstNode.setAttribute("name", "Music");
 			plstNode.setAttribute("type", "library");
-			plstNode.setAttribute("id", getUser().getLibrary().getId() + "");
+			plstNode.setAttribute("id", user.getLibrary().getId() + "");
 			final Element smartPlNode = (Element) playListsNode.appendChild(doc.createElement("smart"));
 			smartPlNode.setAttribute("name", "SMART PLAYLISTS");
 			smartPlNode.setAttribute("type", "void");
@@ -74,7 +77,7 @@ public class Browse extends YassAction implements YassConstants {
 			}
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {
-			LOG.error("", e);
+			LOG.error("Error parsing Playlist", e);
 		}
 		return NONE;
 	}
@@ -82,31 +85,3 @@ public class Browse extends YassAction implements YassConstants {
 	public void setRefresh(final boolean refresh) {
 	}
 }
-// <playlists>
-// <library name="LIBRARY" type="void">
-// <playlist name="Music" type="library" id="0"/>
-// </library>
-// <%
-// final Map<Integer, PlayList> plsts = (Map<Integer,
-// PlayList>)application.getAttribute(YassConstants.USER_PLAYLISTS);
-// %>
-// <smart name="SMART PLAYLISTS" type="void"><%
-// for(PlayList plst : plsts.values()){
-// if(plst instanceof SmartPlayList){ %>
-// <playlist name="<%=plst.getName() %>" type="smart" id="<%=plst.getId() %>"/>
-// <%
-// }
-// }
-// %>
-// </smart>
-// <user name="USER PLAYLISTS" type="void"><%
-// for(PlayList plst : plsts.values()){
-// if(plst instanceof SimplePlayList){ %>
-// <playlist name="<%=plst.getName() %>" type="user" id="<%=plst.getId() %>"/>
-// <%
-// }
-// }
-// %>
-// <playlist name="&lt;New&gt;" type="user" id="0"/>
-// </user>
-// </playlists>

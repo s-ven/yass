@@ -33,12 +33,13 @@ public class AddTo extends YassAction implements YassConstants {
 	private static final long serialVersionUID = 3411435373847531163L;
 	public int id;
 	public Integer[] trackIds;
+	public int userId;
 
 	@Override
 	public String execute() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Adding tracks to Playlist id:" + id);
-		final PlayList pl = getUser().getPlayLists().get(id);
+		final PlayList pl = USER_DAO.findById(userId).getPlayLists().get(id);
 		if (pl instanceof SimplePlayList) {
 			pl.addTracks(trackIds);
 			PLAYLIST_DAO.save(pl);

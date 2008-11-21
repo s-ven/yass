@@ -28,56 +28,48 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackStat;
+import org.yass.domain.User;
 import org.yass.struts.YassAction;
+import org.yass.util.XMLElementBuilder;
 
 public class Browse extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
+	public int userId;
 
 	@Override
 	public String execute() {
 		try {
 			LOG.info("Getting Library");
-			final Library lib = getUser().getLibrary();
+			final User user = USER_DAO.findById(userId);
+			final Library lib = user.getLibrary();
 			final Collection<Track> tracks = lib.getTracks();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-			final Element libNode = doc.createElement("library");
-			doc.appendChild(libNode);
-			final Map<Integer, TrackStat> trackStats = getUser().getTracksStats();
+			final XMLElementBuilder libApp = new XMLElementBuilder(doc, "library");
+			final Map<Integer, TrackStat> trackStats = user.getTracksStats();
 			for (final Track track : tracks)
 				if (track.getTrackInfo(ARTIST) != null && track.getTrackInfo(ALBUM) != null
 						&& track.getTrackInfo(GENRE) != null) {
-					final Element trackNode = doc.createElement("track");
-					libNode.appendChild(trackNode);
-					trackNode.setAttribute("id", track.getId() + "");
-					trackNode.setAttribute("trackNr", track.getTrackNr() + "");
-					trackNode.setAttribute("title", track.getTitle());
-					trackNode.setAttribute("artist", track.getTrackInfo(ARTIST).getId() + "");
-					trackNode.setAttribute("album", track.getTrackInfo(ALBUM).getId() + "");
-					trackNode.setAttribute("genre", track.getTrackInfo(GENRE).getId() + "");
+					final XMLElementBuilder trackApp = libApp.appendChild("track");
+					trackApp.append("id", track.getId()).append("trackNr", track.getTrackNr()).append("title", track.getTitle())
+							.append("artist", track.getTrackInfo(ARTIST).getId()).append("album", track.getTrackInfo(ALBUM).getId())
+							.append("genre", track.getTrackInfo(GENRE).getId());
 					if (track.getTrackInfo(YEAR) != null)
-						trackNode.setAttribute("year", track.getTrackInfo(YEAR).getValue());
+						trackApp.append("year", track.getTrackInfo(YEAR).getValue());
 					if (track.getTrackInfo(BITRATE) != null)
-						trackNode.setAttribute("bitrate", track.getTrackInfo(BITRATE).getValue());
-					trackNode.setAttribute("vbr", track.isVBR() + "");
-					trackNode.setAttribute("length", track.getDuration() + "");
-					trackNode.setAttribute("lastModified", track.getLastModified().getTime() + "");
+						trackApp.append("bitrate", track.getTrackInfo(BITRATE).getValue());
+					trackApp.append("vbr", track.isVBR()).append("length", track.getDuration()).append("lastModified",
+							track.getLastModified().getTime());
 					final TrackStat stat = trackStats.get(track.getId());
-					if (stat != null) {
-						trackNode.setAttribute("rating", stat.getRating() + "");
-						trackNode.setAttribute("playCount", stat.getPlayCount() + "");
-						trackNode.setAttribute("lastPlayed", stat.getLastPlayed() != null ? stat.getLastPlayed().getTime() + ""
-								: "0");
-					} else {
-						trackNode.setAttribute("rating", "0");
-						trackNode.setAttribute("playCount", "0");
-						trackNode.setAttribute("lastPlayed", "0");
-					}
+					if (stat != null)
+						trackApp.append("rating", stat.getRating()).append("playCount", stat.getPlayCount()).append("lastPlayed",
+								stat.getLastPlayed() != null ? stat.getLastPlayed().getTime() : 0);
+					else
+						trackApp.append("rating", 0).append("playCount", 0).append("lastPlayed", 0);
 				}
 			return outputDocument(doc);
 		} catch (final ParserConfigurationException e) {

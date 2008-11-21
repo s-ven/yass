@@ -39,9 +39,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.ServletActionContext;
 import org.w3c.dom.Document;
 import org.yass.YassConstants;
-import org.yass.domain.User;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("all")
@@ -49,10 +47,6 @@ public class YassAction extends ActionSupport implements YassConstants {
 
 	public static final Log LOG = LogFactory.getLog(YassAction.class);
 	private static final long serialVersionUID = -4592155945099982999L;
-
-	protected User getUser() {
-		return (User) ActionContext.getContext().getApplication().get(USER);
-	}
 
 	/**
 	 * @param document

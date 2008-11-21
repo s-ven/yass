@@ -36,6 +36,7 @@ import org.yass.struts.YassAction;
 public class GetTree extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
+	public int userId;
 
 	@Override
 	public String execute() {
@@ -43,9 +44,9 @@ public class GetTree extends YassAction implements YassConstants {
 		try {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element treeNode = doc.createElement("libTree");
-			final Collection<Track> tracks = getUser().getLibrary().getTracks();
+			final Collection<Track> tracks = USER_DAO.findById(userId).getLibrary().getTracks();
 			for (final Track track : tracks)
-				feedGenre(doc, treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
+				feedGenre(treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
 			doc.appendChild(treeNode);
 			return outputDocument(doc);
 		} catch (final Exception e) {
@@ -60,12 +61,12 @@ public class GetTree extends YassAction implements YassConstants {
 	 * @param artistNode
 	 * @return
 	 */
-	private boolean feedAlbum(final Document doc, final TrackInfo album, final Element artistNode) {
+	private boolean feedAlbum(final TrackInfo album, final Element artistNode) {
 		final NodeList albLst = artistNode.getChildNodes();
 		for (int k = 0; k < albLst.getLength(); k++)
-			if (((Element) albLst.item(k)).getAttribute("value").equals(album.getValue()))
+			if (isNodeValue(album, (Element) albLst.item(k)))
 				return true;
-		artistNode.appendChild(album.toXMLElement(doc));
+		artistNode.appendChild(album.toXMLElement(artistNode.getOwnerDocument()));
 		return true;
 	}
 
@@ -77,13 +78,14 @@ public class GetTree extends YassAction implements YassConstants {
 	 * @param genreNode
 	 * @return
 	 */
-	private boolean feedArtist(final Document doc, final TrackInfo artist, final TrackInfo album, final Element genreNode) {
+	private boolean feedArtist(final TrackInfo artist, final TrackInfo album, final Element genreNode) {
 		final NodeList artistLst = genreNode.getChildNodes();
 		for (int j = 0; j < artistLst.getLength(); j++) {
 			final Element artistNode = (Element) artistLst.item(j);
-			if (artistNode.getAttribute("value").equals(artist.getValue()) && feedAlbum(doc, album, artistNode))
+			if (isNodeValue(artist, artistNode) && feedAlbum(album, artistNode))
 				return true;
 		}
+		final Document doc = genreNode.getOwnerDocument();
 		genreNode.appendChild(artist.toXMLElement(doc)).appendChild(album.toXMLElement(doc));
 		return true;
 	}
@@ -96,17 +98,26 @@ public class GetTree extends YassAction implements YassConstants {
 	 * @param artist
 	 * @param album
 	 */
-	private void feedGenre(final Document doc, final Element treeNode, final TrackInfo genre, final TrackInfo artist,
-			final TrackInfo album) {
+	private void feedGenre(final Element treeNode, final TrackInfo genre, final TrackInfo artist, final TrackInfo album) {
 		final NodeList genreList = treeNode.getChildNodes();
 		for (int i = 0; i < genreList.getLength(); i++) {
 			final Element genreNode = (Element) genreList.item(i);
-			if (genre != null && genreNode.getAttribute("value").equals(genre.getValue())
-					&& feedArtist(doc, artist, album, genreNode))
+			if (genre != null && isNodeValue(genre, genreNode) && feedArtist(artist, album, genreNode))
 				return;
 		}
-		if (genre != null)
+		if (genre != null) {
+			final Document doc = treeNode.getOwnerDocument();
 			treeNode.appendChild(genre.toXMLElement(doc)).appendChild(artist.toXMLElement(doc)).appendChild(
 					album.toXMLElement(doc));
+		}
+	}
+
+	/**
+	 * @param artist
+	 * @param artistNode
+	 * @return
+	 */
+	private boolean isNodeValue(final TrackInfo artist, final Element artistNode) {
+		return artistNode.getAttribute("value").equals(artist.getValue());
 	}
 }
