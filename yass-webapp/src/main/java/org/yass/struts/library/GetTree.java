@@ -37,17 +37,6 @@ public class GetTree extends YassAction implements YassConstants {
 
 	private static final long serialVersionUID = 3411435373847531163L;
 
-	private final static Element makeNodeFromProp(final Document doc, final TrackInfo trackInfo) {
-		final Element node = doc.createElement(trackInfo.getType());
-		node.setAttribute("id", "" + trackInfo.getId());
-		node.setAttribute("value", trackInfo.getValue());
-		// If the trackIngo is an album, will try to check if it have an attached
-		// picture in the database
-		if (trackInfo.getType().equals(ALBUM))
-			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(trackInfo.getId()) + "");
-		return node;
-	}
-
 	@Override
 	public String execute() {
 		LOG.info("Getting Library TrackInfos");
@@ -55,54 +44,69 @@ public class GetTree extends YassAction implements YassConstants {
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Element treeNode = doc.createElement("libTree");
 			final Collection<Track> tracks = getUser().getLibrary().getTracks();
-			for (final Track track : tracks) {
-				boolean exists = false;
-				final NodeList genreList = treeNode.getChildNodes();
-				final TrackInfo genre = track.getTrackInfo(GENRE);
-				final TrackInfo artist = track.getTrackInfo(ARTIST);
-				final TrackInfo album = track.getTrackInfo(ALBUM);
-				for (int i = 0; i < genreList.getLength(); i++) {
-					final Element genreNode = (Element) genreList.item(i);
-					if (genre != null && genreNode.getAttribute("value").equals(genre.getValue())) {
-						// If this genre already exists, will populate the corresponding
-						// node with
-						final NodeList artistLst = genreNode.getChildNodes();
-						for (int j = 0; j < artistLst.getLength(); j++) {
-							final Element artistNode = (Element) artistLst.item(j);
-							if (artistNode.getAttribute("value").equals(artist.getValue())) {
-								// If this artist already exists, will populate the
-								// corresponding node with
-								final NodeList albLst = artistNode.getChildNodes();
-								for (int k = 0; k < albLst.getLength(); k++)
-									if (((Element) albLst.item(k)).getAttribute("value").equals(album.getValue())) {
-										exists = true;
-										break;
-									}
-								if (!exists) {
-									artistNode.appendChild(makeNodeFromProp(doc, album));
-									exists = true;
-								}
-							}
-							if (exists)
-								break;
-						}
-						if (!exists) {
-							genreNode.appendChild(makeNodeFromProp(doc, artist)).appendChild(makeNodeFromProp(doc, album));
-							exists = true;
-						}
-					}
-					if (exists)
-						break;
-				}
-				if (genre != null && !exists)
-					treeNode.appendChild(makeNodeFromProp(doc, genre)).appendChild(makeNodeFromProp(doc, artist)).appendChild(
-							makeNodeFromProp(doc, album));
-			}
+			for (final Track track : tracks)
+				feedGenre(doc, treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
 			doc.appendChild(treeNode);
 			return outputDocument(doc);
 		} catch (final Exception e) {
 			LOG.fatal("Error during Library TrackInfo XML creation", e);
 		}
 		return NONE;
+	}
+
+	/**
+	 * @param doc
+	 * @param album
+	 * @param artistNode
+	 * @return
+	 */
+	private boolean feedAlbum(final Document doc, final TrackInfo album, final Element artistNode) {
+		final NodeList albLst = artistNode.getChildNodes();
+		for (int k = 0; k < albLst.getLength(); k++)
+			if (((Element) albLst.item(k)).getAttribute("value").equals(album.getValue()))
+				return true;
+		artistNode.appendChild(album.toXMLElement(doc));
+		return true;
+	}
+
+	/**
+	 * @param doc
+	 * @param exists
+	 * @param artist
+	 * @param album
+	 * @param genreNode
+	 * @return
+	 */
+	private boolean feedArtist(final Document doc, final TrackInfo artist, final TrackInfo album, final Element genreNode) {
+		final NodeList artistLst = genreNode.getChildNodes();
+		for (int j = 0; j < artistLst.getLength(); j++) {
+			final Element artistNode = (Element) artistLst.item(j);
+			if (artistNode.getAttribute("value").equals(artist.getValue()) && feedAlbum(doc, album, artistNode))
+				return true;
+		}
+		genreNode.appendChild(artist.toXMLElement(doc)).appendChild(album.toXMLElement(doc));
+		return true;
+	}
+
+	/**
+	 * @param doc
+	 * @param treeNode
+	 * @param exists
+	 * @param genre
+	 * @param artist
+	 * @param album
+	 */
+	private void feedGenre(final Document doc, final Element treeNode, final TrackInfo genre, final TrackInfo artist,
+			final TrackInfo album) {
+		final NodeList genreList = treeNode.getChildNodes();
+		for (int i = 0; i < genreList.getLength(); i++) {
+			final Element genreNode = (Element) genreList.item(i);
+			if (genre != null && genreNode.getAttribute("value").equals(genre.getValue())
+					&& feedArtist(doc, artist, album, genreNode))
+				return;
+		}
+		if (genre != null)
+			treeNode.appendChild(genre.toXMLElement(doc)).appendChild(artist.toXMLElement(doc)).appendChild(
+					album.toXMLElement(doc));
 	}
 }

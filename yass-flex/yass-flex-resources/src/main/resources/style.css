@@ -4,25 +4,59 @@
 	fontFamily:Monaco;
 }
 Canvas.threeCanvas{
-	borderSkin:Embed('assets/black-bk.png',scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='60');
+	borderSkin:Embed('assets/black-bk.png',scaleGridTop='10',scaleGridBottom='45',scaleGridLeft='12',scaleGridRight='60');
 }
 Image.searchDropMarker{
 	source:Embed('assets/dropmarker-plus.png');
 }
-Button.searchReset{
-	skin:Embed('assets/search-cross.png'); 
+.searchReset{
+	backgroundImage:Embed('assets/search-cross.png'); 
 	selectedUpSkin:Embed('assets/search-cross-over.png');
 	downSkin:Embed('assets/search-cross-over.png');
 	upSkin:Embed('assets/search-cross.png');
 	overSkin:Embed(source='assets/search-cross-over.png');
 }
-RatingRenderer{
-	rating0:Embed('assets/rating_0.png');
-	rating0:Embed('assets/rating_1.png');
-	rating0:Embed('assets/rating_2.png');
-	rating0:Embed('assets/rating_3.png');
-	rating0:Embed('assets/rating_4.png');
-	rating0:Embed('assets/rating_5.png');
+.rating0{
+	backgroundImage:Embed('assets/rating_0.png');
+	selectedUpSkin:Embed('assets/rating_0.png');
+	downSkin:Embed('assets/rating_0.png');
+	upSkin:Embed('assets/rating_0.png');
+	overSkin:Embed('assets/rating_0.png');
+}
+.rating1{
+	backgroundImage:Embed('assets/rating_1.png');
+	selectedUpSkin:Embed('assets/rating_1.png');
+	downSkin:Embed('assets/rating_1.png');
+	upSkin:Embed('assets/rating_1.png');
+	overSkin:Embed('assets/rating_1.png');
+}
+.rating2{
+	backgroundImage:Embed('assets/rating_2.png');
+	selectedUpSkin:Embed('assets/rating_2.png');
+	downSkin:Embed('assets/rating_2.png');
+	upSkin:Embed('assets/rating_2.png');
+	overSkin:Embed('assets/rating_2.png');
+}
+.rating3{
+	backgroundImage:Embed('assets/rating_3.png');
+	selectedUpSkin:Embed('assets/rating_3.png');
+	downSkin:Embed('assets/rating_3.png');
+	upSkin:Embed('assets/rating_3.png');
+	overSkin:Embed('assets/rating_3.png');
+}
+.rating4{
+	backgroundImage:Embed('assets/rating_4.png');
+	selectedUpSkin:Embed('assets/rating_4.png');
+	downSkin:Embed('assets/rating_4.png');
+	upSkin:Embed('assets/rating_4.png');
+	overSkin:Embed('assets/rating_4.png');
+}
+.rating5{
+	backgroundImage:Embed('assets/rating_5.png');
+	selectedUpSkin:Embed('assets/rating_5.png');
+	downSkin:Embed('assets/rating_5.png');
+	upSkin:Embed('assets/rating_5.png');
+	overSkin:Embed('assets/rating_5.png');
 }
 PlayingNowRenderer{
 	loadedSource:Embed('assets/playlist_loaded.png');
@@ -35,589 +69,589 @@ NavigationViewRenderer{
 	lightPlIcon:Embed('assets/small-tree-light.png');
 }
 Button.PlayButtonStopped{
-	downSkin: Embed('assets/active-play.png');
-	overSkin: Embed('assets/hover-play.png');
-	upSkin: Embed('assets/normal-play.png');
+	downSkin:Embed('assets/active-play.png');
+	overSkin:Embed('assets/hover-play.png');
+	upSkin:Embed('assets/normal-play.png');
 }
 Button.PrefsButton{
-	downSkin: Embed('assets/active-pref.png');
-	overSkin: Embed('assets/hover-pref.png');
-	upSkin: Embed('assets/normal-pref.png');
+	downSkin:Embed('assets/active-pref.png');
+	overSkin:Embed('assets/hover-pref.png');
+	upSkin:Embed('assets/normal-pref.png');
 }
 Button.PlayButtonStarted{
-	downSkin: Embed('assets/active-pause.png');
-	overSkin: Embed('assets/hover-pause.png');
-	upSkin: Embed('assets/normal-pause.png');
+	downSkin:Embed('assets/active-pause.png');
+	overSkin:Embed('assets/hover-pause.png');
+	upSkin:Embed('assets/normal-pause.png');
 }
 ProgressSlider.ProgressSlider{
-	showTrackHighlight: true;
-	thumbDownSkin: Embed('assets/progress-thumb.png');
-	thumbOverSkin: Embed('assets/progress-thumb.png');
-	thumbSkin: Embed('assets/progress-thumb.png');
-	trackHighlightSkin: Embed('assets/progress-highlight.png');
-	trackSkin: Embed('assets/progress.png');
+	showTrackHighlight:true;
+	thumbDownSkin:Embed('assets/progress-thumb.png');
+	thumbOverSkin:Embed('assets/progress-thumb.png');
+	thumbSkin:Embed('assets/progress-thumb.png');
+	trackHighlightSkin:Embed('assets/progress-highlight.png');
+	trackSkin:Embed('assets/progress.png');
 	verticalCenter:-4;
-	slide-easing-function: 0;
+	slide-easing-function:0;
 	slide-duration:0;
 }
 CheckBox.LoopCheckBox{
-	downIcon: Embed('assets/repeat-off.png');
-	icon: Embed('assets/repeat-off.png');
-	overIcon: Embed('assets/repeat-off.png');
-	selectedDownIcon: Embed('assets/repeat-on.png');
-	selectedOverIcon: Embed('assets/repeat-on.png');
-	selectedUpIcon: Embed('assets/repeat-on.png');
-	upIcon: Embed('assets/repeat-off.png');
+	downIcon:Embed('assets/repeat-off.png');
+	icon:Embed('assets/repeat-off.png');
+	overIcon:Embed('assets/repeat-off.png');
+	selectedDownIcon:Embed('assets/repeat-on.png');
+	selectedOverIcon:Embed('assets/repeat-on.png');
+	selectedUpIcon:Embed('assets/repeat-on.png');
+	upIcon:Embed('assets/repeat-off.png');
 	verticalCenter:0;
 	right:0;
 }
 CheckBox.ShuffleCheckBox{
-	downIcon: Embed('assets/shuffle-off.png');
-	icon: Embed('assets/shuffle-off.png');
-	overIcon: Embed('assets/shuffle-off.png');
-	selectedDownIcon: Embed('assets/shuffle-on.png');
-	selectedOverIcon: Embed('assets/shuffle-on.png');
-	selectedUpIcon: Embed('assets/shuffle-on.png');
-	upIcon: Embed('assets/shuffle-off.png');
+	downIcon:Embed('assets/shuffle-off.png');
+	icon:Embed('assets/shuffle-off.png');
+	overIcon:Embed('assets/shuffle-off.png');
+	selectedDownIcon:Embed('assets/shuffle-on.png');
+	selectedOverIcon:Embed('assets/shuffle-on.png');
+	selectedUpIcon:Embed('assets/shuffle-on.png');
+	upIcon:Embed('assets/shuffle-off.png');
 	verticalCenter:0;
 	left:0;
 }
 Button.ForwardButton{
-	downSkin: Embed('assets/active-fwd.png');
-	overSkin: Embed('assets/hover-fwd.png');
-	upSkin: Embed('assets/normal-fwd.png');
+	downSkin:Embed('assets/active-fwd.png');
+	overSkin:Embed('assets/hover-fwd.png');
+	upSkin:Embed('assets/normal-fwd.png');
 }
 Button.BackButton{
-	downSkin: Embed('assets/active-back.png');
-	overSkin: Embed('assets/hover-back.png');
-	upSkin: Embed('assets/normal-back.png');
+	downSkin:Embed('assets/active-back.png');
+	overSkin:Embed('assets/hover-back.png');
+	upSkin:Embed('assets/normal-back.png');
 }
 Button.VolDownButton{
-	downSkin: Embed('assets/hover-vol-down.png');
-	overSkin: Embed('assets/hover-vol-down.png');
-	upSkin: Embed('assets/normal-vol-down.png');
+	downSkin:Embed('assets/hover-vol-down.png');
+	overSkin:Embed('assets/hover-vol-down.png');
+	upSkin:Embed('assets/normal-vol-down.png');
 }
 HSlider.VolumeSlider{
-	thumbDownSkin: Embed('assets/volume-thumb-active.png');
-	thumbOverSkin: Embed('assets/volume-thumb-active.png');
-	thumbSkin: Embed('assets/volume-thumb.png');
-	trackSkin: Embed('assets/volume-track-bkgd.png');
-	slide-easing-function: 0;
+	thumbDownSkin:Embed('assets/volume-thumb-active.png');
+	thumbOverSkin:Embed('assets/volume-thumb-active.png');
+	thumbSkin:Embed('assets/volume-thumb.png');
+	trackSkin:Embed('assets/volume-track-bkgd.png');
+	slide-easing-function:0;
 	slide-duration:0;
-	thumbOffset: 0;
-	dataTipPlacement: bottom;
-	verticalCenter: -5;
-	horizontalCenter: 0;
+	thumbOffset:0;
+	dataTipPlacement:bottom;
+	verticalCenter:-5;
+	horizontalCenter:0;
 }
 Display.Display{
 	 horizontal-center:0;
 	 vertical-center:0 ;
-	 background-size:"100%";
-	backgroundImage: Embed('assets/faceplate-bkgd.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
+	 background-size:'100%';
+	backgroundImage:Embed('assets/faceplate-bkgd.png',scaleGridTop='10',scaleGridBottom='45',scaleGridLeft='12',scaleGridRight='69');
 }
 Canvas.DisplayReflect{
-	 background-size:"100%";
-	backgroundImage: Embed('assets/faceplate-fg.png', scaleGridTop='10', scaleGridBottom='45', scaleGridLeft='12', scaleGridRight='69');
-	backgroundAlpha: 0.95;
+	 background-size:'100%';
+	backgroundImage:Embed('assets/faceplate-fg.png',scaleGridTop='10',scaleGridBottom='45',scaleGridLeft='12',scaleGridRight='69');
+	backgroundAlpha:0.95;
 }
 Button.VolumeUpButton{
-	downSkin: Embed('assets/hover-vol-up.png');
-	overSkin: Embed('assets/hover-vol-up.png');
-	upSkin: Embed('assets/normal-vol-up.png');
+	downSkin:Embed('assets/hover-vol-up.png');
+	overSkin:Embed('assets/hover-vol-up.png');
+	upSkin:Embed('assets/normal-vol-up.png');
 }
 SpectrumAnalyzer.dimmed{
 	vuCount:32;
 	vuLevels:23;
-	colorTop:"0xFFFF00";
-	colorMax:"0xFF0000";
-	colorActive:"0x222222";
-	colorInactive:"0x000000";
-	alphaTop:"0.5";
-	alphaMax:"0.3";
-	alphaActive:"0.25";
-	alphaInactive:"0.10";
+	colorTop:'0xFFFF00';
+	colorMax:'0xFF0000';
+	colorActive:'0x222222';
+	colorInactive:'0x000000';
+	alphaTop:'0.5';
+	alphaMax:'0.3';
+	alphaActive:'0.25';
+	alphaInactive:'0.10';
 }
 SpectrumAnalyzer.visible{
 	vuCount:32;
 	vuLevels:23;
-	colorTop:"0xFFFF00";
-	colorMax:"0xFF0000";
-	colorActive:"0x222222";
-	colorInactive:"0x000000";
-	alphaTop:"0.9";
-	alphaMax:"0.6";
-	alphaActive:"0.6";
-	alphaInactive:"0.2";
+	colorTop:'0xFFFF00';
+	colorMax:'0xFF0000';
+	colorActive:'0x222222';
+	colorInactive:'0x000000';
+	alphaTop:'0.9';
+	alphaMax:'0.6';
+	alphaActive:'0.6';
+	alphaInactive:'0.2';
 }
 TextInput.inputText{
 	corner-radius:8;
 	padding-top:4;
-	borderSkin: Embed('assets/input-bkgd.png',  scaleGridTop='10', scaleGridBottom='11', scaleGridLeft='10', scaleGridRight='260');
-	backgroundAlpha: 0.0;
-	backgroundColor: #000000;
-	color: #F1F1F1;
-	paddingLeft: 8;
+	borderSkin:Embed('assets/input-bkgd.png',scaleGridTop='10',scaleGridBottom='11',scaleGridLeft='10',scaleGridRight='260');
+	backgroundAlpha:0.0;
+	backgroundColor:#000000;
+	color:#F1F1F1;
+	paddingLeft:8;
 }
 global{
-   fontFamily: Monaco;
+   fontFamily:Monaco;
    fontAntiAliasType:advanced;
-	fontSize: 9;
-	textSelectedColor: #333333;
-	selectedFillColors: #EDEDED;
+	fontSize:9;
+	textSelectedColor:#333333;
+	selectedFillColors:#EDEDED;
 }
 Application{
-   backgroundColor: #333333;
-   backgroundGradientColors: #333333, #333333;
-   backgroundGradientAlphas: 1, 1;
-   themeColor: #333333;
-   color: #ffffff;
-	paddingLeft: 0;
-	paddingRight: 0;
-	paddingTop: 0;
-	paddingBottom: 0;
+   backgroundColor:#333333;
+   backgroundGradientColors:#333333,#333333;
+   backgroundGradientAlphas:1,1;
+   themeColor:#333333;
+   color:#ffffff;
+	paddingLeft:0;
+	paddingRight:0;
+	paddingTop:0;
+	paddingBottom:0;
 }
 Button{
-   cornerRadius: 6;
-   paddingLeft: 10;
-   paddingRight: 10;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #DDDDDD;
-   textRollOverColor: #FFFFFF;
-   borderColor: #333333;
-   themeColor: #333333;
-	leading: 0;
-	paddingTop: 5;
-	paddingBottom: 5;
-	horizontalGap: 0;
-	upSkin: Embed(source="assets/button-up.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
-	overSkin: Embed(source="assets/button-up.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
-	downSkin: Embed(source="assets/button-down.png",scaleGridTop="9",scaleGridLeft="9",scaleGridRight="77",scaleGridBottom="21");
-	textSelectedColor: #FFFFFF;
+   cornerRadius:6;
+   paddingLeft:10;
+   paddingRight:10;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#DDDDDD;
+   textRollOverColor:#FFFFFF;
+   borderColor:#333333;
+   themeColor:#333333;
+	leading:0;
+	paddingTop:5;
+	paddingBottom:5;
+	horizontalGap:0;
+	upSkin:Embed(source='assets/button-up.png',scaleGridTop='9',scaleGridLeft='9',scaleGridRight='77',scaleGridBottom='21');
+	overSkin:Embed(source='assets/button-up.png',scaleGridTop='9',scaleGridLeft='9',scaleGridRight='77',scaleGridBottom='21');
+	downSkin:Embed(source='assets/button-down.png',scaleGridTop='9',scaleGridLeft='9',scaleGridRight='77',scaleGridBottom='21');
+	textSelectedColor:#FFFFFF;
 }
 ButtonBar{
-   buttonStyleName: "mybuttonBarButtonStyle";
-   firstButtonStyleName: "mybuttonBarFirstButtonStyle";
-   lastButtonStyleName: "mybuttonBarLastButtonStyle";
+   buttonStyleName:'mybuttonBarButtonStyle';
+   firstButtonStyleName:'mybuttonBarFirstButtonStyle';
+   lastButtonStyleName:'mybuttonBarLastButtonStyle';
 }
 .mybuttonBarButtonStyle{
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 .mybuttonBarFirstButtonStyle{
-   cornerRadius: 10;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   cornerRadius:10;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 .mybuttonBarLastButtonStyle{
-   cornerRadius: 10;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   cornerRadius:10;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 LinkBar{
-   separatorColor: #333333;
-   rollOverColor: #cccccc;
-   selectionColor: #333333;
-   color: #999999;
-   textRollOverColor: #333333;
-   textSelectedColor: #cccccc;
-   disabledColor: #ffffff;
+   separatorColor:#333333;
+   rollOverColor:#cccccc;
+   selectionColor:#333333;
+   color:#999999;
+   textRollOverColor:#333333;
+   textSelectedColor:#cccccc;
+   disabledColor:#ffffff;
 }
 LinkButton{
-   cornerRadius: 10;
-   rollOverColor: #999999;
-   selectionColor: #333333;
-   color: #ffffff;
-   textRollOverColor: #ffffff;
-   textSelectedColor: #ffffff;
+   cornerRadius:10;
+   rollOverColor:#999999;
+   selectionColor:#333333;
+   color:#ffffff;
+   textRollOverColor:#ffffff;
+   textSelectedColor:#ffffff;
 }
 PopUpButton{
-   cornerRadius: 10;
-   arrowButtonWidth: 15;
-   paddingLeft: 0;
-   paddingRight: 0;
-   paddingTop: 0;
-   paddingBottom: 0;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   cornerRadius:10;
+   arrowButtonWidth:15;
+   paddingLeft:0;
+   paddingRight:0;
+   paddingTop:0;
+   paddingBottom:0;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 ToggleButtonBar{
-   buttonStyleName: "mytoggleButtonBarButtonStyle";
-   firstButtonStyleName: "mytoggleButtonBarFirstButtonStyle";
-   lastButtonStyleName: "mytoggleButtonBarLastButtonStyle";
-   selectedButtonTextStyleName: "mytoggleButtonBarSelectedButtonStyle";
+   buttonStyleName:'mytoggleButtonBarButtonStyle';
+   firstButtonStyleName:'mytoggleButtonBarFirstButtonStyle';
+   lastButtonStyleName:'mytoggleButtonBarLastButtonStyle';
+   selectedButtonTextStyleName:'mytoggleButtonBarSelectedButtonStyle';
 }
 .mytoggleButtonBarButtonStyle{
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 .mytoggleButtonBarFirstButtonStyle{
-   cornerRadius: 10;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   cornerRadius:10;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 .mytoggleButtonBarLastButtonStyle{
-   cornerRadius: 10;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   color: #ffffff;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #000000;
-   borderColor: #333333;
-   themeColor: #333333;
+   cornerRadius:10;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#000000;
+   borderColor:#333333;
+   themeColor:#333333;
 }
 .mytoggleButtonBarSelectedButtonStyle{
-   color: #ffffff;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #333333, #666666, #666666, #666666;
+   color:#ffffff;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#333333,#666666,#666666,#666666;
 }
 ApplicationControlBar{
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.66;
-   fillColors: #333333, #000000;
-   backgroundColor: #666666;
-   cornerRadius: 10;
-   dropShadowEnabled: true;
-   shadowDistance: 4;
-   shadowDirection: center;
-   dropShadowColor: #000000;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.66;
+   fillColors:#333333,#000000;
+   backgroundColor:#666666;
+   cornerRadius:10;
+   dropShadowEnabled:true;
+   shadowDistance:4;
+   shadowDirection:center;
+   dropShadowColor:#000000;
 }
 
 Panel{
-	borderSkin: Embed('assets/panel-bkg.png', scaleGridTop="23", scaleGridBottom="340", scaleGridLeft="26", scaleGridRight="341");
+	borderSkin:Embed('assets/panel-bkg.png',scaleGridTop='23',scaleGridBottom='340',scaleGridLeft='26',scaleGridRight='341');
 	padding-top:30;
-	borderColor: #0B333C;
-	borderStyle: solid;
-	color: #EFEFEF;
-	horizontalAlign: center;
-	backgroundSize: "100%";
-   cornerRadius: 10;
-   highlightAlphas: 0, 0;
-   titleStyleName: "mypanelTitle";
+	borderColor:#0B333C;
+	borderStyle:solid;
+	color:#EFEFEF;
+	horizontalAlign:center;
+	backgroundSize:'100%';
+   cornerRadius:10;
+   highlightAlphas:0,0;
+   titleStyleName:'mypanelTitle';
 }
 .mypanelTitle{
-   color: #ffffff;
-   textAlign: center;
+   color:#ffffff;
+   textAlign:center;
 }
 CheckBox{
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #999999, #666666, #666666, #999999;
-   borderColor: #333333;
-   color: #ffffff;
-   textSelectedColor: #cccccc;
-   textRollOverColor: #cccccc;
-   themeColor: #333333;
-	paddingBottom: 0;
-	horizontalGap: 0;
-	textAlign: left;
-	paddingTop: 0;
-	leading: 0;
-	selectedUpIcon: Embed(source="assets/checkbox-up-selected.png");
-	upIcon: Embed(source="assets/checkbox-up.png");
-	selectedOverIcon: Embed(source="assets/checkbox-over-selected.png");
-	overIcon: Embed(source="assets/checkbox-over.png");
-	selectedDisabledIcon: Embed(source="assets/checkbox-disabled-selected.png");
-	selectedDownIcon: Embed(source="assets/checkbox-down-selected.png");
-	downIcon: Embed(source="assets/checkbox-down.png");
-	disabledIcon: Embed(source="assets/checkbox-disabled.png");;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#999999,#666666,#666666,#999999;
+   borderColor:#333333;
+   color:#ffffff;
+   textSelectedColor:#cccccc;
+   textRollOverColor:#cccccc;
+   themeColor:#333333;
+	paddingBottom:0;
+	horizontalGap:0;
+	textAlign:left;
+	paddingTop:0;
+	leading:0;
+	selectedUpIcon:Embed(source='assets/checkbox-up-selected.png');
+	upIcon:Embed(source='assets/checkbox-up.png');
+	selectedOverIcon:Embed(source='assets/checkbox-over-selected.png');
+	overIcon:Embed(source='assets/checkbox-over.png');
+	selectedDisabledIcon:Embed(source='assets/checkbox-disabled-selected.png');
+	selectedDownIcon:Embed(source='assets/checkbox-down-selected.png');
+	downIcon:Embed(source='assets/checkbox-down.png');
+	disabledIcon:Embed(source='assets/checkbox-disabled.png');;
 }
 ComboBox{
-   cornerRadius: 10;
-   color: #ffffff;
-   borderColor: #333333;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   selectionColor: #999999;
-   textSelectedColor: #000000;
-   rollOverColor: #cccccc;
-   textRollOverColor: #333333;
-   themeColor: #333333;
-   dropDownStyleName: "myComboBoxDropDowns";
-	dropdownStyleName: comboBoxDropdown;
-	leading: 0;
-	textAlign: left;
+   cornerRadius:10;
+   color:#ffffff;
+   borderColor:#333333;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   selectionColor:#999999;
+   textSelectedColor:#000000;
+   rollOverColor:#cccccc;
+   textRollOverColor:#333333;
+   themeColor:#333333;
+   dropDownStyleName:'myComboBoxDropDowns';
+	dropdownStyleName:comboBoxDropdown;
+	leading:0;
+	textAlign:left;
 }
 .myComboBoxDropDowns{
-   cornerRadius: 0;
-   borderColor: #333333;
-   color: #000000;
+   cornerRadius:0;
+   borderColor:#333333;
+   color:#000000;
 }
 DateChooser{
-   cornerRadius: 10;
-   borderThickness: 0;
-   headerColors: #666666, #333333;
-   highlightAlphas: 0, 0;
-   fillColors: #999999, #666666, #999999, #cccccc;
-   todayColor: #333333;
-   rollOverColor: #666666;
-   selectionColor: #333333;
-   color: #333333;
-   themeColor: #333333;
-   headerStyleName: "mydateChooserHeaderStyle";   weekDayStyleName: "mydateChooserWeekDayStyle";   todayStyleName: "mydateChooserTodayStyle";
+   cornerRadius:10;
+   borderThickness:0;
+   headerColors:#666666,#333333;
+   highlightAlphas:0,0;
+   fillColors:#999999,#666666,#999999,#cccccc;
+   todayColor:#333333;
+   rollOverColor:#666666;
+   selectionColor:#333333;
+   color:#333333;
+   themeColor:#333333;
+   headerStyleName:'mydateChooserHeaderStyle';   weekDayStyleName:'mydateChooserWeekDayStyle';   todayStyleName:'mydateChooserTodayStyle';
 }
 .mydateChooserHeaderStyle{
-   color: #ffffff;
+   color:#ffffff;
 
 }
 .mydateChooserWeekDayStyle{
-   color: #333333;
+   color:#333333;
 }
 .mydateChooserTodayStyle{
-   color: #ffffff;
+   color:#ffffff;
 }
 RadioButton{
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #999999, #666666, #666666, #999999;
-   borderColor: #333333;
-   color: #ffffff;
-   textSelectedColor: #cccccc;
-   textRollOverColor: #cccccc;
-   themeColor: #333333;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#999999,#666666,#666666,#999999;
+   borderColor:#333333;
+   color:#ffffff;
+   textSelectedColor:#cccccc;
+   textRollOverColor:#cccccc;
+   themeColor:#333333;
 }
 NumericStepper{
-   borderStyle: inset;
-   fillAlphas: 0.52, 0.67, 0.75, 0.65;
-   fillColors: #666666, #333333, #666666, #666666;
-   borderColor: #333333;
-   color: #333333;
-   textSelectedColor: #cccccc;
-   textRollOverColor: #cccccc;
-   themeColor: #333333;
+   borderStyle:inset;
+   fillAlphas:0.52,0.67,0.75,0.65;
+   fillColors:#666666,#333333,#666666,#666666;
+   borderColor:#333333;
+   color:#333333;
+   textSelectedColor:#cccccc;
+   textRollOverColor:#cccccc;
+   themeColor:#333333;
 }
 TextArea{
-   color: #333333;
-   paddingLeft: 6;
-   paddingRight: 6;
-   borderColor: #333333;
-   borderThickness: 0;
-   cornerRadius: 6;
-   backgroundAlpha: .9;
+   color:#333333;
+   paddingLeft:6;
+   paddingRight:6;
+   borderColor:#333333;
+   borderThickness:0;
+   cornerRadius:6;
+   backgroundAlpha:.9;
 }
 List{
-   textRollOverColor: #333333;
-   borderStyle: inset;
-   borderThickness: 1;
-   selectionColor: #666666;
-   color: #333333;
-   textSelectedColor: #ffffff;
+   textRollOverColor:#333333;
+   borderStyle:inset;
+   borderThickness:1;
+   selectionColor:#666666;
+   color:#333333;
+   textSelectedColor:#ffffff;
 }
 Tree{
-   rollOverColor: #cccccc;
-   textRollOverColor: #333333;
-   selectionColor: #666666;
-   color: #333333;
-   textSelectedColor: #ffffff;
+   rollOverColor:#cccccc;
+   textRollOverColor:#333333;
+   selectionColor:#666666;
+   color:#333333;
+   textSelectedColor:#ffffff;
 }
 Accordion{
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.73, 0.7, 0.75, 0.65;
-   fillColors: #000000, #000000, #333333, #666666;
-   selectedFillColors: #666666, #000000;
-   themeColor: #333333;
-   borderColor: #333333;
-   textRollOverColor: #cccccc;
-   textSelectedColor: #ffffff;
-   headerStyleName: "myaccordionHeader";
+   highlightAlphas:0,0;
+   fillAlphas:0.73,0.7,0.75,0.65;
+   fillColors:#000000,#000000,#333333,#666666;
+   selectedFillColors:#666666,#000000;
+   themeColor:#333333;
+   borderColor:#333333;
+   textRollOverColor:#cccccc;
+   textSelectedColor:#ffffff;
+   headerStyleName:'myaccordionHeader';
 }
 .myaccordionHeader{
-   color: #ffffff;
+   color:#ffffff;
 }
 TabNavigator{
-   cornerRadius: 0;
-   backgroundColor: #222222;
-   borderColor: #333333;
-   color: #ffffff;
-   tabStyleName: "myTabs";
-   lastButtonStyleName: "myTabs";
-   firstButtonStyleName: "myTabs";
-   selectedTabTextStyleName: "mySelectedTabs";
+   cornerRadius:0;
+   backgroundColor:#222222;
+   borderColor:#333333;
+   color:#ffffff;
+   tabStyleName:'myTabs';
+   lastButtonStyleName:'myTabs';
+   firstButtonStyleName:'myTabs';
+   selectedTabTextStyleName:'mySelectedTabs';
 }
 .myTabs{
-   cornerRadius: 6;
-   highlightAlphas: 0, 0;
-   letterSpacing: 0;
-   fillAlphas: 0.52, 0.67;
-   fillColors: #666666, #333333;
-   borderColor: #333333;
-   color: #cccccc;
-   textRollOverColor: #cccccc;
-   themeColor: #333333;
+   cornerRadius:6;
+   highlightAlphas:0,0;
+   letterSpacing:0;
+   fillAlphas:0.52,0.67;
+   fillColors:#666666,#333333;
+   borderColor:#333333;
+   color:#cccccc;
+   textRollOverColor:#cccccc;
+   themeColor:#333333;
 
 }
 .mySelectedTabs{
-   color: #ffffff;
-   textRollOverColor: #cccccc;
+   color:#ffffff;
+   textRollOverColor:#cccccc;
 }
 HRule{
-   strokeColor: #999999;
-   shadowColor: #666666;
+   strokeColor:#999999;
+   shadowColor:#666666;
 }
 VRule{
-   strokeColor: #999999;
-   shadowColor: #666666;
+   strokeColor:#999999;
+   shadowColor:#666666;
 }
 HScrollBar{
-	trackSkin: Embed(source="assets/hscroll-track.png");
-	trackUpSkin: Embed(source="assets/hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackOverSkin: Embed(source="assets/hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDownSkin: Embed(source="assets/hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
-	trackDisabledSkin: Embed(source="assets/hscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="71");
+	trackSkin:Embed(source='assets/hscroll-track.png');
+	trackUpSkin:Embed(source='assets/hscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='71');
+	trackOverSkin:Embed(source='assets/hscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='71');
+	trackDownSkin:Embed(source='assets/hscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='71');
+	trackDisabledSkin:Embed(source='assets/hscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='71');
 
-	thumbUpSkin: Embed(source="assets/hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbSkin: Embed(source="assets/hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbOverSkin: Embed(source="assets/hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbDownSkin: Embed(source="assets/hscroll-thumb.png", scaleGridTop="10", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbUpSkin:Embed(source='assets/hscroll-thumb.png',scaleGridTop='10',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbSkin:Embed(source='assets/hscroll-thumb.png',scaleGridTop='10',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbOverSkin:Embed(source='assets/hscroll-thumb.png',scaleGridTop='10',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbDownSkin:Embed(source='assets/hscroll-thumb.png',scaleGridTop='10',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
 
-	upArrowSkin: Embed(source="assets/hscroll-right.png");
-	upArrowOverSkin: Embed(source="assets/hscroll-right.png");
-	upArrowDownSkin: Embed(source="assets/hscroll-right.png");
-	upArrowDisabledSkin: Embed(source="assets/hscroll-right.png");
-	upArrowUpSkin: Embed(source="assets/hscroll-right.png");
+	upArrowSkin:Embed(source='assets/hscroll-right.png');
+	upArrowOverSkin:Embed(source='assets/hscroll-right.png');
+	upArrowDownSkin:Embed(source='assets/hscroll-right.png');
+	upArrowDisabledSkin:Embed(source='assets/hscroll-right.png');
+	upArrowUpSkin:Embed(source='assets/hscroll-right.png');
 
-	downArrowSkin: Embed(source="assets/hscroll-left.png");
-	downArrowOverSkin: Embed(source="assets/hscroll-left.png");
-	downArrowDownSkin: Embed(source="assets/hscroll-left.png");
-	downArrowDisabledSkin: Embed(source="assets/hscroll-left.png");
-	downArrowUpSkin: Embed(source="assets/hscroll-left.png");
-	themeColor: #000000;
-	trackColors:  #000000;
-	fillColors:  #000000;
-	borderColor: #000000;
+	downArrowSkin:Embed(source='assets/hscroll-left.png');
+	downArrowOverSkin:Embed(source='assets/hscroll-left.png');
+	downArrowDownSkin:Embed(source='assets/hscroll-left.png');
+	downArrowDisabledSkin:Embed(source='assets/hscroll-left.png');
+	downArrowUpSkin:Embed(source='assets/hscroll-left.png');
+	themeColor:#000000;
+	trackColors:#000000;
+	fillColors:#000000;
+	borderColor:#000000;
 }
 VScrollBar{
-	trackSkin: Embed(source="assets/vscroll-track.png",scaleGridTop="32",scaleGridLeft="8",scaleGridRight="9",scaleGridBottom="149");
-	trackUpSkin: Embed(source="assets/vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
-	trackOverSkin: Embed(source="assets/vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
-	trackDownSkin: Embed(source="assets/vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
-	trackDisabledSkin: Embed(source="assets/vscroll-track.png", scaleGridTop="25", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="149");
+	trackSkin:Embed(source='assets/vscroll-track.png',scaleGridTop='32',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='149');
+	trackUpSkin:Embed(source='assets/vscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='149');
+	trackOverSkin:Embed(source='assets/vscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='149');
+	trackDownSkin:Embed(source='assets/vscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='149');
+	trackDisabledSkin:Embed(source='assets/vscroll-track.png',scaleGridTop='25',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='149');
 
-	thumbUpSkin: Embed(source="assets/vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbSkin: Embed(source="assets/vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbOverSkin: Embed(source="assets/vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
-	thumbDownSkin: Embed(source="assets/vscroll-thumb.png", scaleGridTop="32", scaleGridLeft="8", scaleGridRight="9", scaleGridBottom="40");
+	thumbUpSkin:Embed(source='assets/vscroll-thumb.png',scaleGridTop='32',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbSkin:Embed(source='assets/vscroll-thumb.png',scaleGridTop='32',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbOverSkin:Embed(source='assets/vscroll-thumb.png',scaleGridTop='32',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
+	thumbDownSkin:Embed(source='assets/vscroll-thumb.png',scaleGridTop='32',scaleGridLeft='8',scaleGridRight='9',scaleGridBottom='40');
 
-	upArrowSkin: Embed(source="assets/vscroll-up.png");
-	upArrowOverSkin: Embed(source="assets/vscroll-up.png");
-	upArrowDownSkin: Embed(source="assets/vscroll-up.png");
-	upArrowDisabledSkin: Embed(source="assets/vscroll-up.png");
-	upArrowUpSkin: Embed(source="assets/vscroll-up.png");
+	upArrowSkin:Embed(source='assets/vscroll-up.png');
+	upArrowOverSkin:Embed(source='assets/vscroll-up.png');
+	upArrowDownSkin:Embed(source='assets/vscroll-up.png');
+	upArrowDisabledSkin:Embed(source='assets/vscroll-up.png');
+	upArrowUpSkin:Embed(source='assets/vscroll-up.png');
 
-	downArrowSkin: Embed(source="assets/vscroll-down.png");
-	downArrowOverSkin: Embed(source="assets/vscroll-down.png");
-	downArrowDownSkin: Embed(source="assets/vscroll-down.png");
-	downArrowDisabledSkin: Embed(source="assets/vscroll-down.png");
-	downArrowUpSkin: Embed(source="assets/vscroll-down.png");
-	themeColor: #000000;
-	trackColors:  #000000;
-	fillColors:  #000000;
-	borderColor: #000000;
+	downArrowSkin:Embed(source='assets/vscroll-down.png');
+	downArrowOverSkin:Embed(source='assets/vscroll-down.png');
+	downArrowDownSkin:Embed(source='assets/vscroll-down.png');
+	downArrowDisabledSkin:Embed(source='assets/vscroll-down.png');
+	downArrowUpSkin:Embed(source='assets/vscroll-down.png');
+	themeColor:#000000;
+	trackColors:#000000;
+	fillColors:#000000;
+	borderColor:#000000;
 }
 DataGrid{
-	verticalGridLines: true;
-	verticalGridLineColor: #cccccc;
-	textRollOverColor: #333333;
-	borderColor: #333333;
-	selectionColor: #718474;
-	color: #333333;
-	textSelectedColor: #ffffff;
-	headerStyleName: "mydataGridHeaderStyle";
-	textAlign: left;
-	horizontalGridLines: true;
-	borderStyle: none;
-	borderThickness: 0;
-	alternatingItemColors: #FFFFFF, #f3fbf3;
-	backgroundAlpha: 1.0;
-	fontWeight: normal;
-	rollOverColor: #AFC5AF;
-	paddingBottom: 0;
-	paddingTop: 0;
-	paddingLeft: 0;
-	fontSize: 9;
-	verticalScrollBarStyleName: dataGridVerticalScrollBar;
-	selectionDuration: 0;
-	paddingRight: 5;
-	headerBackgroundSkin: Embed(source="assets/col-header.png", scaleGridTop="1", scaleGridLeft="10", scaleGridRight="230", scaleGridBottom="15");
+	verticalGridLines:true;
+	verticalGridLineColor:#cccccc;
+	textRollOverColor:#333333;
+	borderColor:#333333;
+	selectionColor:#718474;
+	color:#333333;
+	textSelectedColor:#ffffff;
+	headerStyleName:'mydataGridHeaderStyle';
+	textAlign:left;
+	horizontalGridLines:true;
+	borderStyle:none;
+	borderThickness:0;
+	alternatingItemColors:#FFFFFF,#f3fbf3;
+	backgroundAlpha:1.0;
+	fontWeight:normal;
+	rollOverColor:#AFC5AF;
+	paddingBottom:0;
+	paddingTop:0;
+	paddingLeft:0;
+	fontSize:9;
+	verticalScrollBarStyleName:dataGridVerticalScrollBar;
+	selectionDuration:0;
+	paddingRight:5;
+	headerBackgroundSkin:Embed(source='assets/col-header.png',scaleGridTop='1',scaleGridLeft='10',scaleGridRight='230',scaleGridBottom='15');
 }
 .mydataGridHeaderStyle{
-	color: #D1D1D1;
+	color:#D1D1D1;
 	fontThickness:200;
-	fontSize: 9;
+	fontSize:9;
 }
 MenuBar{
-   cornerRadius: 0;
-   backgroundColor: #333333;
-   borderColor: #333333;
-   highlightAlphas: 0, 0;
-   fillAlphas: 0.52, 0.68;
-   fillColors: #333333, #000000;
-   rollOverColor: #666666;
-   selectionColor: #000000;
-   color: #ffffff;
-   textRollOverColor: #ffffff;
-   textSelectedColor: #000000;
-   disabledColor: #333333;
-   themeColor: #000000;
+   cornerRadius:0;
+   backgroundColor:#333333;
+   borderColor:#333333;
+   highlightAlphas:0,0;
+   fillAlphas:0.52,0.68;
+   fillColors:#333333,#000000;
+   rollOverColor:#666666;
+   selectionColor:#000000;
+   color:#ffffff;
+   textRollOverColor:#ffffff;
+   textSelectedColor:#000000;
+   disabledColor:#333333;
+   themeColor:#000000;
 }
 ProgressBar{
-   borderColor: #0B333C;
-   barColor: #FFFFFF;
-   trackColors: #666666, #999999;
-   color: #ffffff;
-	barSkin: Embed(source="assets/progress-highlight.png");
-	verticalGap: 0;
-	trackHeight: 12;
-	textAlign: center;
+   borderColor:#0B333C;
+   barColor:#FFFFFF;
+   trackColors:#666666,#999999;
+   color:#ffffff;
+	barSkin:Embed(source='assets/progress-highlight.png');
+	verticalGap:0;
+	trackHeight:12;
+	textAlign:center;
 }
 ToolTip{
-   backgroundAlpha: 0.92;
-   cornerRadius: 10;
-   backgroundColor: #333333;
-   color: #ffffff;
+   backgroundAlpha:0.92;
+   cornerRadius:10;
+   backgroundColor:#333333;
+   color:#ffffff;
 }
 .comboBoxDropdown{
-	verticalScrollBarStyleName: listBaseVerticalScrollBar;
-	paddingTop: 4;
-	paddingBottom: 4;
+	verticalScrollBarStyleName:listBaseVerticalScrollBar;
+	paddingTop:4;
+	paddingBottom:4;
 
 }
 .listBaseVerticalScrollBar{
@@ -626,45 +660,45 @@ ProgressBar.loadingProgress{
 	barSkin:Embed('assets/progress-highlight.png');
 }
 DataGrid.FilterPane{
-	alternatingItemColors: #FFFFFF, #F8F8F8;
-	paddingBottom: 0;
-	paddingTop: 0;
-	leading: 0;
-	verticalAlign: middle;
-	headerStyleName: filtersHeaderStyle;
-	fontSize: 9;
-	headerBackgroundSkin: Embed('assets/col-header.png', scaleGridTop="1", scaleGridLeft="10", scaleGridRight="230", scaleGridBottom="15");
+	alternatingItemColors:#FFFFFF,#F8F8F8;
+	paddingBottom:0;
+	paddingTop:0;
+	leading:0;
+	verticalAlign:middle;
+	headerStyleName:filtersHeaderStyle;
+	fontSize:9;
+	headerBackgroundSkin:Embed('assets/col-header.png',scaleGridTop='1',scaleGridLeft='10',scaleGridRight='230',scaleGridBottom='15');
 }
 .filtersHeaderStyle{
 	fontThickness:200;
-	fontSize: 9;
-	color: #D1D1D1;
-	textAlign: center;
+	fontSize:9;
+	color:#D1D1D1;
+	textAlign:center;
 }
 PlayListView{
-	alternatingItemColors: #FFFFFF, #e8ece8;
-	leftImgCl:	Embed('assets/volume-track-left.png');
-	rightImgCl:		Embed('assets/volume-track-right.png');
+	alternatingItemColors:#FFFFFF,#e8ece8;
+	leftImgCl:Embed('assets/volume-track-left.png');
+	rightImgCl:Embed('assets/volume-track-right.png');
 }
 HBox.PlayerPanel{
-	backgroundImage: Embed('assets/top-bk.png', scaleGridTop="15", scaleGridLeft="15", scaleGridRight="1020", scaleGridBottom="16");
-	backgroundAlpha: 0.7;
+	backgroundImage:Embed('assets/top-bk.png',scaleGridTop='15',scaleGridLeft='15',scaleGridRight='1020',scaleGridBottom='16');
+	backgroundAlpha:0.7;
 }
 RadioButton.viewCoverflow{
-	downIcon: Embed('assets/view-coverflow-button-on.png');
-	icon: Embed('assets/view-coverflow-button-off.png');
-	overIcon: Embed('assets/view-coverflow-button-over.png');
-	upIcon: Embed('assets/view-coverflow-button-off.png');
-	selectedUpIcon: Embed('assets/view-coverflow-button-on.png');
-	selectedDownIcon: Embed('assets/view-coverflow-button-on.png');
-	selectedOverIcon: Embed('assets/view-coverflow-button-on.png');
+	downIcon:Embed('assets/view-coverflow-button-on.png');
+	icon:Embed('assets/view-coverflow-button-off.png');
+	overIcon:Embed('assets/view-coverflow-button-over.png');
+	upIcon:Embed('assets/view-coverflow-button-off.png');
+	selectedUpIcon:Embed('assets/view-coverflow-button-on.png');
+	selectedDownIcon:Embed('assets/view-coverflow-button-on.png');
+	selectedOverIcon:Embed('assets/view-coverflow-button-on.png');
 }
 RadioButton.viewCategories{
-	downIcon: Embed('assets/view-categories-button-on.png');
-	icon: Embed('assets/view-categories-button-off.png');
-	overIcon: Embed('assets/view-categories-button-over.png');
-	upIcon: Embed('assets/view-categories-button-off.png');
-	selectedUpIcon: Embed('assets/view-categories-button-on.png');
-	selectedDownIcon: Embed('assets/view-categories-button-on.png');
-	selectedOverIcon: Embed('assets/view-categories-button-on.png');
+	downIcon:Embed('assets/view-categories-button-on.png');
+	icon:Embed('assets/view-categories-button-off.png');
+	overIcon:Embed('assets/view-categories-button-over.png');
+	upIcon:Embed('assets/view-categories-button-off.png');
+	selectedUpIcon:Embed('assets/view-categories-button-on.png');
+	selectedDownIcon:Embed('assets/view-categories-button-on.png');
+	selectedOverIcon:Embed('assets/view-categories-button-on.png');
 }

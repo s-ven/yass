@@ -36,6 +36,10 @@ public class SecurityConfiguration extends Configuration {
 		Configuration.setConfiguration(new SecurityConfiguration());
 	}
 
+	@SuppressWarnings("unchecked")
+	private final AppConfigurationEntry[] appConfigurationEntry = { new AppConfigurationEntry(
+			"org.yass.security.YassLoginModule", AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap()) };
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -43,12 +47,9 @@ public class SecurityConfiguration extends Configuration {
 	 * javax.security.auth.login.Configuration#getAppConfigurationEntry(java.lang
 	 * .String)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public AppConfigurationEntry[] getAppConfigurationEntry(final String appName) {
-		final AppConfigurationEntry[] toreturn = { new AppConfigurationEntry("org.yass.security.YassLoginModule",
-				AppConfigurationEntry.LoginModuleControlFlag.REQUIRED, new HashMap()) };
-		return toreturn;
+		return appConfigurationEntry;
 	}
 
 	/*

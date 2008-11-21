@@ -22,7 +22,7 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	<listener>
-		<listener-class>org.yass.listener.Init</listener-class>
+		<listener-class>org.yass.init.Init</listener-class>
 	</listener>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

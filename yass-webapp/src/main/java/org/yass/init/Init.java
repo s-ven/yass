@@ -19,7 +19,7 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.listener;
+package org.yass.init;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -31,7 +31,7 @@ import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.User;
 import org.yass.security.SecurityConfiguration;
-import org.yass.util.LibraryScanner;
+import org.yass.util.DiskScannerThread;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -78,7 +78,7 @@ public class Init implements ServletContextListener, YassConstants {
 				LIBRARY_DAO.save(library);
 				rescanOnStartup = true;
 			}
-			initThread = new Thread(new LibraryScanner(library), "Yass-LibraryScanner:" + library.getId());
+			initThread = new DiskScannerThread(library);
 			if (rescanOnStartup)
 				initThread.start();
 			servletContext.setAttribute(USER, user);

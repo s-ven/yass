@@ -28,10 +28,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.yass.YassConstants;
+
 @Entity
 @Table(name = "TRACK_INFO")
 @NamedQuery(name = "findTrackInfoByValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
-public class TrackInfo {
+public class TrackInfo implements YassConstants {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,5 +79,16 @@ public class TrackInfo {
 	@Override
 	public final String toString() {
 		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
+	}
+
+	public final Element toXMLElement(final Document doc) {
+		final Element node = doc.createElement(getType());
+		node.setAttribute("id", "" + getId());
+		node.setAttribute("value", getValue());
+		// If the trackIngo is an album, will try to check if it have an attached
+		// picture in the database
+		if (getType().equals(ALBUM))
+			node.setAttribute("hasPicture", ATTACHED_PICTURE_DAO.hasPicture(getId()) + "");
+		return node;
 	}
 }

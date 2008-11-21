@@ -22,23 +22,20 @@
 */
 package org.yass.main.renderers{
 	import flash.events.MouseEvent;
-
-	import mx.controls.Image;
+	
+	import mx.controls.Button;
 	import mx.controls.listClasses.IListItemRenderer;
 	import mx.core.UIComponent;
 	import mx.events.FlexEvent;
+	
+	import org.yass.debug.log.Console;
 
 	public class RatingRenderer extends UIComponent implements IListItemRenderer{
-		public static const rating0:Class;
-		public static const rating1:Class;
-		public static const rating2:Class;
-		public static const rating3:Class;
-		public static const rating4:Class;
-		public static const rating5:Class;
 
-		private var img:Image = new Image();
+		private var img:Button = new Button();
 		private var _data:Object;
 		public function RatingRenderer() {
+		
 			img.addEventListener(MouseEvent.CLICK, click);
 			img.setActualSize(69,12);
 		}
@@ -50,7 +47,7 @@ package org.yass.main.renderers{
 		public function set data(value:Object):void{
 			if(value){
 				_data = value;
-				img.source = RatingRenderer["rating" + _data.rating];
+				img.styleName = "rating" + _data.rating;
 				invalidateProperties();
 				dispatchEvent(new FlexEvent(FlexEvent.DATA_CHANGE));
 			}
@@ -59,7 +56,7 @@ package org.yass.main.renderers{
 			addChild(img);
 		}
 
-		override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ) : void{
+		override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number ) : void{
 			super.updateDisplayList(unscaledWidth, unscaledHeight);
 			img.move(unscaledWidth/2 -35, unscaledHeight/2-6);
 		}
@@ -68,7 +65,7 @@ package org.yass.main.renderers{
 			data.rating = Math.floor(evt.localX / 14) +1;
 			if(oldRating == data.rating && oldRating == 1)
 				data.rating = 0;
-				// Hack to force the refresh of the rating stars
+			// Hack to force the refresh of the rating stars
 			data = data;
 			evt.stopPropagation();
 		}

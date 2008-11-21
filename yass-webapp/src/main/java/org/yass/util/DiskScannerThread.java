@@ -11,9 +11,9 @@ import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 
-public class LibraryScanner implements YassConstants, Runnable {
+public class DiskScannerThread extends Thread implements YassConstants {
 
-	private static final Log LOG = LogFactory.getLog(LibraryScanner.class);
+	private static final Log LOG = LogFactory.getLog(DiskScannerThread.class);
 	private final String extensions = "mp3";
 	private int fileIndex;
 	private int length;
@@ -23,8 +23,8 @@ public class LibraryScanner implements YassConstants, Runnable {
 	/**
 	 * @param library
 	 */
-	public LibraryScanner(final Library library) {
-		super();
+	public DiskScannerThread(final Library library) {
+		super("Yass-DiskScannerThread:" + library.getId());
 		this.library = library;
 	}
 
@@ -74,6 +74,7 @@ public class LibraryScanner implements YassConstants, Runnable {
 	/**
 	 * 
 	 */
+	@Override
 	public final void run() {
 		if (LOG.isInfoEnabled())
 			LOG.info("Scanning Library path:" + library.getPath());
