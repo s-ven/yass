@@ -36,10 +36,13 @@ package org.yass.main.model{
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
 			Console.log("model.NavigationModel :: init");
+			httpService.method = "GET";
 			httpService.url="/yass/playlist_browse.do";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
-			httpService.send();
+			var data:Object = new Object();
+			data.userId = Yass.userId;		
+			httpService.send(data);
 		}
 
 		public function savePlayList(id:String, name:String):void{
@@ -47,6 +50,7 @@ package org.yass.main.model{
 			var svc:HTTPService = new HTTPService();
 			svc.url = "/yass/playlist_save.do";
 			var data:Object = new Object();
+			data.userId = Yass.userId;			
 			data.id = id;
 			data.name=name;
 			svc.addEventListener(ResultEvent.RESULT, function():void{httpService.send();});

@@ -36,8 +36,16 @@
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
 				settingsLoader.addEventListener(Event.COMPLETE, settingsLoaded );
 				libraryLoader.loadData();
-				libTreeLoader.load(new URLRequest("/yass/library_get_tree.do"));
-				settingsLoader.load(new URLRequest("/yass/settings_get.do"));
+				var variables:URLVariables = new URLVariables();
+				variables.userId = Yass.userId;
+				var libUrlReq:URLRequest= new URLRequest("/yass/library_get_tree.do");
+				libUrlReq.method = "GET";
+				libUrlReq.data = variables;
+				libTreeLoader.load(libUrlReq);
+				var settingsUrlReq = new URLRequest("/yass/settings_get.do");
+				settingsUrlReq.method = "GET";
+				settingsUrlReq.data = variables;
+				settingsLoader.load(settingsUrlReq);
 			}
 			private function libraryLoaded( e:Event ):void {
 				libraryLoader.removeEventListener(Event.COMPLETE, libraryLoaded );

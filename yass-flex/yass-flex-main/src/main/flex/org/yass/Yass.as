@@ -30,7 +30,7 @@ package org.yass{
 	public class Yass{
 		public static var library:LibraryModel;
 		public static var player:PlayerModel = new PlayerModel();
-
+		public static var userId:int;
 		private static var _trackDurationFormatter:DateFormatter;
 		private static var _dateFormatter:DateFormatter;
 		private static var _settings:ObjectProxy;

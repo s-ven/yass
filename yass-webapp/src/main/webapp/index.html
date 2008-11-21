@@ -3,7 +3,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Yass player !</title>
-<script src="AC_OETags.js" language="javascript"></script>
 <style>
 body {
 	margin: 0px;
@@ -12,36 +11,20 @@ body {
 </style>
 </head>
 <body scroll='no'>
-<script language="JavaScript" type="text/javascript">
-<!--
-		AC_FL_RunContent(
-					"src", "main",
-					"width", "100%",
-					"height", "100%",
-					"align", "middle",
-					"id", "main",
-					"quality", "high",
-					"bgcolor", "#222222",
-					"name", "main",
-					"allowScriptAccess","sameDomain",
-					"type", "application/x-shockwave-flash",
-					"pluginspage", "http://www.adobe.com/go/getflashplayer"
-	);
-// -->
-</script>
-<noscript><object
+<object
 	classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="main"
 	width="100%" height="100%"
 	codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
-	<param name="movie" value="main.swf" />
+	<param name="movie" value="main.swf?userId=1" />
 	<param name="quality" value="high" />
 	<param name="bgcolor" value="#222222" />
 	<param name="allowScriptAccess" value="sameDomain" />
-	<embed src="main.swf" quality="high" bgcolor="#222222" width="100%"
+	<param name="userId" value="1" />
+	<embed src="main.swf?userId=1" quality="high" bgcolor="#222222" width="100%"
 		height="100%" name="main" align="middle" play="true" loop="false"
 		quality="high" allowScriptAccess="sameDomain"
 		type="application/x-shockwave-flash"
-		pluginspage="http://www.adobe.com/go/getflashplayer">
+		pluginspage="http://www.adobe.com/go/getflashplayer" userId="1">
 	</embed> </object></noscript>
 </body>
 </html>
