@@ -13,6 +13,22 @@
 		<param-name>org.yass.mediaFilesExtensions</param-name>
 		<param-value>mp3</param-value>
 	</context-param>
+	<display-name>Restlet adapter</display-name>
+
+	<!-- Restlet application class name -->
+	<context-param>
+		<param-name>org.restlet.application</param-name>
+		<param-value>org.yass.restlet.YassApplication</param-value>
+	</context-param>
+	<!-- Restlet adapter -->
+	<servlet>
+		<servlet-name>ServerServlet</servlet-name>
+		<servlet-class>com.noelios.restlet.ext.servlet.ServerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ServerServlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>struts2</filter-name>
 		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>

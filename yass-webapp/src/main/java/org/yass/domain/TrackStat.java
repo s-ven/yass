@@ -65,7 +65,7 @@ public class TrackStat {
 
 	/**
 	 * @param trackTypeId
-	 * @param userId
+	 * @param data.userId
 	 */
 	public TrackStat(final User user, final int trackId) {
 		super();

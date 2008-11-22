@@ -28,10 +28,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.YassConstants;
-import org.yass.domain.Library;
-import org.yass.domain.User;
 import org.yass.security.SecurityConfiguration;
-import org.yass.util.DiskScannerThread;
 
 /**
  * Servlet implementation class for Servlet: Init
@@ -64,24 +61,22 @@ public class Init implements ServletContextListener, YassConstants {
 	public void contextInitialized(final ServletContextEvent event) {
 		SecurityConfiguration.init();
 		final ServletContext servletContext = event.getServletContext();
-		boolean rescanOnStartup = servletContext.getInitParameter("org.yass.rescanOnStartup") != null
-				&& servletContext.getInitParameter("org.yass.rescanOnStartup").equals("true");
 		try {
 			LOG.info("Yass Initalization phase starting...");
-			final User user = USER_DAO.findById(1);
-			Library library = LIBRARY_DAO.findByUserId(user.getId());
-			if (library == null) {
-				LOG.warn("No Library found, creating new one");
-				library = new Library();
-				library.setPath(servletContext.getInitParameter("org.yass.mediaFilesRoot"));
-				user.setLibrary(library);
-				LIBRARY_DAO.save(library);
-				rescanOnStartup = true;
-			}
-			initThread = new DiskScannerThread(library);
-			if (rescanOnStartup)
-				initThread.start();
-			servletContext.setAttribute(USER, user);
+			// final User user = USER_DAO.findById(1);
+			// Library library = LIBRARY_DAO.findByUserId(user.getId());
+			// if (library == null) {
+			// LOG.warn("No Library found, creating new one");
+			// library = new Library();
+			// library.setPath(servletContext.getInitParameter("org.yass.mediaFilesRoot"));
+			// user.setLibrary(library);
+			// LIBRARY_DAO.save(library);
+			// rescanOnStartup = true;
+			// }
+			// initThread = new DiskScannerThread(library);
+			// if (rescanOnStartup)
+			// initThread.start();
+			// servletContext.setAttribute(USER, user);
 			LOG.info("Initalization phase over");
 		} catch (final Exception e) {
 			LOG.fatal("Error during Yass initialization", e);

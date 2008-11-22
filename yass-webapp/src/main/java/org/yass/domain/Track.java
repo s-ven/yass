@@ -41,13 +41,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.yass.YassConstants;
-
 @Entity
 @Table(name = "TRACK")
 @NamedQueries( { @NamedQuery(name = "findTrackByPath", query = "select t from Track t where t.path = ?1"),
 		@NamedQuery(name = "findTrackById", query = "select t from Track t where t.id = ?1") })
-public class Track implements YassConstants {
+public class Track {
 
 	private long duration;
 	@Id

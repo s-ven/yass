@@ -18,49 +18,16 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+package org.yass.restlet;
+
+import org.restlet.resource.Resource;
+
+
+/**
+ * @author Sven Duzont
+ *
  */
-package org.yass.dao;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.yass.dao.schema.Schema00;
-
-public class DaoHelper {
-
-	private final static DaoHelper instance = new DaoHelper();
-	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
-
-	/**
-	 * @return the instance
-	 */
-	public static final DaoHelper getInstance() {
-		return instance;
-	}
-
-	private final EntityManager entityManager;
-
-	private DaoHelper() {
-		final EntityManagerFactory emf = Persistence.createEntityManagerFactory("yass");
-		entityManager = emf.createEntityManager();
-		checkDataBase();
-	}
-
-	private void checkDataBase() {
-		try {
-			new Schema00(entityManager).execute();
-		} catch (final Exception e) {
-			LOG.fatal(e);
-		}
-	}
-
-	/**
-	 * @return the entity manager
-	 */
-	public final EntityManager getEntityManager() {
-		return entityManager;
-	}
+public class UsersResource extends Resource {
 }

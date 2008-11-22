@@ -19,48 +19,31 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.dao;
+package org.yass.restlet;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import org.restlet.Application;
+import org.restlet.Restlet;
+import org.restlet.Router;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.yass.dao.schema.Schema00;
-
-public class DaoHelper {
-
-	private final static DaoHelper instance = new DaoHelper();
-	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
+/**
+ * @author Sven Duzont
+ * 
+ */
+public class YassApplication extends Application {
 
 	/**
-	 * @return the instance
+	 * Creates a root Restlet that will receive all incoming calls.
 	 */
-	public static final DaoHelper getInstance() {
-		return instance;
-	}
-
-	private final EntityManager entityManager;
-
-	private DaoHelper() {
-		final EntityManagerFactory emf = Persistence.createEntityManagerFactory("yass");
-		entityManager = emf.createEntityManager();
-		checkDataBase();
-	}
-
-	private void checkDataBase() {
-		try {
-			new Schema00(entityManager).execute();
-		} catch (final Exception e) {
-			LOG.fatal(e);
-		}
-	}
-
-	/**
-	 * @return the entity manager
-	 */
-	public final EntityManager getEntityManager() {
-		return entityManager;
+	@Override
+	public synchronized Restlet createRoot() {
+		final Router router = new Router(getContext());
+		router.attach("/users", UsersResource.class);
+		router.attach("/users/{userId}", UserResource.class);
+		router.attach("/users/{userId}/playlists", PlaylistsResource.class);
+		router.attach("/users/{userId}/playlists/{playlistId}", PlaylistResource.class);
+		router.attach("/users/{userId}/libraries", LibrariesResource.class);
+		router.attach("/users/{userId}/libraries/{libraryId}/tracks", TracksResource.class);
+		router.attach("/users/{userId}/libraries/{libraryId}/trackinfos", TrackInfosResource.class);
+		return router;
 	}
 }

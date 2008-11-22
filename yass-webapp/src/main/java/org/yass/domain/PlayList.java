@@ -39,15 +39,13 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.yass.YassConstants;
-
 @Entity
 @Table(name = "PLAYLIST", schema = "SA")
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER, name = "TYPE_ID")
 @NamedQuery(name = "findPlayListByUserId", query = "select plsts from PlayList plst where plst.userId = ?1")
-public abstract class PlayList implements YassConstants {
+public abstract class PlayList {
 
 	@Id
 	protected int id;

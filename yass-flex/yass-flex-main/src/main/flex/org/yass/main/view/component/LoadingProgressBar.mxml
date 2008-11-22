@@ -12,7 +12,6 @@
 		<![CDATA[
 			import org.yass.main.model.Track;
 			import org.yass.main.model.Settings;
-			import org.yass.main.loaders.LibraryLoader;
 			import mx.effects.EffectManager;
 			import mx.events.EffectEvent;
 			import mx.effects.Fade;
@@ -22,7 +21,7 @@
 			import mx.core.Application;
 			import org.yass.Yass;
 			import org.yass.debug.log.Console;
-			private var libraryLoader:LibraryLoader = new LibraryLoader()
+			private var libraryLoader:URLLoader = new URLLoader()
 			private var libTreeLoader:URLLoader = new URLLoader()
 			private var settingsLoader:URLLoader = new URLLoader()
 			private var itemLoaded:Number = 0;
@@ -35,17 +34,9 @@
 				libraryLoader.addEventListener(Event.COMPLETE, libraryLoaded );
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
 				settingsLoader.addEventListener(Event.COMPLETE, settingsLoaded );
-				libraryLoader.loadData();
-				var variables:URLVariables = new URLVariables();
-				variables.userId = Yass.userId;
-				var libUrlReq:URLRequest= new URLRequest("/yass/library_get_tree.do");
-				libUrlReq.method = "GET";
-				libUrlReq.data = variables;
-				libTreeLoader.load(libUrlReq);
-				var settingsUrlReq = new URLRequest("/yass/settings_get.do");
-				settingsUrlReq.method = "GET";
-				settingsUrlReq.data = variables;
-				settingsLoader.load(settingsUrlReq);
+				libraryLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/1/tracks"));
+				libTreeLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/1/trackinfos"));
+				settingsLoader.load(new URLRequest("/yass/rest/users/" +Yass.userId));
 			}
 			private function libraryLoaded( e:Event ):void {
 				libraryLoader.removeEventListener(Event.COMPLETE, libraryLoaded );
