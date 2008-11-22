@@ -22,7 +22,7 @@
 package org.yass.main.model{
 	import mx.events.PropertyChangeEvent;
 	import mx.rpc.http.HTTPService;
-
+	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
@@ -40,6 +40,7 @@ package org.yass.main.model{
 		public var nextFadeout:int = 6000;
 		public var loadedTrackId:int = 0;
 		public var trackInfoIds:Array;
+		public var userId:int;
 		private var _init:Boolean=false;
 		public function Settings(obj:Object):void{
 			Yass.settings = this;
@@ -66,6 +67,7 @@ package org.yass.main.model{
 					Yass.player.loadedTrack = Yass.library.getTrack(xml.@loadedTrackId)
 				Console.timeEnd("model.settings.init : load track")
 			}
+			this.userId = Yass.userId;
 			_init = true;
 		}
 

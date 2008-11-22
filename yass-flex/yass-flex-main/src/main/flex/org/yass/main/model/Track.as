@@ -22,7 +22,7 @@
 */
 package org.yass.main.model{
 	import mx.rpc.http.HTTPService;
-
+	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.util.tree.Value;
@@ -114,7 +114,8 @@ package org.yass.main.model{
 		}
 		public function save():void{
 			var service:HTTPService = new HTTPService();
-			service.url = "/yass/track_save.do";
+			service.url = "/yass/track_save.do?userId="+Yass.userId;
+			service.method = "POST";
 			service.send(this);
 		}
 

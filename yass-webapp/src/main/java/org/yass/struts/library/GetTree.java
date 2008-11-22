@@ -27,6 +27,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.yass.YassConstants;
 import org.yass.domain.Track;
@@ -61,10 +62,10 @@ public class GetTree extends YassAction implements YassConstants {
 	 * @param artistNode
 	 * @return
 	 */
-	private boolean feedAlbum(final TrackInfo album, final Element artistNode) {
+	private boolean feedAlbum(final TrackInfo album, final Node artistNode) {
 		final NodeList albLst = artistNode.getChildNodes();
 		for (int k = 0; k < albLst.getLength(); k++)
-			if (isNodeValue(album, (Element) albLst.item(k)))
+			if (isNodeValue(album, albLst.item(k)))
 				return true;
 		artistNode.appendChild(album.toXMLElement(artistNode.getOwnerDocument()));
 		return true;
@@ -78,10 +79,10 @@ public class GetTree extends YassAction implements YassConstants {
 	 * @param genreNode
 	 * @return
 	 */
-	private boolean feedArtist(final TrackInfo artist, final TrackInfo album, final Element genreNode) {
+	private boolean feedArtist(final TrackInfo artist, final TrackInfo album, final Node genreNode) {
 		final NodeList artistLst = genreNode.getChildNodes();
 		for (int j = 0; j < artistLst.getLength(); j++) {
-			final Element artistNode = (Element) artistLst.item(j);
+			final Node artistNode = artistLst.item(j);
 			if (isNodeValue(artist, artistNode) && feedAlbum(album, artistNode))
 				return true;
 		}
@@ -113,11 +114,11 @@ public class GetTree extends YassAction implements YassConstants {
 	}
 
 	/**
-	 * @param artist
-	 * @param artistNode
+	 * @param trackInfo
+	 * @param node
 	 * @return
 	 */
-	private boolean isNodeValue(final TrackInfo artist, final Element artistNode) {
-		return artistNode.getAttribute("value").equals(artist.getValue());
+	private boolean isNodeValue(final TrackInfo trackInfo, final Node node) {
+		return ((Element) node).getAttribute("value").equals(trackInfo.getValue());
 	}
 }

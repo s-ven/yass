@@ -36,23 +36,23 @@ package org.yass.main.model{
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
 			Console.log("model.NavigationModel :: init");
+			var data:Object = new Object();
+			data.userId = Yass.userId;		
 			httpService.method = "GET";
 			httpService.url="/yass/playlist_browse.do";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
-			var data:Object = new Object();
-			data.userId = Yass.userId;		
 			httpService.send(data);
 		}
 
 		public function savePlayList(id:String, name:String):void{
 			Console.log("model.Navigation.savePlayList name=" + name + ", id=" + id);
-			var svc:HTTPService = new HTTPService();
-			svc.url = "/yass/playlist_save.do";
 			var data:Object = new Object();
 			data.userId = Yass.userId;			
 			data.id = id;
 			data.name=name;
+			var svc:HTTPService = new HTTPService();
+			svc.url = "/yass/playlist_save.do";
 			svc.addEventListener(ResultEvent.RESULT, function():void{httpService.send();});
 			svc.send(data);
 		}
@@ -65,20 +65,21 @@ package org.yass.main.model{
 					_playlist = new PlayListModel();
 				_playlist.removeEventListeners();
 				_playlist.playListId = id;
-				var obj:Object = new Object();
-				obj.id = id;
-				var httpSvc : HTTPService = new HTTPService();
-	 			httpSvc.url = "/yass/playlist_show.do";
-				httpSvc.addEventListener(ResultEvent.RESULT, function():void{
-					if(httpSvc.lastResult.playlist){
+				var data:Object = new Object();
+				data.id = id;
+				data.userId = Yass.userId;
+				var svc : HTTPService = new HTTPService();
+	 			svc.url = "/yass/playlist_show.do";
+				svc.addEventListener(ResultEvent.RESULT, function():void{
+					if(svc.lastResult.playlist){
 						_playlist.removeAll();
-						for each(var track:Object in httpSvc.lastResult.playlist.track)
+						for each(var track:Object in svc.lastResult.playlist.track)
 							_playlist.addItem(Yass.library.getTrack(track.id))
 						dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 					}
 				});
 				_playlist.setEventListeners();
-				httpSvc.send(obj);
+				svc.send(data);
 				Console.groupEnd();
 				return ;
 			}
