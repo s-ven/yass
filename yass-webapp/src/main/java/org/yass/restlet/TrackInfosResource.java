@@ -64,12 +64,6 @@ public class TrackInfosResource extends TracksResource {
 		doc.normalizeDocument();
 	}
 
-	/**
-	 * @param doc
-	 * @param album
-	 * @param artistNode
-	 * @return
-	 */
 	private boolean feedAlbum(final TrackInfo album, final Node artistNode) {
 		final NodeList albLst = artistNode.getChildNodes();
 		for (int k = 0; k < albLst.getLength(); k++)
@@ -79,14 +73,6 @@ public class TrackInfosResource extends TracksResource {
 		return true;
 	}
 
-	/**
-	 * @param doc
-	 * @param exists
-	 * @param artist
-	 * @param album
-	 * @param genreNode
-	 * @return
-	 */
 	private boolean feedArtist(final TrackInfo artist, final TrackInfo album, final Node genreNode) {
 		final NodeList artistLst = genreNode.getChildNodes();
 		for (int j = 0; j < artistLst.getLength(); j++) {
@@ -99,14 +85,6 @@ public class TrackInfosResource extends TracksResource {
 		return true;
 	}
 
-	/**
-	 * @param doc
-	 * @param treeNode
-	 * @param exists
-	 * @param genre
-	 * @param artist
-	 * @param album
-	 */
 	private void feedGenre(final Element treeNode, final TrackInfo genre, final TrackInfo artist, final TrackInfo album) {
 		final NodeList genreList = treeNode.getChildNodes();
 		for (int i = 0; i < genreList.getLength(); i++) {
@@ -119,11 +97,6 @@ public class TrackInfosResource extends TracksResource {
 				album.toXMLElement(doc));
 	}
 
-	/**
-	 * @param trackInfo
-	 * @param node
-	 * @return
-	 */
 	private boolean isNodeValue(final TrackInfo trackInfo, final Node node) {
 		return ((Element) node).getAttribute("value").equals(trackInfo.getValue());
 	}

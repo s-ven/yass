@@ -50,7 +50,7 @@ public class TracksResource extends BaseResource {
 	 */
 	public TracksResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		if (user != null) {
+		if (isAvailable()) {
 			final Library lib = user.getLibrary();
 			if (lib != null) {
 				tracks = lib.getTracks();

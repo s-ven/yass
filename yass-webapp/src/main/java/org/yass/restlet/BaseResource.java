@@ -55,13 +55,9 @@ public abstract class BaseResource extends Resource implements YassConstants {
 		super(context, request, response);
 		try {
 			final int userId = getIntAttribute("userId");
-			// Get the item directly from the "persistence layer".
 			if (LOG.isInfoEnabled())
 				LOG.info("Getting User userId:" + userId);
-			user = USER_DAO.findById(userId);
-			if (user != null)
-				setModifiable(true);
-			else
+			if ((user = USER_DAO.findById(userId)) == null)
 				setAvailable(false);
 		} catch (final NullPointerException e) {
 			setAvailable(false);
