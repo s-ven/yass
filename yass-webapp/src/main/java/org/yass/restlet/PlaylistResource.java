@@ -34,6 +34,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.yass.domain.PlayList;
 import org.yass.domain.SimplePlayList;
+import org.yass.domain.SmartPlayList;
 
 /**
  * @author Sven Duzont
@@ -53,6 +54,8 @@ public class PlaylistResource extends BaseResource {
 		if (isAvailable() && (playList = user.getPlayLists().get(getIntAttribute("playlistId"))) != null) {
 			getVariants().add(new Variant(MediaType.TEXT_XML));
 			setModifiable(true);
+			if (playList instanceof SmartPlayList)
+				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);
 		}
 	}
 

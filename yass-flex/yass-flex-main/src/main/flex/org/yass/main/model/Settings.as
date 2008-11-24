@@ -20,7 +20,10 @@
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.yass.main.model{
+	import flash.net.URLRequestHeader;
+	
 	import mx.events.PropertyChangeEvent;
+	import mx.messaging.messages.HTTPRequestMessage;
 	import mx.rpc.http.HTTPService;
 	
 	import org.yass.Yass;
@@ -83,7 +86,7 @@ package org.yass.main.model{
 				albumSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
 				this.volume = Yass.player.volume;
 				svc.url = "/yass/rest/users/" + Yass.userId + "/settings/";
-				svc.method = "POST";
+				svc.method = HTTPRequestMessage.POST_METHOD;
 				svc.send(this);
 			}
 		}

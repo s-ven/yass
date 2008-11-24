@@ -55,8 +55,11 @@ public class SettingsResource extends BaseResource implements YassConstants {
 	 */
 	public SettingsResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		if (isAvailable() && (settings = user.getUserSetting()) == null)
-			user.setUserSetting(settings = new UserSetting());
+		if (isAvailable()) {
+			if ((settings = user.getUserSetting()) == null)
+				user.setUserSetting(settings = new UserSetting());
+			setModifiable(true);
+		}
 		getVariants().add(new Variant(MediaType.TEXT_XML));
 	}
 
