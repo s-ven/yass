@@ -10,7 +10,5 @@
 		<action name="playlist_browse" class="org.yass.struts.playlist.Browse" />
 		<action name="playlist_addto" class="org.yass.struts.playlist.AddTo" />
 		<action name="playlist_save" class="org.yass.struts.playlist.Save" />
-		<action name="settings_save" class="org.yass.struts.settings.Save" />
-		<action name="settings_get" class="org.yass.struts.settings.Get" />
 	</package>
 </struts>

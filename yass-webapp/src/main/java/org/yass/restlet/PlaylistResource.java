@@ -18,16 +18,73 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
+ */
 package org.yass.restlet;
 
-import org.restlet.resource.Resource;
-
+import org.restlet.Context;
+import org.restlet.data.MediaType;
+import org.restlet.data.Request;
+import org.restlet.data.Response;
+import org.restlet.data.Status;
+import org.restlet.resource.Representation;
+import org.restlet.resource.ResourceException;
+import org.restlet.resource.Variant;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.yass.domain.PlayList;
+import org.yass.domain.SimplePlayList;
 
 /**
  * @author Sven Duzont
- *
+ * 
  */
-public class PlaylistResource extends Resource {
+public class PlaylistResource extends BaseResource {
+
+	private PlayList playList;
+
+	/**
+	 * @param context
+	 * @param request
+	 * @param response
+	 */
+	public PlaylistResource(final Context context, final Request request, final Response response) {
+		super(context, request, response);
+		try {
+			playList = user.getPlayLists().get(getIntAttribute("playlistId"));
+			if (playList != null) {
+				getVariants().add(new Variant(MediaType.TEXT_XML));
+				setModifiable(true);
+			} else
+				setAvailable(false);
+		} catch (final NullPointerException e) {
+			setAvailable(false);
+		}
+	}
+
+	/**
+	 * Handle PUT requests: create a new item.
+	 */
+	@Override
+	public void acceptRepresentation(final Representation entity) throws ResourceException {
+		final Form form = new Form(entity);
+		if (playList instanceof SimplePlayList) {
+			playList.addTracks(form.getInts("trackIds"));
+			PLAYLIST_DAO.save(playList);
+		}
+		getResponse().setStatus(Status.SUCCESS_OK);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document)
+	 */
+	@Override
+	protected void createXMLRepresentation(final Document doc) {
+		final Node libNode = doc.appendChild(doc.createElement("playlist"));
+		for (final Integer trackId : playList.getTrackIds())
+			((Element) libNode.appendChild(doc.createElement("track"))).setAttribute("id", trackId.toString());
+	}
 }

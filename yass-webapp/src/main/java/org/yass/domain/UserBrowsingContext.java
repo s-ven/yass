@@ -48,6 +48,13 @@ public class UserBrowsingContext implements Serializable {
 		pk.setUserId(user.getId());
 	}
 
+	public UserBrowsingContext(final User user, final int trackInfoId) {
+		super();
+		pk = new UserBrowsingContextPK();
+		pk.setUserId(user.getId());
+		pk.setTrackInfoId(trackInfoId);
+	}
+
 	public int getTrackInfoId() {
 		return pk.getTrackInfoId();
 	}

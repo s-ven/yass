@@ -43,10 +43,10 @@ public class Browse extends YassAction implements YassConstants {
 	@Override
 	public String execute() {
 		try {
-			final User user = USER_DAO.findById(userId);
-			final Map<Integer, PlayList> playLists = user.getPlayLists();
 			final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 			final Node playListsNode = doc.appendChild(doc.createElement("playlists"));
+			final User user = USER_DAO.findById(userId);
+			final Map<Integer, PlayList> playLists = user.getPlayLists();
 			final Element libraryNode = (Element) playListsNode.appendChild(doc.createElement("library"));
 			libraryNode.setAttribute("name", "LIBRARY");
 			libraryNode.setAttribute("type", "void");

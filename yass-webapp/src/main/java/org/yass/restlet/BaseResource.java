@@ -29,12 +29,14 @@ import org.restlet.Context;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.data.Status;
 import org.restlet.resource.DomRepresentation;
 import org.restlet.resource.Representation;
 import org.restlet.resource.Resource;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.yass.YassConstants;
 import org.yass.domain.User;
 
@@ -43,20 +45,16 @@ import org.yass.domain.User;
  */
 public abstract class BaseResource extends Resource implements YassConstants {
 
-	public static final Log LOG = LogFactory.getLog(UserResource.class);
+	public static final Log LOG = LogFactory.getLog(SettingsResource.class);
 	/**
 	 * 
 	 */
 	protected User user;
-	/**
-	 * 
-	 */
-	protected int userId;
 
 	public BaseResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
 		try {
-			userId = Integer.parseInt((String) getRequest().getAttributes().get("userId"));
+			final int userId = getIntAttribute("userId");
 			// Get the item directly from the "persistence layer".
 			if (LOG.isInfoEnabled())
 				LOG.info("Getting User userId:" + userId);
@@ -75,6 +73,43 @@ public abstract class BaseResource extends Resource implements YassConstants {
 	 * @param doc
 	 */
 	protected abstract void createXMLRepresentation(Document doc);
+
+	/**
+	 * Generate an XML representation of an error response.
+	 * 
+	 * @param errorMessage
+	 *          the error message.
+	 * @param errorCode
+	 *          the error code.
+	 */
+	protected void generateErrorRepresentation(final String errorMessage, final String errorCode, final Response response) {
+		// This is an error
+		response.setStatus(Status.CLIENT_ERROR_NOT_FOUND);
+		// Generate the output representation
+		try {
+			final DomRepresentation representation = new DomRepresentation(MediaType.TEXT_XML);
+			// Generate a DOM document representing the list of
+			// items.
+			final Document d = representation.getDocument();
+			final Element eltError = d.createElement("error");
+			final Element eltCode = d.createElement("code");
+			eltCode.appendChild(d.createTextNode(errorCode));
+			eltError.appendChild(eltCode);
+			final Element eltMessage = d.createElement("message");
+			eltMessage.appendChild(d.createTextNode(errorMessage));
+			eltError.appendChild(eltMessage);
+			response.setEntity(representation);
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @return
+	 */
+	protected int getIntAttribute(final String name) {
+		return Integer.parseInt((String) getRequest().getAttributes().get(name));
+	}
 
 	/**
 	 * Returns a listing of all registered items.

@@ -19,30 +19,53 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.domain;
+package org.yass.restlet;
 
-import java.util.Date;
+import java.util.ArrayList;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import org.restlet.resource.Representation;
 
-@Entity
-@Table(name = "SIMPLE_PLAYLIST")
-@DiscriminatorValue("0")
-@PrimaryKeyJoinColumn(name = "PLAYLIST_ID")
-public class SimplePlayList extends PlayList {
+/**
+ * @author Sven Duzont
+ * 
+ */
+public class Form extends org.restlet.data.Form {
 
 	/**
-	 * 
+	 * @param entity
 	 */
-	public SimplePlayList() {
-		super();
+	public Form(final Representation entity) {
+		super(entity);
 	}
 
-	public SimplePlayList(final String name, final Date updateDate) {
-		this.name = name;
-		lastUpdate = updateDate;
+	/**
+	 * @param string
+	 * @return
+	 */
+	public boolean getBoolean(final String name) {
+		return Boolean.parseBoolean(getFirstValue(name));
+	}
+
+	public Integer getInt(final String name) {
+		return Integer.parseInt(getFirstValue(name));
+	}
+
+	public Integer[] getInts(final String name) {
+		final String[] trackIdStr = getValuesArray(name);
+		if (trackIdStr != null && trackIdStr.length != 0) {
+			final ArrayList<Integer> trackIds = new ArrayList<Integer>(trackIdStr.length);
+			for (final String trackId : trackIdStr)
+				trackIds.add(Integer.parseInt(trackId));
+			return trackIds.toArray(new Integer[] {});
+		}
+		return null;
+	}
+
+	/**
+	 * @param string
+	 * @return
+	 */
+	public short getShort(final String name) {
+		return Short.parseShort(getFirstValue(name));
 	}
 }

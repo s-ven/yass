@@ -21,11 +21,16 @@
  */
 package org.yass.restlet;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.restlet.Context;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.resource.Representation;
+import org.restlet.resource.ResourceException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.yass.YassConstants;
@@ -36,22 +41,53 @@ import org.yass.domain.UserSetting;
  * @author Sven Duzont
  * 
  */
-public class UserResource extends BaseResource implements YassConstants {
+public class SettingsResource extends BaseResource implements YassConstants {
 
-	public static final Log LOG = LogFactory.getLog(UserResource.class);
+	public static final Log LOG = LogFactory.getLog(SettingsResource.class);
+	private UserSetting settings;
 
 	/**
 	 * @param context
 	 * @param request
 	 * @param response
 	 */
-	public UserResource(final Context context, final Request request, final Response response) {
+	public SettingsResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
+		if (user != null && (settings = user.getUserSetting()) == null)
+			user.setUserSetting(settings = new UserSetting());
+	}
+
+	/**
+	 * Handle POST requests: create a new item.
+	 */
+	@Override
+	public void acceptRepresentation(final Representation entity) throws ResourceException {
+		final Form form = new Form(entity);
+		if (LOG.isInfoEnabled())
+			LOG.info("Saving Settings User id:" + user.getId());
+		settings.setDisplayMode(form.getShort("displayMode"));
+		settings.setLoadedTrackId(form.getInt("loadedTrackId"));
+		settings.setShuffle(form.getBoolean("shuffle"));
+		settings.setLoop(form.getBoolean("loop"));
+		settings.setShowRemaining(form.getBoolean("showRemaining"));
+		settings.setNextFadeout(form.getInt("nextFadeout"));
+		settings.setStopFadeout(form.getInt("stopFadeout"));
+		settings.setSkipFadeout(form.getInt("skipFadeout"));
+		settings.setVolume(form.getInt("volume"));
+		final Set<UserBrowsingContext> browsingContext = new LinkedHashSet<UserBrowsingContext>();
+		final Integer[] trackInfoIds = form.getInts("trackInfoIds");
+		if (trackInfoIds != null && trackInfoIds.length != 0)
+			for (final Integer trackInfoId : trackInfoIds)
+				browsingContext.add(new UserBrowsingContext(user, trackInfoId));
+		USER_DAO.cleanBrowsingContext(user);
+		user.setBrowsingContext(browsingContext);
+		USER_DAO.save(user);
 	}
 
 	/**
 	 * @param doc
 	 */
+	@Override
 	public void createXMLRepresentation(final Document doc) {
 		final UserSetting settings = user.getUserSetting();
 		final Element settingsNode = doc.createElement("settings");

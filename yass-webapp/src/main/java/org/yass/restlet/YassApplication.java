@@ -37,11 +37,11 @@ public class YassApplication extends Application {
 	@Override
 	public synchronized Restlet createRoot() {
 		final Router router = new Router(getContext());
-		router.attach("/users", UsersResource.class);
-		router.attach("/users/{userId}", UserResource.class);
-		router.attach("/users/{userId}/playlists", PlaylistsResource.class);
+		router.attach("/users/", UsersResource.class);
+		router.attach("/users/{userId}/settings/", SettingsResource.class);
+		router.attach("/users/{userId}/playlists/", PlaylistsResource.class);
 		router.attach("/users/{userId}/playlists/{playlistId}", PlaylistResource.class);
-		router.attach("/users/{userId}/libraries", LibrariesResource.class);
+		router.attach("/users/{userId}/libraries/", LibrariesResource.class);
 		router.attach("/users/{userId}/libraries/{libraryId}/tracks", TracksResource.class);
 		router.attach("/users/{userId}/libraries/{libraryId}/trackinfos", TrackInfosResource.class);
 		return router;

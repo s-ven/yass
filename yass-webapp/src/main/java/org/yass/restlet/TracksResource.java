@@ -48,7 +48,6 @@ public class TracksResource extends BaseResource {
 	 */
 	public TracksResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		LOG.info("Getting Tracks");
 		if (user != null) {
 			final Library lib = user.getLibrary();
 			if (lib != null)
@@ -66,6 +65,7 @@ public class TracksResource extends BaseResource {
 	 */
 	@Override
 	protected void createXMLRepresentation(final Document doc) {
+		LOG.info("Getting Tracks");
 		final XMLElementBuilder libApp = new XMLElementBuilder(doc, "tracks");
 		final Map<Integer, TrackStat> trackStats = user.getTracksStats();
 		for (final Track track : tracks)

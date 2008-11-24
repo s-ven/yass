@@ -58,6 +58,7 @@ public class TrackInfosResource extends TracksResource {
 		for (final Track track : tracks)
 			feedGenre(treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
 		doc.appendChild(treeNode);
+		doc.normalizeDocument();
 	}
 
 	/**
@@ -107,14 +108,12 @@ public class TrackInfosResource extends TracksResource {
 		final NodeList genreList = treeNode.getChildNodes();
 		for (int i = 0; i < genreList.getLength(); i++) {
 			final Element genreNode = (Element) genreList.item(i);
-			if (genre != null && isNodeValue(genre, genreNode) && feedArtist(artist, album, genreNode))
+			if (isNodeValue(genre, genreNode) && feedArtist(artist, album, genreNode))
 				return;
 		}
-		if (genre != null) {
-			final Document doc = treeNode.getOwnerDocument();
-			treeNode.appendChild(genre.toXMLElement(doc)).appendChild(artist.toXMLElement(doc)).appendChild(
-					album.toXMLElement(doc));
-		}
+		final Document doc = treeNode.getOwnerDocument();
+		treeNode.appendChild(genre.toXMLElement(doc)).appendChild(artist.toXMLElement(doc)).appendChild(
+				album.toXMLElement(doc));
 	}
 
 	/**

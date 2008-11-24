@@ -41,6 +41,7 @@ package org.yass.main.model{
 		public var loadedTrackId:int = 0;
 		public var trackInfoIds:Array;
 		public var userId:int;
+		public var volume:int;
 		private var _init:Boolean=false;
 		public function Settings(obj:Object):void{
 			Yass.settings = this;
@@ -80,7 +81,8 @@ package org.yass.main.model{
 				artistSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
 				genreSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
 				albumSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
-				svc.url = "/yass/settings_save.do"
+				this.volume = Yass.player.volume;
+				svc.url = "/yass/rest/users/" + Yass.userId + "/settings/";
 				svc.method = "POST";
 				svc.send(this);
 			}

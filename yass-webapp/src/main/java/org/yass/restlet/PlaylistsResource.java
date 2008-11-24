@@ -18,16 +18,97 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
+ */
 package org.yass.restlet;
 
-import org.restlet.resource.Resource;
+import java.util.Date;
+import java.util.Map;
 
+import org.restlet.Context;
+import org.restlet.data.Form;
+import org.restlet.data.MediaType;
+import org.restlet.data.Request;
+import org.restlet.data.Response;
+import org.restlet.data.Status;
+import org.restlet.resource.Representation;
+import org.restlet.resource.ResourceException;
+import org.restlet.resource.StringRepresentation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.yass.domain.PlayList;
+import org.yass.domain.SimplePlayList;
+import org.yass.domain.SmartPlayList;
 
 /**
  * @author Sven Duzont
- *
+ * 
  */
-public class PlaylistsResource extends Resource {
+public class PlaylistsResource extends BaseResource {
+
+	final Map<Integer, PlayList> playLists;
+
+	/**
+	 * @param context
+	 * @param request
+	 * @param response
+	 */
+	public PlaylistsResource(final Context context, final Request request, final Response response) {
+		super(context, request, response);
+		playLists = user.getPlayLists();
+	}
+
+	/**
+	 * Handle POST requests: create a new item.
+	 */
+	@Override
+	public void acceptRepresentation(final Representation entity) throws ResourceException {
+		final Form form = new Form(entity);
+		final String name = form.getFirstValue("name");
+		final PlayList pl = new SimplePlayList(name, new Date());
+		playLists.put(pl.getId(), pl);
+		PLAYLIST_DAO.save(pl);
+		getResponse().setStatus(Status.SUCCESS_CREATED);
+		final Representation rep = new StringRepresentation("Playslit created", MediaType.TEXT_PLAIN);
+		// Indicates where is located the new resource.
+		rep.setIdentifier(getRequest().getResourceRef().getIdentifier() + "/" + pl.getId());
+		getResponse().setEntity(rep);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document
+	 * )
+	 */
+	@Override
+	protected void createXMLRepresentation(final Document doc) {
+		final Node playListsNode = doc.appendChild(doc.createElement("playlists"));
+		final Element libraryNode = (Element) playListsNode.appendChild(doc.createElement("library"));
+		libraryNode.setAttribute("name", "LIBRARY");
+		libraryNode.setAttribute("type", "void");
+		Element plstNode = (Element) libraryNode.appendChild(doc.createElement("playlist"));
+		plstNode.setAttribute("name", "Music");
+		plstNode.setAttribute("type", "library");
+		plstNode.setAttribute("id", user.getLibrary().getId() + "");
+		final Element smartPlNode = (Element) playListsNode.appendChild(doc.createElement("smart"));
+		smartPlNode.setAttribute("name", "SMART PLAYLISTS");
+		smartPlNode.setAttribute("type", "void");
+		final Element usrPlNode = (Element) playListsNode.appendChild(doc.createElement("user"));
+		usrPlNode.setAttribute("name", "USER PLAYLISTS");
+		usrPlNode.setAttribute("type", "void");
+		plstNode = (Element) usrPlNode.appendChild(doc.createElement("playlist"));
+		plstNode.setAttribute("name", "<New>");
+		plstNode.setAttribute("type", "user");
+		plstNode.setAttribute("id", "0");
+		for (final PlayList plst : playLists.values()) {
+			if (plst instanceof SmartPlayList)
+				(plstNode = (Element) smartPlNode.appendChild(doc.createElement("playlist"))).setAttribute("type", "smart");
+			else
+				(plstNode = (Element) usrPlNode.appendChild(doc.createElement("playlist"))).setAttribute("type", "user");
+			plstNode.setAttribute("name", plst.getName());
+			plstNode.setAttribute("id", plst.getId() + "");
+		}
+	}
 }

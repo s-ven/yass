@@ -36,13 +36,10 @@ package org.yass.main.model{
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
 			Console.log("model.NavigationModel :: init");
-			var data:Object = new Object();
-			data.userId = Yass.userId;		
-			httpService.method = "GET";
-			httpService.url="/yass/playlist_browse.do";
+			httpService.url="/yass/rest/users/" + Yass.userId + "/playlists/";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
-			httpService.send(data);
+			httpService.send();
 		}
 
 		public function savePlayList(id:String, name:String):void{
@@ -65,11 +62,8 @@ package org.yass.main.model{
 					_playlist = new PlayListModel();
 				_playlist.removeEventListeners();
 				_playlist.playListId = id;
-				var data:Object = new Object();
-				data.id = id;
-				data.userId = Yass.userId;
 				var svc : HTTPService = new HTTPService();
-	 			svc.url = "/yass/playlist_show.do";
+	 			svc.url = "/yass/rest/users/" + Yass.userId + "/playlists/" +id;
 				svc.addEventListener(ResultEvent.RESULT, function():void{
 					if(svc.lastResult.playlist){
 						_playlist.removeAll();
@@ -79,7 +73,7 @@ package org.yass.main.model{
 					}
 				});
 				_playlist.setEventListeners();
-				svc.send(data);
+				svc.send();
 				Console.groupEnd();
 				return ;
 			}

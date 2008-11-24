@@ -41,7 +41,7 @@ public class Save extends YassAction implements YassConstants {
 			LOG.info("Saving playlist " + id);
 		PlayList pl = USER_DAO.findById(userId).getPlayLists().get(id);
 		if (pl == null)
-			pl = new SimplePlayList(0, name, new Date());
+			pl = new SimplePlayList(name, new Date());
 		USER_DAO.findById(userId).getPlayLists().put(pl.getId(), pl);
 		PLAYLIST_DAO.save(pl);
 		return NONE;
