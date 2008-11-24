@@ -33,6 +33,7 @@ import org.restlet.data.Status;
 import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.StringRepresentation;
+import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,7 +47,7 @@ import org.yass.domain.SmartPlayList;
  */
 public class PlaylistsResource extends BaseResource {
 
-	final Map<Integer, PlayList> playLists;
+	private Map<Integer, PlayList> playlists;
 
 	/**
 	 * @param context
@@ -55,7 +56,11 @@ public class PlaylistsResource extends BaseResource {
 	 */
 	public PlaylistsResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		playLists = user.getPlayLists();
+		if (user != null) {
+			playlists = user.getPlayLists();
+			getVariants().add(new Variant(MediaType.TEXT_XML));
+		} else
+			setAvailable(false);
 	}
 
 	/**
@@ -66,7 +71,7 @@ public class PlaylistsResource extends BaseResource {
 		final Form form = new Form(entity);
 		final String name = form.getFirstValue("name");
 		final PlayList pl = new SimplePlayList(name, new Date());
-		playLists.put(pl.getId(), pl);
+		playlists.put(pl.getId(), pl);
 		PLAYLIST_DAO.save(pl);
 		getResponse().setStatus(Status.SUCCESS_CREATED);
 		final Representation rep = new StringRepresentation("Playslit created", MediaType.TEXT_PLAIN);
@@ -102,7 +107,7 @@ public class PlaylistsResource extends BaseResource {
 		plstNode.setAttribute("name", "<New>");
 		plstNode.setAttribute("type", "user");
 		plstNode.setAttribute("id", "0");
-		for (final PlayList plst : playLists.values()) {
+		for (final PlayList plst : playlists.values()) {
 			if (plst instanceof SmartPlayList)
 				(plstNode = (Element) smartPlNode.appendChild(doc.createElement("playlist"))).setAttribute("type", "smart");
 			else

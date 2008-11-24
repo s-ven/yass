@@ -22,8 +22,10 @@
 package org.yass.restlet;
 
 import org.restlet.Context;
+import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,6 +46,7 @@ public class TrackInfosResource extends TracksResource {
 	 */
 	public TrackInfosResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
+		getVariants().add(new Variant(MediaType.TEXT_XML));
 	}
 
 	/*

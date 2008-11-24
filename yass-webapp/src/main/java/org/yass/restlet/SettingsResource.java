@@ -27,10 +27,12 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.restlet.Context;
+import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
+import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.yass.YassConstants;
@@ -55,6 +57,7 @@ public class SettingsResource extends BaseResource implements YassConstants {
 		super(context, request, response);
 		if (user != null && (settings = user.getUserSetting()) == null)
 			user.setUserSetting(settings = new UserSetting());
+		getVariants().add(new Variant(MediaType.TEXT_XML));
 	}
 
 	/**

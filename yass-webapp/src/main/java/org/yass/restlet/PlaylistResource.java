@@ -50,16 +50,11 @@ public class PlaylistResource extends BaseResource {
 	 */
 	public PlaylistResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		try {
-			playList = user.getPlayLists().get(getIntAttribute("playlistId"));
-			if (playList != null) {
-				getVariants().add(new Variant(MediaType.TEXT_XML));
-				setModifiable(true);
-			} else
-				setAvailable(false);
-		} catch (final NullPointerException e) {
+		if (user != null && (playList = user.getPlayLists().get(getIntAttribute("playlistId"))) != null) {
+			getVariants().add(new Variant(MediaType.TEXT_XML));
+			setModifiable(true);
+		} else
 			setAvailable(false);
-		}
 	}
 
 	/**

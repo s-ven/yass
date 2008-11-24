@@ -51,12 +51,12 @@ public class Form extends org.restlet.data.Form {
 	}
 
 	public Integer[] getInts(final String name) {
-		final String[] trackIdStr = getValuesArray(name);
-		if (trackIdStr != null && trackIdStr.length != 0) {
-			final ArrayList<Integer> trackIds = new ArrayList<Integer>(trackIdStr.length);
-			for (final String trackId : trackIdStr)
-				trackIds.add(Integer.parseInt(trackId));
-			return trackIds.toArray(new Integer[] {});
+		final String[] strArray = getValuesArray(name);
+		if (strArray != null && strArray.length != 0) {
+			final ArrayList<Integer> intArrayLst = new ArrayList<Integer>(strArray.length);
+			for (final String str : strArray)
+				intArrayLst.add(Integer.parseInt(str));
+			return intArrayLst.toArray(new Integer[] {});
 		}
 		return null;
 	}

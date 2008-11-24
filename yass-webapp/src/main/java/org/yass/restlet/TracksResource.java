@@ -25,8 +25,10 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.restlet.Context;
+import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
+import org.restlet.resource.Variant;
 import org.w3c.dom.Document;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
@@ -50,9 +52,10 @@ public class TracksResource extends BaseResource {
 		super(context, request, response);
 		if (user != null) {
 			final Library lib = user.getLibrary();
-			if (lib != null)
+			if (lib != null) {
 				tracks = lib.getTracks();
-			else
+				getVariants().add(new Variant(MediaType.TEXT_XML));
+			} else
 				setAvailable(false);
 		}
 	}

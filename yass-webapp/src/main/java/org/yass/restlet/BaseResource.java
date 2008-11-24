@@ -59,10 +59,9 @@ public abstract class BaseResource extends Resource implements YassConstants {
 			if (LOG.isInfoEnabled())
 				LOG.info("Getting User userId:" + userId);
 			user = USER_DAO.findById(userId);
-			if (user != null) {
-				getVariants().add(new Variant(MediaType.TEXT_XML));
+			if (user != null)
 				setModifiable(true);
-			} else
+			else
 				setAvailable(false);
 		} catch (final NullPointerException e) {
 			setAvailable(false);
