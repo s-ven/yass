@@ -65,6 +65,14 @@ public class Form extends org.restlet.data.Form {
 	 * @param string
 	 * @return
 	 */
+	public long getLong(final String name) {
+		return Long.parseLong(getFirstValue(name));
+	}
+
+	/**
+	 * @param string
+	 * @return
+	 */
 	public short getShort(final String name) {
 		return Short.parseShort(getFirstValue(name));
 	}

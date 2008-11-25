@@ -67,7 +67,8 @@ public abstract class BaseResource extends Resource implements YassConstants {
 	/**
 	 * @param doc
 	 */
-	protected abstract void createXMLRepresentation(Document doc);
+	protected void createXMLRepresentation(final Document doc) {
+	}
 
 	/**
 	 * Generate an XML representation of an error response.

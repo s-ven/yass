@@ -79,7 +79,7 @@ package org.yass.main.model{
 			isPlaying = true;
 			Console.log("model.SoundHandler.play title:" + _loadedTrack.title);
 			if (position == 0){
-				_sound.load(new URLRequest("/yass/track_play.do?id=" + _loadedTrack.id), new SoundLoaderContext(0, false));
+				_sound.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/" + Yass.library.id + "/tracks/" + _loadedTrack.id), new SoundLoaderContext(0, false));
 				_loadedTrack.playCount ++;
 				_loadedTrack.lastPlayed = new Date().time;
 				_loadedTrack.save();

@@ -33,6 +33,7 @@ package org.yass.main.model{
 	import org.yass.main.events.PlayerEvent;
 	import org.yass.util.tree.*;
 	public class LibraryModel extends PlayListModel{
+		public var id:int = 1;
 		public var genreArray:ArrayCollection;
 		public var artistArray:ArrayCollection;
 		public var albumArray:ArrayCollection;
@@ -49,7 +50,9 @@ package org.yass.main.model{
 		private var _artistFiltered:Array;
 		private var _textFilterScope:String=TextFilterScope.ALL;
 		private var _trackDictionary:Dictionary = new Dictionary();
-		public function LibraryModel(libTreeData:Object, libraryData:Object):void{
+		public function LibraryModel():void{
+		}
+		public function initialize(libTreeData:Object, libraryData:Object):void{
 			Console.group("model.Library :: Init");
 			Console.time("TrackInfo tree extraction")
 			_tree = new Tree(new XML(libTreeData));

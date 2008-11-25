@@ -114,7 +114,7 @@ package org.yass.main.model{
 		}
 		public function save():void{
 			var service:HTTPService = new HTTPService();
-			service.url = "/yass/track_save.do?userId="+Yass.userId;
+			service.url = "/yass/rest/users/" + Yass.userId + "/libraries/" + Yass.library.id + "/tracks/" + id;
 			service.method = "POST";
 			service.send(this);
 		}

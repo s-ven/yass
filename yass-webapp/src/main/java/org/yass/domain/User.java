@@ -61,7 +61,7 @@ public class User implements Serializable {
 	@Column(name = "USER_NAME")
 	private String name;
 	private String password;
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	@MapKey(name = "id")
 	private Map<Integer, PlayList> playLists = new LinkedHashMap<Integer, PlayList>();
 	@Column(name = "ROLE_ID")

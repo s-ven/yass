@@ -34,8 +34,8 @@
 				libraryLoader.addEventListener(Event.COMPLETE, libraryLoaded );
 				libTreeLoader.addEventListener(Event.COMPLETE, libTreeLoaded );
 				settingsLoader.addEventListener(Event.COMPLETE, settingsLoaded );
-				libraryLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/1/tracks"));
-				libTreeLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/1/trackinfos"));
+				libraryLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/" + Yass.library.id + "/tracks"));
+				libTreeLoader.load(new URLRequest("/yass/rest/users/" + Yass.userId + "/libraries/" + Yass.library.id + "/trackinfos"));
 				settingsLoader.load(new URLRequest("/yass/rest/users/" +Yass.userId + "/settings/"));
 			}
 			private function libraryLoaded( e:Event ):void {
@@ -61,7 +61,7 @@
 					libraryLoader.removeEventListener(Event.ENTER_FRAME, handleProgress )
 					Console.group("Initializing data structures..."  );
 					Console.time("Library loading")
-					Yass.library = new LibraryModel(libTreeLoader.data, libraryLoader.data);
+					Yass.library.initialize(libTreeLoader.data, libraryLoader.data);
 					Console.timeEnd("Library loading")
 					Console.time("Settings loading")
 					Yass.settings = new Settings(settingsLoader.data);

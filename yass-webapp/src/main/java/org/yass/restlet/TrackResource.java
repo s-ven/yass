@@ -21,67 +21,67 @@
  */
 package org.yass.restlet;
 
+import java.util.Collection;
+import java.util.Date;
+
 import org.restlet.Context;
 import org.restlet.data.MediaType;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
-import org.restlet.data.Status;
+import org.restlet.resource.FileRepresentation;
 import org.restlet.resource.Representation;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.Variant;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.yass.domain.PlayList;
-import org.yass.domain.SimplePlayList;
-import org.yass.domain.SmartPlayList;
+import org.yass.domain.Track;
+import org.yass.domain.TrackStat;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class PlaylistResource extends BaseResource {
+public class TrackResource extends BaseResource {
 
-	private PlayList playList;
+	private Track track;
+	protected Collection<Track> tracks;
 
 	/**
 	 * @param context
 	 * @param request
 	 * @param response
 	 */
-	public PlaylistResource(final Context context, final Request request, final Response response) {
+	public TrackResource(final Context context, final Request request, final Response response) {
 		super(context, request, response);
-		if (isAvailable() && (playList = user.getPlayLists().get(getIntAttribute("playlistId"))) != null) {
-			getVariants().add(new Variant(MediaType.TEXT_XML));
+		if (isAvailable() && (track = TRACK_DAO.findById(getIntAttribute("trackId"))) != null) {
+			getVariants().add(new Variant(MediaType.AUDIO_ALL));
 			setModifiable(true);
-			if (playList instanceof SmartPlayList)
-				PLAYLIST_DAO.reloadSmartPlayLsit((SmartPlayList) playList);
-		}
+		} else
+			setAvailable(false);
 	}
 
 	/**
-	 * Handle POST requests: update playlist.
+	 * Handle POST requests: create a new item.
 	 */
 	@Override
 	public void acceptRepresentation(final Representation entity) throws ResourceException {
 		final Form form = new Form(entity);
-		if (playList instanceof SimplePlayList) {
-			playList.addTracks(form.getInts("trackIds"));
-			PLAYLIST_DAO.save(playList);
-		}
-		getResponse().setStatus(Status.SUCCESS_OK);
+		if (LOG.isInfoEnabled())
+			LOG.info("Saving TrackStat for Track id:" + track.getId());
+		TrackStat trackStat = user.getTracksStats().get(track.getId());
+		if (trackStat == null)
+			user.getTracksStats().put(track.getId(), trackStat = new TrackStat(user, track.getId()));
+		trackStat.setRating(form.getInt("rating"));
+		trackStat.setPlayCount(form.getInt("playCount"));
+		trackStat.setLastPlayed(new Date(form.getLong("lastPlayed")));
+		USER_DAO.save(user);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document)
+	/**
+	 * Returns a {@link FileRepresentation}
 	 */
 	@Override
-	protected void createXMLRepresentation(final Document doc) {
-		final Node libNode = doc.appendChild(doc.createElement("playlist"));
-		for (final Integer trackId : playList.getTrackIds())
-			((Element) libNode.appendChild(doc.createElement("track"))).setAttribute("id", trackId.toString());
+	public Representation represent(final Variant variant) throws ResourceException {
+		if (MediaType.AUDIO_ALL.equals(variant.getMediaType()))
+			return new FileRepresentation(track.getPath(), MediaType.AUDIO_MPEG);
+		return null;
 	}
 }
