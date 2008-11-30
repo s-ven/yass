@@ -19,50 +19,41 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.restlet;
+package org.yass.rest;
 
-import org.restlet.Context;
-import org.restlet.data.MediaType;
-import org.restlet.data.Request;
-import org.restlet.data.Response;
-import org.restlet.resource.Variant;
+import java.util.Collection;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.yass.YassConstants;
+import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackInfo;
+import org.yass.domain.User;
+import org.yass.util.XMLSerializer;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class TrackInfosResource extends TracksResource {
+@Path("/users/{userId}/libraries/{libraryId}/trackinfos")
+public class TrackInfosResource implements YassConstants {
 
-	/**
-	 * @param context
-	 * @param request
-	 * @param response
-	 */
-	public TrackInfosResource(final Context context, final Request request, final Response response) {
-		super(context, request, response);
-		getVariants().add(new Variant(MediaType.TEXT_XML));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document)
-	 */
-	@Override
-	protected void createXMLRepresentation(final Document doc) {
-		final Element treeNode = doc.createElement("libTree");
-		for (final Track track : tracks)
-			feedGenre(treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
-		doc.appendChild(treeNode);
-		doc.normalizeDocument();
-	}
+	public static final Log LOG = LogFactory.getLog(TrackInfosResource.class);
 
 	private boolean feedAlbum(final TrackInfo album, final Node artistNode) {
 		final NodeList albLst = artistNode.getChildNodes();
@@ -95,6 +86,24 @@ public class TrackInfosResource extends TracksResource {
 		final Document doc = treeNode.getOwnerDocument();
 		treeNode.appendChild(genre.toXMLElement(doc)).appendChild(artist.toXMLElement(doc)).appendChild(
 				album.toXMLElement(doc));
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response getTrackInfos(@PathParam("userId") final int userId) throws ParserConfigurationException {
+		final User user = USER_DAO.findById(userId);
+		if (user == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		final Library lib = user.getLibrary();
+		if (lib == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		final Collection<Track> tracks = lib.getTracks();
+		final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+		final Element treeNode = (Element) doc.appendChild(doc.createElement("libTree"));
+		for (final Track track : tracks)
+			feedGenre(treeNode, track.getTrackInfo(GENRE), track.getTrackInfo(ARTIST), track.getTrackInfo(ALBUM));
+		doc.normalizeDocument();
+		return Response.ok(XMLSerializer.serialize(doc), MediaType.APPLICATION_XML).build();
 	}
 
 	private boolean isNodeValue(final TrackInfo trackInfo, final Node node) {

@@ -19,56 +19,53 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.restlet;
+package org.yass.rest;
 
 import java.util.Collection;
 import java.util.Map;
 
-import org.restlet.Context;
-import org.restlet.data.MediaType;
-import org.restlet.data.Request;
-import org.restlet.data.Response;
-import org.restlet.resource.Variant;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackStat;
+import org.yass.domain.User;
 import org.yass.util.XMLElementBuilder;
+import org.yass.util.XMLSerializer;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class TracksResource extends BaseResource {
+@Path("/users/{userId}/libraries/{libraryId}/tracks")
+public class TracksResource implements YassConstants {
 
-	protected Collection<Track> tracks;
+	public static final Log LOG = LogFactory.getLog(TracksResource.class);
 
-	/**
-	 * @param context
-	 * @param request
-	 * @param response
-	 */
-	public TracksResource(final Context context, final Request request, final Response response) {
-		super(context, request, response);
-		if (isAvailable()) {
-			final Library lib = user.getLibrary();
-			if (lib != null) {
-				tracks = lib.getTracks();
-				getVariants().add(new Variant(MediaType.TEXT_XML));
-			} else
-				setAvailable(false);
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document)
-	 */
-	@Override
-	protected void createXMLRepresentation(final Document doc) {
-		LOG.info("Getting Tracks");
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response getTracks(@PathParam("userId") final int userId) throws ParserConfigurationException {
+		final User user = USER_DAO.findById(userId);
+		if (user == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		final Library lib = user.getLibrary();
+		if (lib == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		final Collection<Track> tracks = lib.getTracks();
+		LOG.info("Getting Tracks for User id:" + userId);
+		final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		final XMLElementBuilder libApp = new XMLElementBuilder(doc, "tracks");
 		final Map<Integer, TrackStat> trackStats = user.getTracksStats();
 		for (final Track track : tracks)
@@ -90,5 +87,6 @@ public class TracksResource extends BaseResource {
 				else
 					trackApp.append("rating", 0).append("playCount", 0).append("lastPlayed", 0);
 			}
+		return Response.ok(XMLSerializer.serialize(doc)).type(MediaType.APPLICATION_XML).build();
 	}
 }

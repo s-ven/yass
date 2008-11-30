@@ -35,5 +35,9 @@
         <snapshots>
           <enabled>false</enabled>
         </snapshots>        
-     </repository></repositories>
+     </repository>
+<repository>
+	<id>java.net</id>
+	<url>http://download.java.net/maven/2/</url>
+</repository></repositories>
 </project>

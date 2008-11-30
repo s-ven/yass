@@ -18,16 +18,40 @@
  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ */
+package org.yass.util;
 
-package org.yass.restlet;
+import java.io.StringWriter;
 
-import org.restlet.resource.Resource;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
 
 /**
  * @author Sven Duzont
- *
+ * 
  */
-public class LibrariesResource extends Resource {
+public class XMLSerializer {
+
+	public static String serialize(final Document doc) {
+		try {
+			final Transformer transformer = TransformerFactory.newInstance().newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "no");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			final StringWriter w_cibleString = new StringWriter();
+			transformer.transform(new DOMSource(doc), new StreamResult(w_cibleString));
+			return w_cibleString.toString();
+		} catch (final TransformerConfigurationException e) {
+			e.printStackTrace();
+		} catch (final TransformerException e1) {
+			e1.printStackTrace();
+		}
+		return "";
+	}
 }

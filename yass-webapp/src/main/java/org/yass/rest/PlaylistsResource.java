@@ -19,72 +19,52 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.restlet;
+package org.yass.rest;
 
-import java.util.Date;
 import java.util.Map;
 
-import org.restlet.Context;
-import org.restlet.data.Form;
-import org.restlet.data.MediaType;
-import org.restlet.data.Request;
-import org.restlet.data.Response;
-import org.restlet.data.Status;
-import org.restlet.resource.Representation;
-import org.restlet.resource.ResourceException;
-import org.restlet.resource.Variant;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.yass.YassConstants;
+import org.yass.domain.Library;
 import org.yass.domain.PlayList;
-import org.yass.domain.SimplePlayList;
 import org.yass.domain.SmartPlayList;
+import org.yass.domain.User;
+import org.yass.util.XMLSerializer;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class PlaylistsResource extends BaseResource {
+@Path("/users/{userId}/playlists")
+public class PlaylistsResource implements YassConstants {
 
-	private Map<Integer, PlayList> playlists;
+	public static final Log LOG = LogFactory.getLog(PlaylistsResource.class);
 
-	/**
-	 * @param context
-	 * @param request
-	 * @param response
-	 */
-	public PlaylistsResource(final Context context, final Request request, final Response response) {
-		super(context, request, response);
-		if (isAvailable()) {
-			playlists = user.getPlayLists();
-			getVariants().add(new Variant(MediaType.TEXT_XML));
-		}
-	}
-
-	/**
-	 * Handle POST requests: create a new item.
-	 */
-	@Override
-	public void acceptRepresentation(final Representation entity) throws ResourceException {
-		final Form form = new Form(entity);
-		final String name = form.getFirstValue("name");
-		final PlayList pl = new SimplePlayList(name, new Date());
-		playlists.put(pl.getId(), pl);
-		PLAYLIST_DAO.save(pl);
-		getResponse().setStatus(Status.SUCCESS_CREATED);
-		getResponse().setEntity(
-				new PlaylistResource(getContext(), getRequest(), getResponse()).represent(new Variant(MediaType.TEXT_XML)));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.yass.restlet.BaseResource#createXMLRepresentation(org.w3c.dom.Document
-	 * )
-	 */
-	@Override
-	protected void createXMLRepresentation(final Document doc) {
+	@GET
+	@Produces(MediaType.APPLICATION_XML)
+	public Response getPlaylists(@PathParam("userId") final int userId) throws ParserConfigurationException {
+		final User user = USER_DAO.findById(userId);
+		if (user == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		final Library lib = user.getLibrary();
+		if (lib == null)
+			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
+		LOG.info("Getting Playlists for User id:" + userId);
+		final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 		final Node playListsNode = doc.appendChild(doc.createElement("playlists"));
 		final Element libraryNode = (Element) playListsNode.appendChild(doc.createElement("library"));
 		libraryNode.setAttribute("name", "LIBRARY");
@@ -103,6 +83,7 @@ public class PlaylistsResource extends BaseResource {
 		plstNode.setAttribute("name", "<New>");
 		plstNode.setAttribute("type", "user");
 		plstNode.setAttribute("id", "0");
+		final Map<Integer, PlayList> playlists = user.getPlayLists();
 		for (final PlayList plst : playlists.values()) {
 			if (plst instanceof SmartPlayList)
 				(plstNode = (Element) smartPlNode.appendChild(doc.createElement("playlist"))).setAttribute("type", "smart");
@@ -111,5 +92,6 @@ public class PlaylistsResource extends BaseResource {
 			plstNode.setAttribute("name", plst.getName());
 			plstNode.setAttribute("id", plst.getId() + "");
 		}
+		return Response.ok(XMLSerializer.serialize(doc)).type(MediaType.APPLICATION_XML).build();
 	}
 }

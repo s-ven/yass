@@ -19,61 +19,54 @@
  ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-package org.yass.restlet;
+package org.yass.rest;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.restlet.resource.Representation;
+import javax.ws.rs.core.Application;
+
+import org.restlet.Context;
+import org.restlet.ext.jaxrs.JaxRsApplication;
 
 /**
  * @author Sven Duzont
  * 
  */
-public class Form extends org.restlet.data.Form {
+public class YassApplication extends JaxRsApplication {
 
 	/**
-	 * @param entity
+	 * @param context
 	 */
-	public Form(final Representation entity) {
-		super(entity);
-	}
-
-	/**
-	 * @param string
-	 * @return
-	 */
-	public boolean getBoolean(final String name) {
-		return Boolean.parseBoolean(getFirstValue(name));
-	}
-
-	public Integer getInt(final String name) {
-		return Integer.parseInt(getFirstValue(name));
-	}
-
-	public Integer[] getInts(final String name) {
-		final String[] strArray = getValuesArray(name);
-		if (strArray != null && strArray.length != 0) {
-			final ArrayList<Integer> intArrayLst = new ArrayList<Integer>(strArray.length);
-			for (final String str : strArray)
-				intArrayLst.add(Integer.parseInt(str));
-			return intArrayLst.toArray(new Integer[] {});
-		}
-		return null;
+	public YassApplication() {
+		this.initApplication();
 	}
 
 	/**
-	 * @param string
-	 * @return
+	 * @param context
 	 */
-	public long getLong(final String name) {
-		return Long.parseLong(getFirstValue(name));
+	public YassApplication(final Context context) {
+		super(context);
+		this.initApplication();
 	}
 
 	/**
-	 * @param string
-	 * @return
+	 * 
 	 */
-	public short getShort(final String name) {
-		return Short.parseShort(getFirstValue(name));
+	private void initApplication() {
+		this.add(new Application() {
+
+			@Override
+			public Set<Class<?>> getClasses() {
+				final Set<Class<?>> classes = new HashSet<Class<?>>();
+				classes.add(SettingsResource.class);
+				classes.add(TracksResource.class);
+				classes.add(TrackResource.class);
+				classes.add(PlaylistsResource.class);
+				classes.add(PlaylistResource.class);
+				classes.add(TrackInfosResource.class);
+				return classes;
+			}
+		});
 	}
 }

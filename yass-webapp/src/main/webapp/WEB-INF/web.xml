@@ -18,7 +18,7 @@
 	<!-- Restlet application class name -->
 	<context-param>
 		<param-name>org.restlet.application</param-name>
-		<param-value>org.yass.restlet.YassApplication</param-value>
+		<param-value>org.yass.rest.YassApplication</param-value>
 	</context-param>
 	<!-- Restlet adapter -->
 	<servlet>
