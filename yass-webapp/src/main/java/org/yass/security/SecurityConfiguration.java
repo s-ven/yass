@@ -32,7 +32,10 @@ import javax.security.auth.login.Configuration;
  */
 public class SecurityConfiguration extends Configuration {
 
-	static public void init() {
+    /**
+     *
+     */
+    static public void init() {
 		Configuration.setConfiguration(new SecurityConfiguration());
 	}
 

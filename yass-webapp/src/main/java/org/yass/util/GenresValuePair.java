@@ -3,11 +3,19 @@ package org.yass.util;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class GenresValuePair {
 
 	private final static GenresValuePair instance = new GenresValuePair();
 
-	public static GenresValuePair getInstance() {
+    /**
+     *
+     * @return
+     */
+    public static GenresValuePair getInstance() {
 		return instance;
 	}
 
@@ -164,7 +172,12 @@ public class GenresValuePair {
 		idToValue.put(147, "SynthPop");
 	}
 
-	public String getValue(final String str) {
+    /**
+     *
+     * @param str
+     * @return
+     */
+    public String getValue(final String str) {
 		if (str.startsWith("("))
 			return idToValue.get(Integer.parseInt(str.substring(1, str.indexOf(')')))).trim();
 		return str;

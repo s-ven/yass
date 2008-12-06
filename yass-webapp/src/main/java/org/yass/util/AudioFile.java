@@ -193,7 +193,11 @@ public class AudioFile implements YassConstants {
 		return artist;
 	}
 
-	public TrackInfo getArtistTrackInfo() {
+    /**
+     *
+     * @return
+     */
+    public TrackInfo getArtistTrackInfo() {
 		return TRACK_INFO_DAO.findByValue(getArtist(), ARTIST);
 	}
 

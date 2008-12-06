@@ -29,6 +29,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.dao.schema.Schema00;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class DaoHelper {
 
 	private final static DaoHelper instance = new DaoHelper();

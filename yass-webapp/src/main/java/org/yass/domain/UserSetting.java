@@ -30,6 +30,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "USER_SETTING")
 @SuppressWarnings("all")
@@ -56,83 +60,162 @@ public class UserSetting implements Serializable {
 	private User user;
 	private int volume;
 
-	public UserSetting() {
+    /**
+     *
+     */
+    public UserSetting() {
 		super();
 	}
 
-	public short getDisplayMode() {
+    /**
+     *
+     * @return
+     */
+    public short getDisplayMode() {
 		return displayMode;
 	}
 
-	public int getLoadedTrackId() {
+    /**
+     *
+     * @return
+     */
+    public int getLoadedTrackId() {
 		return loadedTrackId;
 	}
 
-	public int getNextFadeout() {
+    /**
+     *
+     * @return
+     */
+    public int getNextFadeout() {
 		return nextFadeout;
 	}
 
-	public int getSkipFadeout() {
+    /**
+     *
+     * @return
+     */
+    public int getSkipFadeout() {
 		return skipFadeout;
 	}
 
-	public int getStopFadeout() {
+    /**
+     *
+     * @return
+     */
+    public int getStopFadeout() {
 		return stopFadeout;
 	}
 
-	public int getVolume() {
+    /**
+     *
+     * @return
+     */
+    public int getVolume() {
 		return volume;
 	}
 
-	public boolean isRepeat() {
+    /**
+     *
+     * @return
+     */
+    public boolean isRepeat() {
 		return repeat;
 	}
 
-	public boolean isShowRemaining() {
+    /**
+     *
+     * @return
+     */
+    public boolean isShowRemaining() {
 		return showRemaining;
 	}
 
-	public boolean isShuffle() {
+    /**
+     *
+     * @return
+     */
+    public boolean isShuffle() {
 		return shuffle;
 	}
 
-	public void setDisplayMode(final short displayMode) {
+    /**
+     *
+     * @param displayMode
+     */
+    public void setDisplayMode(final short displayMode) {
 		this.displayMode = displayMode;
 	}
 
-	public void setLoadedTrackId(final int loadedTrackId) {
+    /**
+     *
+     * @param loadedTrackId
+     */
+    public void setLoadedTrackId(final int loadedTrackId) {
 		this.loadedTrackId = loadedTrackId;
 	}
 
-	public void setLoop(final boolean repeat) {
+    /**
+     *
+     * @param repeat
+     */
+    public void setLoop(final boolean repeat) {
 		this.repeat = repeat;
 	}
 
-	public void setNextFadeout(final int nextFadeout) {
+    /**
+     *
+     * @param nextFadeout
+     */
+    public void setNextFadeout(final int nextFadeout) {
 		this.nextFadeout = nextFadeout;
 	}
 
-	public void setShowRemaining(final boolean showRemaining) {
+    /**
+     *
+     * @param showRemaining
+     */
+    public void setShowRemaining(final boolean showRemaining) {
 		this.showRemaining = showRemaining;
 	}
 
-	public void setShuffle(final boolean shuffle) {
+    /**
+     *
+     * @param shuffle
+     */
+    public void setShuffle(final boolean shuffle) {
 		this.shuffle = shuffle;
 	}
 
-	public void setSkipFadeout(final int skipFadeout) {
+    /**
+     *
+     * @param skipFadeout
+     */
+    public void setSkipFadeout(final int skipFadeout) {
 		this.skipFadeout = skipFadeout;
 	}
 
-	public void setStopFadeout(final int stopFadeout) {
+    /**
+     *
+     * @param stopFadeout
+     */
+    public void setStopFadeout(final int stopFadeout) {
 		this.stopFadeout = stopFadeout;
 	}
 
-	public void setUser(final User user) {
+    /**
+     *
+     * @param user
+     */
+    public void setUser(final User user) {
 		this.user = user;
 	}
 
-	public void setVolume(final int volume) {
+    /**
+     *
+     * @param volume
+     */
+    public void setVolume(final int volume) {
 		this.volume = volume;
 	}
 }

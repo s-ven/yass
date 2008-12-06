@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context docBase="yass" path="/yass" reloadable="true">
+  <Realm appName="yass" className="org.apache.catalina.realm.JAASRealm" roleClassNames="org.yass.security.UserPrincipal,org.yass.security.AdminPrincipal" useContextClassLoader="true" userClassNames="org.yass.security.UserPrincipal,org.yass.security.AdminPrincipal"/>
+</Context>

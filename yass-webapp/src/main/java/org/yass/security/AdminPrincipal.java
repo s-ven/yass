@@ -28,7 +28,6 @@ package org.yass.security;
 public class AdminPrincipal extends BasePrincipal {
 
 	/**
-	 * @param name
 	 */
 	public AdminPrincipal() {
 		super("admin");

@@ -49,9 +49,19 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/playlists/{playlistId}")
 public class PlaylistResource implements YassConstants {
 
-	public static final Log LOG = LogFactory.getLog(PlaylistResource.class);
+    /**
+     *
+     */
+    public static final Log LOG = LogFactory.getLog(PlaylistResource.class);
 
-	@GET
+    /**
+     *
+     * @param userId
+     * @param playlistId
+     * @return
+     * @throws javax.xml.parsers.ParserConfigurationException
+     */
+    @GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getPlaylist(@PathParam("userId") final int userId, @PathParam("playlistId") final int playlistId)
 			throws ParserConfigurationException {

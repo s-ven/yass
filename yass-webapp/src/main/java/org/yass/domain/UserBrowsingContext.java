@@ -28,6 +28,10 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "USER_BROWSING_CONTEXT")
 public class UserBrowsingContext implements Serializable {
@@ -38,36 +42,64 @@ public class UserBrowsingContext implements Serializable {
 	@ManyToOne
 	private User user;
 
-	public UserBrowsingContext() {
+    /**
+     *
+     */
+    public UserBrowsingContext() {
 		super();
 	}
 
-	public UserBrowsingContext(final User user) {
+    /**
+     *
+     * @param user
+     */
+    public UserBrowsingContext(final User user) {
 		super();
 		pk = new UserBrowsingContextPK();
 		pk.setUserId(user.getId());
 	}
 
-	public UserBrowsingContext(final User user, final int trackInfoId) {
+    /**
+     *
+     * @param user
+     * @param trackInfoId
+     */
+    public UserBrowsingContext(final User user, final int trackInfoId) {
 		super();
 		pk = new UserBrowsingContextPK();
 		pk.setUserId(user.getId());
 		pk.setTrackInfoId(trackInfoId);
 	}
 
-	public int getTrackInfoId() {
+    /**
+     *
+     * @return
+     */
+    public int getTrackInfoId() {
 		return pk.getTrackInfoId();
 	}
 
-	public User getUser() {
+    /**
+     *
+     * @return
+     */
+    public User getUser() {
 		return user;
 	}
 
-	public void setTrackInfoId(final Integer trackInfoId) {
+    /**
+     *
+     * @param trackInfoId
+     */
+    public void setTrackInfoId(final Integer trackInfoId) {
 		pk.setTrackInfoId(trackInfoId);
 	}
 
-	public void setUser(final User user) {
+    /**
+     *
+     * @param user
+     */
+    public void setUser(final User user) {
 		this.user = user;
 	}
 }

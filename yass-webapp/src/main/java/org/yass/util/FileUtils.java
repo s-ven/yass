@@ -7,6 +7,10 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class FileUtils {
 
 	/**
@@ -49,7 +53,11 @@ public class FileUtils {
 		return files;
 	}
 
-	@SuppressWarnings("unchecked")
+    /**
+     *
+     * @param rootFiles
+     */
+    @SuppressWarnings("unchecked")
 	public static void sortFiles(final File[] rootFiles) {
 		Arrays.sort(rootFiles, new Comparator() {
 

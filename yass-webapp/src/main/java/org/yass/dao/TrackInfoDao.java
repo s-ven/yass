@@ -25,6 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.TrackInfo;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class TrackInfoDao extends AbstractDao<TrackInfo> {
 
 	private static final TrackInfoDao instance = new TrackInfoDao();
@@ -37,7 +41,13 @@ public class TrackInfoDao extends AbstractDao<TrackInfo> {
 		return instance;
 	}
 
-	public TrackInfo findByValue(final String value, final String type) {
+    /**
+     *
+     * @param value
+     * @param type
+     * @return
+     */
+    public TrackInfo findByValue(final String value, final String type) {
 		if (value == null || value.equals(""))
 			return null;
 		try {

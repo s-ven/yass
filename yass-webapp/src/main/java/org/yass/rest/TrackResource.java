@@ -49,9 +49,18 @@ import org.yass.domain.User;
 @Path("/users/{userId}/libraries/{libraryId}/tracks/{trackId}")
 public class TrackResource implements YassConstants {
 
-	public static final Log LOG = LogFactory.getLog(TrackResource.class);
+    /**
+     *
+     */
+    public static final Log LOG = LogFactory.getLog(TrackResource.class);
 
-	@GET
+    /**
+     *
+     * @param userId
+     * @param trackId
+     * @return
+     */
+    @GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response getTrack(@PathParam("userId") final int userId, @PathParam("trackId") final int trackId) {
 		final User user = USER_DAO.findById(userId);
@@ -66,7 +75,16 @@ public class TrackResource implements YassConstants {
 		return Response.ok(new File(track.getPath()), MediaType.APPLICATION_OCTET_STREAM).build();
 	}
 
-	@POST
+    /**
+     *
+     * @param userId
+     * @param trackId
+     * @param rating
+     * @param playCount
+     * @param lastPlayed
+     * @return
+     */
+    @POST
 	@Produces(MediaType.APPLICATION_XML)
 	public Response saveTrack(@PathParam("userId") final int userId, @PathParam("trackId") final int trackId,
 			@FormParam("rating") final int rating, @FormParam("playCount") final int playCount,
@@ -81,7 +99,7 @@ public class TrackResource implements YassConstants {
 		if (track == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		if (LOG.isInfoEnabled())
-			LOG.info("Saving TrackStat for Track id:" + track.getId());
+			LOG.info("Saving TrackStat   for Track id:" + track.getId());
 		TrackStat trackStat = user.getTracksStats().get(track.getId());
 		if (trackStat == null)
 			user.getTracksStats().put(track.getId(), trackStat = new TrackStat(user, track.getId()));

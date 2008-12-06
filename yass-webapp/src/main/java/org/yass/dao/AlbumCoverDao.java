@@ -25,6 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.AlbumCover;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 
 	private static final AlbumCoverDao instance = new AlbumCoverDao();
@@ -37,11 +41,21 @@ public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 		return instance;
 	}
 
-	public AlbumCover get(final int albumId) {
+    /**
+     *
+     * @param albumId
+     * @return
+     */
+    public AlbumCover get(final int albumId) {
 		return null;
 	}
 
-	public boolean hasPicture(final int albumId) {
+    /**
+     *
+     * @param albumId
+     * @return
+     */
+    public boolean hasPicture(final int albumId) {
 		try {
 			return getSingleResult(createNamedQuery("findAlbumCoverIdByAlbumId").setParameter(1, albumId)) != null;
 		} catch (final Exception e) {
@@ -49,7 +63,12 @@ public class AlbumCoverDao extends AbstractDao<AlbumCover> {
 		}
 	}
 
-	public AlbumCover save(final AlbumCover cover) {
+    /**
+     *
+     * @param cover
+     * @return
+     */
+    public AlbumCover save(final AlbumCover cover) {
 		if (cover == null)
 			return null;
 		beginTransaction();

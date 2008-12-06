@@ -39,6 +39,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "PLAYLIST", schema = "SA")
 @MappedSuperclass
@@ -47,15 +51,30 @@ import javax.persistence.Table;
 @NamedQuery(name = "findPlayListByUserId", query = "select plsts from PlayList plst where plst.userId = ?1")
 public abstract class PlayList {
 
-	@Id
+    /**
+     *
+     */
+    @Id
 	protected int id;
-	@Column(name = "LAST_UPDATE")
+    /**
+     *
+     */
+    @Column(name = "LAST_UPDATE")
 	protected Date lastUpdate = new Date();
-	protected String name;
+    /**
+     *
+     */
+    protected String name;
 	private Set<Integer> trackIds = new LinkedHashSet<Integer>();
-	@Column(name = "TYPE_ID")
+    /**
+     *
+     */
+    @Column(name = "TYPE_ID")
 	protected int typeId;
-	@ManyToOne
+    /**
+     *
+     */
+    @ManyToOne
 	@JoinColumn(name = "USER_ID", referencedColumnName = "ID")
 	protected User user;
 
@@ -74,7 +93,11 @@ public abstract class PlayList {
 		trackIds.add(track);
 	}
 
-	public void addTracks(final Integer[] tracks) {
+    /**
+     *
+     * @param tracks
+     */
+    public void addTracks(final Integer[] tracks) {
 		trackIds.addAll(Arrays.asList(tracks));
 	}
 

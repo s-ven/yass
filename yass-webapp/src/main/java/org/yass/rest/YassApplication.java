@@ -36,7 +36,6 @@ import org.restlet.ext.jaxrs.JaxRsApplication;
 public class YassApplication extends JaxRsApplication {
 
 	/**
-	 * @param context
 	 */
 	public YassApplication() {
 		this.initApplication();

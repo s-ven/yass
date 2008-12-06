@@ -27,6 +27,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "ALBUM_COVER")
 @NamedQuery(name = "findAlbumCoverIdByAlbumId", query = "select ac.albumId from AlbumCover ac where ac.albumId = ?1")
@@ -97,12 +101,16 @@ public class AlbumCover {
 	@Column(name = "PICTURE_TYPE")
 	private int pictureType;
 
-	public AlbumCover() {
+    /**
+     *
+     */
+    public AlbumCover() {
 		super();
 	}
 
 	/**
-	 * @param description
+     * @param albumId
+     * @param description
 	 * @param mimeType
 	 * @param pictureData
 	 * @param pictureType

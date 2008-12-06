@@ -35,6 +35,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "SMART_PLAYLIST")
 @DiscriminatorValue("1")
@@ -84,7 +88,11 @@ public class SmartPlayList extends PlayList {
 		return orderBy;
 	}
 
-	public String getSqlStatement() {
+    /**
+     *
+     * @return
+     */
+    public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
 		final StringBuilder sBuilder = new StringBuilder("select track_id from track_stat where ");
 		while (it.hasNext()) {

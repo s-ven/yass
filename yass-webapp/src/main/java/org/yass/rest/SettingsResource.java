@@ -54,9 +54,18 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/settings")
 public class SettingsResource implements YassConstants {
 
-	public static final Log LOG = LogFactory.getLog(SettingsResource.class);
+    /**
+     *
+     */
+    public static final Log LOG = LogFactory.getLog(SettingsResource.class);
 
-	@GET
+    /**
+     *
+     * @param userId
+     * @return
+     * @throws javax.xml.parsers.ParserConfigurationException
+     */
+    @GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getSettings(@PathParam("userId") final int userId) throws ParserConfigurationException {
 		final User user = USER_DAO.findById(userId);
@@ -83,7 +92,22 @@ public class SettingsResource implements YassConstants {
 		return Response.ok(XMLSerializer.serialize(doc)).type(MediaType.APPLICATION_XML).build();
 	}
 
-	@POST
+    /**
+     *
+     * @param userId
+     * @param displayMode
+     * @param loadedTrackId
+     * @param shuffle
+     * @param loop
+     * @param showRemaining
+     * @param nextFadeout
+     * @param stopFadeout
+     * @param skipFadeout
+     * @param volume
+     * @param trackInfoIds
+     * @return
+     */
+    @POST
 	@Produces(MediaType.APPLICATION_XML)
 	public Response saveSettings(@PathParam("userId") final int userId,
 			@FormParam("displayMode") final short displayMode, @FormParam("loadedTrackId") final int loadedTrackId,
@@ -98,7 +122,7 @@ public class SettingsResource implements YassConstants {
 		if (settings == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		if (LOG.isInfoEnabled())
-			LOG.info("Saving Settings User id:" + user.getId());
+			LOG.info("Saving Settings   User id:" + user.getId());
 		settings.setDisplayMode(displayMode);
 		settings.setLoadedTrackId(loadedTrackId);
 		settings.setShuffle(shuffle);

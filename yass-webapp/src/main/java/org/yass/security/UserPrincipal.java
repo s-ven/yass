@@ -29,7 +29,6 @@ package org.yass.security;
 public class UserPrincipal extends BasePrincipal {
 
 	/**
-	 * @param name
 	 */
 	public UserPrincipal() {
 		super("user");

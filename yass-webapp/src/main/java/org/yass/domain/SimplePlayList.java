@@ -28,6 +28,10 @@ import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "SIMPLE_PLAYLIST")
 @DiscriminatorValue("0")
@@ -41,7 +45,12 @@ public class SimplePlayList extends PlayList {
 		super();
 	}
 
-	public SimplePlayList(final String name, final Date updateDate) {
+    /**
+     *
+     * @param name
+     * @param updateDate
+     */
+    public SimplePlayList(final String name, final Date updateDate) {
 		this.name = name;
 		lastUpdate = updateDate;
 	}

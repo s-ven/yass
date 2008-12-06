@@ -32,6 +32,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.yass.YassConstants;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "TRACK_INFO")
 @NamedQuery(name = "findTrackInfoByValue", query = "SELECT ti FROM TrackInfo ti WHERE ti.type = ?1 AND ti.value = ?2")
@@ -50,7 +54,12 @@ public class TrackInfo implements YassConstants {
 		super();
 	}
 
-	public TrackInfo(final String type, final String value) {
+    /**
+     *
+     * @param type
+     * @param value
+     */
+    public TrackInfo(final String type, final String value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -81,7 +90,12 @@ public class TrackInfo implements YassConstants {
 		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
 	}
 
-	public final Element toXMLElement(final Document doc) {
+    /**
+     *
+     * @param doc
+     * @return
+     */
+    public final Element toXMLElement(final Document doc) {
 		final Element node = doc.createElement(getType());
 		node.setAttribute("id", "" + getId());
 		node.setAttribute("value", getValue());

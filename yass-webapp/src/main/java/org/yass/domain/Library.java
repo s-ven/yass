@@ -39,6 +39,10 @@ import javax.persistence.OneToOne;
 
 import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @NamedQueries( { @NamedQuery(name = "findLibraryById", query = "SELECT l FROM Library l where l.id = ?1"),
 		@NamedQuery(name = "findLibraryByUserId", query = "SELECT l FROM Library l where l.user.id = ?1") })
@@ -64,9 +68,9 @@ public class Library {
 	}
 
 	/**
-	 * @param tracks
-	 *          the tracks to set
-	 */
+     *
+     * @param track
+     */
 	public final void addTrack(final Track track) {
 		tracks.add(track);
 	}

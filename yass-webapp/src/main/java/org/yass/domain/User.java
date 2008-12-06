@@ -45,6 +45,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "YASS_USER")
 @NamedQueries( { @NamedQuery(name = "findUserById", query = "SELECT u FROM User u where u.id = ?1"),
@@ -72,15 +76,26 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private UserSetting userSetting;
 
-	public User() {
+    /**
+     *
+     */
+    public User() {
 		super();
 	}
 
-	public Set<UserBrowsingContext> getBrowsingContext() {
+    /**
+     *
+     * @return
+     */
+    public Set<UserBrowsingContext> getBrowsingContext() {
 		return browsingContext;
 	}
 
-	public int getId() {
+    /**
+     *
+     * @return
+     */
+    public int getId() {
 		return id;
 	}
 
@@ -91,11 +106,19 @@ public class User implements Serializable {
 		return library;
 	}
 
-	public String getName() {
+    /**
+     *
+     * @return
+     */
+    public String getName() {
 		return name;
 	}
 
-	public String getPassword() {
+    /**
+     *
+     * @return
+     */
+    public String getPassword() {
 		return password;
 	}
 
@@ -106,7 +129,11 @@ public class User implements Serializable {
 		return playLists;
 	}
 
-	public int getRoleId() {
+    /**
+     *
+     * @return
+     */
+    public int getRoleId() {
 		return roleId;
 	}
 
@@ -117,11 +144,19 @@ public class User implements Serializable {
 		return tracksStats;
 	}
 
-	public UserSetting getUserSetting() {
+    /**
+     *
+     * @return
+     */
+    public UserSetting getUserSetting() {
 		return userSetting;
 	}
 
-	public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
+    /**
+     *
+     * @param browsingContext
+     */
+    public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
 		this.browsingContext = browsingContext;
 	}
 
@@ -134,19 +169,35 @@ public class User implements Serializable {
 		library.setUser(this);
 	}
 
-	public void setName(final String userName) {
+    /**
+     *
+     * @param userName
+     */
+    public void setName(final String userName) {
 		name = userName;
 	}
 
-	public void setPassword(final String password) {
+    /**
+     *
+     * @param password
+     */
+    public void setPassword(final String password) {
 		this.password = password;
 	}
 
-	public void setRoleId(final int roleId) {
+    /**
+     *
+     * @param roleId
+     */
+    public void setRoleId(final int roleId) {
 		this.roleId = roleId;
 	}
 
-	public void setUserSetting(final UserSetting userSetting) {
+    /**
+     *
+     * @param userSetting
+     */
+    public void setUserSetting(final UserSetting userSetting) {
 		this.userSetting = userSetting;
 		userSetting.setUser(this);
 	}

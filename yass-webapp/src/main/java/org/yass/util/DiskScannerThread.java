@@ -11,6 +11,10 @@ import org.yass.YassConstants;
 import org.yass.domain.Library;
 import org.yass.domain.Track;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class DiskScannerThread extends Thread implements YassConstants {
 
 	private static final Log LOG = LogFactory.getLog(DiskScannerThread.class);

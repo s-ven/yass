@@ -14,7 +14,6 @@
 		<param-value>mp3</param-value>
 	</context-param>
 	<display-name>Restlet adapter</display-name>
-
 	<!-- Restlet application class name -->
 	<context-param>
 		<param-name>org.restlet.application</param-name>

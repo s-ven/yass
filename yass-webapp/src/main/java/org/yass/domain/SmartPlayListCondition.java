@@ -27,6 +27,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "SMART_PLAYLIST_CONDITION")
 public class SmartPlayListCondition {
@@ -47,7 +51,14 @@ public class SmartPlayListCondition {
 		super();
 	}
 
-	public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
+    /**
+     *
+     * @param smartPlayList
+     * @param term
+     * @param operator
+     * @param value
+     */
+    public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
 			final String value) {
 		this.smartPlayList = smartPlayList;
 		this.term = term;
@@ -55,7 +66,11 @@ public class SmartPlayListCondition {
 		this.value = value;
 	}
 
-	public int getId() {
+    /**
+     *
+     * @return
+     */
+    public int getId() {
 		return id;
 	}
 
@@ -87,7 +102,11 @@ public class SmartPlayListCondition {
 		return value;
 	}
 
-	public void setId(final int id) {
+    /**
+     *
+     * @param id
+     */
+    public void setId(final int id) {
 		this.id = id;
 	}
 }

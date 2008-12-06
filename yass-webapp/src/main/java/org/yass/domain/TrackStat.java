@@ -64,9 +64,10 @@ public class TrackStat {
 	}
 
 	/**
-	 * @param trackTypeId
-	 * @param data.userId
-	 */
+     *
+     * @param user
+     * @param trackId
+     */
 	public TrackStat(final User user, final int trackId) {
 		super();
 		this.user = user;

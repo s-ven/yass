@@ -23,6 +23,10 @@ package org.yass.dao.schema;
 
 import javax.persistence.EntityManager;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class Schema00 extends Schema {
 
 	/**
@@ -32,7 +36,10 @@ public class Schema00 extends Schema {
 		super(entityManager);
 	}
 
-	@Override
+    /**
+     *
+     */
+    @Override
 	public void execute() {
 		LOG.info("Executing Schema check version 0.0.");
 		if (!tableExists("schema_version")) {
@@ -112,7 +119,7 @@ public class Schema00 extends Schema {
 			executeUpdate("create unique index IDX_track_info_02 on track_info (id,type, value)");
 			LOG.info(" index IDX_track_info_02 on 'track_track_info' was created successfully.");
 		}
-		// Table track_track¡info
+		// Table track_track_info
 		if (!tableExists("track_track_info")) {
 			LOG.info(" table 'track_track_info' not found.  Creating it.");
 			executeUpdate("create table track_track_info (track_id int not null, track_info_id int not null,"

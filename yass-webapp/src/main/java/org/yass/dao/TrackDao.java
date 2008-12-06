@@ -25,6 +25,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.domain.Track;
 
+/**
+ *
+ * @author svenduzont
+ */
 public class TrackDao extends AbstractDao<Track> {
 
 	private static final TrackDao instance = new TrackDao();
@@ -40,7 +44,12 @@ public class TrackDao extends AbstractDao<Track> {
 	private TrackDao() {
 	}
 
-	public final Track findById(final int id) {
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public final Track findById(final int id) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track id:" + id);
@@ -52,7 +61,12 @@ public class TrackDao extends AbstractDao<Track> {
 		return null;
 	}
 
-	public final Track findByPath(final String path) {
+    /**
+     *
+     * @param path
+     * @return
+     */
+    public final Track findByPath(final String path) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get Track path:" + path);
@@ -64,7 +78,12 @@ public class TrackDao extends AbstractDao<Track> {
 		return null;
 	}
 
-	public Track save(final Track track) {
+    /**
+     *
+     * @param track
+     * @return
+     */
+    public Track save(final Track track) {
 		beginTransaction();
 		try {
 			if (LOG.isDebugEnabled())

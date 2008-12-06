@@ -26,6 +26,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Embeddable
 public class UserBrowsingContextPK implements Serializable {
 
@@ -35,7 +39,10 @@ public class UserBrowsingContextPK implements Serializable {
 	@Column(name = "USER_ID")
 	private int userId;
 
-	public UserBrowsingContextPK() {
+    /**
+     *
+     */
+    public UserBrowsingContextPK() {
 		super();
 	}
 
@@ -49,11 +56,19 @@ public class UserBrowsingContextPK implements Serializable {
 		return userId == other.userId && trackInfoId == other.trackInfoId;
 	}
 
-	public int getTrackInfoId() {
+    /**
+     *
+     * @return
+     */
+    public int getTrackInfoId() {
 		return trackInfoId;
 	}
 
-	public int getUserId() {
+    /**
+     *
+     * @return
+     */
+    public int getUserId() {
 		return userId;
 	}
 
@@ -66,11 +81,19 @@ public class UserBrowsingContextPK implements Serializable {
 		return hash;
 	}
 
-	public void setTrackInfoId(final int trackInfoId) {
+    /**
+     *
+     * @param trackInfoId
+     */
+    public void setTrackInfoId(final int trackInfoId) {
 		this.trackInfoId = trackInfoId;
 	}
 
-	public void setUserId(final int userId) {
+    /**
+     *
+     * @param userId
+     */
+    public void setUserId(final int userId) {
 		this.userId = userId;
 	}
 }

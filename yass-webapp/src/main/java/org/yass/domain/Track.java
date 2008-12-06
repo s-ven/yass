@@ -41,6 +41,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+/**
+ *
+ * @author svenduzont
+ */
 @Entity
 @Table(name = "TRACK")
 @NamedQueries( { @NamedQuery(name = "findTrackByPath", query = "select t from Track t where t.path = ?1"),
@@ -66,7 +70,10 @@ public class Track {
 	@Column(nullable = true)
 	private boolean VBR = false;
 
-	public Track() {
+    /**
+     *
+     */
+    public Track() {
 		super();
 	}
 
@@ -105,11 +112,20 @@ public class Track {
 		return title;
 	}
 
-	public TrackInfo getTrackInfo(final String trackInfoType) {
+    /**
+     *
+     * @param trackInfoType
+     * @return
+     */
+    public TrackInfo getTrackInfo(final String trackInfoType) {
 		return trackInfos.get(trackInfoType);
 	}
 
-	public Collection<TrackInfo> getTrackInfos() {
+    /**
+     *
+     * @return
+     */
+    public Collection<TrackInfo> getTrackInfos() {
 		return trackInfos.values();
 	}
 
@@ -135,8 +151,7 @@ public class Track {
 	}
 
 	/**
-	 * @param duration
-	 *          the duration to set
+     * @param length
 	 */
 	public final void setDuration(final long length) {
 		duration = length;
@@ -166,7 +181,11 @@ public class Track {
 		this.title = title;
 	}
 
-	public void setTrackInfo(final TrackInfo trackInfo) {
+    /**
+     *
+     * @param trackInfo
+     */
+    public void setTrackInfo(final TrackInfo trackInfo) {
 		if (trackInfo != null)
 			trackInfos.put(trackInfo.getType(), trackInfo);
 	}
