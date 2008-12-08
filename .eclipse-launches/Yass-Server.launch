@@ -16,7 +16,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/JVM 1.6.0"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="start"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dcatalina.base=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14&quot; -Dcatalina.home=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14&quot; -Dwtp.deploy=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14/wtpwebapps&quot; -Djava.endorsed.dirs=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14/endorsed&quot; -Xmx128m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dcatalina.base=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14&quot; -Dcatalina.home=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14&quot; -Dwtp.deploy=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14/wtpwebapps&quot; -Djava.endorsed.dirs=&quot;/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14/endorsed&quot; -Xmx128m -Djava.util.logging.manager=org.apache.logging.julbridge.JULBridgeLogManager"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="/Users/svenduzont/Documents/Developpement/apache-tomcat-6.0.14"/>
 <stringAttribute key="server-id" value="Tomcat v6.0 Server at localhost"/>
 </launchConfiguration>

@@ -12,7 +12,7 @@ import org.yass.domain.Library;
 import org.yass.domain.Track;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class DiskScannerThread extends Thread implements YassConstants {

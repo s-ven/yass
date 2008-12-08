@@ -27,15 +27,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public abstract class Schema {
 
-    /**
+	/**
      *
      */
-    protected final static Log LOG = LogFactory.getLog(Schema.class);
+	protected final static Log LOG = LogFactory.getLog(Schema.class);
 	private final EntityManager entityManager;
 
 	/**
@@ -46,13 +46,13 @@ public abstract class Schema {
 		this.entityManager = entityManager;
 	}
 
-    /**
-     *
-     * @param table
-     * @param column
-     * @return
-     */
-    protected boolean columnExists(final String table, final String column) {
+	/**
+	 * 
+	 * @param table
+	 * @param column
+	 * @return
+	 */
+	protected boolean columnExists(final String table, final String column) {
 		try {
 			entityManager.createNativeQuery("select " + column + " from " + table + " where 0 = 1").getSingleResult();
 		} catch (final Exception e) {
@@ -61,16 +61,16 @@ public abstract class Schema {
 		return true;
 	}
 
-    /**
+	/**
      *
      */
-    public abstract void execute();
+	public abstract void execute();
 
-    /**
-     *
-     * @param query
-     */
-    protected void executeUpdate(final String query) {
+	/**
+	 * 
+	 * @param query
+	 */
+	protected void executeUpdate(final String query) {
 		try {
 			entityManager.getTransaction().begin();
 			entityManager.createNativeQuery(query).executeUpdate();
@@ -81,12 +81,12 @@ public abstract class Schema {
 		}
 	}
 
-    /**
-     *
-     * @param indexName
-     * @return
-     */
-    protected boolean indexExists(final String indexName) {
+	/**
+	 * 
+	 * @param indexName
+	 * @return
+	 */
+	protected boolean indexExists(final String indexName) {
 		try {
 			return entityManager.createNativeQuery("select count(*) from SYS.SYSCONGLOMERATES where 	CONGLOMERATENAME = ?1")
 					.setParameter(1, indexName).getResultList().size() != 0;
@@ -95,12 +95,12 @@ public abstract class Schema {
 		}
 	}
 
-    /**
-     *
-     * @param table
-     * @return
-     */
-    protected boolean tableExists(final String table) {
+	/**
+	 * 
+	 * @param table
+	 * @return
+	 */
+	protected boolean tableExists(final String table) {
 		try {
 			entityManager.createNativeQuery("select 1 from " + table).getResultList();
 		} catch (final Exception e) {

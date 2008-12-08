@@ -29,7 +29,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -45,12 +45,12 @@ public class SimplePlayList extends PlayList {
 		super();
 	}
 
-    /**
-     *
-     * @param name
-     * @param updateDate
-     */
-    public SimplePlayList(final String name, final Date updateDate) {
+	/**
+	 * 
+	 * @param name
+	 * @param updateDate
+	 */
+	public SimplePlayList(final String name, final Date updateDate) {
 		this.name = name;
 		lastUpdate = updateDate;
 	}

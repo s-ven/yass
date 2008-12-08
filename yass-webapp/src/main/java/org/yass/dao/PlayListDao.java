@@ -34,7 +34,7 @@ import org.yass.domain.PlayList;
 import org.yass.domain.SmartPlayList;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class PlayListDao extends AbstractDao<PlayList> {
@@ -52,12 +52,12 @@ public class PlayListDao extends AbstractDao<PlayList> {
 	private PlayListDao() {
 	}
 
-    /**
-     *
-     * @param userId
-     * @return
-     */
-    public Map<Integer, PlayList> findByUserId(final int userId) {
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Map<Integer, PlayList> findByUserId(final int userId) {
 		PlayListDao.LOG.info("Loading Playlist from user_id:" + userId);
 		final Collection<PlayList> plstLst = getResultList(createNamedQuery("findPlayListByUserId").setParameter(1, userId));
 		final Map<Integer, PlayList> plsts = new LinkedHashMap<Integer, PlayList>();
@@ -70,11 +70,11 @@ public class PlayListDao extends AbstractDao<PlayList> {
 		return plsts;
 	}
 
-    /**
-     *
-     * @param pLst
-     */
-    @SuppressWarnings("unchecked")
+	/**
+	 * 
+	 * @param pLst
+	 */
+	@SuppressWarnings("unchecked")
 	public void reloadSmartPlayLsit(final SmartPlayList pLst) {
 		final List<Integer> lst = getEntityManager().createNativeQuery(pLst.getSqlStatement()).getResultList();
 		pLst.setTrackIds(new LinkedHashSet<Integer>());
@@ -82,10 +82,10 @@ public class PlayListDao extends AbstractDao<PlayList> {
 			pLst.addTrack(map1);
 	}
 
-    /**
-     *
-     * @param plst
-     */
-    public void save(final PlayList plst) {
+	/**
+	 * 
+	 * @param plst
+	 */
+	public void save(final PlayList plst) {
 	}
 }

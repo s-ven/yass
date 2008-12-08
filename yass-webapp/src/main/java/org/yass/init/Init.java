@@ -45,10 +45,10 @@ public class Init implements ServletContextListener, YassConstants {
 	 * 
 	 * @see javax.servlet.http.HttpServlet#HttpServlet()
 	 */
-    /**
+	/**
      *
      */
-    public Init() {
+	public Init() {
 		super();
 	}
 
@@ -59,11 +59,12 @@ public class Init implements ServletContextListener, YassConstants {
 
 	/**
 	 * 
-     * @param event
-     * @see javax.servlet.GenericServlet#init()
+	 * @param event
+	 * @see javax.servlet.GenericServlet#init()
 	 */
 	public void contextInitialized(final ServletContextEvent event) {
 		SecurityConfiguration.init();
+		@SuppressWarnings("unused")
 		final ServletContext servletContext = event.getServletContext();
 		try {
 			LOG.info("Yass Initalization phase starting...");

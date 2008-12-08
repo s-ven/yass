@@ -42,7 +42,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -70,10 +70,10 @@ public class Track {
 	@Column(nullable = true)
 	private boolean VBR = false;
 
-    /**
+	/**
      *
      */
-    public Track() {
+	public Track() {
 		super();
 	}
 
@@ -112,20 +112,20 @@ public class Track {
 		return title;
 	}
 
-    /**
-     *
-     * @param trackInfoType
-     * @return
-     */
-    public TrackInfo getTrackInfo(final String trackInfoType) {
+	/**
+	 * 
+	 * @param trackInfoType
+	 * @return
+	 */
+	public TrackInfo getTrackInfo(final String trackInfoType) {
 		return trackInfos.get(trackInfoType);
 	}
 
-    /**
-     *
-     * @return
-     */
-    public Collection<TrackInfo> getTrackInfos() {
+	/**
+	 * 
+	 * @return
+	 */
+	public Collection<TrackInfo> getTrackInfos() {
 		return trackInfos.values();
 	}
 
@@ -151,7 +151,7 @@ public class Track {
 	}
 
 	/**
-     * @param length
+	 * @param length
 	 */
 	public final void setDuration(final long length) {
 		duration = length;
@@ -181,11 +181,11 @@ public class Track {
 		this.title = title;
 	}
 
-    /**
-     *
-     * @param trackInfo
-     */
-    public void setTrackInfo(final TrackInfo trackInfo) {
+	/**
+	 * 
+	 * @param trackInfo
+	 */
+	public void setTrackInfo(final TrackInfo trackInfo) {
 		if (trackInfo != null)
 			trackInfos.put(trackInfo.getType(), trackInfo);
 	}

@@ -28,6 +28,7 @@ h, distribute, sublicense, and/or sell
 package org.yass.domain;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +47,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -60,8 +61,9 @@ public class User implements Serializable {
 	private Set<UserBrowsingContext> browsingContext;
 	@Id
 	private int id;
-	@OneToOne(mappedBy = "user")
-	private Library library;
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@MapKey(name = "id")
+	private Map<Integer, Library> libraries = new LinkedHashMap<Integer, Library>();
 	@Column(name = "USER_NAME")
 	private String name;
 	private String password;
@@ -76,49 +78,53 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private UserSetting userSetting;
 
-    /**
+	/**
      *
      */
-    public User() {
+	public User() {
 		super();
 	}
 
-    /**
-     *
-     * @return
-     */
-    public Set<UserBrowsingContext> getBrowsingContext() {
+	/**
+	 * 
+	 * @return
+	 */
+	public Set<UserBrowsingContext> getBrowsingContext() {
 		return browsingContext;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public int getId() {
+	/**
+	 * 
+	 * @return
+	 */
+	public int getId() {
 		return id;
+	}
+
+	public Collection<Library> getLibraries() {
+		return libraries.values();
 	}
 
 	/**
 	 * @return the library
 	 */
-	public Library getLibrary() {
-		return library;
+	public Library getLibrary(final int libraryId) {
+		return libraries.get(libraryId);
 	}
 
-    /**
-     *
-     * @return
-     */
-    public String getName() {
+	/**
+	 * 
+	 * @return
+	 */
+	public String getName() {
 		return name;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public String getPassword() {
+	/**
+	 * 
+	 * @return
+	 */
+	public String getPassword() {
 		return password;
 	}
 
@@ -129,11 +135,11 @@ public class User implements Serializable {
 		return playLists;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public int getRoleId() {
+	/**
+	 * 
+	 * @return
+	 */
+	public int getRoleId() {
 		return roleId;
 	}
 
@@ -144,19 +150,19 @@ public class User implements Serializable {
 		return tracksStats;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public UserSetting getUserSetting() {
+	/**
+	 * 
+	 * @return
+	 */
+	public UserSetting getUserSetting() {
 		return userSetting;
 	}
 
-    /**
-     *
-     * @param browsingContext
-     */
-    public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
+	/**
+	 * 
+	 * @param browsingContext
+	 */
+	public void setBrowsingContext(final Set<UserBrowsingContext> browsingContext) {
 		this.browsingContext = browsingContext;
 	}
 
@@ -165,39 +171,39 @@ public class User implements Serializable {
 	 *          the library to set
 	 */
 	public void setLibrary(final Library library) {
-		this.library = library;
+		libraries.put(library.getId(), library);
 		library.setUser(this);
 	}
 
-    /**
-     *
-     * @param userName
-     */
-    public void setName(final String userName) {
+	/**
+	 * 
+	 * @param userName
+	 */
+	public void setName(final String userName) {
 		name = userName;
 	}
 
-    /**
-     *
-     * @param password
-     */
-    public void setPassword(final String password) {
+	/**
+	 * 
+	 * @param password
+	 */
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 
-    /**
-     *
-     * @param roleId
-     */
-    public void setRoleId(final int roleId) {
+	/**
+	 * 
+	 * @param roleId
+	 */
+	public void setRoleId(final int roleId) {
 		this.roleId = roleId;
 	}
 
-    /**
-     *
-     * @param userSetting
-     */
-    public void setUserSetting(final UserSetting userSetting) {
+	/**
+	 * 
+	 * @param userSetting
+	 */
+	public void setUserSetting(final UserSetting userSetting) {
 		this.userSetting = userSetting;
 		userSetting.setUser(this);
 	}

@@ -32,11 +32,11 @@ public abstract class BasePrincipal implements Principal, Comparable {
 
 	private String name;
 
-    /**
-     *
-     * @param name
-     */
-    public BasePrincipal(final String name) {
+	/**
+	 * 
+	 * @param name
+	 */
+	public BasePrincipal(final String name) {
 		if (name == null)
 			throw new NullPointerException("Name may not be null.");
 		this.name = name;

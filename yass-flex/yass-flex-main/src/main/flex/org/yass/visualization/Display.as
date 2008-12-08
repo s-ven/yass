@@ -151,7 +151,7 @@ package org.yass.visualization{
 				Yass.settings.displayMode=0;
 			refresh();
 		}
-		public function refresh(){
+		public function refresh():void{
 			shuffle.selected = Yass.settings.shuffle;
 			loop.selected = Yass.settings.loop;
 			switch (Yass.settings.displayMode){

@@ -35,7 +35,7 @@ package org.yass.main.model{
 		private var _bitrateText:String;
 		private var _lastModifiedText:String;
 		public function Track(obj:XML):void{
-				_xml = obj
+			_xml = obj
 		}
 
 		public  function get  id():uint{
@@ -65,13 +65,13 @@ package org.yass.main.model{
 		public function get playCountText():String{
 			return _xml.@playCount == 0?"":_xml.@playCount;
 		}
-		public  function set  playCount(val:uint){
+		public  function set  playCount(val:uint):void{
 			_xml.@playCount = val;
 		}
-		public  function set  lastPlayed(val:Number){
+		public  function set  lastPlayed(val:Number):void{
 			_xml.@lastPlayed = val;
 		}
-		private var _allFields;
+		private var _allFields:String;
 		public  function get  allFields():String{
 			if(_allFields)
 				return _allFields;
@@ -95,7 +95,7 @@ package org.yass.main.model{
 				return _album
 			return _album = LibraryModel.trackInfos[_xml.@album+""];
 		}
-		public function get lengthText(){
+		public function get lengthText():String{
 			if(_lengthText)
 				return _lengthText;
 			return _lengthText = Yass.trackDurationFormatter.format(new Date(_xml.@length))
@@ -116,6 +116,8 @@ package org.yass.main.model{
 			var service:HTTPService = new HTTPService();
 			service.url = "/yass/rest/users/" + Yass.userId + "/libraries/" + Yass.library.id + "/tracks/" + id;
 			service.method = "POST";
+			service.headers["X-Method-Override"] = "PUT";
+			service.headers["X-HTTP-Method-Override"] = "PUT";
 			service.send(this);
 		}
 

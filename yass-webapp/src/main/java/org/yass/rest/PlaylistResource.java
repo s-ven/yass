@@ -37,7 +37,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.yass.YassConstants;
-import org.yass.domain.Library;
 import org.yass.domain.PlayList;
 import org.yass.domain.User;
 import org.yass.util.XMLSerializer;
@@ -49,27 +48,26 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/playlists/{playlistId}")
 public class PlaylistResource implements YassConstants {
 
-    /**
+	/**
      *
      */
-    public static final Log LOG = LogFactory.getLog(PlaylistResource.class);
+	public static final Log LOG = LogFactory.getLog(PlaylistResource.class);
 
-    /**
-     *
-     * @param userId
-     * @param playlistId
-     * @return
-     * @throws javax.xml.parsers.ParserConfigurationException
-     */
-    @GET
+	/**
+	 * 
+	 * @param userId
+	 * @param playlistId
+	 * @return
+	 * @throws javax.xml.parsers.ParserConfigurationException
+	 */
+	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getPlaylist(@PathParam("userId") final int userId, @PathParam("playlistId") final int playlistId)
 			throws ParserConfigurationException {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
-		final Library lib = user.getLibrary();
-		if (lib == null)
+		if (user.getLibraries().isEmpty())
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		final PlayList playList = user.getPlayLists().get(playlistId);
 		if (playList == null)

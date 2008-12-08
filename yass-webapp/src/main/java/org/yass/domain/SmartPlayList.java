@@ -36,7 +36,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -88,11 +88,11 @@ public class SmartPlayList extends PlayList {
 		return orderBy;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public String getSqlStatement() {
+	/**
+	 * 
+	 * @return
+	 */
+	public String getSqlStatement() {
 		final Iterator<SmartPlayListCondition> it = conditions.iterator();
 		final StringBuilder sBuilder = new StringBuilder("select track_id from track_stat where ");
 		while (it.hasNext()) {

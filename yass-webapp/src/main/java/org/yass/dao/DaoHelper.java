@@ -30,7 +30,7 @@ import org.apache.commons.logging.LogFactory;
 import org.yass.dao.schema.Schema00;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class DaoHelper {

@@ -28,7 +28,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 /**
- *
+ * 
  * @author svenduzont
  * @param <T>
  */
@@ -37,34 +37,34 @@ public class AbstractDao<T> {
 
 	private final DaoHelper helper = DaoHelper.getInstance();
 
-    /**
+	/**
      *
      */
-    protected void beginTransaction() {
+	protected void beginTransaction() {
 		getTransaction().begin();
 	}
 
-    /**
+	/**
      *
      */
-    protected void commitTransaction() {
+	protected void commitTransaction() {
 		if (getTransaction().isActive())
 			getTransaction().commit();
 	}
 
 	/**
-     * @param namedQuery
-     * @return
+	 * @param namedQuery
+	 * @return
 	 */
 	protected Query createNamedQuery(final String namedQuery) {
 		return getEntityManager().createNamedQuery(namedQuery);
 	}
 
-    /**
-     *
-     * @return
-     */
-    protected EntityManager getEntityManager() {
+	/**
+	 * 
+	 * @return
+	 */
+	protected EntityManager getEntityManager() {
 		return helper.getEntityManager();
 	}
 
@@ -84,11 +84,11 @@ public class AbstractDao<T> {
 		return (T) setParameter.getSingleResult();
 	}
 
-    /**
-     *
-     * @return
-     */
-    protected EntityTransaction getTransaction() {
+	/**
+	 * 
+	 * @return
+	 */
+	protected EntityTransaction getTransaction() {
 		return getEntityManager().getTransaction();
 	}
 
@@ -100,16 +100,16 @@ public class AbstractDao<T> {
 	}
 
 	/**
-     * @param object
+	 * @param object
 	 */
 	protected void remove(final Object object) {
 		getEntityManager().remove(object);
 	}
 
-    /**
+	/**
      *
      */
-    protected void rollbackTransaction() {
+	protected void rollbackTransaction() {
 		if (getTransaction().isActive())
 			getTransaction().rollback();
 	}

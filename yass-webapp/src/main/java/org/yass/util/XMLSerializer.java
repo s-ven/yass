@@ -39,12 +39,12 @@ import org.w3c.dom.Document;
  */
 public class XMLSerializer {
 
-    /**
-     *
-     * @param doc
-     * @return
-     */
-    public static String serialize(final Document doc) {
+	/**
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	public static String serialize(final Document doc) {
 		try {
 			final Transformer transformer = TransformerFactory.newInstance().newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "no");

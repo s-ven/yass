@@ -24,7 +24,7 @@ package org.yass.dao.schema;
 import javax.persistence.EntityManager;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class Schema00 extends Schema {
@@ -36,10 +36,10 @@ public class Schema00 extends Schema {
 		super(entityManager);
 	}
 
-    /**
+	/**
      *
      */
-    @Override
+	@Override
 	public void execute() {
 		LOG.info("Executing Schema check version 0.0.");
 		if (!tableExists("schema_version")) {

@@ -64,10 +64,10 @@ public class TrackStat {
 	}
 
 	/**
-     *
-     * @param user
-     * @param trackId
-     */
+	 * 
+	 * @param user
+	 * @param trackId
+	 */
 	public TrackStat(final User user, final int trackId) {
 		super();
 		this.user = user;

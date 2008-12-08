@@ -26,7 +26,7 @@ import java.util.Date;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -37,7 +37,6 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.yass.YassConstants;
-import org.yass.domain.Library;
 import org.yass.domain.Track;
 import org.yass.domain.TrackStat;
 import org.yass.domain.User;
@@ -49,25 +48,21 @@ import org.yass.domain.User;
 @Path("/users/{userId}/libraries/{libraryId}/tracks/{trackId}")
 public class TrackResource implements YassConstants {
 
-    /**
-     *
-     */
-    public static final Log LOG = LogFactory.getLog(TrackResource.class);
+	public static final Log LOG = LogFactory.getLog(TrackResource.class);
 
-    /**
-     *
-     * @param userId
-     * @param trackId
-     * @return
-     */
-    @GET
+	/**
+	 * 
+	 * @param userId
+	 * @param trackId
+	 * @return
+	 */
+	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	public Response getTrack(@PathParam("userId") final int userId, @PathParam("trackId") final int trackId) {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
-		final Library lib = user.getLibrary();
-		if (lib == null)
+		if (user.getLibraries().isEmpty())
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		final Track track = TRACK_DAO.findById(trackId);
 		if (track == null)
@@ -75,37 +70,41 @@ public class TrackResource implements YassConstants {
 		return Response.ok(new File(track.getPath()), MediaType.APPLICATION_OCTET_STREAM).build();
 	}
 
-    /**
-     *
-     * @param userId
-     * @param trackId
-     * @param rating
-     * @param playCount
-     * @param lastPlayed
-     * @return
-     */
-    @POST
+	@PUT
+	/*
+	 * 
+	 * @param userId
+	 * 
+	 * @param trackId
+	 * 
+	 * @param rating
+	 * 
+	 * @param playCount
+	 * 
+	 * @param lastPlayed
+	 * 
+	 * @return
+	 */
 	@Produces(MediaType.APPLICATION_XML)
 	public Response saveTrack(@PathParam("userId") final int userId, @PathParam("trackId") final int trackId,
 			@FormParam("rating") final int rating, @FormParam("playCount") final int playCount,
-			@FormParam("lastPlayed") final Date lastPlayed) {
+			@FormParam("lastPlayed") final long lastPlayed) {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
-		final Library lib = user.getLibrary();
-		if (lib == null)
+		if (user.getLibraries().isEmpty())
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		final Track track = TRACK_DAO.findById(trackId);
 		if (track == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		if (LOG.isInfoEnabled())
-			LOG.info("Saving TrackStat   for Track id:" + track.getId());
+			LOG.info("Saving TrackStat for Track id:" + track.getId());
 		TrackStat trackStat = user.getTracksStats().get(track.getId());
 		if (trackStat == null)
 			user.getTracksStats().put(track.getId(), trackStat = new TrackStat(user, track.getId()));
 		trackStat.setRating(rating);
 		trackStat.setPlayCount(playCount);
-		trackStat.setLastPlayed(lastPlayed);
+		trackStat.setLastPlayed(new Date(lastPlayed));
 		USER_DAO.save(user);
 		return Response.ok().build();
 	}

@@ -53,10 +53,10 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/libraries/{libraryId}/trackinfos")
 public class TrackInfosResource implements YassConstants {
 
-    /**
+	/**
      *
      */
-    public static final Log LOG = LogFactory.getLog(TrackInfosResource.class);
+	public static final Log LOG = LogFactory.getLog(TrackInfosResource.class);
 
 	private boolean feedAlbum(final TrackInfo album, final Node artistNode) {
 		final NodeList albLst = artistNode.getChildNodes();
@@ -91,19 +91,20 @@ public class TrackInfosResource implements YassConstants {
 				album.toXMLElement(doc));
 	}
 
-    /**
-     *
-     * @param userId
-     * @return
-     * @throws javax.xml.parsers.ParserConfigurationException
-     */
-    @GET
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws javax.xml.parsers.ParserConfigurationException
+	 */
+	@GET
 	@Produces(MediaType.APPLICATION_XML)
-	public Response getTrackInfos(@PathParam("userId") final int userId) throws ParserConfigurationException {
+	public Response getTrackInfos(@PathParam("userId") final int userId, @PathParam("libraryId") final int libraryId)
+			throws ParserConfigurationException {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
-		final Library lib = user.getLibrary();
+		final Library lib = user.getLibrary(libraryId);
 		if (lib == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		final Collection<Track> tracks = lib.getTracks();

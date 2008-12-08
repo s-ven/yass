@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
-        <action>
-            <actionName>debug</actionName>
-            <packagings>
-                <packaging>war</packaging>
-                <packaging>ear</packaging>
-                <packaging>ejb</packaging>
-            </packagings>
-            <goals>
-                <goal>package</goal>
-            </goals>
-            <properties>
-                <netbeans.deploy>true</netbeans.deploy>
-                <netbeans.deploy.debugmode>true</netbeans.deploy.debugmode>
-                <netbeans.deploy.forceRedeploy>true</netbeans.deploy.forceRedeploy>
-            </properties>
-        </action>
-        
-    </actions>
+	<action>
+		<actionName>debug</actionName>
+		<packagings>
+			<packaging>war</packaging>
+			<packaging>ear</packaging>
+			<packaging>ejb</packaging>
+		</packagings>
+		<goals>
+			<goal>package</goal>
+		</goals>
+		<properties>
+			<netbeans.deploy>true</netbeans.deploy>
+			<netbeans.deploy.debugmode>true</netbeans.deploy.debugmode>
+			<netbeans.deploy.forceRedeploy>true</netbeans.deploy.forceRedeploy>
+		</properties>
+	</action>
+</actions>

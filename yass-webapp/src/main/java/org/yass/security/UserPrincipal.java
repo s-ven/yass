@@ -21,7 +21,6 @@
  */
 package org.yass.security;
 
-
 /**
  * @author Sven Duzont
  * 

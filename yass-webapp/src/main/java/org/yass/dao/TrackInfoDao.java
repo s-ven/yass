@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.yass.domain.TrackInfo;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class TrackInfoDao extends AbstractDao<TrackInfo> {
@@ -41,13 +41,13 @@ public class TrackInfoDao extends AbstractDao<TrackInfo> {
 		return instance;
 	}
 
-    /**
-     *
-     * @param value
-     * @param type
-     * @return
-     */
-    public TrackInfo findByValue(final String value, final String type) {
+	/**
+	 * 
+	 * @param value
+	 * @param type
+	 * @return
+	 */
+	public TrackInfo findByValue(final String value, final String type) {
 		if (value == null || value.equals(""))
 			return null;
 		try {

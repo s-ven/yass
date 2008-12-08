@@ -29,7 +29,7 @@ import org.yass.domain.User;
 import org.yass.domain.UserBrowsingContext;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class UserDao extends AbstractDao<User> {
@@ -47,11 +47,11 @@ public class UserDao extends AbstractDao<User> {
 	private UserDao() {
 	}
 
-    /**
-     *
-     * @param user
-     */
-    public void cleanBrowsingContext(final User user) {
+	/**
+	 * 
+	 * @param user
+	 */
+	public void cleanBrowsingContext(final User user) {
 		for (final UserBrowsingContext ctx : user.getBrowsingContext()) {
 			beginTransaction();
 			try {
@@ -66,12 +66,12 @@ public class UserDao extends AbstractDao<User> {
 		}
 	}
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public final User findById(final int id) {
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public final User findById(final int id) {
 		try {
 			if (LOG.isDebugEnabled())
 				LOG.debug("Get User id:" + id);
@@ -97,12 +97,12 @@ public class UserDao extends AbstractDao<User> {
 		}
 	}
 
-    /**
-     *
-     * @param user
-     * @return
-     */
-    public final User save(final User user) {
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public final User save(final User user) {
 		beginTransaction();
 		try {
 			if (LOG.isDebugEnabled())

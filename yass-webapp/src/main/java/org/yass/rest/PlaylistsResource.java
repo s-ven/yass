@@ -21,6 +21,7 @@
  */
 package org.yass.rest;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.ws.rs.GET;
@@ -52,25 +53,25 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/playlists")
 public class PlaylistsResource implements YassConstants {
 
-    /**
+	/**
      *
      */
-    public static final Log LOG = LogFactory.getLog(PlaylistsResource.class);
+	public static final Log LOG = LogFactory.getLog(PlaylistsResource.class);
 
-    /**
-     *
-     * @param userId
-     * @return
-     * @throws javax.xml.parsers.ParserConfigurationException
-     */
-    @GET
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws javax.xml.parsers.ParserConfigurationException
+	 */
+	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getPlaylists(@PathParam("userId") final int userId) throws ParserConfigurationException {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
-		final Library lib = user.getLibrary();
-		if (lib == null)
+		final Collection<Library> libs = user.getLibraries();
+		if (libs.isEmpty())
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
 		LOG.info("Getting Playlists for User id:" + userId);
 		final Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
@@ -79,9 +80,11 @@ public class PlaylistsResource implements YassConstants {
 		libraryNode.setAttribute("name", "LIBRARY");
 		libraryNode.setAttribute("type", "void");
 		Element plstNode = (Element) libraryNode.appendChild(doc.createElement("playlist"));
-		plstNode.setAttribute("name", "Music");
-		plstNode.setAttribute("type", "library");
-		plstNode.setAttribute("id", user.getLibrary().getId() + "");
+		for (final Library library : libs) {
+			plstNode.setAttribute("name", "Music");
+			plstNode.setAttribute("type", "library");
+			plstNode.setAttribute("id", library.getId() + "");
+		}
 		final Element smartPlNode = (Element) playListsNode.appendChild(doc.createElement("smart"));
 		smartPlNode.setAttribute("name", "SMART PLAYLISTS");
 		smartPlNode.setAttribute("type", "void");

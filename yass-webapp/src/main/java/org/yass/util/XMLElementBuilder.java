@@ -41,19 +41,19 @@ public class XMLElementBuilder {
 		doc.appendChild(child);
 	}
 
-    /**
-     *
-     * @param parent
-     * @param tagName
-     */
-    public XMLElementBuilder(final Element parent, final String tagName) {
+	/**
+	 * 
+	 * @param parent
+	 * @param tagName
+	 */
+	public XMLElementBuilder(final Element parent, final String tagName) {
 		child = parent.getOwnerDocument().createElement(tagName);
 		parent.appendChild(child);
 	}
 
 	/**
 	 * @param name
-     * @param value
+	 * @param value
 	 * @return
 	 */
 	public XMLElementBuilder append(final String name, final boolean value) {
@@ -61,20 +61,20 @@ public class XMLElementBuilder {
 		return this;
 	}
 
-    /**
-     *
-     * @param name
-     * @param value
-     * @return
-     */
-    public XMLElementBuilder append(final String name, final int value) {
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	public XMLElementBuilder append(final String name, final int value) {
 		child.setAttribute(name, Integer.toString(value));
 		return this;
 	}
 
 	/**
 	 * @param name
-     * @param value
+	 * @param value
 	 * @return
 	 */
 	public XMLElementBuilder append(final String name, final long value) {
@@ -82,23 +82,23 @@ public class XMLElementBuilder {
 		return this;
 	}
 
-    /**
-     *
-     * @param name
-     * @param value
-     * @return
-     */
-    public XMLElementBuilder append(final String name, final String value) {
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	public XMLElementBuilder append(final String name, final String value) {
 		child.setAttribute(name, value);
 		return this;
 	}
 
-    /**
-     *
-     * @param tagName
-     * @return
-     */
-    public XMLElementBuilder appendChild(final String tagName) {
+	/**
+	 * 
+	 * @param tagName
+	 * @return
+	 */
+	public XMLElementBuilder appendChild(final String tagName) {
 		return new XMLElementBuilder(child, tagName);
 	}
 }

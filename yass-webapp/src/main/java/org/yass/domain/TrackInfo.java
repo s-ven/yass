@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 import org.yass.YassConstants;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -54,12 +54,12 @@ public class TrackInfo implements YassConstants {
 		super();
 	}
 
-    /**
-     *
-     * @param type
-     * @param value
-     */
-    public TrackInfo(final String type, final String value) {
+	/**
+	 * 
+	 * @param type
+	 * @param value
+	 */
+	public TrackInfo(final String type, final String value) {
 		this.type = type;
 		this.value = value;
 	}
@@ -90,12 +90,12 @@ public class TrackInfo implements YassConstants {
 		return "{id:" + getId() + ",type:\"" + getType() + "\",value:\"" + getValue() + "\"}";
 	}
 
-    /**
-     *
-     * @param doc
-     * @return
-     */
-    public final Element toXMLElement(final Document doc) {
+	/**
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	public final Element toXMLElement(final Document doc) {
 		final Element node = doc.createElement(getType());
 		node.setAttribute("id", "" + getId());
 		node.setAttribute("value", getValue());

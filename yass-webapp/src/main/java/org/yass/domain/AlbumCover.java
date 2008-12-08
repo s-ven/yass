@@ -28,7 +28,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -101,16 +101,16 @@ public class AlbumCover {
 	@Column(name = "PICTURE_TYPE")
 	private int pictureType;
 
-    /**
+	/**
      *
      */
-    public AlbumCover() {
+	public AlbumCover() {
 		super();
 	}
 
 	/**
-     * @param albumId
-     * @param description
+	 * @param albumId
+	 * @param description
 	 * @param mimeType
 	 * @param pictureData
 	 * @param pictureType

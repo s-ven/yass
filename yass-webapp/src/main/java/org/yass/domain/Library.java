@@ -40,7 +40,7 @@ import javax.persistence.OneToOne;
 import org.apache.openjpa.persistence.jdbc.ElementJoinColumn;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -68,9 +68,9 @@ public class Library {
 	}
 
 	/**
-     *
-     * @param track
-     */
+	 * 
+	 * @param track
+	 */
 	public final void addTrack(final Track track) {
 		tracks.add(track);
 	}

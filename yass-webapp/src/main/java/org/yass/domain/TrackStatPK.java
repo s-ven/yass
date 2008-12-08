@@ -25,21 +25,21 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Embeddable
 public class TrackStatPK {
 
-    /**
+	/**
      *
      */
-    @Column(name = "TRACK_ID")
+	@Column(name = "TRACK_ID")
 	protected int trackId;
-    /**
+	/**
      *
      */
-    @Column(name = "USER_ID")
+	@Column(name = "USER_ID")
 	protected int userId;
 
 	/**

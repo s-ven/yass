@@ -28,7 +28,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 @Entity
@@ -51,14 +51,14 @@ public class SmartPlayListCondition {
 		super();
 	}
 
-    /**
-     *
-     * @param smartPlayList
-     * @param term
-     * @param operator
-     * @param value
-     */
-    public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
+	/**
+	 * 
+	 * @param smartPlayList
+	 * @param term
+	 * @param operator
+	 * @param value
+	 */
+	public SmartPlayListCondition(final SmartPlayList smartPlayList, final String term, final String operator,
 			final String value) {
 		this.smartPlayList = smartPlayList;
 		this.term = term;
@@ -66,11 +66,11 @@ public class SmartPlayListCondition {
 		this.value = value;
 	}
 
-    /**
-     *
-     * @return
-     */
-    public int getId() {
+	/**
+	 * 
+	 * @return
+	 */
+	public int getId() {
 		return id;
 	}
 
@@ -102,11 +102,11 @@ public class SmartPlayListCondition {
 		return value;
 	}
 
-    /**
-     *
-     * @param id
-     */
-    public void setId(final int id) {
+	/**
+	 * 
+	 * @param id
+	 */
+	public void setId(final int id) {
 		this.id = id;
 	}
 }

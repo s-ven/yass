@@ -54,18 +54,18 @@ import org.yass.util.XMLSerializer;
 @Path("/users/{userId}/settings")
 public class SettingsResource implements YassConstants {
 
-    /**
+	/**
      *
      */
-    public static final Log LOG = LogFactory.getLog(SettingsResource.class);
+	public static final Log LOG = LogFactory.getLog(SettingsResource.class);
 
-    /**
-     *
-     * @param userId
-     * @return
-     * @throws javax.xml.parsers.ParserConfigurationException
-     */
-    @GET
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 * @throws javax.xml.parsers.ParserConfigurationException
+	 */
+	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public Response getSettings(@PathParam("userId") final int userId) throws ParserConfigurationException {
 		final User user = USER_DAO.findById(userId);
@@ -92,29 +92,29 @@ public class SettingsResource implements YassConstants {
 		return Response.ok(XMLSerializer.serialize(doc)).type(MediaType.APPLICATION_XML).build();
 	}
 
-    /**
-     *
-     * @param userId
-     * @param displayMode
-     * @param loadedTrackId
-     * @param shuffle
-     * @param loop
-     * @param showRemaining
-     * @param nextFadeout
-     * @param stopFadeout
-     * @param skipFadeout
-     * @param volume
-     * @param trackInfoIds
-     * @return
-     */
-    @POST
+	/**
+	 * 
+	 * @param userId
+	 * @param displayMode
+	 * @param loadedTrackId
+	 * @param shuffle
+	 * @param loop
+	 * @param showRemaining
+	 * @param nextFadeout
+	 * @param stopFadeout
+	 * @param skipFadeout
+	 * @param volume
+	 * @param trackInfoIds
+	 * @return
+	 */
+	@POST
 	@Produces(MediaType.APPLICATION_XML)
 	public Response saveSettings(@PathParam("userId") final int userId,
 			@FormParam("displayMode") final short displayMode, @FormParam("loadedTrackId") final int loadedTrackId,
 			@FormParam("shuffle") final boolean shuffle, @FormParam("loop") final boolean loop,
 			@FormParam("showRemaining") final boolean showRemaining, @FormParam("nextFadeout") final int nextFadeout,
 			@FormParam("stopFadeout") final int stopFadeout, @FormParam("skipFadeout") final int skipFadeout,
-			@FormParam("volume") final int volume, @FormParam("trackInfoIds") final Integer[] trackInfoIds) {
+			@FormParam("volume") final int volume, @FormParam("trackInfoIds") final Set<Integer> trackInfoIds) {
 		final User user = USER_DAO.findById(userId);
 		if (user == null)
 			return Response.status(Status.NOT_FOUND).type(MediaType.APPLICATION_XML).build();
@@ -133,7 +133,7 @@ public class SettingsResource implements YassConstants {
 		settings.setSkipFadeout(skipFadeout);
 		settings.setVolume(volume);
 		final Set<UserBrowsingContext> browsingContext = new LinkedHashSet<UserBrowsingContext>();
-		if (trackInfoIds != null && trackInfoIds.length != 0)
+		if (trackInfoIds != null)
 			for (final Integer trackInfoId : trackInfoIds)
 				browsingContext.add(new UserBrowsingContext(user, trackInfoId));
 		USER_DAO.cleanBrowsingContext(user);

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.yass.domain.Library;
 
 /**
- *
+ * 
  * @author svenduzont
  */
 public class LibraryDao extends AbstractDao<Library> {
@@ -44,12 +44,12 @@ public class LibraryDao extends AbstractDao<Library> {
 	private LibraryDao() {
 	}
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public Library findById(final int id) {
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Library findById(final int id) {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library id:" + id);
@@ -60,12 +60,12 @@ public class LibraryDao extends AbstractDao<Library> {
 		return null;
 	}
 
-    /**
-     *
-     * @param userId
-     * @return
-     */
-    public Library findByUserId(final int userId) {
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public Library findByUserId(final int userId) {
 		try {
 			if (LOG.isInfoEnabled())
 				LOG.info("Get Library userId:" + userId);
@@ -76,12 +76,12 @@ public class LibraryDao extends AbstractDao<Library> {
 		return null;
 	}
 
-    /**
-     *
-     * @param library
-     * @return
-     */
-    public Library save(final Library library) {
+	/**
+	 * 
+	 * @param library
+	 * @return
+	 */
+	public Library save(final Library library) {
 		if (LOG.isInfoEnabled())
 			LOG.info("Save Library id:" + library.getId());
 		beginTransaction();
