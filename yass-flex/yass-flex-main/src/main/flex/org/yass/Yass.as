@@ -25,11 +25,13 @@ package org.yass{
 	import mx.utils.ObjectProxy;
 	
 	import org.yass.main.model.LibraryModel;
+	import org.yass.main.model.NavigationModel;
 	import org.yass.main.model.PlayerModel;
 	import org.yass.visualization.Display;
 	public class Yass{
 		public static var library:LibraryModel = new LibraryModel();
 		public static var player:PlayerModel = new PlayerModel();
+		public static var navigation:NavigationModel;
 		public static var userId:int;
 		private static var _trackDurationFormatter:DateFormatter;
 		private static var _dateFormatter:DateFormatter;

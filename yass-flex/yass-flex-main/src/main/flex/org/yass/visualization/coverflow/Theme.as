@@ -95,9 +95,9 @@ package org.yass.visualization.coverflow {
 		/* Cette fonction retourne le Sprite associé à l'image */
 		public function getLoadedImage(name:String):Sprite
 		{
-			for (var index:Number = 0; index <= this.ListBitmap.length; index++) {
-				if (this.ListBitmap[index] == name)
-					return this.LoadedBitmap[index];
+			for (var YassApplication:Number = 0; YassApplication <= this.ListBitmap.length; YassApplication++) {
+				if (this.ListBitmap[YassApplication] == name)
+					return this.LoadedBitmap[YassApplication];
 			}
 			return null;
 		}

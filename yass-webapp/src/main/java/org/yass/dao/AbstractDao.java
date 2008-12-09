@@ -44,6 +44,10 @@ public class AbstractDao<T> {
 		getTransaction().begin();
 	}
 
+	public boolean checkDatabase(final boolean create) {
+		return helper.checkDataBase(create);
+	}
+
 	/**
      *
      */

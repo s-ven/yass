@@ -36,13 +36,19 @@ public class Schema00 extends Schema {
 		super(entityManager);
 	}
 
+	@Override
+	public boolean execute() {
+		return execute(true);
+	}
+
 	/**
      *
      */
-	@Override
-	public void execute() {
+	public boolean execute(final boolean create) {
 		LOG.info("Executing Schema check version 0.0.");
 		if (!tableExists("schema_version")) {
+			if (!create)
+				return false;
 			LOG.info(" table 'schema_version' not found...");
 			executeUpdate("create table schema_version (version int not null)");
 			executeUpdate("insert into schema_version values (1)");
@@ -197,5 +203,6 @@ public class Schema00 extends Schema {
 					+ ", foreign key(track_info_id) references track_info(id), primary key(track_info_id))");
 			LOG.info(" table 'album_cover' was created successfully.");
 		}
+		return true;
 	}
 }

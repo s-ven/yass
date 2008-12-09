@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<actionScriptProperties mainApplicationPath="index.mxml" version="3">
-<compiler additionalCompilerArguments="-managers=flash.fonts.AFEFontManager -debug=true -optimize=false" copyDependentFiles="false" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="false" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="false" outputFolderPath="yass-flex/yass-flex-main/target/flex" rootURL="http://sven.yi.org/yass/" sourceFolderPath="yass-flex/yass-flex-main/src/main/flex" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
+<actionScriptProperties mainApplicationPath="YassApplication.mxml" version="3">
+<compiler additionalCompilerArguments="-managers=flash.fonts.AFEFontManager -debug=true -optimize=false" copyDependentFiles="false" enableModuleDebug="true" generateAccessible="false" htmlExpressInstall="false" htmlGenerate="false" htmlHistoryManagement="false" htmlPlayerVersion="9.0.28" htmlPlayerVersionCheck="false" outputFolderPath="yass-flex/yass-flex-main/target/" rootURL="http://sven.yi.org/yass/" sourceFolderPath="yass-flex/yass-flex-main/src/main/flex" strict="true" useApolloConfig="false" verifyDigests="true" warn="true">
 <compilerSourcePath>
 <compilerSourcePathEntry kind="1" linkType="1" path="yass-flex/yass-flex-resources/src/main/resources"/>
 <compilerSourcePathEntry kind="1" linkType="1" path="yass-flex/yass-flex-login/src/main/flex"/>
@@ -11,9 +11,10 @@
 <sourceAttachmentPath/>
 </compiler>
 <applications>
-<application path="index.mxml"/>
 <application path="login.mxml"/>
+<application path="YassApplication.mxml"/>
 <application path="style.css"/>
+<application path="main.mxml"/>
 </applications>
 <modules/>
 <buildCSSFiles/>

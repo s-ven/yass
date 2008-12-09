@@ -33,29 +33,41 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>Yass Web Application</servlet-name>
+		<servlet-class>org.yass.servlet.YassServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Yass Web Application</servlet-name>
+		<url-pattern>/player</url-pattern>
 	</servlet-mapping>
 	<listener>
 		<listener-class>org.yass.init.Init</listener-class>
 	</listener>
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>player</welcome-file>
 	</welcome-file-list>
 	<!-- Authentication and Authorization configuration -->
 	<login-config>
 		<auth-method>FORM</auth-method>
 		<realm-name>Yass Authentication</realm-name>
 		<form-login-config>
-			<form-login-page>/login.jsp</form-login-page>
+			<form-login-page>/login.swf</form-login-page>
 			<form-error-page>/login-error.jsp</form-error-page>
 		</form-login-config>
 	</login-config>
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>Regular User Access</web-resource-name>
-			<url-pattern>/*</url-pattern>
+			<url-pattern>/rest/*</url-pattern>
+			
+			<url-pattern>/player</url-pattern>
+			<url-pattern>/YassApplication.swf</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>user</role-name>

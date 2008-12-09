@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module frameRate="20" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" minWidth="800"
+	currentState="Empty" xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
+	 backgroundImage="" backgroundAlpha="0" backgroundColor="#222222" width="100%" height="100%" minHeight="600"
+	 initialize="onInitialize(event);">
+	<mx:Script>
+		<![CDATA[
+			import org.yass.main.events.PlayListEvent;
+			import org.yass.debug.log.Console;
+			import org.yass.main.events.NavigationEvent;
+			import org.yass.main.model.NavigationModel;
+			import org.yass.Yass;
+			private function onInitialize(event:Event):void {
+				Console.log("YassAppplication : init");
+				Yass.navigation = new NavigationModel();
+				Yass.navigation.addEventListener(PlayListEvent.REFRESH_PANE, onNavigationRefreshed);
+				Yass.navigation.load();
+			}
+			public function setUserId(userId:int):void{
+				Yass.userId = userId;
+			} 
+			private function onNavigationRefreshed(evt:PlayListEvent):void{
+				Yass.navigation.removeEventListener(PlayListEvent.REFRESH_PANE, onNavigationRefreshed);
+				Console.log("YassAppplication : .Navigation.refreshNavigation");
+				if(evt.result && (evt.result[0] as XML).elements().length() > 0){
+					this.currentState = "ProgressLoader";
+					return;
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:states>
+		<mx:State name="Empty">
+		</mx:State>
+		<mx:State name="MainWindow">
+			<mx:AddChild  position="lastChild">
+				<main:MainWindow id="mainWindow" addedEffect="fadein"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="ProgressLoader" >
+			<mx:AddChild  position="lastChild" >
+				<component:LoadingProgressBar id="progressLoaderBar" horizontalCenter="0" verticalCenter="0" uicomponent="{this}"  />
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+</mx:Module> 

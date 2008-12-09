@@ -50,6 +50,7 @@ package org.yass.main.view{
 			controller = new NavigationController(this, model);
 			model.addEventListener(PlayListEvent.REFRESH_PANE, onRefreshPane);
 			model.addEventListener(PlayListEvent.PLAYLIST_LOADED, onLoadPlayList);
+			model.load();
 			Console.log("view.NavigationView :: Init");
 			super();
 			labelField="@name";
@@ -69,15 +70,15 @@ package org.yass.main.view{
 			DragManager.acceptDragDrop(UIComponent(event.currentTarget));
 		}
 		override protected  function dragOverHandler(event:DragEvent):void{
-				var dropTarget:Tree = Tree(event.currentTarget);
-				var r:int = dropTarget.calculateDropIndex(event);
-				selectedIndex = r;
-				var node:XML = selectedItem as XML;
-				if( node.@type == "user" ) {
-					DragManager.showFeedback(DragManager.COPY);
-					return;
-				}
-				DragManager.showFeedback(DragManager.NONE);
+			var dropTarget:Tree = Tree(event.currentTarget);
+			var r:int = dropTarget.calculateDropIndex(event);
+			selectedIndex = r;
+			var node:XML = selectedItem as XML;
+			if( node.@type == "user" ) {
+				DragManager.showFeedback(DragManager.COPY);
+				return;
+			}
+			DragManager.showFeedback(DragManager.NONE);
 		}
 
 		override protected  function dragDropHandler(event:DragEvent):void{

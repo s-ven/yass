@@ -121,9 +121,19 @@ public class YassLoginModule implements LoginModule, YassConstants {
 			throw (LoginException) new LoginException(e.getCallback().getClass().getName() + " is not a supported Callback.")
 					.initCause(e);
 		}
-		if ((user = USER_DAO.findByName(nameCB.getName())) == null)
+		final String userName = nameCB.getName();
+		final String password = String.valueOf(passwordCB.getPassword());
+		if (!USER_DAO.checkDatabase(false)) {
+			user = new User();
+			user.setName(userName);
+			user.setPassword(password);
+			USER_DAO.checkDatabase(true);
+			USER_DAO.save(user);
+			return true;
+		}
+		if ((user = USER_DAO.findByName(userName)) == null)
 			throw new FailedLoginException("User not found");
-		else if (!user.getPassword().equals(String.valueOf(passwordCB.getPassword()))) {
+		else if (!user.getPassword().equals(password)) {
 			user = null;
 			throw new FailedLoginException("User password mismatch");
 		}

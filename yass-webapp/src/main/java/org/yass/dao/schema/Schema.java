@@ -64,7 +64,9 @@ public abstract class Schema {
 	/**
      *
      */
-	public abstract void execute();
+	public abstract boolean execute();
+
+	public abstract boolean execute(boolean create);
 
 	/**
 	 * 

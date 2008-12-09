@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application frameRate="20" xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" minWidth="800"
+	 xmlns:main="org.yass.main.*" xmlns:component="org.yass.main.view.component.*"
+	backgroundGradientAlphas="[]" backgroundImage="" backgroundAlpha="0" backgroundColor="#222222" initialize="onApplicationInitianize(event)">
+	<mx:ModuleLoader width="100%" height="100%" id="yassModuleLoader" ready="onYassModuleLoaded(event);"/>
+	<mx:Script><![CDATA[
+	private function onApplicationInitianize( e:Event ):void {
+		StyleManager.loadStyleDeclarations("style.swf", true);
+		yassModuleLoader.url = "YassApplication.swf";
+		yassModuleLoader.loadModule();
+	}
+	private function onYassModuleLoaded(oEvent:Event):void  {
+		(yassModuleLoader.child as YassApplication).setUserId(Application.application.parameters.userId);
+	}
+]]></mx:Script>
+</mx:Application>

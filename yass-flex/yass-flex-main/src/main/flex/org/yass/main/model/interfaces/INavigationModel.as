@@ -25,5 +25,6 @@ package org.yass.main.model.interfaces{
 	public interface INavigationModel extends IEventDispatcher{
 		function savePlayList(id:String, name:String):void;
 		function loadPlayList(id:String, type:String):void;
+		function load():void;
 	}
 }

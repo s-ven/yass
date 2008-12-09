@@ -248,6 +248,7 @@
 		runtime-shared-library-path: specifies a SWC or directory to link against and an RSL URL to load with optional
 		failover URLs
 	-->
+	
 	<runtime-shared-library-path>
 		<path-element>libs/framework.swc</path-element>
 		<rsl-url>framework_3.0.0.477.swz</rsl-url>

@@ -27,6 +27,7 @@ import javax.persistence.Persistence;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.yass.dao.schema.Schema;
 import org.yass.dao.schema.Schema00;
 
 /**
@@ -37,6 +38,7 @@ public class DaoHelper {
 
 	private final static DaoHelper instance = new DaoHelper();
 	private final static Log LOG = LogFactory.getLog(DaoHelper.class);
+	private static Schema schema;
 
 	/**
 	 * @return the instance
@@ -50,14 +52,15 @@ public class DaoHelper {
 	private DaoHelper() {
 		final EntityManagerFactory emf = Persistence.createEntityManagerFactory("yass");
 		entityManager = emf.createEntityManager();
-		checkDataBase();
+		schema = new Schema00(entityManager);
 	}
 
-	private void checkDataBase() {
+	public boolean checkDataBase(final boolean create) {
 		try {
-			new Schema00(entityManager).execute();
+			return schema.execute(create);
 		} catch (final Exception e) {
 			LOG.fatal(e);
+			return false;
 		}
 	}
 

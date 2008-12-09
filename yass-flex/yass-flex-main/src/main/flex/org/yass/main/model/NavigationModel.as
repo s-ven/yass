@@ -21,27 +21,28 @@
 */
 package org.yass.main.model{
 	import flash.events.EventDispatcher;
-
-	import mx.events.CollectionEvent;
+	
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
-
+	
 	import org.yass.Yass;
 	import org.yass.debug.log.Console;
 	import org.yass.main.events.PlayListEvent;
 	import org.yass.main.model.interfaces.INavigationModel;
 
 	public class NavigationModel extends EventDispatcher implements INavigationModel{
-		private var httpService:HTTPService = new HTTPService();
+		private var httpService:HTTPService;
 		private var _playlist:PlayListModel;
 		public function NavigationModel():void{
+		}
+		public function load():void{
 			Console.log("model.NavigationModel :: init");
+			httpService  = new HTTPService();
 			httpService.url="/yass/rest/users/" + Yass.userId + "/playlists/";
 			httpService.resultFormat="e4x";
 			httpService.addEventListener(ResultEvent.RESULT, serviceResultHandler);
 			httpService.send();
 		}
-
 		public function savePlayList(id:String, name:String):void{
 			Console.log("model.Navigation.savePlayList name=" + name + ", id=" + id);
 			var data:Object = new Object();
@@ -83,9 +84,10 @@ package org.yass.main.model{
 			Console.groupEnd()
 			dispatchEvent(new PlayListEvent(PlayListEvent.PLAYLIST_LOADED, null, _playlist, type));
 		}
-
+		public var data:XML;
 		private function serviceResultHandler(event:ResultEvent):void{
-			dispatchEvent(new PlayListEvent(PlayListEvent.REFRESH_PANE, event.result));
+			data = event.result as XML;
+			dispatchEvent(new PlayListEvent(PlayListEvent.REFRESH_PANE, data));
 		}
 	}
 }

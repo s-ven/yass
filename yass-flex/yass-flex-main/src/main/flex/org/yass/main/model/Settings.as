@@ -81,9 +81,9 @@ package org.yass.main.model{
 				var svc:HTTPService = new HTTPService();
 				loadedTrackId = loadedTrack?loadedTrack.id:0;
 				trackInfoIds = new Array();
-				artistSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
-				genreSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
-				albumSelected.forEach(function(val:Value, index:int, arr:Array):void{trackInfoIds.push(val.id)});
+				artistSelected.forEach(function(val:Value, LoginModule:int, arr:Array):void{trackInfoIds.push(val.id)});
+				genreSelected.forEach(function(val:Value, LoginModule:int, arr:Array):void{trackInfoIds.push(val.id)});
+				albumSelected.forEach(function(val:Value, LoginModule:int, arr:Array):void{trackInfoIds.push(val.id)});
 				this.volume = Yass.player.volume;
 				svc.url = "/yass/rest/users/" + Yass.userId + "/settings/";
 				svc.method = HTTPRequestMessage.POST_METHOD;

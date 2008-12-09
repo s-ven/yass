@@ -154,7 +154,7 @@ package org.yass.main.model{
 						genreArray.refresh();
 						refreshedPanes.push("genre");
 					}
-					if(!artistSelected.every(function(obj:Object, index:int, arr:Array):Boolean{return artistArray.contains(obj)})){
+					if(!artistSelected.every(function(obj:Object, YassApplication:int, arr:Array):Boolean{return artistArray.contains(obj)})){
 						artistArray.filterFunction = null;
 						artistArray.refresh();
 						refreshedPanes.push("artist");
@@ -174,7 +174,7 @@ package org.yass.main.model{
 						artistArray.refresh();
 						refreshedPanes.push("artist");
 					}
-					if(!albumSelected.every(function(obj:Object, index:int, arr:Array):Boolean{return albumArray.contains(obj)})){
+					if(!albumSelected.every(function(obj:Object, YassApplication:int, arr:Array):Boolean{return albumArray.contains(obj)})){
 						albumArray.filterFunction = null;
 						albumArray.refresh();
 					}
@@ -198,7 +198,7 @@ package org.yass.main.model{
 		private function checkParent(itemsArray:Array, parentArray: Array):Boolean{
 			if(parentArray.length == 0)
 				return true;
-			return itemsArray.every(function(item:Object, index:int, arr:Array):Boolean{
+			return itemsArray.every(function(item:Object, YassApplication:int, arr:Array):Boolean{
 									var toret:Boolean= parentArray.every(function(parent:Object, index1:int, arr1:Array):Boolean{
 											var toret1:Boolean=item.isChildOf(parent)
 											return toret1;
@@ -214,7 +214,7 @@ package org.yass.main.model{
 			}		
 			else
 				_filteredRating = 0;
-			_filteredText = txt.toLowerCase().split(/\W/).filter(function(row:Object, index:int, arr:Array):Boolean{return row && row != "";})
+			_filteredText = txt.toLowerCase().split(/\W/).filter(function(row:Object, YassApplication:int, arr:Array):Boolean{return row && row != "";})
 			filterText();
 		}
 		private function filterText():void{
@@ -231,7 +231,7 @@ package org.yass.main.model{
 				// Here, the Genre, Artist, Album lists are refreshed according to the text typed in search field
 				ffunction = getTextFilterFunction();
 				source.forEach(
-								function(row:Object, index:int, arr:Array):void{
+								function(row:Object, YassApplication:int, arr:Array):void{
 									if(_filteredText.every(ffunction, row)){
 										if(_genreFiltered.indexOf(row.genre) == -1)
 											_genreFiltered.push(row.genre)
@@ -241,14 +241,14 @@ package org.yass.main.model{
 											_albumFiltered.push(row.album)
 									}
 								});
-				genreSel = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
-				albumSel = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
-				artistSel = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
+				genreSel = genreSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
+				albumSel = albumSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
+				artistSel = artistSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
 			}
 			else {
 				if(_filteredRating > 0){
 					source.forEach(
-									function(row:Object, index:int, arr:Array):void{
+									function(row:Object, YassApplication:int, arr:Array):void{
 										if(row.rating >= _filteredRating){
 											if(_genreFiltered.indexOf(row.genre) == -1)
 												_genreFiltered.push(row.genre)
@@ -258,9 +258,9 @@ package org.yass.main.model{
 												_albumFiltered.push(row.album)
 										}
 									});
-					genreSel = genreSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
-					albumSel = albumSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
-					artistSel = artistSelected.filter(function(obj:Object, index:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
+					genreSel = genreSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _genreFiltered.indexOf(obj) != -1})
+					albumSel = albumSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _albumFiltered.indexOf(obj) != -1})
+					artistSel = artistSelected.filter(function(obj:Object, YassApplication:int, arr:Array):Boolean{ return _artistFiltered.indexOf(obj) != -1})
 				}
 				_filteredText = null
 			}
@@ -312,32 +312,32 @@ package org.yass.main.model{
 				
 				switch(textFilterScope){
 					case TextFilterScope.ALL :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1 && this.rating >= _filteredRating};
 						break;
 					case TextFilterScope.ARTISTS :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
 						break;
 					case TextFilterScope.ALBUMS :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1 && this.rating >= _filteredRating};
 						break;
 					case TextFilterScope.TITLE :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1 && this.rating >= _filteredRating};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1 && this.rating >= _filteredRating};
 						break;
 					};
 			}
 			else{
 				switch(textFilterScope){
 					case TextFilterScope.ALL :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.allFields.indexOf(obj) != -1};
 						break;
 					case TextFilterScope.ARTISTS :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.artist.lowerCaseValue.indexOf(obj) != -1};
 						break;
 					case TextFilterScope.ALBUMS :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.album.lowerCaseValue.indexOf(obj) != -1};
 						break;
 					case TextFilterScope.TITLE :
-						return function(obj:Object, index:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1};
+						return function(obj:Object, YassApplication:int, arr:Array):Boolean{return this.lowerCaseTitle.indexOf(obj) != -1};
 						break;
 					};
 			}
